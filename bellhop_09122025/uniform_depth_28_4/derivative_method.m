@@ -1,0 +1,92 @@
+%%אי אשר לעשות נגזרת כל כך קטנה לטווח כל כך גדול, הההשתגעות שרואים היא
+%%כתוצאה מהטווח ההרבה יותר גדול
+%%אפשר לשנות ולראות מה קורה אם אנחנו עושים צעד בגודל 50 מטר במקום מטר 1
+%%רואים שהסימולציה הזאת לא תואמת למונטה קרלו 
+
+%% 1) Derivative (Delta) Method for TL Variance (Fixed Grid)
+clear; close all; clc; warning('off');
+addpath('../Code/Functions');
+
+%% User Parameters & Uncertainty Definitions
+sourceFrequency = 10000;    
+maxRange = 50000;           
+sourceDepth = 4.5;          
+sourceHalfBeam = 0;         
+sourceTilt = 0;             
+svpType = "summer";         
+geoAcoustics = [1500 1.63 0.07]; 
+fom = 0;                    
+
+% Uncertainty definition
+z_min = 5;
+z_max = 100;
+z_nominal = (z_min + z_max) / 2; % 52.5 m
+var_z = (z_max - z_min)^2 / 12;  
+dz = 0.5; % perturbation פה יש משחק משמעותי ******** חצי מטר מול 20
+
+%% Define Master Grid (Must match Monte Carlo!)
+z_master = linspace(0, z_max, 500); 
+r_master = linspace(0, maxRange, 1000); 
+[R_mast, Z_mast] = meshgrid(r_master, z_master);
+
+%% Run Models
+% 1. Nominal
+fprintf('Running Nominal (z=%.1f)...\n', z_nominal);
+bathy_nom = sprintf('const_%.1f', z_nominal);
+sim_pars_nom = {sourceFrequency, maxRange, sourceDepth, sourceHalfBeam, ...
+    sourceTilt, svpType, bathy_nom, geoAcoustics, fom};
+[TL_nom_raw, r_raw, z_raw] = simpleBellhopHazat(sim_pars_nom);
+TL_nom = format_TL(TL_nom_raw, r_raw, z_raw, R_mast, Z_mast);
+
+% 2. Plus dz
+fprintf('Running Plus dz (z=%.1f)...\n', z_nominal + dz);
+bathy_plus = sprintf('const_%.1f', z_nominal + dz);
+sim_pars_plus = {sourceFrequency, maxRange, sourceDepth, sourceHalfBeam, ...
+    sourceTilt, svpType, bathy_plus, geoAcoustics, fom};
+[TL_plus_raw, r_raw, z_raw] = simpleBellhopHazat(sim_pars_plus);
+TL_plus = format_TL(TL_plus_raw, r_raw, z_raw, R_mast, Z_mast);
+
+% 3. Minus dz
+fprintf('Running Minus dz (z=%.1f)...\n', z_nominal - dz);
+bathy_minus = sprintf('const_%.1f', z_nominal - dz);
+sim_pars_minus = {sourceFrequency, maxRange, sourceDepth, sourceHalfBeam, ...
+    sourceTilt, svpType, bathy_minus, geoAcoustics, fom};
+[TL_minus_raw, r_raw, z_raw] = simpleBellhopHazat(sim_pars_minus);
+TL_minus = format_TL(TL_minus_raw, r_raw, z_raw, R_mast, Z_mast);
+
+%% Calculate Derivative and Variance
+fprintf('Calculating Statistics...\n');
+dTL_dz = (TL_plus - TL_minus) ./ (2 * dz);
+
+E_TL_delta = TL_nom; 
+Var_TL_delta = (dTL_dz.^2) .* var_z;
+r_grid = r_master;
+z_grid = z_master;
+
+%% Save Data
+save('delta_method_results.mat', 'r_grid', 'z_grid', 'E_TL_delta', 'Var_TL_delta', 'z_nominal');
+fprintf('Results saved to delta_method_results.mat\n');
+
+%% (Optional) Quick Plot
+fig = figure('Name', 'Delta Method');
+subplot(1,2,1); imagesc(r_grid/1000, z_grid, E_TL_delta); 
+title('E[TL]'); colorbar; set(gca,'YDir','reverse'); colormap('jet');
+subplot(1,2,2); imagesc(r_grid/1000, z_grid, Var_TL_delta); 
+title('Var(TL)'); colorbar; set(gca,'YDir','reverse'); colormap('hot');
+clim_max = prctile(Var_TL_delta(:), 95); 
+if clim_max > 0 && ~isnan(clim_max), clim([0 clim_max]); end
+
+%% Helper Function for Cleanup and Interpolation
+function TL_out = format_TL(TL, r, z, R_mast, Z_mast)
+    % 1. נקה ערכים לא חוקיים או "מוות" של קרניים
+    TL_clean = TL;
+    TL_clean(TL_clean > 150) = NaN;
+    TL_clean(isinf(TL_clean)) = NaN;
+    TL_clean(TL_clean == 0) = NaN;
+    
+    % 2. צור רשת מהנתונים הגולמיים של הריצה הספציפית
+    [R_raw, Z_raw] = meshgrid(r, z);
+    
+    % 3. בצע אינטרפולציה לרשת המאסטר הקבועה
+    TL_out = interp2(R_raw, Z_raw, TL_clean, R_mast, Z_mast, 'linear', NaN);
+end
