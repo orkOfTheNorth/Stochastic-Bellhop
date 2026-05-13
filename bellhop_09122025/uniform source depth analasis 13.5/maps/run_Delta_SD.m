@@ -1,6 +1,11 @@
+% Initialization
+clear; close all; clc; warning('off');
+
+% Go up one level from 'maps' and then into 'code/Functions'
+addpath('../code/Functions');
 %% run_Delta_SD.m
 clear; close all; clc; warning('off');
-addpath('Code/Functions'); % Adjust if needed
+addpath('.../Code/Functions'); % Adjust if needed
 
 %% 1. Parameters
 sim_pars = {10000, 50000, 5, 0, 0, "summer", "const_35", [0.989*1500 1.63 0.07], 100};
