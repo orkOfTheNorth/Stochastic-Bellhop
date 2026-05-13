@@ -8,7 +8,7 @@ clear; close all; clc; warning('off');
 addpath('.../Code/Functions'); % Adjust if needed
 
 %% 1. Parameters
-sim_pars = {10000, 50000, 5, 0, 0, "summer", "const_35", [0.989*1500 1.63 0.07], 100};
+sim_pars = {10000, 50000, 5, 0, 0, "summer", "const_100", [0.989*1500 1.63 0.07], 100};
 % Uniform bounds for SD
 sd_min = 4.75;
 sd_max = 5.25;

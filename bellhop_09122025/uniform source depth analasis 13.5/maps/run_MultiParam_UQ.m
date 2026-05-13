@@ -1,17 +1,16 @@
-%% Initialization
+%% run_MultiParam_UQ.m (Live Point-by-Point SVP Perturbation)
 clear; close all; clc; warning('off');
 
 % Go up one level from 'maps' and then into 'code/Functions'
 addpath('../code/Functions'); 
 
-
 % --- Create UI for Selection ---
-fig = uifigure('Name', 'Select Variables to Perturb', 'Position', [500 500 300 250]);
-lbl = uilabel(fig, 'Position', [20 200 250 22], 'Text', 'Select parameters for UQ Analysis:');
-cb_SD = uicheckbox(fig, 'Position', [40 160 200 22], 'Text', 'Source Depth (5m ± 5%)', 'Value', 1);
-cb_Bathy = uicheckbox(fig, 'Position', [40 120 200 22], 'Text', 'Bathy Slope (0° ± 0.1°)', 'Value', 1);
-cb_SVP = uicheckbox(fig, 'Position', [40 80 200 22], 'Text', 'SVP Summer (± 1°C)', 'Value', 1);
-btn = uibutton(fig, 'push', 'Position', [100 20 100 30], 'Text', 'Run Suite', ...
+fig = uifigure('Name', 'Select Variables to Perturb', 'Position', [500 500 350 250]);
+lbl = uilabel(fig, 'Position', [20 200 300 22], 'Text', 'Select parameters for UQ Analysis:');
+cb_SD = uicheckbox(fig, 'Position', [40 160 250 22], 'Text', 'Source Depth (5m ± 5%)', 'Value', 1);
+cb_Bathy = uicheckbox(fig, 'Position', [40 120 250 22], 'Text', 'Bathy Slope (0° ± 0.1°)', 'Value', 1);
+cb_SVP = uicheckbox(fig, 'Position', [40 80 300 22], 'Text', 'SVP Nodes (Point-by-point ± 1°C)', 'Value', 1);
+btn = uibutton(fig, 'push', 'Position', [125 20 100 30], 'Text', 'Run Suite', ...
     'ButtonPushedFcn', @(btn,event) runAnalysis(cb_SD.Value, cb_Bathy.Value, cb_SVP.Value, fig));
 uiwait(fig);
 
@@ -21,14 +20,24 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     %% Base Parameters
     N = 100;
     freq = 10000; maxR = 50000; fom = 100;
-    geo = [0.989*1500 1.63 0.07]; % Untouched
+    geo = [0.989*1500 1.63 0.07]; % Untouched bottom properties
     
     % Bounds arrays: [min, max]
     b_SD = [4.75, 5.25];
-    b_SVP = [-1, 1];     % Temperature shift
-    b_Bathy = [-0.1, 0.1]; % Slope angle in degrees
+    b_Bathy = [-0.1, 0.1]; 
+    b_SVP = [-1, 1];       
+
+    % SVP Base Profile Definition (5 Nodes)
+    base_depths_SVP = [0; 30; 180; 400; 5000];
+    base_temps_SVP  = [25; 25; 17; 13.6; 13.6];
+    num_SVP_nodes   = length(base_depths_SVP);
     
-    numVars = sum([do_SD, do_Bathy, do_SVP]);
+    % Calculate total LHS variables needed
+    numVars = do_SD + do_Bathy;
+    if do_SVP
+        numVars = numVars + num_SVP_nodes; 
+    end
+    
     if numVars == 0
         disp('No variables selected!'); return;
     end
@@ -37,35 +46,58 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     disp('--- Running LHS Monte Carlo ---');
     lhs_matrix = lhsdesign(N, numVars);
     
-    % Map LHS [0,1] to physical bounds
     col = 1;
     if do_SD
         lhs_SD = b_SD(1) + lhs_matrix(:,col)*(b_SD(2)-b_SD(1)); col = col+1;
     else
         lhs_SD = 5 * ones(N,1);
     end
+    
     if do_Bathy
         lhs_Bathy = b_Bathy(1) + lhs_matrix(:,col)*(b_Bathy(2)-b_Bathy(1)); col = col+1;
     else
         lhs_Bathy = 0 * ones(N,1);
     end
+    
     if do_SVP
-        lhs_SVP = b_SVP(1) + lhs_matrix(:,col)*(b_SVP(2)-b_SVP(1));
+        lhs_SVP_shifts = b_SVP(1) + lhs_matrix(:, col:col+num_SVP_nodes-1)*(b_SVP(2)-b_SVP(1));
     else
-        lhs_SVP = 0 * ones(N,1);
+        lhs_SVP_shifts = zeros(N, num_SVP_nodes);
     end
     
     % Pre-allocate
-    sim_pars = {freq, maxR, 5, 0, 0, "summer", "const_35", geo, fom};
+    sim_pars = {freq, maxR, 5, 0, 0, "summer", "const_100", geo, fom};
     [TL_dummy, r_grid, z_grid] = simpleBellhopHazat(sim_pars);
     TL_MC = zeros(size(TL_dummy,1), size(TL_dummy,2), N);
     
+    % --- LIVE PLOT SETUP ---
+    high_res_depths = linspace(0, 5000, 1000)';
+    if do_SVP
+        fig_svp_live = figure('Name', 'Live SVP Perturbations', 'Position', [1300 200 400 700]);
+        ax_svp = axes(fig_svp_live);
+        hold(ax_svp, 'on');
+        
+        % Plot the nominal (base) profile first
+        t_base = interp1(base_depths_SVP, base_temps_SVP, high_res_depths, 'linear', 'extrap');
+        sv_base = 1499.2 + 4.6.*t_base - 0.055.*t_base.^2 + 0.00029*t_base.^3 + ... 
+                (1.34 - 0.01.*t_base).*(37-35) + 0.016.*high_res_depths;
+        plot(ax_svp, sv_base, high_res_depths, 'r', 'LineWidth', 2.5);
+        
+        set(ax_svp, 'YDir', 'reverse');
+        ylim(ax_svp, [0 500]); % Zooming into the top 500m
+        xlabel(ax_svp, 'Sound Speed (m/s)');
+        ylabel(ax_svp, 'Depth (m)');
+        title(ax_svp, 'Live SVP "Lightning" Perturbations');
+        grid(ax_svp, 'on');
+        box(ax_svp, 'on');
+    end
+    
+    % --- THE MONTE CARLO LOOP ---
     for i = 1:N
         fprintf('LHS Run %d/%d\n', i, N);
-        % Update SD
+        
         sim_pars{3} = lhs_SD(i);
         
-        % Update Bathy Custom
         if lhs_Bathy(i) == 0
             sim_pars{7} = "const_35";
             custom_Bathy = [];
@@ -75,23 +107,25 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
             custom_Bathy = [linspace(0, maxR, 100).', linspace(35, end_depth, 100).'];
         end
         
-        % Update SVP Custom
-        if lhs_SVP(i) == 0
-            sim_pars{6} = "summer";
-            custom_SVP = [];
-        else
+        if do_SVP
             sim_pars{6} = "custom";
-            temps = [0 25; 30 25; 180 17; 400 13.6; 5000 13.6];
-            temps(:,2) = temps(:,2) + lhs_SVP(i); % Apply temp shift
-            depths = linspace(0, 5000, 1000);     % Create custom SV profile
-            t_interp = interp1(temps(:,1), temps(:,2), depths);
+            perturbed_temps = base_temps_SVP + lhs_SVP_shifts(i, :)';
+            
+            t_interp = interp1(base_depths_SVP, perturbed_temps, high_res_depths, 'linear', 'extrap');
             S = 37;
             sv = 1499.2 + 4.6.*t_interp - 0.055.*t_interp.^2 + 0.00029*t_interp.^3 + ... 
-                (1.34 - 0.01.*t_interp).*(S-35) + 0.016.*depths;
-            custom_SVP = [depths.' sv.'];
+                (1.34 - 0.01.*t_interp).*(S-35) + 0.016.*high_res_depths;
+            custom_SVP = [high_res_depths sv];
+            
+            % Plot this specific branch live
+            plot(ax_svp, sv, high_res_depths, 'Color', [0.2 0.5 0.8 0.3], 'LineWidth', 0.5);
+            drawnow; % Forces MATLAB to update the figure window immediately
+            
+        else
+            sim_pars{6} = "summer";
+            custom_SVP = [];
         end
         
-        % Run Bellhop
         [TL, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomBathymetry', custom_Bathy, 'CustomSVP', custom_SVP);
         TL_MC(:,:,i) = TL;
     end
@@ -107,10 +141,11 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     Var_Delta_Total = zeros(size(TL_nom));
     
     if do_SD
+        disp('Calculating Partial Derivative: Source Depth');
         h = 0.1; 
         sim_pars{3} = 5 + h; [TL_up, ~, ~] = simpleBellhopHazat(sim_pars);
         sim_pars{3} = 5 - h; [TL_dn, ~, ~] = simpleBellhopHazat(sim_pars);
-        sim_pars{3} = 5; % Reset
+        sim_pars{3} = 5; 
         
         d_SD = (TL_up - TL_dn) / (2*h);
         var_input = ((b_SD(2)-b_SD(1))^2)/12;
@@ -118,47 +153,53 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     end
     
     if do_Bathy
-        h = 0.02; % Degrees perturbation
-        % Run Up (+h)
+        disp('Calculating Partial Derivative: Bathymetry');
+        h = 0.02; 
         sim_pars{7} = "custom";
+        
         end_depth = 35 + tan(deg2rad(h)) * maxR;
         cB_up = [linspace(0, maxR, 100).', linspace(35, end_depth, 100).'];
         [TL_up, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomBathymetry', cB_up);
         
-        % Run Down (-h)
         end_depth = 35 + tan(deg2rad(-h)) * maxR;
         cB_dn = [linspace(0, maxR, 100).', linspace(35, end_depth, 100).'];
         [TL_dn, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomBathymetry', cB_dn);
-        sim_pars{7} = "const_35"; % Reset
         
+        sim_pars{7} = "const_35"; 
         d_Bathy = (TL_up - TL_dn) / (2*h);
         var_input = ((b_Bathy(2)-b_Bathy(1))^2)/12;
         Var_Delta_Total = Var_Delta_Total + (d_Bathy.^2 .* var_input);
     end
     
     if do_SVP
-        h = 0.2; % Temp shift perturbation
-        depths = linspace(0, 5000, 1000);
-        base_temps = [0 25; 30 25; 180 17; 400 13.6; 5000 13.6];
-        
-        % Function handle for SV inline
-        getSVP = @(t_shift) [depths.' (1499.2 + 4.6.*interp1(base_temps(:,1), base_temps(:,2)+t_shift, depths) - ...
-            0.055.*interp1(base_temps(:,1), base_temps(:,2)+t_shift, depths).^2 + ...
-            0.00029*interp1(base_temps(:,1), base_temps(:,2)+t_shift, depths).^3 + ...
-            (1.34 - 0.01.*interp1(base_temps(:,1), base_temps(:,2)+t_shift, depths)).*(37-35) + 0.016.*depths).'];
-            
+        disp('Calculating Partial Derivatives: SVP Nodes (1 to 5)');
+        h = 0.2; 
         sim_pars{6} = "custom";
-        [TL_up, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomSVP', getSVP(h));
-        [TL_dn, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomSVP', getSVP(-h));
-        sim_pars{6} = "summer"; % Reset
-        
-        d_SVP = (TL_up - TL_dn) / (2*h);
         var_input = ((b_SVP(2)-b_SVP(1))^2)/12;
-        Var_Delta_Total = Var_Delta_Total + (d_SVP.^2 .* var_input);
+        
+        for pt = 1:num_SVP_nodes
+            fprintf('   -> Perturbing Node %d at depth %d m\n', pt, base_depths_SVP(pt));
+            
+            temps_up = base_temps_SVP; temps_up(pt) = temps_up(pt) + h;
+            t_interp_up = interp1(base_depths_SVP, temps_up, high_res_depths, 'linear', 'extrap');
+            sv_up = 1499.2 + 4.6.*t_interp_up - 0.055.*t_interp_up.^2 + 0.00029*t_interp_up.^3 + ... 
+                (1.34 - 0.01.*t_interp_up).*(37-35) + 0.016.*high_res_depths;
+            [TL_up, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomSVP', [high_res_depths sv_up]);
+            
+            temps_dn = base_temps_SVP; temps_dn(pt) = temps_dn(pt) - h;
+            t_interp_dn = interp1(base_depths_SVP, temps_dn, high_res_depths, 'linear', 'extrap');
+            sv_dn = 1499.2 + 4.6.*t_interp_dn - 0.055.*t_interp_dn.^2 + 0.00029*t_interp_dn.^3 + ... 
+                (1.34 - 0.01.*t_interp_dn).*(37-35) + 0.016.*high_res_depths;
+            [TL_dn, ~, ~] = simpleBellhopHazat(sim_pars, 'CustomSVP', [high_res_depths sv_dn]);
+            
+            d_SVP_pt = (TL_up - TL_dn) / (2*h);
+            Var_Delta_Total = Var_Delta_Total + (d_SVP_pt.^2 .* var_input);
+        end
+        sim_pars{6} = "summer"; 
     end
     
-    %% --- PART 3: PLOTTING ---
-    figure('Name', 'LHS vs Multi-Delta Analysis', 'Position', [100 100 1200 800]);
+    %% --- PART 3: PLOTTING & SAVING ---
+    figure('Name', 'LHS vs Multi-Delta Analysis', 'Position', [50 100 1200 800]);
     r_km = r_grid/1000;
     
     subplot(2,2,1); pcolor(r_km, z_grid, Expected_LHS); shading interp; set(gca,'YDir','reverse');
@@ -172,8 +213,14 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     
     subplot(2,2,4); pcolor(r_km, z_grid, Var_Delta_Total); shading interp; set(gca,'YDir','reverse');
     title('Delta Method: Total Variance'); colormap(gca, hot); colorbar;
-    %% --- PART 4: SAVE RESULTS ---
-    % Create a dynamic filename based on what was checked
+    
+    % Save the Live SVP plot if it was generated
+    if do_SVP
+        disp('Saving Live SVP plot...');
+        saveas(fig_svp_live, 'Live_SVP_Lightning_Plot.png');
+        savefig(fig_svp_live, 'Live_SVP_Lightning_Plot.fig');
+    end
+
     varNames = "";
     if do_SD, varNames = varNames + "_SD"; end
     if do_Bathy, varNames = varNames + "_Bathy"; end
@@ -181,7 +228,7 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     
     filename = strcat('Multi_UQ_Results', varNames, '.mat');
     
-    disp(['Saving results to ', char(filename), '...']);
+    disp(['Saving main results to ', char(filename), '...']);
     save(filename, 'Expected_LHS', 'Var_LHS', 'TL_nom', 'Var_Delta_Total', 'r_grid', 'z_grid');
     disp('Suite Finished Successfully!');
 end
