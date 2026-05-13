@@ -172,6 +172,16 @@ function runAnalysis(do_SD, do_Bathy, do_SVP, fig)
     
     subplot(2,2,4); pcolor(r_km, z_grid, Var_Delta_Total); shading interp; set(gca,'YDir','reverse');
     title('Delta Method: Total Variance'); colormap(gca, hot); colorbar;
+    %% --- PART 4: SAVE RESULTS ---
+    % Create a dynamic filename based on what was checked
+    varNames = "";
+    if do_SD, varNames = varNames + "_SD"; end
+    if do_Bathy, varNames = varNames + "_Bathy"; end
+    if do_SVP, varNames = varNames + "_SVP"; end
     
+    filename = strcat('Multi_UQ_Results', varNames, '.mat');
+    
+    disp(['Saving results to ', char(filename), '...']);
+    save(filename, 'Expected_LHS', 'Var_LHS', 'TL_nom', 'Var_Delta_Total', 'r_grid', 'z_grid');
     disp('Suite Finished Successfully!');
 end
