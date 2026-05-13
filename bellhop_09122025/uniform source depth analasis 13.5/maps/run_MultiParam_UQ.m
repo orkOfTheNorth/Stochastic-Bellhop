@@ -1,6 +1,9 @@
-%% run_MultiParam_UQ.m
+%% Initialization
 clear; close all; clc; warning('off');
-addpath('Code/Functions');
+
+% Go up one level from 'maps' and then into 'code/Functions'
+addpath('../code/Functions'); 
+
 
 % --- Create UI for Selection ---
 fig = uifigure('Name', 'Select Variables to Perturb', 'Position', [500 500 300 250]);
