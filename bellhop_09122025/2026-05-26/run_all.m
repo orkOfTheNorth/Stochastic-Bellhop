@@ -13,21 +13,21 @@ fprintf('========================================\n\n');
 
 %% Step 1 – Delta Method
 fprintf('[STEP 1/4]  Delta Method...\n');
-t0 = tic;
+tic;
 run('Delta_Method/run_delta.m');
-fprintf('  Done in %.1f s\n\n', toc(t0));
+fprintf('  Done in %.1f s\n\n', toc);
 
 %% Step 2 – Monte Carlo
 fprintf('[STEP 2/4]  Monte Carlo (N=200 x 7 subsets)...\n');
-t0 = tic;
+tic;
 run('Monte_Carlo/run_MC.m');
-fprintf('  Done in %.1f s\n\n', toc(t0));
+fprintf('  Done in %.1f s\n\n', toc);
 
 %% Step 3 – Comparison
 fprintf('[STEP 3/4]  Comparison...\n');
-t0 = tic;
+tic;
 run('Comparison/run_comparison.m');
-fprintf('  Done in %.1f s\n\n', toc(t0));
+fprintf('  Done in %.1f s\n\n', toc);
 
 %% Step 4 – Viewer
 fprintf('[STEP 4/4]  Opening viewer...\n');

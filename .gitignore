@@ -1,0 +1,24 @@
+# Large binary caches and results — not committed
+bellhop_09122025/2026-05-26/cache/
+bellhop_09122025/2026-05-26/Monte_Carlo/TL_cache/
+bellhop_09122025/2026-05-26/Monte_Carlo/results/*.mat
+bellhop_09122025/2026-05-26/Delta_Method/results/*.mat
+bellhop_09122025/2026-05-26/Decision_Tree/results/*.mat
+bellhop_09122025/2026-05-26/Comparison/results/*.mat
+bellhop_09122025/2026-05-26/Waveguide/results/*.mat
+
+# Bellhop runtime files (generated during each run)
+*.bty
+*.env
+*.prt
+*.shd
+*.arr
+
+# Log files
+*.log
+update_all_log.txt
+*_log.txt
+
+# MATLAB session files
+*.asv
+*.m~
