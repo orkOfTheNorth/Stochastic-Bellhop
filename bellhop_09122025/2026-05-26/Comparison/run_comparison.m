@@ -235,6 +235,83 @@ else
     fprintf('Note: RF results not found — run run_DT.m to include RF in shadow comparison.\n');
 end
 
+%% ── FULL-SUBSET: CONTINUOUS PROBABILITY MAPS — ALL METHODS ──────────────────
+% Complements the binary 5-method figure by showing the FULL probability
+% gradient (0–1) for each method.  Reveals:
+%   • How confidently each method declares a zone as shadow (≥95% threshold)
+%   • Where methods agree on probability magnitude (not just ≥95% boundary)
+%   • Spatial smoothness differences: Delta/RF are smoother; MC Emp is noisier
+%
+% Methods shown (2 rows × 3 panels, last panel blank):
+%   Row 1: Delta Chebyshev bound  |  MC Chebyshev bound  |  MC Empirical
+%   Row 2: MC LN3 fit             |  RF MC-averaged       |
+%
+% The white dashed contour marks the 95% threshold on each map.
+% ─────────────────────────────────────────────────────────────────────────────
+if isfile(rf_file)
+    % Build LN3 continuous map (load from saved file if available)
+    if ~exist('prob_ln3','var') || all(prob_ln3(:)==0)
+        if isfile(fullfile('results','LN3_shadow_full.mat'))
+            L2 = load(fullfile('results','LN3_shadow_full.mat'),'prob_ln3');
+            prob_ln3 = L2.prob_ln3;
+        end
+    end
+
+    % Continuous probability for each method
+    prob_delta = D.Cheb_lb_s;          % Delta Chebyshev lower bound
+    prob_mcheb = M.Cheb_lb;            % MC Chebyshev bound
+    prob_emp   = M.MC_PrFOM;           % MC empirical fraction
+    prob_rf    = rf_res.RF_mc_avg;     % RF MC-averaged (subsampled grid)
+
+    all6_prob  = {prob_delta, prob_mcheb, prob_emp, prob_ln3, prob_rf};
+    all6_r     = {r_km,       r_km,       r_km,     r_km,     r_rf};
+    all6_z     = {z_m,        z_m,        z_m,      z_m,      z_rf};
+    all6_lbl   = {'Delta Chebyshev', 'MC Chebyshev', 'MC Empirical', ...
+                  'MC LN3', 'RF MC-averaged'};
+    all6_note  = {'(conservative bound)', '(Cheb from MC Var)', ...
+                  '(direct sample count)', '(3-param lognormal)', '(Random Forest)'};
+
+    fig6 = figure('Name','Continuous P(shadow) — All Methods','Position',[130 50 1800 700]);
+
+    for k = 1:5
+        ax = subplot(2, 3, k);
+        pcolor(all6_r{k}, all6_z{k}, all6_prob{k}); shading interp;
+        set(ax,'YDir','reverse');
+        colormap(ax, parula(256)); clim([0 1]);
+        cb = colorbar; cb.Label.String = 'P(TL>FOM)'; cb.FontSize = 7;
+        hold on;
+        % White dashed contour at 95% threshold
+        try
+            contour(all6_r{k}, all6_z{k}, all6_prob{k}, [0.95 0.95], ...
+                    'w--', 'LineWidth', 1.5);
+        catch
+        end
+        hold off;
+        xlabel('Range (km)','FontSize',7);
+        if mod(k-1,3)==0, ylabel('Depth (m)','FontSize',8); end
+        title({sprintf('\\bf%s', all6_lbl{k}), all6_note{k}}, ...
+              'FontSize',8,'Interpreter','tex');
+    end
+
+    subplot(2, 3, 6); axis off;
+    text(0.5, 0.7, {'White dashed contour = 95% threshold', '', ...
+         'Colour shows CONTINUOUS P(shadow)', ...
+         'not just the binary above/below 95%.', '', ...
+         'Dark blue (P≈0) = definitely clear.', ...
+         'Yellow (P≈1) = guaranteed shadow.', '', ...
+         'Method differences are most visible', ...
+         'in the 0.5–0.9 probability gradient.'}, ...
+         'Units','norm','HorizontalAlignment','center', ...
+         'FontSize',8,'VerticalAlignment','middle');
+
+    sgtitle({sprintf('Continuous P(TL>%ddB) — All 5 Methods | Full 3-Parameter Uncertainty', FOM), ...
+             'Colour = actual shadow probability (0=clear → 1=shadow)  |  White dashed = 95% boundary'}, ...
+            'FontSize', 10);
+    saveFig(fig6, fullfile('figures','compare_shadow_prob_all_methods'));
+    close(fig6);
+    fprintf('Saved compare_shadow_prob_all_methods\n');
+end
+
 fprintf('\n=== Comparison complete. Results in results/  Figures in figures/ ===\n');
 
 %% ── LOCAL FUNCTIONS ──────────────────────────────────────────────────────────
