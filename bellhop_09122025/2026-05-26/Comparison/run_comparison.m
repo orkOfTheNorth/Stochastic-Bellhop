@@ -20,7 +20,7 @@ subset_names  = {'zS','freq','temp','zS_freq','zS_temp','freq_temp','zS_freq_tem
 subset_labels = {'z_S only','Freq only','Temp only', ...
                  'z_S + Freq','z_S + Temp','Freq + Temp','z_S + Freq + Temp'};
 
-FOM = 100;   % dB
+FOM = 100;   freq0 = 10000;   zS0 = 5;   % nominal params (not in delta .mat)
 
 %% ── ALL-SUBSET: EX AND VAR DIFFERENCE MAPS ──────────────────────────────────
 fig_EX  = figure('Name','Comparison – E[TL] Difference (MC−Delta) All Subsets', ...
@@ -51,7 +51,7 @@ for s = 1:7
     diff_Var = M.MC_Var - D.Var_TL;
 
     % Shadow zone masks (95% threshold)
-    shd_delta_cheb = D.Cheb_lb >= 0.95;   % Delta Chebyshev 95%
+    shd_delta_cheb = D.Cheb_lb_s >= 0.95;   % Delta Chebyshev 95%
     shd_mc_cheb    = M.Cheb_lb >= 0.95;   % MC   Chebyshev 95%
     shd_mc_emp     = M.MC_PrFOM >= 0.95;  % MC empirical   95%
 
@@ -114,16 +114,16 @@ end
 % Add empty subplots for slot 8
 figure(fig_EX);  subplot(2,4,8); axis off;
 sgtitle('MC − Delta: E[TL] Difference Maps for All 7 Subsets  (red=MC higher, blue=Delta higher)');
-saveas(fig_EX, fullfile('figures','compare_EX_diff_all.png'));
+saveFig(fig_EX, fullfile('figures','compare_EX_diff_all'));
 
 figure(fig_Var); subplot(2,4,8); axis off;
 sgtitle('MC − Delta: Var[TL] Difference Maps for All 7 Subsets  (red=MC higher, blue=Delta higher)');
-saveas(fig_Var, fullfile('figures','compare_Var_diff_all.png'));
+saveFig(fig_Var, fullfile('figures','compare_Var_diff_all'));
 
 figure(fig_Shd); subplot(2,4,8); axis off;
 sgtitle(sprintf(['Shadow-Zone Comparison (P(TL>%ddB)≥95%%) | All 7 Subsets\n' ...
     'Blue=Delta-Cheb only | Red=MC-Empirical only | Green=Both agree'],FOM));
-saveas(fig_Shd, fullfile('figures','compare_shadow_all.png'));
+saveFig(fig_Shd, fullfile('figures','compare_shadow_all'));
 
 %% ── FULL-SUBSET: DETAILED 4-METHOD SHADOW MAP ───────────────────────────────
 D = load(fullfile(delta_dir,'delta_zS_freq_temp.mat'));
@@ -139,7 +139,7 @@ else
     prob_ln3 = zeros(size(D.TL_expected));
 end
 
-shd_delta = D.Cheb_lb >= 0.95;
+shd_delta = D.Cheb_lb_s >= 0.95;
 shd_emp   = M.MC_PrFOM >= 0.95;
 shd_mcheb = M.Cheb_lb  >= 0.95;
 
@@ -154,11 +154,11 @@ for k = 1:4
     colorbar('Ticks',[0.25 0.75],'TickLabels',{'Not Shadow','Shadow 95%'});
     xlabel('Range (km)'); ylabel('Depth (m)');
     title(sprintf('%s | Full 3-Param | f=%dHz zS=%.1fm FOM=%ddB', ...
-          mtitles{k}, D.freq0, D.zS0, FOM));
+          mtitles{k}, freq0, zS0, FOM));
 end
 sgtitle(sprintf(['Shadow Zone (P(TL>%ddB)≥95%%) – 4 Methods Compared | Full 3-Parameter Perturbation\n' ...
     'Green=shadow (guaranteed), Grey=not shadow'], FOM));
-saveas(fig_full, fullfile('figures','compare_shadow_4methods_full.png'));
+saveFig(fig_full, fullfile('figures','compare_shadow_4methods_full'));
 
 %% ── FULL-SUBSET: DIFFERENCE MAPS (EX and VAR with interactive cursor) ────────
 diff_EX_full  = M.MC_EX  - D.TL_expected;
@@ -173,7 +173,7 @@ mx = max(abs(diff_EX_full(:))); if mx==0, mx=1; end
 colormap(ax1, redblue(256)); colorbar; clim([-mx mx]);
 xlabel('Range (km)'); ylabel('Depth (m)');
 title(sprintf(['MC − Delta: E[TL] Difference [dB] | Full 3-Param\n' ...
-    'f=%dHz±1%%  zS=%.1fm±1%%  Temp±1°C  |  N=%d MC runs'], D.freq0, D.zS0, M.N));
+    'f=%dHz±1%%  zS=%.1fm±1%%  Temp±1°C  |  N=%d MC runs'], freq0, zS0, M.N));
 
 ax2 = subplot(2,1,2);
 pcolor(r_km, z_m, diff_Var_full); shading interp; set(gca,'YDir','reverse');
@@ -190,11 +190,62 @@ dcm.DisplayStyle = 'window';
 set(dcm,'UpdateFcn', @(~,evt) diffTip(evt,ax1,ax2,r_km,z_m, ...
     M.MC_EX,D.TL_expected,M.MC_Var,D.Var_TL,diff_EX_full,diff_Var_full));
 
-saveas(fig_diff, fullfile('figures','compare_EX_Var_full_interactive.png'));
+saveFig(fig_diff, fullfile('figures','compare_EX_Var_full_interactive'));
+
+%% ── FULL-SUBSET: 5-METHOD SHADOW COMPARISON INCLUDING RF ─────────────────────
+% The RF shadow map is on a subsampled grid (stride=5) vs the full Bellhop grid,
+% so the RF panel has lower spatial resolution but covers the same domain.
+rf_file = fullfile('..','Decision_Tree','results','RF_results.mat');
+if isfile(rf_file)
+    rf_res = load(rf_file, 'RF_mc_avg', 'r_km_map', 'z_m_map');
+    RF_shd = rf_res.RF_mc_avg >= 0.95;
+    r_rf   = rf_res.r_km_map;   % subsampled range axis (km)
+    z_rf   = rf_res.z_m_map;    % subsampled depth axis (m)
+
+    fig5 = figure('Name','5-Method Shadow (incl RF)','Position',[120 120 1950 420]);
+
+    all5_shd = {shd_delta, shd_mcheb, shd_emp, shd_ln3, RF_shd};
+    all5_r   = {r_km, r_km, r_km, r_km, r_rf};
+    all5_z   = {z_m,  z_m,  z_m,  z_m,  z_rf};
+    all5_lbl = {'Delta Chebyshev', 'MC Chebyshev', 'MC Empirical', ...
+                'MC LN3', 'RF MC-averaged'};
+
+    for k = 1:5
+        ax = subplot(1,5,k);
+        imagesc(all5_r{k}, all5_z{k}, double(all5_shd{k}));
+        set(ax,'YDir','reverse');
+        colormap(ax, [0.88 0.88 0.88; 0.15 0.62 0.28]);   % grey=clear, green=shadow
+        clim([0 1]);
+        xlabel('Range (km)','FontSize',7);
+        if k==1, ylabel('Depth (m)','FontSize',8); end
+        title(sprintf('%s\n(95%% threshold)', all5_lbl{k}),'FontSize',8);
+        if k==5
+            cb = colorbar;
+            cb.Ticks = [0.25 0.75];
+            cb.TickLabels = {'Clear','Shadow'};
+            cb.FontSize = 7;
+        end
+    end
+    sgtitle(sprintf('Shadow Zone P(TL>%ddB)≥95%%  |  Full 3-Param  |  5 Methods', FOM), ...
+        'FontSize',11);
+    saveFig(fig5, fullfile('figures','compare_shadow_5methods_RF'));
+    close(fig5);
+    fprintf('Saved compare_shadow_5methods_RF\n');
+else
+    fprintf('Note: RF results not found — run run_DT.m to include RF in shadow comparison.\n');
+end
 
 fprintf('\n=== Comparison complete. Results in results/  Figures in figures/ ===\n');
 
 %% ── LOCAL FUNCTIONS ──────────────────────────────────────────────────────────
+function saveFig(fig, base_path)
+    print(fig, base_path, '-dpng', '-r300');
+    try
+        exportgraphics(fig, [base_path '.pdf'], 'ContentType','image', 'Resolution',300);
+    catch
+    end
+end
+
 function txt = diffTip(evt,ax1,ax2,r_km,z_m,MC_EX,Delta_EX,MC_Var,Delta_Var,dEX,dVar)
     pos = get(evt,'Position');
     ca  = get(evt,'Target');

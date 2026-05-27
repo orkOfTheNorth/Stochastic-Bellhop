@@ -1,0 +1,29 @@
+======================================================================
+  RF Permutation Feature Importance
+  N=100 LHS samples | 50 trees | Accuracy=99.4% | AUC=0.9997
+======================================================================
+
+  METHOD: OOB Permutation Importance
+--------------------------------------------------------
+  Each feature is randomly shuffled (one at a time) across
+  out-of-bag samples.  The drop in accuracy = importance.
+  Larger drop = RF relied on this feature more.
+
+  Rank  Feature                          OOB Imp.  %% total  Bar
+--------------------------------------------------------
+  [1]   Range (km)                      571.57887    77.7%  |||||||||||||||||||||||  [spatial coord]
+  [2]   Depth (m)                       122.23142    16.6%  |||||  [spatial coord]
+  [3]   Frequency (Hz)                   15.39571     2.1%  |
+  [4]   Source depth z_S (m)             14.25565     1.9%  |
+  [5]   Temp shift (°C)                  11.90091     1.6%  |
+
+  Note: Range and Depth are spatial coordinates, not uncertain
+  inputs — their high importance reflects that acoustic shadow
+  zones have fixed spatial structure, not parameter sensitivity.
+
+  Among uncertain physical inputs only (Freq + zS + Temp = 5.7%):
+    [1] Frequency (Hz)              37.1% of physical-param importance
+    [2] Source depth z_S (m)        34.3% of physical-param importance
+    [3] Temp shift (°C)             28.6% of physical-param importance
+
+======================================================================

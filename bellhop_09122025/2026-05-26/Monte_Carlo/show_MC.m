@@ -47,18 +47,22 @@ info_txt = text(info_ax, 0.05, 0.95, 'Click a point...', ...
     'Units','normalized','VerticalAlignment','top','FontSize',9, ...
     'FontName','FixedWidth');
 
-%% ── HOVER: show tooltip via data cursor ──────────────────────────────────────
+%% ── HOVER: data cursor tooltip ───────────────────────────────────────────────
 dcm = datacursormode(fig_main);
 dcm.Enable = 'on';
 dcm.DisplayStyle = 'window';
 set(dcm,'UpdateFcn', @(~,evt) hoverTip(evt, ax, r_km, z_m, ...
     MC_EX, MC_Var, MC_PrFOM, Cheb_lb, TL_all, FOM));
 
-%% ── CLICK: open histogram figure ─────────────────────────────────────────────
-set(fig_main,'WindowButtonDownFcn', @(~,~) onClickMap(ax, r_km, z_m, ...
-    MC_EX, MC_Var, MC_PrFOM, Cheb_lb, TL_all, FOM, N, info_txt, freq0, zS0));
+%% ── HISTOGRAM BUTTON (below info panel) ──────────────────────────────────────
+% Datacursormode intercepts figure clicks; use a button instead.
+uicontrol(fig_main,'Style','pushbutton', ...
+    'String','Show Histogram at Cursor', ...
+    'Position',[670 10 205 30], ...
+    'Callback', @(~,~) onClickMap(ax, r_km, z_m, ...
+        MC_EX, MC_Var, MC_PrFOM, Cheb_lb, TL_all, FOM, N, info_txt, freq0, zS0));
 
-fprintf('Interactive viewer ready. Click on the map.\n');
+fprintf('Interactive viewer ready. Click map → datatip stats. Button → histogram.\n');
 
 %% ═══════════════════════════════════════════════════════════════════════════
 %%  CALLBACK FUNCTIONS
