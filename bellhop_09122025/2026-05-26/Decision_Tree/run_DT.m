@@ -132,21 +132,30 @@ X_test  = X(test_rows,  :);
 y_test  = y(test_rows);
 
 %% ══════════════════════════════════════════════════════════════════════════
-%% STEP 5 ── TRAIN RANDOM FOREST
-%  TreeBagger creates 50 decision trees by bagging (bootstrap sampling).
-%  Each tree is trained on a random subset of rows and features,
-%  which makes the ensemble more robust than a single decision tree.
+%% STEP 5 ── TRAIN RANDOM FOREST (pruned for generalisation)
+%  TreeBagger creates 200 decision trees by bagging (bootstrap sampling).
 %
-%  OOBPermutedPredictorDeltaError = out-of-bag feature importance.
-%  MinLeafSize=10 prevents overfitting by limiting leaf granularity.
+%  PRUNING / TRIMMING rationale:
+%    With only N=100 LHS samples (80 training), there are just 80 unique
+%    (freq, zS, temp) parameter combinations.  A deep tree (MinLeafSize=10)
+%    can memorise which of those 80 combos produce shadow at each spatial
+%    point rather than learning a smooth, generalisable function.
+%
+%    Fixes applied:
+%      MinLeafSize  10 → 200  Forces leaves to average ≥200 training rows,
+%                             preventing the RF from splitting down to single
+%                             parameter-combination neighbourhoods.
+%      NumTrees     50 → 200  More trees compensate for the higher per-tree
+%                             bias; the ensemble variance stays low.
+%      NumPredictorsToSample  kept at 3 (= round(sqrt(5)))
 %% ══════════════════════════════════════════════════════════════════════════
-fprintf('\nStep 5: Training Random Forest (50 trees)...\n');
+fprintf('\nStep 5: Training Random Forest (200 trees, MinLeafSize=200)...\n');
 tic;
-RF = TreeBagger(50, X_train, double(y_train), ...
+RF = TreeBagger(200, X_train, double(y_train), ...
     'Method',                 'classification', ...
     'OOBPredictorImportance', 'on', ...
-    'MinLeafSize',            10,   ...
-    'NumPredictorsToSample',  3);   % sqrt(5) ≈ 2.2, round up to 3
+    'MinLeafSize',            200,  ...
+    'NumPredictorsToSample',  3);
 t_train = toc;
 fprintf('  Training done in %.1f s\n', t_train);
 
@@ -265,8 +274,8 @@ xlabel('OOB Permutation Importance');
 title('Feature Importance');
 grid on;
 
-sgtitle(sprintf('Random Forest | %d trees | %d train samples | %d test samples', ...
-    50, n_train, n_test), 'FontSize',11);
+sgtitle(sprintf('Random Forest | %d trees | MinLeafSize=%d | %d train | %d test', ...
+    RF.NumTrees, 200, n_train, n_test), 'FontSize',11);
 saveFig(fig1, fullfile('figures','RF_metrics'));
 close(fig1);
 fprintf('Saved RF_metrics\n');
