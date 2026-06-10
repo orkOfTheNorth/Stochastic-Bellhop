@@ -111,8 +111,10 @@ for ci = 1:numel(completed)
     kappa_vec = zeros(1, 3);           % condition number of Phi
     Kstar     = zeros(1, 3);           % K* from LOO argmin
     Kstar_L1  = zeros(1, 3);           % K* from old L1<10% rule (kept for comparison)
-    C_all     = cell(1, 3);
-    VarK_best = cell(1, 3);
+    C_all         = cell(1, 3);
+    VarK_best     = cell(1, 3);
+    L1_shadow_mat = zeros(MAX_ORDER, 3);   % shadow-prob L1 vs MC, per K
+    Pshadow_best  = cell(1, 3);            % P(TL>FOM) map at K*
 
     Nz = []; Nr = [];   % filled on first param
 
@@ -131,10 +133,12 @@ for ci = 1:numel(completed)
         if isempty(Nz), [Nz, Nr, ~] = size(TL_all); end
 
         %% Load MC reference variance
-        mc_file = fullfile(res_dir, sprintf('MC_%s.mat', param));
-        mc_res  = load(mc_file, 'MC_Var');
-        Var_MC  = mc_res.MC_Var(:);   % [Nz*Nr × 1]
-        mean_VM = max(mean(Var_MC), 1e-10);
+        mc_file   = fullfile(res_dir, sprintf('MC_%s.mat', param));
+        mc_res    = load(mc_file, 'MC_Var', 'MC_PrFOM', 'FOM');
+        Var_MC    = mc_res.MC_Var(:);      % [Nz*Nr × 1]
+        P_mc_shad = mc_res.MC_PrFOM(:);   % [Nz*Nr × 1]
+        FOM       = mc_res.FOM;
+        mean_VM   = max(mean(Var_MC), 1e-10);
 
         %% Standardised xi for this param
         xi = xi_all(:, pi);   % [N × 1]
@@ -180,6 +184,24 @@ for ci = 1:numel(completed)
         y_hat_best = Q(:,1:Kstar(pi)+1) * QTL(1:Kstar(pi)+1,:);
         VarK_best{pi} = reshape(var(y_hat_best, 0, 1), Nz, Nr);
 
+        %% Shadow probability L1 vs K — same spirit as variance L1
+        rng(42 + pi);
+        if strcmp(dist_type, 'normal')
+            xi_shad = randn(2000, 1);
+        else
+            xi_shad = 2*rand(2000,1) - 1;   % Legendre on (-1,1)
+        end
+        denom_shad = max(mean(P_mc_shad), 1e-6);
+        for K = 1:MAX_ORDER
+            Phi_K = pce_basis(xi_shad, K, dist_type);           % [2000 × K+1]
+            TL_K  = Phi_K * C_all{pi}(1:K+1, :);               % [2000 × Nz*Nr]
+            P_K   = mean(TL_K > FOM, 1)';                       % [Nz*Nr × 1]
+            L1_shadow_mat(K, pi) = mean(abs(P_K - P_mc_shad)) / denom_shad;
+        end
+        Phi_Ks = pce_basis(xi_shad, Kstar(pi), dist_type);
+        TL_Ks  = Phi_Ks * C_all{pi}(1:Kstar(pi)+1, :);
+        Pshadow_best{pi} = reshape(mean(TL_Ks > FOM, 1)', Nz, Nr);
+
         fprintf('  [%s] K*(LOO)=%d  K*(L1)=%s  cond=%.1e  LOO@K=1: %.3f  L1@K=1: %.3f\n', ...
                 param, Kstar(pi), fmt_kstar(Kstar_L1(pi)), kappa_vec(pi), ...
                 LOO_mat(1,pi), L1_mat(1,pi));
@@ -190,15 +212,16 @@ for ci = 1:numel(completed)
     r_km  = mc_ref.r_km;
     z_m   = mc_ref.z_m;
     save(fullfile(out_dir, 'pce_results.mat'), ...
-         'C_all','L1_mat','LOO_mat','Kstar','Kstar_L1','kappa_vec', ...
-         'VarK_best','r_km','z_m','MAX_ORDER','dist_name','sc_name', '-v7.3');
+         'C_all','L1_mat','LOO_mat','L1_shadow_mat','Kstar','Kstar_L1','kappa_vec', ...
+         'VarK_best','Pshadow_best','r_km','z_m','MAX_ORDER','dist_name','sc_name', '-v7.3');
 
-    %% Figure: LOO-CV | L1 | 3 scatter plots  (1×5 layout) ──────────────────
-    fig    = figure('Position', [50 50 1750 380]);
+    %% Figure: 2×4 — LOO-CV | L1-var | L1-shadow | (row1)
+    %%              Scatter Var(×3) | Scatter P_shadow | (row2)
+    fig    = figure('Position', [50 50 1600 640]);
     colors = lines(3);
 
-    % ── Panel 1: LOO-CV vs order ─────────────────────────────────────────────
-    ax_loo = subplot(1,5,1);
+    % ── Panel (1,1): LOO-CV vs order ─────────────────────────────────────────
+    ax_loo = subplot(2,4,1);
     for pi = 1:3
         loo_norm = LOO_mat(:,pi) / max(LOO_mat(1,pi), 1e-30);
         plot(ax_loo, 1:MAX_ORDER, loo_norm, '-o', ...
@@ -216,8 +239,8 @@ for ci = 1:numel(completed)
     legend(ax_loo, 'Location', 'northeast', 'FontSize', 7);
     grid(ax_loo, 'on');
 
-    % ── Panel 2: L1 variance metric vs order ─────────────────────────────────
-    ax_l1 = subplot(1,5,2);
+    % ── Panel (1,2): L1 variance metric vs order ─────────────────────────────
+    ax_l1 = subplot(2,4,2);
     for pi = 1:3
         plot(ax_l1, 1:MAX_ORDER, L1_mat(:,pi)*100, '-o', ...
              'Color', colors(pi,:), 'LineWidth', 1.5, 'MarkerSize', 5, ...
@@ -233,9 +256,25 @@ for ci = 1:numel(completed)
     legend(ax_l1, 'Location', 'northeast', 'FontSize', 7);
     grid(ax_l1, 'on');
 
-    % ── Panels 3-5: scatter Var_{K*} vs Var_MC for each param ────────────────
+    % ── Panel (1,3): L1 shadow probability vs order ──────────────────────────
+    ax_lshad = subplot(2,4,3);
     for pi = 1:3
-        ax_r = subplot(1, 5, pi+2);
+        plot(ax_lshad, 1:MAX_ORDER, L1_shadow_mat(:,pi)*100, '-o', ...
+             'Color', colors(pi,:), 'LineWidth', 1.5, 'MarkerSize', 5, ...
+             'DisplayName', PARAMS{pi});
+        hold(ax_lshad, 'on');
+    end
+    set(ax_lshad, 'XTick', 1:MAX_ORDER);
+    xlabel(ax_lshad, 'PCE Order K');
+    ylabel(ax_lshad, 'Relative L1 P_{shadow} error (%)');
+    title(ax_lshad, sprintf('L1 Shadow Prob\n%s | %s', sc_name, dist_name), ...
+          'FontSize', 8, 'Interpreter', 'none');
+    legend(ax_lshad, 'Location', 'northeast', 'FontSize', 7);
+    grid(ax_lshad, 'on');
+
+    % ── Panels (2,1-3): scatter Var_{K*} vs Var_MC for each param ────────────
+    for pi = 1:3
+        ax_r = subplot(2, 4, pi+4);
         if isempty(VarK_best{pi})
             title(ax_r, sprintf('%s\n(no data)', PARAMS{pi}), 'FontSize', 8, 'Interpreter','none');
             continue;
@@ -264,6 +303,31 @@ for ci = 1:numel(completed)
               'FontSize', 8, 'Interpreter', 'none');
         grid(ax_r, 'on');
         axis(ax_r, 'equal');
+    end
+
+    % ── Panel (2,4): scatter P_shadow PCE vs MC for all params ──────────────
+    ax_ps = subplot(2, 4, 8);
+    hold(ax_ps, 'on');
+    any_shad = false;
+    for pi = 1:3
+        if isempty(Pshadow_best{pi}), continue; end
+        mc_pshad = load(fullfile(res_dir, sprintf('MC_%s.mat', PARAMS{pi})), 'MC_PrFOM');
+        pmc_v  = mc_pshad.MC_PrFOM(:);
+        ppce_v = Pshadow_best{pi}(:);
+        scatter(ax_ps, pmc_v, ppce_v, 3, 'filled', ...
+                'MarkerFaceAlpha', 0.2, 'MarkerFaceColor', colors(pi,:), ...
+                'DisplayName', PARAMS{pi});
+        any_shad = true;
+    end
+    if any_shad
+        plot(ax_ps, [0 1], [0 1], 'k-', 'LineWidth', 1.5, 'HandleVisibility','off');
+        xlim(ax_ps, [0 1]); ylim(ax_ps, [0 1]);
+        xlabel(ax_ps, 'P_{shadow}  MC');
+        ylabel(ax_ps, 'P_{shadow}  PCE');
+        title(ax_ps, sprintf('Scatter P_{shadow}\nall params @ K*'), ...
+              'FontSize', 8, 'Interpreter', 'none');
+        legend(ax_ps, 'Location', 'northwest', 'FontSize', 7);
+        grid(ax_ps, 'on'); axis(ax_ps, 'equal');
     end
 
     sgtitle(sprintf('PCE Variance Convergence | %s | %s', sc_name, dist_name), ...
