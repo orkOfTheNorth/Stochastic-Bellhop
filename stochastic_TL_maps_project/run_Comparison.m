@@ -17,7 +17,10 @@
 %
 % Note: No combined all-methods figure is generated.
 
-clear; close all; clc; warning('off');
+function run_Comparison(sc_target, dist_target)
+%% run_Comparison — MC vs Delta comparison.  No args = all combos.
+if nargin < 2, sc_target = ''; dist_target = ''; end
+close all; clc; warning('off');
 try, cd(fileparts(mfilename('fullpath'))); catch; end
 
 addpath(genpath('Shared_Utils'));
@@ -36,6 +39,9 @@ for si = 1:numel(cfg.scenarios)
 
     for di = 1:numel(cfg.distributions)
         dist = cfg.distributions(di);
+        if ~isempty(sc_target) && ~(strcmp(sc.name,sc_target) && strcmp(dist.name,dist_target))
+            continue;
+        end
 
         fprintf('\n=== Comparison | %s | %s ===\n', sc.name, dist.name);
 
@@ -266,3 +272,4 @@ end
 
 
 fprintf('\n=== run_Comparison.m complete. ===\n');
+end   % function run_Comparison

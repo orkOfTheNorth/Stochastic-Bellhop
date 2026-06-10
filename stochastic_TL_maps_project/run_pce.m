@@ -15,7 +15,10 @@
 % Summary:
 %   Methods/PCE/pce_summary_all.png
 
-clear; close all; clc; warning('off');
+function run_pce(sc_target, dist_target)
+%% run_pce — PCE from cached MC data.  No args = all combos.
+if nargin < 2, sc_target = ''; dist_target = ''; end
+close all; clc; warning('off');
 try, cd(fileparts(mfilename('fullpath'))); catch; end
 
 set(0, 'DefaultFigureVisible', 'off');
@@ -63,6 +66,9 @@ sum_scen  = cell(numel(completed), 1);
 for ci = 1:numel(completed)
     sc   = completed{ci}{1};
     dist = completed{ci}{2};
+    if ~isempty(sc_target) && ~(strcmp(sc.name,sc_target) && strcmp(dist.name,dist_target))
+        continue;
+    end
     sc_name   = sc.name;
     dist_name = dist.name;
     dist_type = lower(dist.type);   % 'normal' or 'uniform'
@@ -395,6 +401,7 @@ for ci = 1:numel(completed)
             sprintf('%d[%s]', r.Kstar(3), fmt_kstar(r.Kstar_L1(3))));
 end
 fprintf('\n=== run_pce.m complete ===\n');
+end   % function run_pce
 
 %% ── Helper ───────────────────────────────────────────────────────────────────
 function s = fmt_kstar(k)

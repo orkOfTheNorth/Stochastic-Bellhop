@@ -10,7 +10,10 @@
 % Outputs per scenario × distribution (3 PNGs):
 %   Methods/LN3/<scen>/<dist>/figures/LN3_<subset>.png
 
-clear; close all; clc; warning('off');
+function run_LN3(sc_target, dist_target)
+%% run_LN3 — LN3 fit diagnostic.  No args = all combos.
+if nargin < 2, sc_target = ''; dist_target = ''; end
+close all; clc; warning('off');
 try, cd(fileparts(mfilename('fullpath'))); catch; end
 
 addpath(genpath('Shared_Utils'));
@@ -29,6 +32,9 @@ for si = 1:numel(cfg.scenarios)
 
     for di = 1:numel(cfg.distributions)
         dist = cfg.distributions(di);
+        if ~isempty(sc_target) && ~(strcmp(sc.name,sc_target) && strcmp(dist.name,dist_target))
+            continue;
+        end
 
         fprintf('\n=== LN3 | %s | %s ===\n', sc.name, dist.name);
 
@@ -123,6 +129,7 @@ end
 
 
 fprintf('\n=== run_LN3.m complete. ===\n');
+end   % function run_LN3
 
 %% ── KS statistic helper ───────────────────────────────────────────────────
 function ks = ksStatLN3(samps, gam, mu_ln, sig_ln)

@@ -1,23 +1,9 @@
-%% run_MC.m — Monte Carlo UQ across all scenarios and distributions
-%
-% For each scenario × distribution:
-%   • Generates N LHS samples (uniform or normal, from config.json)
-%   • Runs N Bellhop calls per subset, with two-level caching:
-%       Level 1: Cache/<scen>/bellhop_raw/     — individual Bellhop runs
-%       Level 2: Cache/<scen>/<dist>/TL_*.mat  — full TL cube per subset
-%   • Saves SVP profile PNG for every perturbed SVP run
-%   • Computes MC_EX, MC_Var, MC_PrFOM, Chebyshev bound, LN3 probability
-%
-% Outputs per scenario × distribution (23 PNGs):
-%   Methods/MC/<scen>/<dist>/results/MC_<subset>.mat  × 7
-%   Methods/MC/<scen>/<dist>/figures/
-%     ├── TL_<subset>.png             — standard E[TL] map × 7 (datatip: EX + Var)
-%     ├── combined_EX.png             — all-7 E[TL] in one figure
-%     ├── combined_Var.png            — all-7 Var[TL] in one figure
-%     ├── cheb_<subset>.png           — 4-color Chebyshev bound × 7
-%     └── empirical_<subset>.png      — 4-color empirical bound × 7
+function run_MC(sc_target, dist_target)
+%% run_MC — Monte Carlo UQ.  Call with no args to run all combos,
+%  or run_MC('baseline','Normal_10pct') to process one combo only.
+if nargin < 2, sc_target = ''; dist_target = ''; end
 
-clear; close all; clc; warning('off');
+close all; clc; warning('off');
 try
     cd(fileparts(mfilename('fullpath')));
 catch
@@ -52,6 +38,9 @@ for si = 1:numel(cfg.scenarios)
 
     for di = 1:numel(cfg.distributions)
         dist = cfg.distributions(di);
+        if ~isempty(sc_target) && ~(strcmp(sc.name,sc_target) && strcmp(dist.name,dist_target))
+            continue;
+        end
         B    = computeVarianceBounds(cfg, dist);
         S    = lhsSample(N, cfg, dist, B);    % struct: S.freq, S.zS, S.svp
 
@@ -325,6 +314,7 @@ end
 
 
 fprintf('\n=== run_MC.m complete. ===\n');
+end   % function run_MC
 
 %% ── Datatip helper ────────────────────────────────────────────────────────
 function txt = tlDatatip(evt, r_km, z_m, EX_map, Var_map)
