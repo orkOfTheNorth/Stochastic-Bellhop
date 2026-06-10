@@ -70,23 +70,27 @@ for si = 1:numel(cfg.scenarios)
         max_depth = sc.maxDepth_m;
         bathy_m   = bathymetryMaker(sc.bathy_type, sc.maxR_m);
 
-        %% ── SVP comparison figure (nominal + ±bound) — one PNG per dist ───
-        svp_fig_path = fullfile(fig_dir, 'svp_profiles');
+        %% ── SVP ensemble figure — all N samples overlaid (one PNG per dist) ──
+        svp_fig_path = fullfile(fig_dir, 'svp_ensemble');
         if ~isfile([svp_fig_path '.png'])
-            svp_nom = makeSVPNoise(0,             max_depth, cfg);
-            svp_pos = makeSVPNoise(B.svp_bnd(2),  max_depth, cfg);
-            svp_neg = makeSVPNoise(B.svp_bnd(1),  max_depth, cfg);
-            fig_svp = figure('Position',[50 50 420 560]);
-            z_vec = svp_nom(:,1);
-            plot(svp_nom(:,2), z_vec, 'k-',  'LineWidth', 2,   'DisplayName', 'Nominal');
-            hold on;
-            plot(svp_pos(:,2), z_vec, 'r--', 'LineWidth', 1.5, 'DisplayName', sprintf('+%.2f °C', B.svp_bnd(2)));
-            plot(svp_neg(:,2), z_vec, 'b--', 'LineWidth', 1.5, 'DisplayName', sprintf('%.2f °C',  B.svp_bnd(1)));
-            hold off;
-            set(gca, 'YDir', 'reverse');
-            xlabel('Sound Speed (m/s)'); ylabel('Depth (m)');
-            title(sprintf('SVP Perturbation | %s | %s', sc.name, dist.name), 'Interpreter','none');
-            legend('Location', 'best'); grid on;
+            svp_nom = makeSVPNoise(0, max_depth, cfg);
+            z_vec   = svp_nom(:,1);
+            fig_svp = figure('Position', [50 50 420 560]);
+            ax_svp  = axes;
+            hold(ax_svp, 'on');
+            for i = 1:N
+                svp_i = makeSVPNoise(S.svp(i), max_depth, cfg);
+                plot(ax_svp, svp_i(:,2), z_vec, '-', ...
+                     'Color', [0.4 0.6 0.9 0.12], 'LineWidth', 0.8);
+            end
+            plot(ax_svp, svp_nom(:,2), z_vec, 'k-', 'LineWidth', 2.5, ...
+                 'DisplayName', 'Nominal');
+            set(ax_svp, 'YDir', 'reverse');
+            xlabel(ax_svp, 'Sound Speed (m/s)');
+            ylabel(ax_svp, 'Depth (m)');
+            title(ax_svp, sprintf('SVP Ensemble | %s | %s | N=%d', sc.name, dist.name, N), ...
+                  'Interpreter', 'none');
+            grid(ax_svp, 'on');
             saveFigPNG(fig_svp, svp_fig_path);
             drawnow; close(fig_svp);
         end
