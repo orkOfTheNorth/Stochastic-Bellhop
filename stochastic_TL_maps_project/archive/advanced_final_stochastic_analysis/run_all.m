@@ -81,22 +81,6 @@ fprintf('[3D] RF variance decomposition...\n'); tic;
 run('Decision_Tree/run_DT_vardecomp.m');
 fprintf('  Done in %.0fs\n\n', toc);
 
-%% ── PHASE 4: VALIDATION AND DIAGNOSTICS ──────────────────────────────────
-fprintf('\n--- PHASE 4: Validation and Diagnostics ---\n');
-
-fprintf('[4A] Waveguide Validation...\n'); tic;
-% Note: The waveguide comparison script is located in the parent directory.
-run('../Waveguide/run_waveguide_comparison.m');
-fprintf('  Done in %.0fs\n', toc);
-
-fprintf('[4B] Delta Method Smoothing...\n'); tic;
-run('Smoothing/run_smoothing.m');
-fprintf('  Done in %.0fs\n', toc);
-
-fprintf('[4C] LN3 Fit Quality Analysis...\n'); tic;
-run('LN3/run_LN3.m');
-fprintf('  Done in %.0fs\n\n', toc);
-
 fprintf('\n════════════════════════════════════════\n');
 fprintf('  Pipeline complete.\n');
 fprintf('  All figures saved in figures/ subfolders.\n');
