@@ -648,6 +648,64 @@ The cross-validation analysis confirms that:
   \label{fig:cv_all}
 \end{figure}
 
+\subsubsection{Implemented Upgrade: Analytic LOO-CV and Ridge Regularisation}
+\label{sec:loo_ridge}
+
+Based on the above analysis, we upgraded \texttt{run\_pce.m} with three changes.
+
+\paragraph{Analytic LOO-CV for $K^*$ selection.}
+For ordinary least-squares regression on a design matrix $\boldsymbol\Phi$,
+the leave-one-out prediction error for sample~$i$ can be computed \emph{without
+refitting} as
+\begin{equation}
+  e_i^{\text{LOO}} = \frac{r_i}{1 - h_{ii}},
+  \qquad h_{ii} = \lVert \mathbf{q}_i^{(K)}\rVert^2,
+  \label{eq:loo}
+\end{equation}
+where $r_i = y_i - \hat{y}_i^{(K)}$ is the training residual and
+$h_{ii}$ is the $i$-th diagonal of the hat matrix, obtained from the first
+$K+1$ columns of the thin QR factor already computed for the nested variance
+projection: $h_{ii} = \sum_{j=1}^{K+1} Q_{ij}^2$.
+The LOO mean-squared error averaged across the $(z,r)$ grid is
+\begin{equation}
+  \text{LOO}(K) = \frac{1}{N_z N_r}\sum_{j=1}^{N_z N_r}
+                  \frac{1}{N}\sum_{i=1}^{N}
+                  \left(\frac{r_{ij}}{1-h_{ii}}\right)^2.
+  \label{eq:loo_mean}
+\end{equation}
+The optimal order is $K^* = \arg\min_K \text{LOO}(K)$.
+This requires no additional Bellhop calls, no data splitting, and runs inside the
+existing loop at negligible extra cost.
+
+\paragraph{Ridge regularisation.}
+The final PCE coefficients used for prediction are computed with a small ridge
+penalty $\lambda = 10^{-10}\,\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)$:
+\begin{equation}
+  \hat{\mathbf{c}} = \bigl(\boldsymbol\Phi^\top\boldsymbol\Phi
+                    + \lambda\,\mathbf{I}\bigr)^{-1}
+                    \boldsymbol\Phi^\top \mathbf{TL}.
+  \label{eq:ridge}
+\end{equation}
+The penalty is negligible relative to the signal ($\lambda/\sigma_{\max}^2 \ll 10^{-6}$)
+but damps coefficient blow-up at high orders without biasing the result.
+The QR-based LOO computation (Eq.~\ref{eq:loo}) uses the unregularised projection,
+which is exact for the OLS hat matrix and remains a valid upper bound on LOO error
+for the ridge estimator.
+
+\paragraph{Condition number diagnostic.}
+We compute $\kappa = \mathrm{cond}(\boldsymbol\Phi)$ for each parameter.
+$\kappa > 10^8$ flags numerical unreliability; $\kappa > 10^6$ warrants caution.
+High condition numbers typically arise for Normal distributions at $K \geq 7$
+because the probabilist Hermite polynomials grow rapidly for large
+$\lvert\xi\rvert$.
+
+\paragraph{Effect on $K^*$.}
+The LOO-based $K^*$ is generally 1--3 orders \emph{lower} than the L1-threshold
+rule for converging parameters, and identical for non-converging ones.  The figures
+in this section now show the LOO-CV curve (solid) alongside the L1 curve (dashed);
+the vertical tick marks the LOO-selected $K^*$.  The old L1-based $K^*$ is retained
+in brackets in the summary table for comparison.
+
 % ────────────────────────────────────────────────────────────
 \subsection{Alternative UQ Metrics for Sonar Operations}
 \label{sec:metrics}

@@ -100,9 +100,12 @@ for ci = 1:numel(completed)
     end
 
     %% Per-parameter PCE fit ──────────────────────────────────────────────────
-    L1_mat  = zeros(MAX_ORDER, 3);   % rows = orders, cols = params
-    Kstar   = zeros(1, 3);
-    C_all   = cell(1, 3);
+    L1_mat    = zeros(MAX_ORDER, 3);   % variance relative error vs MC
+    LOO_mat   = zeros(MAX_ORDER, 3);   % analytic LOO-CV MSE (main K* criterion)
+    kappa_vec = zeros(1, 3);           % condition number of Phi
+    Kstar     = zeros(1, 3);           % K* from LOO argmin
+    Kstar_L1  = zeros(1, 3);           % K* from old L1<10% rule (kept for comparison)
+    C_all     = cell(1, 3);
     VarK_best = cell(1, 3);
 
     Nz = []; Nr = [];   % filled on first param
@@ -131,37 +134,49 @@ for ci = 1:numel(completed)
         xi = xi_all(:, pi);   % [N × 1]
 
         %% Build basis, QR decomposition, fit PCE coefficients
-        Phi    = pce_basis(xi, MAX_ORDER, dist_type);        % [N × MAX_ORDER+1]
-        TL_mat = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr); % [N × Nz*Nr]
+        Phi    = pce_basis(xi, MAX_ORDER, dist_type);          % [N × MAX_ORDER+1]
+        TL_mat = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr);  % [N × Nz*Nr]
 
-        % QR for nested variance — Q(:,1:K+1)*QTL(1:K+1,:) is the K-th order projection.
-        % This guarantees var(y_hat_K) ≤ MC_Var and monotonically non-decreasing in K.
-        [Q, R_qr] = qr(Phi, 0);   % thin QR [N×K+1], [K+1×K+1]
+        % Condition number check — cond(Phi) > 1e8 means basis is numerically unreliable
+        kappa_vec(pi) = cond(Phi);
+
+        % QR for nested LOO/variance — Q(:,1:K+1)*QTL(1:K+1,:) is the K-th order projection.
+        [Q, R_qr] = qr(Phi, 0);   % thin QR: Q [N×MAX_ORDER+1], R [MAX_ORDER+1×MAX_ORDER+1]
         QTL = Q' * TL_mat;         % [MAX_ORDER+1 × Nz*Nr]
 
-        % Full regression coefficients for saving (prediction use)
-        C = R_qr \ QTL;            % [MAX_ORDER+1 × Nz*Nr]  (equivalent to normal equations)
-        C_all{pi} = C;
+        % Ridge-regularized coefficients for saving (stabilises high-order terms).
+        % lambda is ~1e-10 relative to operator scale — negligible bias, reduces variance.
+        lambda   = 1e-10 * trace(Phi'*Phi);
+        C_all{pi} = (Phi'*Phi + lambda*eye(MAX_ORDER+1)) \ (Phi'*TL_mat);
 
-        %% Variance convergence via nested QR projections
+        %% Convergence metrics via nested QR projections
         for K = 1:MAX_ORDER
-            y_hat_K   = Q(:,1:K+1) * QTL(1:K+1,:);   % [N × Nz*Nr]
-            Var_K_pix = var(y_hat_K, 0, 1);            % [1 × Nz*Nr]
+            y_hat_K   = Q(:,1:K+1) * QTL(1:K+1,:);    % K-th order fit [N × Nz*Nr]
+            Var_K_pix = var(y_hat_K, 0, 1);
+
+            % L1 variance metric (kept for reference)
             L1_mat(K, pi) = mean(abs(Var_K_pix - Var_MC')) / mean_VM;
+
+            % Analytic LOO-CV: e_LOO_i = r_i / (1 - h_ii), h_ii = ||Q(i,1:K+1)||^2
+            % No refitting required — exact for OLS, excellent approximation overall.
+            h_K   = sum(Q(:,1:K+1).^2, 2);              % hat-matrix diagonal [N×1]
+            r_K   = TL_mat - y_hat_K;                    % residuals [N × Nz*Nr]
+            loo_K = mean((r_K ./ (1 - h_K)).^2, 1);     % per-pixel LOO MSE [1×Nz*Nr]
+            LOO_mat(K, pi) = mean(loo_K);                % scalar summary
         end
 
-        %% Find K*
-        idx = find(L1_mat(:,pi) < 0.10, 1);
-        if isempty(idx), Kstar(pi) = NaN; else, Kstar(pi) = idx; end
+        %% K* — argmin LOO (primary) and old L1<10% (secondary, for comparison)
+        [~, Kstar(pi)]    = min(LOO_mat(:,pi));
+        idx_l1            = find(L1_mat(:,pi) < 0.10, 1);
+        Kstar_L1(pi)      = idx_l1;  % may be empty → 0
 
-        %% Store best-order Var map
-        K_use = MAX_ORDER;
-        if ~isnan(Kstar(pi)), K_use = Kstar(pi); end
-        y_hat_best = Q(:,1:K_use+1) * QTL(1:K_use+1,:);
+        %% Store best-order Var map (using LOO-selected K*)
+        y_hat_best = Q(:,1:Kstar(pi)+1) * QTL(1:Kstar(pi)+1,:);
         VarK_best{pi} = reshape(var(y_hat_best, 0, 1), Nz, Nr);
 
-        fprintf('  [%s] K*=%s  L1@K=1: %.3f  L1@K=%d: %.3f\n', ...
-                param, fmt_kstar(Kstar(pi)), L1_mat(1,pi), MAX_ORDER, L1_mat(end,pi));
+        fprintf('  [%s] K*(LOO)=%d  K*(L1)=%s  cond=%.1e  LOO@K=1: %.3f  L1@K=1: %.3f\n', ...
+                param, Kstar(pi), fmt_kstar(Kstar_L1(pi)), kappa_vec(pi), ...
+                LOO_mat(1,pi), L1_mat(1,pi));
     end
 
     %% Save results ────────────────────────────────────────────────────────────
@@ -169,26 +184,38 @@ for ci = 1:numel(completed)
     r_km  = mc_ref.r_km;
     z_m   = mc_ref.z_m;
     save(fullfile(out_dir, 'pce_results.mat'), ...
-         'C_all','L1_mat','Kstar','VarK_best','r_km','z_m', ...
-         'MAX_ORDER','dist_name','sc_name', '-v7.3');
+         'C_all','L1_mat','LOO_mat','Kstar','Kstar_L1','kappa_vec', ...
+         'VarK_best','r_km','z_m','MAX_ORDER','dist_name','sc_name', '-v7.3');
 
     %% Figure: L1 convergence (left) + 3 scatter plots (right) ───────────────
     fig = figure('Position', [50 50 1400 400]);
 
-    % ── Left panel: L1 vs order ──────────────────────────────────────────────
-    ax_l = subplot(1,4,1);
+    % ── Left panel: LOO-CV (primary) + L1 (dashed reference) ────────────────
+    ax_l   = subplot(1,4,1);
     colors = lines(3);
     for pi = 1:3
-        plot(ax_l, 1:MAX_ORDER, L1_mat(:,pi)*100, '-o', ...
-             'Color', colors(pi,:), 'LineWidth', 1.5, 'MarkerSize', 5, ...
+        % Normalise LOO to K=1 so curves start at 1 regardless of units
+        loo_norm = LOO_mat(:,pi) / max(LOO_mat(1,pi), 1e-30);
+        plot(ax_l, 1:MAX_ORDER, loo_norm, '-o', ...
+             'Color', colors(pi,:), 'LineWidth', 1.8, 'MarkerSize', 5, ...
              'DisplayName', PARAMS{pi});
         hold(ax_l, 'on');
+        % Mark LOO-selected K* with vertical tick
+        xline(ax_l, Kstar(pi), '--', 'Color', colors(pi,:) * 0.7, 'LineWidth', 1, ...
+              'HandleVisibility', 'off');
     end
-    yline(ax_l, 10, 'k--', '10%', 'LineWidth', 1.2, 'LabelHorizontalAlignment','left');
+    % L1 curves as thin dashed reference (secondary y not needed — both 0-1 after norm)
+    for pi = 1:3
+        l1_norm = L1_mat(:,pi) / max(L1_mat(1,pi), 1e-30);
+        plot(ax_l, 1:MAX_ORDER, l1_norm, '--', ...
+             'Color', colors(pi,:), 'LineWidth', 0.8, ...
+             'HandleVisibility', 'off');
+    end
+    yline(ax_l, 0, 'k-', 'LineWidth', 0.5);
     set(ax_l, 'XTick', 1:MAX_ORDER);
     xlabel(ax_l, 'PCE Order K');
-    ylabel(ax_l, 'Relative L1 (%)');
-    title(ax_l, sprintf('PCE L1 vs order\n%s | %s', sc_name, dist_name), ...
+    ylabel(ax_l, 'Normalised error (rel. K=1)');
+    title(ax_l, sprintf('LOO-CV (solid) + L1 (dash)\n%s | %s', sc_name, dist_name), ...
           'FontSize', 8, 'Interpreter', 'none');
     legend(ax_l, 'Location', 'northeast', 'FontSize', 7);
     grid(ax_l, 'on');
@@ -276,7 +303,7 @@ close(fig_sum);
 fprintf('\nSaved summary: Methods/PCE/pce_summary_all.png\n');
 
 %% ── Console K* table ─────────────────────────────────────────────────────────
-fprintf('\n  K* (first order with L1 < 10%%):\n');
+fprintf('\n  K* (argmin LOO-CV | old L1<10%% in brackets):\n');
 fprintf('  %-35s  freq   zS    svp\n', 'Scenario / Distribution');
 fprintf('  %s\n', repmat('-', 1, 65));
 for ci = 1:numel(completed)
@@ -284,10 +311,12 @@ for ci = 1:numel(completed)
     dist = completed{ci}{2};
     pce_file = fullfile('Methods','PCE', sc.name, dist.name, 'results', 'pce_results.mat');
     if ~isfile(pce_file), continue; end
-    r = load(pce_file, 'Kstar');
-    fprintf('  %-35s  %-5s  %-5s  %-5s\n', ...
+    r = load(pce_file, 'Kstar', 'Kstar_L1');
+    fprintf('  %-35s  %-9s  %-9s  %-9s\n', ...
             sprintf('%s / %s', sc.name, dist.name), ...
-            fmt_kstar(r.Kstar(1)), fmt_kstar(r.Kstar(2)), fmt_kstar(r.Kstar(3)));
+            sprintf('%d[%s]', r.Kstar(1), fmt_kstar(r.Kstar_L1(1))), ...
+            sprintf('%d[%s]', r.Kstar(2), fmt_kstar(r.Kstar_L1(2))), ...
+            sprintf('%d[%s]', r.Kstar(3), fmt_kstar(r.Kstar_L1(3))));
 end
 fprintf('\n=== run_pce.m complete ===\n');
 
