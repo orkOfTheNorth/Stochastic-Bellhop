@@ -268,6 +268,75 @@ for ci = 1:numel(completed)
     close(fig);
     fprintf('  Saved: %s\n', out_fig);
 
+    %% Distribution comparison — Normal_10pct only (like LN3 fits) ────────────
+    if strcmp(dist_name, 'Normal_10pct')
+        dist_fig_path = fullfile(fig_dir, sprintf('pce_dist_%s_Normal_10pct.png', sc_name));
+        if ~isfile(dist_fig_path)
+            M = 2000;
+            rng(42);
+            xi_new = randn(M, 1);   % N(0,1) — draw fresh PCE samples
+
+            % 3 representative range locations (25 / 50 / 75 % of range axis)
+            r_idx = max(1, min(Nr, round([0.25 0.50 0.75] * Nr)));
+            z_idx = max(1, round(Nz / 2));   % mid-depth
+
+            fig_d = figure('Position', [50 50 1100 800]);
+
+            for pi = 1:3
+                if isempty(C_all{pi}), continue; end
+
+                % Reload TL cube for this param (cleared after per-param loop)
+                tl_file_pi = fullfile('Cache', sc_name, dist_name, ...
+                                      sprintf('TL_%s.mat', PARAMS{pi}));
+                if ~isfile(tl_file_pi), continue; end
+                tmp_pi  = load(tl_file_pi, 'TL_save');
+                TL_pi   = double(tmp_pi.TL_save(:,:,1:N));
+                TL_pi_m = reshape(permute(TL_pi, [3 1 2]), N, Nz*Nr);
+                clear TL_pi tmp_pi;
+
+                % PCE predicted samples
+                Phi_new = pce_basis(xi_new, MAX_ORDER, dist_type);   % [M × MAX_ORDER+1]
+                y_pce   = Phi_new * C_all{pi};                        % [M × Nz*Nr]
+
+                for ci_px = 1:3
+                    ax_d = subplot(3, 3, (pi-1)*3 + ci_px);
+                    pix  = (z_idx - 1)*Nr + r_idx(ci_px);
+
+                    tl_mc  = TL_pi_m(:, pix);    % N=50 MC samples
+                    tl_pce = y_pce(:,   pix);    % M=2000 PCE samples
+
+                    all_vals = [tl_mc; tl_pce];
+                    lo = prctile(all_vals, 1);
+                    hi = prctile(all_vals, 99);
+                    edges = linspace(lo, hi, 22);
+
+                    histogram(ax_d, tl_mc,  edges, 'Normalization', 'pdf', ...
+                              'FaceColor', colors(pi,:), 'FaceAlpha', 0.65, ...
+                              'DisplayName', sprintf('MC (N=%d)', N));
+                    hold(ax_d, 'on');
+                    histogram(ax_d, tl_pce, edges, 'Normalization', 'pdf', ...
+                              'FaceColor', [0.9 0.5 0.1], 'FaceAlpha', 0.45, ...
+                              'DisplayName', sprintf('PCE (M=%d)', M));
+
+                    xlabel(ax_d, 'TL (dB)', 'FontSize', 7);
+                    if ci_px == 1, ylabel(ax_d, 'PDF', 'FontSize', 7); end
+                    title(ax_d, sprintf('%s  r=%.0fkm', PARAMS{pi}, r_km(r_idx(ci_px))), ...
+                          'FontSize', 7, 'Interpreter', 'none');
+                    if pi == 1 && ci_px == 1
+                        legend(ax_d, 'Location', 'best', 'FontSize', 6);
+                    end
+                    grid(ax_d, 'on');
+                end
+            end
+
+            sgtitle(sprintf('PCE vs MC Distribution | %s | Normal\\_10pct\nrows=params, cols=range slices at z=%dm', ...
+                            sc_name, z_m(z_idx)), 'FontSize', 9);
+            saveas(fig_d, dist_fig_path);
+            close(fig_d);
+            fprintf('  Saved dist: %s\n', dist_fig_path);
+        end
+    end
+
     %% Store for summary ───────────────────────────────────────────────────────
     for pi = 1:3
         sum_L1{pi}{ci} = L1_mat(:, pi);
