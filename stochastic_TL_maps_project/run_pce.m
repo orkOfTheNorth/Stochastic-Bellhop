@@ -187,42 +187,49 @@ for ci = 1:numel(completed)
          'C_all','L1_mat','LOO_mat','Kstar','Kstar_L1','kappa_vec', ...
          'VarK_best','r_km','z_m','MAX_ORDER','dist_name','sc_name', '-v7.3');
 
-    %% Figure: L1 convergence (left) + 3 scatter plots (right) ───────────────
-    fig = figure('Position', [50 50 1400 400]);
-
-    % ── Left panel: LOO-CV (primary) + L1 (dashed reference) ────────────────
-    ax_l   = subplot(1,4,1);
+    %% Figure: LOO-CV | L1 | 3 scatter plots  (1×5 layout) ──────────────────
+    fig    = figure('Position', [50 50 1750 380]);
     colors = lines(3);
+
+    % ── Panel 1: LOO-CV vs order ─────────────────────────────────────────────
+    ax_loo = subplot(1,5,1);
     for pi = 1:3
-        % Normalise LOO to K=1 so curves start at 1 regardless of units
         loo_norm = LOO_mat(:,pi) / max(LOO_mat(1,pi), 1e-30);
-        plot(ax_l, 1:MAX_ORDER, loo_norm, '-o', ...
-             'Color', colors(pi,:), 'LineWidth', 1.8, 'MarkerSize', 5, ...
+        plot(ax_loo, 1:MAX_ORDER, loo_norm, '-o', ...
+             'Color', colors(pi,:), 'LineWidth', 1.6, 'MarkerSize', 5, ...
              'DisplayName', PARAMS{pi});
-        hold(ax_l, 'on');
-        % Mark LOO-selected K* with vertical tick
-        xline(ax_l, Kstar(pi), '--', 'Color', colors(pi,:) * 0.7, 'LineWidth', 1, ...
+        hold(ax_loo, 'on');
+        xline(ax_loo, Kstar(pi), '--', 'Color', colors(pi,:)*0.7, 'LineWidth', 1, ...
               'HandleVisibility', 'off');
     end
-    % L1 curves as thin dashed reference (secondary y not needed — both 0-1 after norm)
-    for pi = 1:3
-        l1_norm = L1_mat(:,pi) / max(L1_mat(1,pi), 1e-30);
-        plot(ax_l, 1:MAX_ORDER, l1_norm, '--', ...
-             'Color', colors(pi,:), 'LineWidth', 0.8, ...
-             'HandleVisibility', 'off');
-    end
-    yline(ax_l, 0, 'k-', 'LineWidth', 0.5);
-    set(ax_l, 'XTick', 1:MAX_ORDER);
-    xlabel(ax_l, 'PCE Order K');
-    ylabel(ax_l, 'Normalised error (rel. K=1)');
-    title(ax_l, sprintf('LOO-CV (solid) + L1 (dash)\n%s | %s', sc_name, dist_name), ...
+    set(ax_loo, 'XTick', 1:MAX_ORDER);
+    xlabel(ax_loo, 'PCE Order K');
+    ylabel(ax_loo, 'LOO-CV MSE (norm. to K=1)');
+    title(ax_loo, sprintf('LOO-CV  [K* = tick]\n%s | %s', sc_name, dist_name), ...
           'FontSize', 8, 'Interpreter', 'none');
-    legend(ax_l, 'Location', 'northeast', 'FontSize', 7);
-    grid(ax_l, 'on');
+    legend(ax_loo, 'Location', 'northeast', 'FontSize', 7);
+    grid(ax_loo, 'on');
 
-    % ── Right panels: scatter Var_{K*} vs Var_MC for each param ─────────────
+    % ── Panel 2: L1 variance metric vs order ─────────────────────────────────
+    ax_l1 = subplot(1,5,2);
     for pi = 1:3
-        ax_r = subplot(1, 4, pi+1);
+        plot(ax_l1, 1:MAX_ORDER, L1_mat(:,pi)*100, '-o', ...
+             'Color', colors(pi,:), 'LineWidth', 1.5, 'MarkerSize', 5, ...
+             'DisplayName', PARAMS{pi});
+        hold(ax_l1, 'on');
+    end
+    yline(ax_l1, 10, 'k--', '10%', 'LineWidth', 1.2, 'LabelHorizontalAlignment', 'left');
+    set(ax_l1, 'XTick', 1:MAX_ORDER);
+    xlabel(ax_l1, 'PCE Order K');
+    ylabel(ax_l1, 'Relative L1 Var error (%)');
+    title(ax_l1, sprintf('L1 Variance\n%s | %s', sc_name, dist_name), ...
+          'FontSize', 8, 'Interpreter', 'none');
+    legend(ax_l1, 'Location', 'northeast', 'FontSize', 7);
+    grid(ax_l1, 'on');
+
+    % ── Panels 3-5: scatter Var_{K*} vs Var_MC for each param ────────────────
+    for pi = 1:3
+        ax_r = subplot(1, 5, pi+2);
         if isempty(VarK_best{pi})
             title(ax_r, sprintf('%s\n(no data)', PARAMS{pi}), 'FontSize', 8, 'Interpreter','none');
             continue;
