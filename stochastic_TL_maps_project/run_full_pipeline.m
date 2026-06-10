@@ -10,10 +10,6 @@ addpath(genpath('Bellhop'));
 
 cfg = loadConfig();
 
-if isempty(gcp('nocreate'))
-    parpool('local', 10);
-end
-
 for si = 1:numel(cfg.scenarios)
     sc = cfg.scenarios(si);
     for di = 1:numel(cfg.distributions)
