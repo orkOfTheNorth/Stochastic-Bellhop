@@ -29,6 +29,10 @@ update_all_log.txt
 *.asv
 *.m~
 
+# Generated figures (regenerate from MATLAB scripts)
+*.png
+*.fig
+
 # LaTeX build artifacts
 *.aux
 *.out
