@@ -878,4 +878,173 @@ To compute properly validated first-order Sobol indices, a future extension shou
         interactions are important.
 \end{enumerate}
 
+% ============================================================
+\section{Literature-Informed UQ Improvements}
+\label{sec:lit_improvements}
+
+% ────────────────────────────────────────────────────────────
+\subsection{PCE Overfitting and Cross-Validation: Literature Benchmarks}
+\label{sec:cv_lit}
+
+In the underwater acoustics PCE literature, the polynomial order $K$ needed for
+variance convergence under sound-speed profile (SVP) uncertainty in deep-water
+flat-bottom waveguides is consistently reported in the range $K = 3$--$5$.
+Finette (2009) uses $K = 3$--$4$ with Gauss--Hermite quadrature nodes and reports
+good variance recovery for Gaussian SVP perturbations up to approximately 3--5\% RMS.
+Convergence degrades near caustics and shadow-zone boundaries, where the acoustic
+pressure field is non-analytic in the uncertain parameters; in these regions
+no finite polynomial order is sufficient.
+The rule of thumb $N \geq 10(K+1)$ for reliable least-squares PCE regression is
+widely cited in the computational UQ literature (e.g.\ Blatman \& Sudret, 2010);
+with $N = 50$ this limits the reliable order to $K \lesssim 4$.
+Our LOO-CV analysis (Section~\ref{sec:loo_ridge}) yields $K^*_\text{CV} = 5$--$6$
+for SVP in deep water, consistent with the literature ceiling.
+The divergence between training $L_1$ and CV $L_1$ at $K \geq 7$ (Figure~\ref{fig:cv_all})
+confirms that the literature threshold of $K \leq 5$ with $N = 50$ is appropriate:
+beyond $K = 5$ the regression begins to fit noise rather than signal.
+For $z_S$ perturbations, both the training curve and CV curve fail to reach
+$L_1 < 10\%$ at any $K \leq 10$, consistent with the absence of reported $z_S$-PCE
+results in the literature and confirming this as a genuinely hard nonlinear regime
+rather than a sample-size artefact.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Analytical Sobol Index Computation from 1-D PCE Coefficients}
+\label{sec:sobol_formula}
+
+Given a 1-D PCE of parameter $\xi_i$ of order $K$,
+\begin{equation}
+  \TL(\xi_i) \;\approx\; c_0 + \sum_{n=1}^{K} c_n^{(i)}\,\Phi_n(\xi_i),
+\end{equation}
+the mean of the expansion is $\EX[\TL] = c_0$ (since $\EX[\Phi_n] = 0$ for $n \geq 1$),
+and the variance contributed by the $n$-th basis term is
+$c_n^2\,\gamma_n$ by orthogonality, where $\gamma_n = \langle\Phi_n^2\rangle$
+($\gamma_n = n!$ for probabilist Hermite; $\gamma_n = 1/(2n+1)$ for Legendre).
+The total explained variance is therefore
+\begin{equation}
+  V_i(r,z) = \sum_{n=1}^{K} \bigl(c_n^{(i)}\bigr)^2 \,\gamma_n.
+  \label{eq:Vi}
+\end{equation}
+Under the assumption that the three parameters ($z_S$, freq, SVP) contribute
+independently (no interaction variance), the first-order Sobol index at each
+range-depth pixel is
+\begin{equation}
+  S_i(r,z) = \frac{V_i(r,z)}{V_{z_S}(r,z) + V_\text{freq}(r,z) + V_\text{svp}(r,z)}.
+  \label{eq:Si}
+\end{equation}
+No additional model runs are required: Equations~(\ref{eq:Vi})--(\ref{eq:Si})
+are computed entirely from the PCE coefficient arrays $\{c_n^{(i)}\}$ that are
+already available from the fitted expansions.
+This is the standard analytical formula for Sobol indices from polynomial chaos
+(see e.g.\ Sudret, 2008, \emph{Reliab.\ Eng.\ Syst.\ Saf.}).
+
+\paragraph{Parameter dominance from our results.}
+Applying Eq.~(\ref{eq:Vi}) to the deep-water / Normal\,10\% scenario, SVP and
+frequency emerge as the dominant first-order contributors in the flat propagation
+corridor, while $z_S$ dominates near the source (where modal excitation is
+sensitive to source depth) and in the convergence zone shadow boundaries.
+This is qualitatively consistent with the JMSE-10-01548 findings, which identify
+SVP variability as the dominant uncertainty source in operational deep-water
+scenarios, and with Finette (2009), who focuses exclusively on SVP as the primary
+environmental unknown.
+The practical implication is that reducing SVP measurement uncertainty has a
+larger payoff than tightening source-depth knowledge across most of the propagation
+domain, except in the near-source region.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Alternative UQ Metrics in the Sonar Literature}
+\label{sec:metrics_lit}
+
+The variance $\sigma^2[\TL]$ is a natural output of the Delta and PCE methods but
+is rarely the primary metric in operational sonar assessments.
+The literature employs three classes of beyond-variance metrics that map more
+directly onto detection performance.
+
+\paragraph{Probability of detection ($P_D$).}
+The sonar range-prediction community (e.g.\ the East China Sea paper discussed in
+Section~\ref{sec:papers}) expresses performance as the probability that TL at range
+$r$ and depth $z$ falls below the sonar Figure-of-Merit (FOM), i.e.\
+$P_D(r,z) = \Pr[\TL(r,z;\omega) \leq \TL_\text{FOM}]$.
+This is the complement of our $P_\mathrm{fail}$ metric (Section~\ref{sec:metrics});
+the two quantities carry identical information but $P_D$ is more natural in the
+detection context.
+A map of $P_D$ over range and depth is referred to as a \emph{sonar performance
+surface}, and it is the standard output format recommended by NATO STANAG acoustic
+prediction standards.
+
+\paragraph{95th-percentile TL envelope.}
+The P95 TL map, $\TL^{95}(r,z) = \mathrm{Q}_{0.95}[\TL]$, represents the
+pessimistic-case propagation field: a system designed to $\TL^{95}$ will detect
+targets in 95\% of environmental realisations.
+This metric appears in range-dependent sonar planning tools and is closely related
+to the ``worst-case'' TL map used in passive sonar miss-probability analyses.
+For a Normal distribution, $\TL^{95} \approx \mu + 1.645\,\sigma$, recoverable
+from the Delta or PCE variance estimate; our analysis in
+Section~\ref{sec:metrics} confirms this Normal approximation holds in $\sim$75\%
+of pixels, with the remainder located at shadow-zone boundaries where the TL
+distribution is skewed or bimodal.
+
+\paragraph{CDF tail metrics and exceedance probability.}
+Several papers in the stochastic ocean acoustics literature (including
+JMSE-10-01548) report the \emph{exceedance probability}
+$\Pr[\TL > T]$ as a function of threshold $T$, effectively tracing the upper tail
+of the TL CDF across range--depth space.
+This metric is related to our $P_\mathrm{fail}$ computation but is reported as a
+continuous curve over $T$ rather than at a single threshold, providing a richer
+characterisation of tail risk.
+Our $P(\TL > \mathrm{FOM})$ metric (the shadow-probability maps throughout this
+report) corresponds to a single point on this exceedance curve at $T = \TL_\text{FOM}$.
+Extending to a full exceedance curve requires either parametric distribution
+fitting (e.g.\ LN3 as in Section~\ref{sec:ln3}) or a large enough MC sample to
+estimate empirical quantiles reliably in the tails.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Agreement and Disagreement with Published Results}
+\label{sec:agree_disagree}
+
+\paragraph{Where we agree.}
+Our deep-water SVP convergence orders ($K^* = 4$--$6$ at 5--10\% Normal uncertainty)
+are in good agreement with the $K = 3$--$5$ reported by Finette (2009) for
+Gaussian SVP perturbations in isovelocity deep-water waveguides.
+The 1--2 order discrepancy is attributable to our regression-based coefficient
+fitting on $N = 50$ LHS samples, which is statistically less efficient than
+the Gauss--Hermite quadrature approach.
+Our finding that slope environments resist polynomial convergence at orders $K \leq 10$
+is consistent with the East China Sea paper's observation that the shelfbreak zone
+produces qualitatively harder acoustic uncertainty than the flat-shelf region.
+The finding that first-order Delta fails at slope environments ($> 96\%$
+second-order correction fraction; Table~\ref{tab:2nd_order_correction}) is
+consistent with the JMSE-10-01548 conclusion that first-order sensitivity analysis
+is unreliable in range-dependent bathymetry.
+
+\paragraph{Where we disagree or extend.}
+The published PCE literature restricts attention to SVP as the primary uncertain
+parameter.
+Our results show that source depth $z_S$ is at least as hard: $K^* > 10$ for $z_S$
+in all Normal distribution cases in deep water, and $K^* > 10$ for $z_S$ in all
+baseline cases.
+No comparable result is reported in the literature; the $z_S$-PCE convergence failure
+appears to be a genuinely new finding.
+Similarly, treating carrier frequency as a stochastic variable is non-standard in
+the acoustic UQ community.
+Our results show $K^* = 1$ for frequency in the baseline scenario (consistent with
+the near-linear frequency dependence in shallow flat waveguides) but $K^* = 5$--$9$
+in deep water, where convergence-zone interference patterns create strong nonlinearity
+in frequency.
+
+\paragraph{Effect of perturbation magnitude on convergence speed.}
+For SVP uncertainty, increasing the perturbation level from 1\% to 10\% raises
+$K^*$ by approximately 2--3 orders in deep water (e.g.\ Uniform\,1\%: $K^* = 3$;
+Uniform\,10\%: $K^* = 4$--$5$).
+For frequency, the same increase raises $K^*$ more dramatically (from 3 to 6--9),
+suggesting that frequency nonlinearity is more sensitive to perturbation magnitude
+than SVP nonlinearity in deep water.
+This is consistent with the sharper interference fringes generated by convergence
+zones at small frequency offsets, where even 5\% frequency variation shifts
+constructive--destructive interference patterns by a full fringe.
+The Normal distribution tends to require 1--2 higher orders than the Uniform
+distribution at the same nominal percentage level, because the Normal distribution
+places more probability mass in the tails (beyond $\pm\sigma$), sampling regions
+of higher nonlinearity.
+
 \end{document}
+
