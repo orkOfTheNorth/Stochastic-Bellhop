@@ -28,3 +28,14 @@ update_all_log.txt
 # MATLAB session files
 *.asv
 *.m~
+
+# LaTeX build artifacts
+*.aux
+*.out
+*.pdf
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
