@@ -86,10 +86,14 @@ PASS = chk(PASS, 'Cache/ directory writable',   canWriteDir('Cache'), ...
 PASS = chk(PASS, 'Methods/ directory writable', canWriteDir('Methods'), ...
     'Create Methods/ or fix permissions.');
 
-% ── LaTeX for findings.tex ───────────────────────────────────────────────────
+% ── LaTeX for findings.tex (optional — pipeline does not require it) ─────────
 [s, ~] = system('pdflatex --version');
-PASS   = chk(PASS, 'pdflatex available (for findings.tex)', s == 0, ...
-    'Install MiKTeX or TeX Live to compile findings.tex.');
+if s == 0
+    fprintf('  [OK]   pdflatex available (findings.tex can be compiled)\n');
+else
+    fprintf('  [INFO] pdflatex not found — pipeline runs without it.\n');
+    fprintf('         To compile findings.tex, install MiKTeX or TeX Live.\n');
+end
 
 % ── Summary ──────────────────────────────────────────────────────────────────
 fprintf('\n====================================================\n');
