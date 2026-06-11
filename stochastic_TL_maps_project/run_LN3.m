@@ -13,8 +13,14 @@
 function run_LN3(sc_target, dist_target)
 %% run_LN3 — LN3 fit diagnostic.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
-close all; clc; warning('off');
-try cd(fileparts(mfilename('fullpath'))); catch; end
+close all; clc;
+warning('off', 'MATLAB:unknownObjectIEEE');
+warning('off', 'MATLAB:singularMatrix');
+warning('off', 'MATLAB:rankDeficientMatrix');
+try
+    cd(fileparts(mfilename('fullpath')));
+catch
+end
 
 addpath(genpath('Shared_Utils'));
 

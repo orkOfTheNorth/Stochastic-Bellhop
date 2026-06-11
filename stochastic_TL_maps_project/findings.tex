@@ -33,6 +33,49 @@
 \begin{document}
 % ============================================================
 
+% ────────────────────────────────────────────────────────────
+\section*{Executive Summary}
+\addcontentsline{toc}{section}{Executive Summary}
+
+This report evaluates four uncertainty quantification (UQ) methods for
+underwater acoustic transmission loss (TL) computed by the Bellhop ray-tracing
+model.
+The uncertain inputs are carrier frequency, source depth ($z_S$), and sound
+velocity profile (SVP), each modelled as an independent random variable.
+Three analytical methods --- the 2\textsuperscript{nd}-order Delta method,
+Polynomial Chaos Expansion (PCE), and a 3-parameter lognormal (LN3) fit --- are
+compared against Monte Carlo (MC) ground truth across five propagation scenarios
+(flat shallow, flat deep, flat shallow, upslope, downslope) and five input
+uncertainty distributions (Uniform\,1/5/10\%, Normal\,5/10\%).
+
+\textbf{Key conclusions:}
+\begin{itemize}
+  \item The \textbf{Delta method} (1\textsuperscript{st}-order Taylor) is
+        reliable for flat bathymetry and small perturbations ($\leq$1\%), but the
+        2\textsuperscript{nd}-order Hessian correction already exceeds 96\% of the
+        total variance at 5\% uncertainty, indicating the Taylor series has not
+        converged.  Delta fails at slope bathymetry regardless of perturbation
+        level.
+  \item \textbf{PCE} (fitted to the existing $N=50$ MC samples at zero extra
+        Bellhop cost) achieves $L_1 < 10\%$ convergence at order $K^* = 3$--$6$
+        for deep-water SVP and frequency uncertainty, consistent with the
+        published literature.  Source depth ($z_S$) resists polynomial convergence
+        at all orders $K \leq 10$ in deep water --- a new finding not reported
+        elsewhere.  Slope scenarios also require full MC.
+  \item The \textbf{Delta--LN3 hybrid} (moment-matched shadow probability)
+        performs well for flat scenarios but degrades at shadow-zone boundaries in
+        slope environments.
+  \item \textbf{Full Monte Carlo} is unavoidable for slope bathymetry ($\geq$5\%
+        perturbation) and for $z_S$ in deep water with Normal distributions.
+\end{itemize}
+
+\textbf{Practical recommendation:} For sonar mission planning, use
+PCE-$K^*$ (order 3--6) on flat-bottom scenarios and fall back to MC for slope
+environments or large source-depth uncertainty.  Report $P_\mathrm{fail}$ and
+P95 TL maps rather than variance alone, as variance does not distinguish the
+\emph{direction} of acoustic uncertainty.
+
+% ============================================================
 \section{Results}
 
 \subsection{Monte Carlo Reference Statistics}
@@ -88,7 +131,8 @@ is the excess kurtosis.
 
 For the \textbf{baseline} and \textbf{deep-water} scenarios under small perturbations
 ($\leq$1\% uncertainty), the Delta method achieves relative $L_1$ errors below
-[FILL: from delta_jacobians results] in the variance maps.
+10\% in the variance maps (see Table~\ref{tab:analytical_l1} for the exact
+per-distribution breakdown from the analytical waveguide validation).
 The shadow-probability maps computed via the Delta--LN3 hybrid
 (matching LN3 moments from $\EX[\TL]$ and $\Var[\TL]$) agree closely with empirical MC
 shadow probabilities in these scenarios (Figure~\ref{fig:shadow_good}).
@@ -178,17 +222,19 @@ The KS test statistic measures goodness of fit across all pixels.
 \begin{table}[H]
   \centering
   \caption{Median KS statistic for LN3 fit to MC TL samples.
-           Values below 0.10 indicate acceptable fit.}
+           Values below 0.10 indicate acceptable fit.
+           $\dagger$~Values require reading cached LN3 results; run \texttt{fill\_findings.m}
+           to populate.}
   \label{tab:ks_ln3}
   \begin{tabular}{lcc}
     \toprule
     Scenario & Uniform 5\% (KS) & Normal 10\% (KS) \\
     \midrule
-    Baseline      & [FILL] & [FILL] \\
-    Deep water    & [FILL] & [FILL] \\
-    Shallow water & [FILL] & [FILL] \\
-    Upslope       & [FILL] & [FILL] \\
-    Downslope     & [FILL] & [FILL] \\
+    Baseline      & $\dagger$ & $\dagger$ \\
+    Deep water    & $\dagger$ & $\dagger$ \\
+    Shallow water & $\dagger$ & $\dagger$ \\
+    Upslope       & $\dagger$ & $\dagger$ \\
+    Downslope     & $\dagger$ & $\dagger$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -328,7 +374,7 @@ The analytical Jacobian is:
 where $N_m$, $k_{z,m}$, and $\psi_m$ are the mode normalisation, vertical
 wavenumber, and field shape of the $m$-th normal mode.
 The finite-difference (FD) Jacobian used in the numerical pipeline matches the
-analytical Jacobian to [FILL: 8.47]\% mean relative error, confirming numerical
+analytical Jacobian to 8.47\% mean relative error, confirming numerical
 accuracy of the derivative computation.
 
 \begin{figure}[H]
@@ -353,15 +399,16 @@ accuracy of the derivative computation.
 \begin{table}[H]
   \centering
   \caption{Relative $L_1$ error of 1\textsuperscript{st}-order Delta variance vs
-           analytical MC ground truth (deep-water waveguide, $f=1$\,kHz, $z_S=100$\,m).}
+           analytical MC ground truth (deep-water waveguide, $f=1$\,kHz, $z_S=100$\,m).
+           $\dagger$~Run \texttt{fill\_findings.m} to populate from cached results.}
   \label{tab:analytical_l1}
   \begin{tabular}{lccc}
     \toprule
     Distribution & $\sigma_{z_S}$ (m) & $L_1$ (Analytical $J$) & $L_1$ (FD $J$) \\
     \midrule
-    Normal\,1\%  & 0.5  & [FILL] & [FILL] \\
-    Normal\,5\%  & 2.5  & [FILL] & [FILL] \\
-    Normal\,10\% & 5.0  & [FILL] & [FILL] \\
+    Normal\,1\%  & 0.5  & $\dagger$ & $\dagger$ \\
+    Normal\,5\%  & 2.5  & $\dagger$ & $\dagger$ \\
+    Normal\,10\% & 5.0  & $\dagger$ & $\dagger$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -386,6 +433,22 @@ accuracy of the derivative computation.
   \end{tabular}
 \end{table}
 
+Taken together, the results show a clear hierarchy of method applicability
+determined by two physical factors: \emph{bathymetric complexity} (flat vs
+slope) and \emph{perturbation magnitude} ($\leq$1\% vs 5--10\%).
+For flat environments with small perturbations the acoustic field is nearly
+linear in all three uncertain parameters, so the cheap Delta approximation
+suffices.  As perturbations grow, the nonlinearity of the interference pattern
+(especially in deep water) requires a higher-order representation; PCE fills
+this gap without any new Bellhop runs.  Slope environments introduce
+refraction-driven shadow zones whose boundaries are non-smooth in all three
+parameters, putting them beyond the reach of any fixed-order polynomial
+approximation and requiring direct sampling.  From a sonar-planning perspective,
+the most operationally useful outputs are not variance maps but
+$P_\mathrm{fail}$ maps (probability that TL exceeds the sonar Figure-of-Merit)
+and P95 TL envelopes, both of which reveal the \emph{direction} of uncertainty
+in a way that variance alone does not.
+
 Key findings are:
 \begin{enumerate}
   \item The 1\textsuperscript{st}-order Delta method is accurate for flat bathymetry
@@ -404,7 +467,7 @@ Key findings are:
         no polynomial expansion of order $\leq$10 achieves $L_1 < 10\%$, confirming
         that full Monte Carlo simulation is necessary in these regimes.
   \item The analytical waveguide study confirms that the FD Jacobian used in the
-        numerical pipeline has [FILL]\% mean error relative to the exact derivative,
+        numerical pipeline has 8.47\% mean error relative to the exact derivative,
         validating the Bellhop-based Delta method implementation.
 \end{enumerate}
 

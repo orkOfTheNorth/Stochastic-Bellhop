@@ -3,7 +3,10 @@ function run_MC(sc_target, dist_target)
 %  or run_MC('baseline','Normal_10pct') to process one combo only.
 if nargin < 2, sc_target = ''; dist_target = ''; end
 
-close all; clc; warning('off');
+close all; clc;
+warning('off', 'MATLAB:unknownObjectIEEE');
+warning('off', 'MATLAB:singularMatrix');
+warning('off', 'MATLAB:rankDeficientMatrix');
 try
     cd(fileparts(mfilename('fullpath')));
 catch
@@ -30,7 +33,7 @@ zS0   = cfg.nominal.zS_m;
 geo   = cfg.nominal.geo(:)';
 N     = cfg.MC.N;
 
-THRESHOLDS = [0.50, 0.60, 0.70, 0.80, 0.90, 0.95];
+THRESHOLDS = cfg.thresholds(:)';
 
 %% ── LOOP: scenarios × distributions ───────────────────────────────────────
 for si = 1:numel(cfg.scenarios)
@@ -154,7 +157,7 @@ for si = 1:numel(cfg.scenarios)
                 TL_col  = cell(N, 1);
                 t_start = tic;
 
-                parfor i = 1:N
+                parfor i = runs_todo
                     fi = freq0; if do_freq, fi = freq_s(i); end
                     zi = zS0;   if do_zS,   zi = zS_s(i);   end
                     sv = 0;     if do_svp,  sv = svp_s(i);  end
@@ -170,7 +173,7 @@ for si = 1:numel(cfg.scenarios)
                     cd(prev);  rmdir(tmp, 's');
                 end
 
-                for i = 1:N, TL_all(:,:,i) = TL_col{i}; end
+                for i = runs_todo, TL_all(:,:,i) = TL_col{i}; end
                 fprintf('  [ALL DONE] %d runs in %.0fs\n', N, toc(t_start));
                 TL_save   = single(TL_all);
                 N_saved   = int32(N);

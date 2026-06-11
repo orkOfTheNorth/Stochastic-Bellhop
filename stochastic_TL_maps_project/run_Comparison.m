@@ -20,8 +20,14 @@
 function run_Comparison(sc_target, dist_target)
 %% run_Comparison — MC vs Delta comparison.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
-close all; clc; warning('off');
-try cd(fileparts(mfilename('fullpath'))); catch; end
+close all; clc;
+warning('off', 'MATLAB:unknownObjectIEEE');
+warning('off', 'MATLAB:singularMatrix');
+warning('off', 'MATLAB:rankDeficientMatrix');
+try
+    cd(fileparts(mfilename('fullpath')));
+catch
+end
 
 addpath(genpath('Shared_Utils'));
 addpath(genpath('Bellhop'));
@@ -29,7 +35,7 @@ addpath(genpath('Bellhop'));
 cfg = loadConfig();
 
 FOM = cfg.nominal.FOM_dB;
-THRESHOLDS = [0.50, 0.60, 0.70, 0.80, 0.90, 0.95];
+THRESHOLDS = cfg.thresholds(:)';
 
 
 

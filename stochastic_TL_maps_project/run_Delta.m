@@ -1,4 +1,7 @@
-%% run_Delta.m — Delta Method UQ across all scenarios and distributions
+function run_Delta(sc_target, dist_target)
+%% run_Delta — Delta Method UQ across all scenarios and distributions.
+%  Call with no args to run all combos, or run_Delta('baseline','Normal_10pct')
+%  to process one combo only.
 %
 % MATHEMATICAL MODEL
 % ──────────────────
@@ -16,8 +19,15 @@
 %     ├── cheb_<subset>.png         — 4-color categorical Chebyshev map × 7
 %     └── smooth_<subset>.png       — non-smooth | LPF | Gaussian × 7
 
-clear; close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+if nargin < 2, sc_target = ''; dist_target = ''; end
+close all;
+warning('off', 'MATLAB:unknownObjectIEEE');
+warning('off', 'MATLAB:singularMatrix');
+warning('off', 'MATLAB:rankDeficientMatrix');
+try
+    cd(fileparts(mfilename('fullpath')));
+catch
+end
 
 addpath(genpath('Shared_Utils'));
 addpath(genpath('Bellhop'));
@@ -34,9 +44,7 @@ h_freq = cfg.jacobian_steps.freq_Hz;
 h_zS   = cfg.jacobian_steps.zS_m;
 h_svp  = cfg.jacobian_steps.svp_C;
 
-THRESHOLDS = [0.50, 0.60, 0.70, 0.80, 0.90, 0.95];
-
-
+THRESHOLDS = cfg.thresholds(:)';
 
 %% ── LOOP: scenarios × distributions ───────────────────────────────────────
 for si = 1:numel(cfg.scenarios)
@@ -44,6 +52,9 @@ for si = 1:numel(cfg.scenarios)
 
     for di = 1:numel(cfg.distributions)
         dist = cfg.distributions(di);
+        if ~isempty(sc_target) && ~(strcmp(sc.name,sc_target) && strcmp(dist.name,dist_target))
+            continue;
+        end
         B    = computeVarianceBounds(cfg, dist);
 
         fprintf('\n════════════════════════════════════════\n');
@@ -302,5 +313,5 @@ for si = 1:numel(cfg.scenarios)
     end
 end
 
-
-fprintf('\n=== run_Delta.m complete. ===\n');
+fprintf('\n=== run_Delta complete. ===\n');
+end
