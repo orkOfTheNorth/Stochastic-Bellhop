@@ -14,7 +14,7 @@ function run_LN3(sc_target, dist_target)
 %% run_LN3 — LN3 fit diagnostic.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
 close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+try cd(fileparts(mfilename('fullpath'))); catch; end
 
 addpath(genpath('Shared_Utils'));
 
@@ -51,8 +51,7 @@ for si = 1:numel(cfg.scenarios)
                 continue;
             end
             out_fig = fullfile(fig_dir, sprintf('LN3_%s.png', sn));
-            if isfile(out_fig)
-                fprintf('  SKIP %s — figure already exists\n', sn);
+            if skipIfDone(out_fig, sprintf('%s / %s / %s', sc.name, dist.name, sn))
                 continue;
             end
 

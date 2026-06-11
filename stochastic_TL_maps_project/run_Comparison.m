@@ -21,13 +21,12 @@ function run_Comparison(sc_target, dist_target)
 %% run_Comparison — MC vs Delta comparison.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
 close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+try cd(fileparts(mfilename('fullpath'))); catch; end
 
 addpath(genpath('Shared_Utils'));
 addpath(genpath('Bellhop'));
 
 cfg = loadConfig();
-[subset_names, ~, ~] = subsetDefs();
 
 FOM = cfg.nominal.FOM_dB;
 THRESHOLDS = [0.50, 0.60, 0.70, 0.80, 0.90, 0.95];
@@ -109,24 +108,17 @@ for si = 1:numel(cfg.scenarios)
                 LN3_EX  = tmp.LN3_EX;
                 LN3_Var = tmp.LN3_Var;
                 clear tmp;
-                [Nz, Nr] = size(LN3_EX);
                 fprintf('  Loaded LN3 cache [%s]\n', sn);
             else
                 fprintf('  Computing LN3 moments map [%s]...\n', sn);
-                tmp_tl = load(mc_file, 'TL_all');   % load only when needed
+                tmp_tl = load(mc_file, 'TL_all');
                 [Nz, Nr, ~] = size(tmp_tl.TL_all);
-                LN3_EX  = zeros(Nz, Nr);
-                LN3_Var = zeros(Nz, Nr);
-                TL_pix  = reshape(permute(tmp_tl.TL_all, [3 1 2]), N, Nz*Nr);
+                TL_pix = reshape(permute(tmp_tl.TL_all, [3 1 2]), N, Nz*Nr);
                 clear tmp_tl;
-                for p = 1:Nz*Nr
-                    [~, gam, mu, sig] = ln3fit(TL_pix(:,p), FOM);
-                    LN3_EX(p)  = gam + exp(mu + sig^2/2);
-                    LN3_Var(p) = exp(2*mu + sig^2) * (exp(sig^2) - 1);
-                end
+                [ex_v, var_v] = ln3moments(TL_pix, FOM);
                 clear TL_pix;
-                LN3_EX  = reshape(LN3_EX,  Nz, Nr);
-                LN3_Var = reshape(LN3_Var, Nz, Nr);
+                LN3_EX  = reshape(ex_v,  Nz, Nr);
+                LN3_Var = reshape(var_v, Nz, Nr);
                 save(ln3_cache, 'LN3_EX', 'LN3_Var', '-v7.3');
             end
 

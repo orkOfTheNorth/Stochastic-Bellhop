@@ -19,7 +19,7 @@ function run_pce(sc_target, dist_target)
 %% run_pce — PCE from cached MC data.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
 close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+try cd(fileparts(mfilename('fullpath'))); catch; end
 
 set(0, 'DefaultFigureVisible', 'off');
 addpath(genpath('Shared_Utils'));
@@ -78,12 +78,11 @@ for ci = 1:numel(completed)
     fprintf('────────────────────────────────────────\n');
 
     res_dir = fullfile('Methods','MC',  sc_name, dist_name, 'results');
-    out_dir_check = fullfile('Methods','PCE', sc_name, dist_name, 'results');
-    if isfile(fullfile(out_dir_check, 'pce_results.mat'))
-        fprintf('  SKIP (already done)\n');
+    pce_dir = fullfile('Methods','PCE', sc_name, dist_name);
+    if skipIfDone(fullfile(pce_dir,'results','pce_results.mat'), ...
+                  sprintf('%s / %s', sc_name, dist_name))
         continue;
     end
-    pce_dir = fullfile('Methods','PCE', sc_name, dist_name);
     fig_dir = fullfile(pce_dir, 'figures');
     out_dir = fullfile(pce_dir, 'results');
     for d = {fig_dir, out_dir}

@@ -186,15 +186,13 @@ for si = 1:numel(cfg.scenarios)
             MC_PrFOM = mean(TL_all > FOM, 3);
             Cheb_lb  = chebyshevBound(MC_EX, MC_Var, FOM);
 
-            %% LN3 probability map (pixel-parallel)
+            %% LN3 probability map — vectorized over all pixels
             fprintf('  Computing LN3 map...\n');
             t_ln3 = tic;
-            TL_pix       = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr);
-            LN3_prob_vec = zeros(1, Nz*Nr);
-            parfor p = 1:Nz*Nr
-                LN3_prob_vec(p) = ln3prob(TL_pix(:,p), FOM);
-            end
-            LN3_prob = reshape(LN3_prob_vec, Nz, Nr);
+            TL_pix = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr);
+            [~, ~, prob_vec] = ln3moments(TL_pix, FOM);
+            LN3_prob = reshape(prob_vec, Nz, Nr);
+            clear TL_pix prob_vec;
             fprintf('  LN3 done in %.1fs\n', toc(t_ln3));
 
             %% Save results
