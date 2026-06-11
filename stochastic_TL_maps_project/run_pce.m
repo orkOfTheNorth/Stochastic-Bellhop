@@ -165,39 +165,39 @@ for ci = 1:numel(completed)
         C_all{pi} = (Phi'*Phi + lambda*eye(MAX_ORDER+1)) \ (Phi'*TL_mat);
 
         %% Convergence metrics via nested QR projections
-        % Shadow prob uses Gaussian CDF(mu_K, sigma_K) — no extra sample matrix.
-        mu_pix     = mean(TL_mat, 1)';              % [Nz*Nr × 1] sample mean
-        denom_shad = max(mean(P_mc_shad), 1e-6);
+        % Shadow: Gaussian CDF P(TL>FOM) ≈ 1-Φ((FOM-μ)/σ). Valid for small perturbations;
+        % see findings.tex §PCE for regime where this approximation holds.
+        mu_pix     = mean(TL_mat, 1)';           % [Nz*Nr × 1] — loop-invariant
+        denom_shad = max(mean(P_mc_shad), 1e-6); % loop-invariant
+        h_cumsum   = cumsum(Q.^2, 2);            % [N × MAX_ORDER+1] hat-diag prefix sums
+        y_hat_K    = zeros(N, Nz*Nr);            % accumulated via rank-1 updates
 
         for K = 1:MAX_ORDER
-            y_hat_K   = Q(:,1:K+1) * QTL(1:K+1,:);    % [N × Nz*Nr]
-            Var_K_pix = var(y_hat_K, 0, 1);             % [1 × Nz*Nr]
+            y_hat_K   = y_hat_K + Q(:,K+1) * QTL(K+1,:);  % rank-1: avoids re-summing K cols
+            Var_K_pix = var(y_hat_K, 0, 1);                 % [1 × Nz*Nr]
 
-            % L1 variance metric
             L1_mat(K, pi) = mean(abs(Var_K_pix - Var_MC')) / mean_VM;
 
-            % Analytic LOO-CV
-            h_K   = sum(Q(:,1:K+1).^2, 2);
+            h_K   = h_cumsum(:, K+1);                       % O(1) lookup vs O(N*K) sum
             r_K   = TL_mat - y_hat_K;
             loo_K = mean((r_K ./ (1 - h_K)).^2, 1);
             LOO_mat(K, pi) = mean(loo_K);
 
-            % Shadow L1 via Gaussian CDF — O(Nz*Nr) scalars, no large matrix
-            sig_K = sqrt(max(Var_K_pix, 0) + eps)';     % [Nz*Nr × 1]
-            P_K_shadow = 1 - normcdf(FOM, mu_pix, sig_K);
-            L1_shadow_mat(K, pi) = mean(abs(P_K_shadow - P_mc_shad)) / denom_shad;
+            L1_shadow_mat(K, pi) = mean(abs( ...
+                1 - normcdf(FOM, mu_pix, sqrt(max(Var_K_pix,0)+eps)') ...
+                - P_mc_shad)) / denom_shad;
         end
 
         %% K* — argmin LOO (primary) and old L1<10% (secondary, for comparison)
-        [~, Kstar(pi)]    = min(LOO_mat(:,pi));
-        idx_l1            = find(L1_mat(:,pi) < 0.10, 1);
-        Kstar_L1(pi)      = idx_l1;
+        [~, Kstar(pi)] = min(LOO_mat(:,pi));
+        idx_l1         = find(L1_mat(:,pi) < 0.10, 1);
+        Kstar_L1(pi)   = idx_l1;
 
         %% Best-order Var map and shadow map
         y_hat_best    = Q(:,1:Kstar(pi)+1) * QTL(1:Kstar(pi)+1,:);
         VarK_best{pi} = reshape(var(y_hat_best, 0, 1), Nz, Nr);
-        sig_best      = sqrt(max(VarK_best{pi}(:), 0) + eps);
-        Pshadow_best{pi} = reshape(1 - normcdf(FOM, mu_pix, sig_best), Nz, Nr);
+        Pshadow_best{pi} = reshape( ...
+            1 - normcdf(FOM, mu_pix, sqrt(max(VarK_best{pi}(:),0)+eps)), Nz, Nr);
 
         fprintf('  [%s] K*(LOO)=%d  K*(L1)=%s  cond=%.1e  LOO@K=1: %.3f  L1@K=1: %.3f\n', ...
                 param, Kstar(pi), fmt_kstar(Kstar_L1(pi)), kappa_vec(pi), ...

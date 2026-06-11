@@ -96,25 +96,29 @@ for si = 1:numel(cfg.scenarios)
             delta_file = fullfile(delta_dir, sprintf('delta_%s.mat', sn));
 
             M = load(mc_file,    'MC_EX','MC_Var','MC_PrFOM','Cheb_lb','LN3_prob', ...
-                                 'r_km','z_m','TL_all','FOM','N');
+                                 'r_km','z_m','FOM','N');   % TL_all loaded lazily below
             D = load(delta_file, 'TL_expected','Var_TL','Cheb_lb_s','r_km','z_m','DeltaLN3_prob');
 
             r_km = M.r_km;  z_m = M.z_m;
             N    = M.N;
 
             %% LN3 derived moments — load cache if available, else compute once and save
-            [Nz, Nr, ~] = size(M.TL_all);
             ln3_cache = fullfile(res_dir, sprintf('LN3_moments_%s.mat', sn));
             if isfile(ln3_cache)
                 tmp = load(ln3_cache, 'LN3_EX', 'LN3_Var');
                 LN3_EX  = tmp.LN3_EX;
                 LN3_Var = tmp.LN3_Var;
+                clear tmp;
+                [Nz, Nr] = size(LN3_EX);
                 fprintf('  Loaded LN3 cache [%s]\n', sn);
             else
                 fprintf('  Computing LN3 moments map [%s]...\n', sn);
+                tmp_tl = load(mc_file, 'TL_all');   % load only when needed
+                [Nz, Nr, ~] = size(tmp_tl.TL_all);
                 LN3_EX  = zeros(Nz, Nr);
                 LN3_Var = zeros(Nz, Nr);
-                TL_pix  = reshape(permute(M.TL_all, [3 1 2]), N, Nz*Nr);
+                TL_pix  = reshape(permute(tmp_tl.TL_all, [3 1 2]), N, Nz*Nr);
+                clear tmp_tl;
                 for p = 1:Nz*Nr
                     [~, gam, mu, sig] = ln3fit(TL_pix(:,p), FOM);
                     LN3_EX(p)  = gam + exp(mu + sig^2/2);
