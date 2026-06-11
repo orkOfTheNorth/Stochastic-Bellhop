@@ -43,12 +43,20 @@ for si = 1:numel(cfg.scenarios)
             continue;
         end
 
-        fprintf('\n=== Comparison | %s | %s ===\n', sc.name, dist.name);
-
         mc_dir    = fullfile('Methods','MC',          sc.name, dist.name, 'results');
         delta_dir = fullfile('Methods','Delta',       sc.name, dist.name, 'results');
         fig_dir   = fullfile('Methods','Comparison',  sc.name, dist.name, 'figures');
         res_dir   = fullfile('Methods','Comparison',  sc.name, dist.name, 'results');
+
+        % Skip if primary output already exists
+        if isfile(fullfile(fig_dir, 'EX_diff_MC_Delta.png')) && ...
+           isfile(fullfile(fig_dir, 'EX_diff_MC_LN3.png'))
+            fprintf('  SKIP Comparison (already done): %s / %s\n', sc.name, dist.name);
+            continue;
+        end
+
+        fprintf('\n=== Comparison | %s | %s ===\n', sc.name, dist.name);
+
         for d = {fig_dir, res_dir}
             if ~exist(d{1},'dir'), mkdir(d{1}); end
         end
@@ -94,19 +102,29 @@ for si = 1:numel(cfg.scenarios)
             r_km = M.r_km;  z_m = M.z_m;
             N    = M.N;
 
-            %% LN3 derived moments from MC samples
-            fprintf('  Computing LN3 moments map [%s]...\n', sn);
+            %% LN3 derived moments — load cache if available, else compute once and save
             [Nz, Nr, ~] = size(M.TL_all);
-            LN3_EX  = zeros(Nz, Nr);
-            LN3_Var = zeros(Nz, Nr);
-            TL_pix  = reshape(permute(M.TL_all, [3 1 2]), N, Nz*Nr);
-            parfor p = 1:Nz*Nr
-                [~, gam, mu, sig] = ln3fit(TL_pix(:,p), FOM);
-                LN3_EX(p)  = gam + exp(mu + sig^2/2);
-                LN3_Var(p) = exp(2*mu + sig^2) * (exp(sig^2) - 1);
+            ln3_cache = fullfile(res_dir, sprintf('LN3_moments_%s.mat', sn));
+            if isfile(ln3_cache)
+                tmp = load(ln3_cache, 'LN3_EX', 'LN3_Var');
+                LN3_EX  = tmp.LN3_EX;
+                LN3_Var = tmp.LN3_Var;
+                fprintf('  Loaded LN3 cache [%s]\n', sn);
+            else
+                fprintf('  Computing LN3 moments map [%s]...\n', sn);
+                LN3_EX  = zeros(Nz, Nr);
+                LN3_Var = zeros(Nz, Nr);
+                TL_pix  = reshape(permute(M.TL_all, [3 1 2]), N, Nz*Nr);
+                for p = 1:Nz*Nr
+                    [~, gam, mu, sig] = ln3fit(TL_pix(:,p), FOM);
+                    LN3_EX(p)  = gam + exp(mu + sig^2/2);
+                    LN3_Var(p) = exp(2*mu + sig^2) * (exp(sig^2) - 1);
+                end
+                clear TL_pix;
+                LN3_EX  = reshape(LN3_EX,  Nz, Nr);
+                LN3_Var = reshape(LN3_Var, Nz, Nr);
+                save(ln3_cache, 'LN3_EX', 'LN3_Var', '-v7.3');
             end
-            LN3_EX  = reshape(LN3_EX,  Nz, Nr);
-            LN3_Var = reshape(LN3_Var, Nz, Nr);
 
             tag = sprintf('%s | %s | %s', sc.name, dist.name, sn);
 

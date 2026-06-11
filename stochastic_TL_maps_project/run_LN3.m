@@ -50,6 +50,11 @@ for si = 1:numel(cfg.scenarios)
                 fprintf('  SKIP %s — MC file not found\n', sn);
                 continue;
             end
+            out_fig = fullfile(fig_dir, sprintf('LN3_%s.png', sn));
+            if isfile(out_fig)
+                fprintf('  SKIP %s — figure already exists\n', sn);
+                continue;
+            end
 
             try
                 D = load(mc_file, 'TL_all','r_km','z_m','FOM','MC_PrFOM');

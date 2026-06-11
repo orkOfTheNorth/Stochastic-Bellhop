@@ -78,6 +78,11 @@ for ci = 1:numel(completed)
     fprintf('────────────────────────────────────────\n');
 
     res_dir = fullfile('Methods','MC',  sc_name, dist_name, 'results');
+    out_dir_check = fullfile('Methods','PCE', sc_name, dist_name, 'results');
+    if isfile(fullfile(out_dir_check, 'pce_results.mat'))
+        fprintf('  SKIP (already done)\n');
+        continue;
+    end
     pce_dir = fullfile('Methods','PCE', sc_name, dist_name);
     fig_dir = fullfile(pce_dir, 'figures');
     out_dir = fullfile(pce_dir, 'results');
@@ -160,47 +165,39 @@ for ci = 1:numel(completed)
         C_all{pi} = (Phi'*Phi + lambda*eye(MAX_ORDER+1)) \ (Phi'*TL_mat);
 
         %% Convergence metrics via nested QR projections
-        for K = 1:MAX_ORDER
-            y_hat_K   = Q(:,1:K+1) * QTL(1:K+1,:);    % K-th order fit [N × Nz*Nr]
-            Var_K_pix = var(y_hat_K, 0, 1);
+        % Shadow prob uses Gaussian CDF(mu_K, sigma_K) — no extra sample matrix.
+        mu_pix     = mean(TL_mat, 1)';              % [Nz*Nr × 1] sample mean
+        denom_shad = max(mean(P_mc_shad), 1e-6);
 
-            % L1 variance metric (kept for reference)
+        for K = 1:MAX_ORDER
+            y_hat_K   = Q(:,1:K+1) * QTL(1:K+1,:);    % [N × Nz*Nr]
+            Var_K_pix = var(y_hat_K, 0, 1);             % [1 × Nz*Nr]
+
+            % L1 variance metric
             L1_mat(K, pi) = mean(abs(Var_K_pix - Var_MC')) / mean_VM;
 
-            % Analytic LOO-CV: e_LOO_i = r_i / (1 - h_ii), h_ii = ||Q(i,1:K+1)||^2
-            % No refitting required — exact for OLS, excellent approximation overall.
-            h_K   = sum(Q(:,1:K+1).^2, 2);              % hat-matrix diagonal [N×1]
-            r_K   = TL_mat - y_hat_K;                    % residuals [N × Nz*Nr]
-            loo_K = mean((r_K ./ (1 - h_K)).^2, 1);     % per-pixel LOO MSE [1×Nz*Nr]
-            LOO_mat(K, pi) = mean(loo_K);                % scalar summary
+            % Analytic LOO-CV
+            h_K   = sum(Q(:,1:K+1).^2, 2);
+            r_K   = TL_mat - y_hat_K;
+            loo_K = mean((r_K ./ (1 - h_K)).^2, 1);
+            LOO_mat(K, pi) = mean(loo_K);
+
+            % Shadow L1 via Gaussian CDF — O(Nz*Nr) scalars, no large matrix
+            sig_K = sqrt(max(Var_K_pix, 0) + eps)';     % [Nz*Nr × 1]
+            P_K_shadow = 1 - normcdf(FOM, mu_pix, sig_K);
+            L1_shadow_mat(K, pi) = mean(abs(P_K_shadow - P_mc_shad)) / denom_shad;
         end
 
         %% K* — argmin LOO (primary) and old L1<10% (secondary, for comparison)
         [~, Kstar(pi)]    = min(LOO_mat(:,pi));
         idx_l1            = find(L1_mat(:,pi) < 0.10, 1);
-        Kstar_L1(pi)      = idx_l1;  % may be empty → 0
+        Kstar_L1(pi)      = idx_l1;
 
-        %% Store best-order Var map (using LOO-selected K*)
-        y_hat_best = Q(:,1:Kstar(pi)+1) * QTL(1:Kstar(pi)+1,:);
+        %% Best-order Var map and shadow map
+        y_hat_best    = Q(:,1:Kstar(pi)+1) * QTL(1:Kstar(pi)+1,:);
         VarK_best{pi} = reshape(var(y_hat_best, 0, 1), Nz, Nr);
-
-        %% Shadow probability L1 vs K — same spirit as variance L1
-        rng(42 + pi);
-        if strcmp(dist_type, 'normal')
-            xi_shad = randn(2000, 1);
-        else
-            xi_shad = 2*rand(2000,1) - 1;   % Legendre on (-1,1)
-        end
-        denom_shad = max(mean(P_mc_shad), 1e-6);
-        for K = 1:MAX_ORDER
-            Phi_K = pce_basis(xi_shad, K, dist_type);           % [2000 × K+1]
-            TL_K  = Phi_K * C_all{pi}(1:K+1, :);               % [2000 × Nz*Nr]
-            P_K   = mean(TL_K > FOM, 1)';                       % [Nz*Nr × 1]
-            L1_shadow_mat(K, pi) = mean(abs(P_K - P_mc_shad)) / denom_shad;
-        end
-        Phi_Ks = pce_basis(xi_shad, Kstar(pi), dist_type);
-        TL_Ks  = Phi_Ks * C_all{pi}(1:Kstar(pi)+1, :);
-        Pshadow_best{pi} = reshape(mean(TL_Ks > FOM, 1)', Nz, Nr);
+        sig_best      = sqrt(max(VarK_best{pi}(:), 0) + eps);
+        Pshadow_best{pi} = reshape(1 - normcdf(FOM, mu_pix, sig_best), Nz, Nr);
 
         fprintf('  [%s] K*(LOO)=%d  K*(L1)=%s  cond=%.1e  LOO@K=1: %.3f  L1@K=1: %.3f\n', ...
                 param, Kstar(pi), fmt_kstar(Kstar_L1(pi)), kappa_vec(pi), ...
