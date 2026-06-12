@@ -1,4 +1,4 @@
-% ============================================================
+﻿% ============================================================
 %  findings.tex  —  Findings Section (Overleaf-compatible)
 %  Stochastic Bellhop UQ: Delta Method, MC, PCE, LN3
 % ============================================================
@@ -90,15 +90,15 @@ the five propagation scenarios under 5\% uniform source-depth ($z_S$) uncertaint
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{baseline/Uniform_5pct/figures/TL_zS.png}
     \caption{Baseline (flat, 35\,m)}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Uniform_5pct/figures/TL_zS.png}
     \caption{Deep water (flat, 2500\,m)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/TL_zS.png}
     \caption{Downslope (50\,$\to$\,550\,m)}
   \end{subfigure}
@@ -139,15 +139,15 @@ shadow probabilities in these scenarios (Figure~\ref{fig:shadow_good}).
 \begin{figure}[H]
   \centering
   % --- Row 1: flat scenario where Delta works (baseline, Uniform 1%) ---
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_Delta.png}
     \caption{MC vs.\ Delta}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_DeltaLN3.png}
     \caption{MC vs.\ Delta--LN3}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_LN3.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
@@ -177,15 +177,15 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
 \begin{figure}[H]
   \centering
   % --- Row: downslope scenario where Delta fails (Uniform 5%, SVP perturbation) ---
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
     \caption{MC vs.\ Delta}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png}
     \caption{MC vs.\ Delta--LN3}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/shadow_70_MC_vs_LN3_svp.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
@@ -368,15 +368,15 @@ scenario/distribution combinations.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/pce_convergence_downslope_Uniform_5pct.png}
     \caption{Downslope, Uniform\,5\% --- strongly nonlinear; no parameter converges by $K=10$.}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/pce_convergence_baseline_Normal_10pct.png}
     \caption{Baseline, Normal\,10\% --- freq converges at $K^*{=}1$; $z_S$ and SVP do not.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
     \caption{Deep water, Normal\,10\% --- freq: $K^*{=}7$; SVP: $K^*{=}6$; $z_S$: no convergence.}
   \end{subfigure}
@@ -464,15 +464,15 @@ accuracy of the derivative computation.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{delta_validation_Normal_1pct.png}
     \caption{Normal\,1\% ($\sigma_{z_S}=0.5$\,m)}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{delta_validation_Normal_5pct.png}
     \caption{Normal\,5\% ($\sigma_{z_S}=2.5$\,m)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{delta_validation_Normal_10pct.png}
     \caption{Normal\,10\% ($\sigma_{z_S}=5$\,m)}
   \end{subfigure}
@@ -775,20 +775,20 @@ The cross-validation analysis confirms that:
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
     \caption{PCE $L_1$ convergence (deep water, Normal\,10\%) showing freq (blue),
              $z_S$ (red), SVP (green) and the 10\% threshold (dashed).
              The LOO-CV selected $K^*$ is marked with a vertical tick.}
     \label{fig:cv_freq}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/pce_convergence_baseline_Normal_10pct.png}
     \caption{Baseline, Normal\,10\%: freq converges immediately ($K^*{=}1$);
              $z_S$ and SVP show no convergence within $K{=}10$.}
     \label{fig:cv_zS}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/pce_convergence_downslope_Uniform_5pct.png}
     \caption{Downslope, Uniform\,5\%: none of the three parameters converge ---
              confirming physics nonlinearity rather than overfitting artefact.}
@@ -934,12 +934,12 @@ non-shadow-zone pixels but confirms that the LN3 fit degrades at shadow boundari
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.48\textwidth}
+  \begin{subfigure}[t]{0.75\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/empirical_freq.png}
     \caption{Deep water, Normal\,10\%, freq: MC empirical shadow-probability and
              variance maps.}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.48\textwidth}
+  \begin{subfigure}[t]{0.75\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/empirical_zS.png}
     \caption{Deep water, Normal\,10\%, $z_S$: MC empirical shadow-probability and
              variance maps.}
