@@ -1,0 +1,125 @@
+%% analytical_diagram.tex — Isovelocity waveguide: geometry + mode shapes
+%%
+%% Standalone file; compile with:
+%%   pdflatex analytical_diagram.tex
+%%
+%% Include in findings.tex via:
+%%   \input{analytical/analytical_diagram}
+%%   (wrap in a figure environment at the call site)
+
+\begin{tikzpicture}[
+    scale = 1.05,
+    >=Stealth,
+    every node/.style = {font=\small},
+    % Named styles
+    waterfill/.style = {fill=blue!8},
+    sedfill/.style   = {fill=brown!25},
+    surface/.style   = {dashed, thick, draw=black!70},
+    bottom/.style    = {thick, draw=black!70},
+    src/.style       = {circle, fill=red!75!black, inner sep=2.2pt},
+    imgsrc/.style    = {circle, fill=red!25, draw=red!60, inner sep=2.2pt, dashed},
+    rcv/.style       = {regular polygon, regular polygon sides=3, fill=green!55!black,
+                        inner sep=1.6pt, rotate=180},
+    ray/.style       = {->, thick},
+    modeplot/.style  = {blue!60, thin, smooth},
+    annot/.style     = {font=\footnotesize, text=black!75},
+]
+
+% ── Dimensions (tikz units; 1 unit ≈ 1 cm) ───────────────────────────────────
+\def\D{4.5}     % waveguide depth  D
+\def\Rmax{9.5}  % range extent
+\def\zS{1.4}    % source depth  zS
+\def\zR{2.8}    % receiver depth zR
+\def\rR{7.5}    % receiver range rR
+
+% ── Water column ──────────────────────────────────────────────────────────────
+\fill[waterfill] (0,0) rectangle (\Rmax,-\D);
+\fill[sedfill]   (0,-\D) rectangle (\Rmax,-\D-0.35);
+
+% ── Boundaries ────────────────────────────────────────────────────────────────
+% Free surface
+\draw[surface] (-0.4,0) -- (\Rmax+0.2,0);
+\node[right, annot] at (\Rmax+0.25, 0) {$z{=}0$\quad free surface ($P{=}0$)};
+
+% Bottom
+\draw[bottom]  (-0.4,-\D) -- (\Rmax+0.2,-\D);
+\node[right, annot] at (\Rmax+0.25,-\D) {$z{=}D$\quad rigid bottom};
+
+% Depth axis
+\draw[<->, gray!70] (-0.4,0) -- (-0.4,-\D);
+\node[left, annot, rotate=90, anchor=south] at (-0.55,-\D/2) {$D = 2500$\,m};
+
+% Range axis
+\draw[->, gray!50] (0,-\D-0.55) -- (\Rmax+0.2,-\D-0.55)
+    node[right, annot] {range $r$};
+
+% ── Image source (Lloyd's mirror) above surface ───────────────────────────────
+\node[imgsrc, label={[annot,text=red!60]right:{$S'$\;(image)}}] (img) at (0,\zS) {};
+% Bracket marking zS above surface
+\draw[<->, red!45, thin] (0.15,0) -- (0.15,\zS)
+    node[midway, right, annot, text=red!60] {$z_S$};
+
+% ── Source ────────────────────────────────────────────────────────────────────
+\node[src, label={[annot]right:{$S$}}] (src) at (0,-\zS) {};
+\draw[<->, red!50, thin] (0.15,0) -- (0.15,-\zS)
+    node[midway, right, annot, text=red!60] {$z_S$};
+
+% ── Receiver ──────────────────────────────────────────────────────────────────
+\node[rcv] (rcv) at (\rR,-\zR) {};
+\node[annot, right=3pt] at (rcv) {$R\;(r,z)$};
+
+% ── Rays ──────────────────────────────────────────────────────────────────────
+% Direct ray
+\draw[ray, blue!70]   (src) -- (rcv)
+    node[midway, above, sloped, annot, text=blue!70] {direct};
+
+% Surface-reflected ray (specular: image to receiver)
+\pgfmathsetmacro{\xs}{\zS/(\zS+\zR)*\rR}
+\coordinate (srf) at (\xs,0);
+\draw[ray, red!55, dashed] (src) -- (srf) -- (rcv);
+\node[annot, above=3pt, text=red!55] at (\xs,0) {$\times$};
+
+% Arrow from image source to surface reflection point
+\draw[->, red!30, thin, dashed] (img) -- (srf);
+
+% Lloyd's mirror annotation
+\draw[decorate, decoration={brace, amplitude=5pt, mirror}, red!40]
+    (0, 0.05) -- (0, \zS-0.05)
+    node[midway, left=7pt, annot, text=red!50] {Lloyd's mirror};
+
+% ── Mode shape panel (right of waveguide) ─────────────────────────────────────
+% Small panel showing sin((2m-1)*pi*z / (2D)) for m=1,2,3
+% x_panel: right of the main figure
+\def\Xpanel{-2.0}   % x offset into left margin
+\def\ampmode{0.28}  % amplitude in tikz units
+
+\foreach \m/\mcol in {1/blue!70, 2/teal!70, 3/purple!60} {
+    % Baseline (zero line for this mode)
+    \pgfmathsetmacro{\xbase}{\Xpanel + (\m-1)*0.85}
+    \draw[gray!30, very thin] (\xbase, 0) -- (\xbase, -\D);
+    % Sine curve: sin((2m-1)*22.5 * z) where z in [0,D] maps to y in [0,-D]
+    \draw[\mcol, thin, smooth, samples=80,
+          domain=0:\D]
+        plot ({\xbase + \ampmode*sin((2*\m-1)*22.5/\D*\x)}, {-\x});
+    % Mode label
+    \node[annot, text=\mcol, above] at (\xbase, 0.15) {$m{=}\m$};
+}
+% Brace and label
+\draw[decorate, decoration={brace, amplitude=4pt}, gray!60]
+    (\Xpanel-0.15, 0.05) -- (\Xpanel-0.15, -\D+0.05)
+    node[midway, left=6pt, annot, rotate=90, anchor=south] {mode shapes};
+
+% ── Equation box ─────────────────────────────────────────────────────────────
+\node[draw=gray!50, fill=white, rounded corners=3pt,
+      inner sep=5pt, annot, align=left,
+      anchor=north west] at (0.3, -\D-0.65) {%
+  $k_{z,m} = \dfrac{(2m-1)\pi}{2D}$\quad
+  $k_{x,m} = \sqrt{k^2 - k_{z,m}^2}$\\[4pt]
+  $P(r,z) = \displaystyle\sum_{m=1}^{M}
+             A_m\,
+             \sin\!\bigl(k_{z,m}\,z_S\bigr)\,
+             \sin\!\bigl(k_{z,m}\,z\bigr)\,
+             H_0^{(2)}\!\bigl(k_{x,m}\,r\bigr)$
+};
+
+\end{tikzpicture}

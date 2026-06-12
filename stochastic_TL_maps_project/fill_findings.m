@@ -95,15 +95,19 @@ fprintf('%-14s  %8s  %22s  %22s\n', 'Distribution', 'σ_zS (m)', 'L1 (Analytical
 fprintf('%s\n', repmat('-', 1, 72));
 
 for k = 1:3
-    afile = fullfile(anal_dir, sprintf('analytical_delta_%s.mat', dist_labels{k}));
+    % run_analytical_delta_validation.m saves to validation_<dist>.mat
+    afile = fullfile(anal_dir, sprintf('validation_%s.mat', dist_labels{k}));
     if ~isfile(afile)
         fprintf('%-14s  %8.1f  %22s  %22s\n', dist_labels{k}, sigma_vals(k), 'file missing', 'file missing');
         continue;
     end
     try
         a = load(afile);
-        l1_anal = mean(abs(a.Var_anal(:) - a.Var_MC(:))) / (mean(a.Var_MC(:)) + eps);
-        l1_fd   = mean(abs(a.Var_fd(:)   - a.Var_MC(:))) / (mean(a.Var_MC(:)) + eps);
+        % Variable names from run_analytical_delta_validation.m
+        null_mask = a.TL_nom(:) <= 120;
+        mean_VM   = max(mean(a.Var_MC(null_mask)), 1e-10);
+        l1_anal = mean(abs(a.Var_delta_anal(null_mask) - a.Var_MC(null_mask))) / mean_VM;
+        l1_fd   = mean(abs(a.Var_delta_fd(null_mask)   - a.Var_MC(null_mask))) / mean_VM;
         fprintf('%-14s  %8.1f  %22.2f%%  %22.2f%%\n', dist_labels{k}, sigma_vals(k), ...
                 100*l1_anal, 100*l1_fd);
     catch me

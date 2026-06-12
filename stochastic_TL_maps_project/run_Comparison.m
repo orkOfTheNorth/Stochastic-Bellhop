@@ -33,8 +33,6 @@ addpath(genpath('Shared_Utils'));
 addpath(genpath('Bellhop'));
 
 cfg = loadConfig();
-
-FOM = cfg.nominal.FOM_dB;
 THRESHOLDS = cfg.thresholds(:)';
 
 
@@ -60,7 +58,8 @@ for si = 1:numel(cfg.scenarios)
             continue;
         end
 
-        fprintf('\n=== Comparison | %s | %s ===\n', sc.name, dist.name);
+        FOM = getFOM(cfg, sc.name);
+        fprintf('\n=== Comparison | %s | %s | FOM=%ddB ===\n', sc.name, dist.name, FOM);
 
         for d = {fig_dir, res_dir}
             if ~exist(d{1},'dir'), mkdir(d{1}); end
@@ -100,7 +99,7 @@ for si = 1:numel(cfg.scenarios)
             mc_file    = fullfile(mc_dir,    sprintf('MC_%s.mat',    sn));
             delta_file = fullfile(delta_dir, sprintf('delta_%s.mat', sn));
 
-            M = load(mc_file,    'MC_EX','MC_Var','MC_PrFOM','Cheb_lb','LN3_prob', ...
+            M = load(mc_file,    'MC_EX','MC_Var','MC_P_detect','Cheb_detect','LN3_prob', ...
                                  'r_km','z_m','FOM','N');   % TL_all loaded lazily below
             D = load(delta_file, 'TL_expected','Var_TL','Cheb_lb_s','r_km','z_m','DeltaLN3_prob');
 
@@ -167,16 +166,19 @@ for si = 1:numel(cfg.scenarios)
 
             %% ── SHADOW ZONE COMPARISONS (at 80%, 90%, 95%) ──────────────────
             % Include Delta-LN3 if available in the delta results file
+            % Convert Delta shadow probabilities to detection probabilities
+            Delta_P_detect    = 1 - D.Cheb_lb_s;        % Cheb upper bound on P_detect
             if isfield(D, 'DeltaLN3_prob')
-                shadow_pairings = {
-                    ['MC_vs_Delta'    sfx], M.MC_PrFOM, D.Cheb_lb_s,    'MC Empirical', 'Delta Chebyshev';
-                    ['MC_vs_LN3'     sfx], M.MC_PrFOM, M.LN3_prob,     'MC Empirical', 'LN3 (MC-fit)';
-                    ['MC_vs_DeltaLN3' sfx], M.MC_PrFOM, D.DeltaLN3_prob,'MC Empirical', 'Delta-LN3';
+                DeltaLN3_detect = D.DeltaLN3_prob;       % already P(TL < FOM) = P(detect)
+                detect_pairings = {
+                    ['MC_vs_Delta'    sfx], M.MC_P_detect, Delta_P_detect,    'MC Empirical', 'Delta (Cheb UB)';
+                    ['MC_vs_LN3'     sfx], M.MC_P_detect, M.LN3_prob,        'MC Empirical', 'LN3 (MC-fit)';
+                    ['MC_vs_DeltaLN3' sfx], M.MC_P_detect, DeltaLN3_detect,  'MC Empirical', 'Delta-LN3';
                 };
             else
-                shadow_pairings = {
-                    ['MC_vs_Delta' sfx], M.MC_PrFOM, D.Cheb_lb_s, 'MC Empirical', 'Delta Chebyshev';
-                    ['MC_vs_LN3'  sfx], M.MC_PrFOM, M.LN3_prob,  'MC Empirical', 'LN3 (MC-fit)';
+                detect_pairings = {
+                    ['MC_vs_Delta' sfx], M.MC_P_detect, Delta_P_detect, 'MC Empirical', 'Delta (Cheb UB)';
+                    ['MC_vs_LN3'  sfx], M.MC_P_detect, M.LN3_prob,    'MC Empirical', 'LN3 (MC-fit)';
                 };
             end
 
@@ -184,24 +186,24 @@ for si = 1:numel(cfg.scenarios)
                 thr     = THRESHOLDS(thr_idx);
                 thr_pct = round(thr * 100);
 
-                for spi = 1:size(shadow_pairings,1)
-                    pair_name = shadow_pairings{spi,1};
-                    prob_A    = shadow_pairings{spi,2};
-                    prob_B    = shadow_pairings{spi,3};
-                    lbl_A     = shadow_pairings{spi,4};
-                    lbl_B     = shadow_pairings{spi,5};
+                for spi = 1:size(detect_pairings,1)
+                    pair_name = detect_pairings{spi,1};
+                    prob_A    = detect_pairings{spi,2};
+                    prob_B    = detect_pairings{spi,3};
+                    lbl_A     = detect_pairings{spi,4};
+                    lbl_B     = detect_pairings{spi,5};
 
                     fig = figure('Position',[50 50 1300 520]);
 
                     ax1 = subplot(1,2,1);
-                    shadowCategoryMap(ax1, r_km, z_m, prob_A, ...
+                    detectionCategoryMap(ax1, r_km, z_m, prob_A, ...
                         sprintf('%s — %d%%', lbl_A, thr_pct), THRESHOLDS);
 
                     ax2 = subplot(1,2,2);
-                    shadowCategoryMap(ax2, r_km, z_m, prob_B, ...
+                    detectionCategoryMap(ax2, r_km, z_m, prob_B, ...
                         sprintf('%s — %d%%', lbl_B, thr_pct), THRESHOLDS);
 
-                    sgtitle(sprintf('Shadow Zones %d%% | %s | %s', thr_pct, tag, pair_name), ...
+                    sgtitle(sprintf('P(detect) %d%% | %s | %s', thr_pct, tag, pair_name), ...
                             'Interpreter','none');
 
                     fname = sprintf('shadow_%d_%s', thr_pct, pair_name);
@@ -210,7 +212,7 @@ for si = 1:numel(cfg.scenarios)
                 end
             end
 
-            n_figs_total = n_figs_total + numel(THRESHOLDS) * size(shadow_pairings,1) + 4;
+            n_figs_total = n_figs_total + numel(THRESHOLDS) * size(detect_pairings,1) + 4;
         end
 
         fprintf('  %d figures saved to %s\n', n_figs_total, fig_dir);

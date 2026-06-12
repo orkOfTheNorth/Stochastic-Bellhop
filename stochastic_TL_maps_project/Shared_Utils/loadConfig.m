@@ -1,9 +1,28 @@
 function cfg = loadConfig()
-% Read config.json from the project root (two levels up from Shared_Utils).
-    here = fileparts(mfilename('fullpath'));
+% Read config.json from the project root and expose convenience helpers.
+    here     = fileparts(mfilename('fullpath'));
     cfg_path = fullfile(here, '..', 'config.json');
     if ~isfile(cfg_path)
         error('config.json not found at %s', cfg_path);
     end
     cfg = jsondecode(fileread(cfg_path));
+
+    % Convenience: N_MC from MC.N
+    cfg.N_MC = cfg.MC.N;
+
+    % Convenience: IS base distribution name
+    if isfield(cfg.MC, 'IS_base_dist')
+        cfg.IS_base_dist = cfg.MC.IS_base_dist;
+    else
+        cfg.IS_base_dist = 'Normal_10pct';
+    end
+
+    % Convenience: PCE max order and LOO weight
+    if isfield(cfg, 'PCE')
+        cfg.max_pce_order = cfg.PCE.max_order;
+        cfg.LOO_alpha     = cfg.PCE.LOO_alpha;
+    else
+        cfg.max_pce_order = 10;
+        cfg.LOO_alpha     = 0.5;
+    end
 end

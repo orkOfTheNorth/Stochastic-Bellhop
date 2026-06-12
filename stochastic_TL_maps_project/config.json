@@ -17,22 +17,24 @@
     "salinity_ppt": 37
   },
   "scenarios": [
-    { "name": "baseline",      "bathy_type": "const_35",     "maxR_m": 50000, "maxDepth_m": 35   },
     { "name": "deep_water",    "bathy_type": "const_2500",   "maxR_m": 50000, "maxDepth_m": 2500 },
-    { "name": "shallow_water", "bathy_type": "const_50",     "maxR_m": 5000,  "maxDepth_m": 50   },
+    { "name": "shallow_water", "bathy_type": "const_50",     "maxR_m": 5000,  "maxDepth_m": 50,  "FOM_dB": 20 },
     { "name": "upslope",       "bathy_type": "slope_550_50", "maxR_m": 10000, "maxDepth_m": 550  },
     { "name": "downslope",     "bathy_type": "slope_50_550", "maxR_m": 10000, "maxDepth_m": 550  }
   ],
   "distributions": [
-    { "name": "Uniform_1pct",  "type": "uniform", "level_pct": 1  },
-    { "name": "Uniform_5pct",  "type": "uniform", "level_pct": 5  },
-    { "name": "Uniform_10pct", "type": "uniform", "level_pct": 10 },
-    { "name": "Normal_5pct",   "type": "normal",  "level_pct": 5  },
-    { "name": "Normal_10pct",  "type": "normal",  "level_pct": 10 }
+    { "name": "Normal_1pct",  "type": "normal", "level_pct": 1  },
+    { "name": "Normal_5pct",  "type": "normal", "level_pct": 5  },
+    { "name": "Normal_10pct", "type": "normal", "level_pct": 10 }
   ],
   "MC": {
-    "N": 50,
-    "rng_seed": 42
+    "N": 300,
+    "rng_seed": 42,
+    "IS_base_dist": "Normal_10pct"
+  },
+  "PCE": {
+    "max_order": 20,
+    "LOO_alpha": 0.5
   },
   "analytical": {
     "sweep_frequencies_Hz": [500, 1000, 2000, 5000, 10000]

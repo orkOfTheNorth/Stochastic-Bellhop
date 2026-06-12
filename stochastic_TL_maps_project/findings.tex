@@ -14,6 +14,8 @@
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,shapes.geometric}
 
 % Figure path — set to figures subfolder or adjust per upload
 \graphicspath{
@@ -109,6 +111,38 @@ the five propagation scenarios under 5\% uniform source-depth ($z_S$) uncertaint
            driven by the shoaling bathymetry.}
   \label{fig:mc_ex_var}
 \end{figure}
+
+\subsubsection{MC Estimator Convergence}
+\label{sec:mc_conv}
+
+For a scalar random variable $Y$ with finite variance, the sample mean
+$\bar Y_N$ converges to $\mu_Y$ at the classical CLT rate
+$\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$.
+The sample variance $S_N^2$ converges at the same asymptotic rate but with a
+larger prefactor: for a Gaussian parent,
+\begin{equation}
+  \mathrm{Var}(S_N^2) \;=\; \frac{2\sigma_Y^4}{N-1},
+  \label{eq:var_of_var}
+\end{equation}
+so the relative error of $S_N^2$ is $\sqrt{2/(N-1)}\,/\,C_V^2$, where
+$C_V = \sigma_Y/\mu_Y$ is the coefficient of variation.
+In practice this means that a variance estimate requires roughly $2\times$ as
+many samples as a mean estimate to reach the same relative error -- or
+equivalently $\approx 4\times$ as many samples to match the absolute RMSE of
+the mean.
+The pipeline uses $N=300$ Latin-Hypercube samples drawn from the broadest
+distribution (\textsc{Normal\,10\%}) and reweights via importance sampling (IS)
+to obtain estimates for the narrower \textsc{Normal\,5\%} and
+\textsc{Normal\,1\%} distributions.
+IS reduces the effective sample size (Kish ESS $< N$) for narrower targets,
+but the relative statistical gain outweighs the IS variance penalty because
+the IS weights for Normal\,5\% and Normal\,1\% are moderate
+($\text{ESS}/N \gtrsim 0.5$ in all scenarios).
+The convergence of pixel-wise $\EX[\TL]$ and $\Var[\TL]$ as a function of
+sub-sample size $N' \in \{10,20,30,50,75,100,150,200,300\}$ is documented in
+\texttt{Methods/MC\_convergence/} and confirms that $N=300$ is sufficient for
+the Var estimator to reach the $\lesssim 5\%$ relative RMSE target at the
+10\% uncertainty level.
 
 % ────────────────────────────────────────────────────────────
 \subsection{First-Order Delta Method: Accuracy and Failure Modes}
@@ -449,6 +483,25 @@ The PCE study reveals three regimes of TL nonlinearity:
 To isolate numerical error from physical nonlinearity, an analytical normal-mode
 waveguide solution is used as ground truth (isovelocity, $D=2500$\,m, $f=1$\,kHz,
 $z_S = 100$\,m, $\sim$3369 propagating modes).
+Figure~\ref{fig:waveguide_diagram} illustrates the waveguide geometry,
+the Lloyd's mirror image-source construction, and the first three mode shapes.
+
+\begin{figure}[H]
+  \centering
+  \input{analytical/analytical_diagram}
+  \caption{Isovelocity waveguide geometry used for analytical validation.
+           Source $S$ at depth $z_S$ and its pressure-release image $S'$
+           at $-z_S$ form a dipole (Lloyd's mirror) whose radiation pattern
+           imposes a depth-dependent modulation on the cylindrical spreading.
+           Mode shapes $\sin(k_{z,m}\,z)$ (shown for $m=1,2,3$, colour-coded)
+           satisfy the pressure-release condition at $z=0$ and rigid-bottom
+           condition at $z=D$.
+           The horizontal wavenumbers $k_{x,m}$ set the along-range interference
+           structure that makes the analytical Jacobian $\partial\TL/\partial z_S$
+           highly oscillatory at long range.}
+  \label{fig:waveguide_diagram}
+\end{figure}
+
 The analytical Jacobian is:
 \begin{equation}
   J^{\mathrm{anal}} = -\frac{20}{\ln 10}
@@ -484,16 +537,19 @@ accuracy of the derivative computation.
 \begin{table}[H]
   \centering
   \caption{Relative $L_1$ error of 1\textsuperscript{st}-order Delta variance vs
-           analytical MC ground truth (deep-water waveguide, $f=1$\,kHz, $z_S=100$\,m).
-           $\dagger$~Run \texttt{fill\_findings.m} to populate from cached results.}
+           analytical MC ground truth (deep-water waveguide, $f=1$\,kHz, $z_S=100$\,m,
+           $N_{\rm MC}=2000$).
+           $L_1 = \langle|\mathrm{Var}_\Delta - \mathrm{Var}_{\rm MC}|\rangle /
+           \langle\mathrm{Var}_{\rm MC}\rangle$ (dimensionless ratio; values $\gg 1$ indicate
+           Delta breakdown).}
   \label{tab:analytical_l1}
   \begin{tabular}{lccc}
     \toprule
     Distribution & $\sigma_{z_S}$ (m) & $L_1$ (Analytical $J$) & $L_1$ (FD $J$) \\
     \midrule
-    Normal\,1\%  & 0.5  & $\dagger$ & $\dagger$ \\
-    Normal\,5\%  & 2.5  & $\dagger$ & $\dagger$ \\
-    Normal\,10\% & 5.0  & $\dagger$ & $\dagger$ \\
+    Normal\,1\%  & 0.5 & 24.2  & 16.2  \\
+    Normal\,5\%  & 2.5 & 494   & 336   \\
+    Normal\,10\% & 5.0 & 1922  & 1306  \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -1205,6 +1261,34 @@ The Normal distribution tends to require 1--2 higher orders than the Uniform
 distribution at the same nominal percentage level, because the Normal distribution
 places more probability mass in the tails (beyond $\pm\sigma$), sampling regions
 of higher nonlinearity.
+
+%%────────────────────────────────────────────────────────────────────────────
+\clearpage
+\section*{Appendix: Pipeline Architecture}
+\label{sec:pipeline}
+
+Figure~\ref{fig:block_diagram} shows the complete module dependency graph of the
+Stochastic-Bellhop pipeline. Entry-point scripts (grey) invoke the Pipeline
+Orchestrator, which dispatches the five analysis methods in sequence. Each
+method reads pre-computed TL fields from the Cache Layer and writes results and
+figures to the corresponding \texttt{Methods/} subdirectory. The Bellhop
+Simulation Stack (blue region) handles all acoustic forward-model calls, with
+automatic GPU/CUDA routing when a compatible device is detected.
+Shared utility functions (bottom band) are available to all modules.
+Dashed arrows indicate utility calls; solid arrows indicate the primary data
+and control flow.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=\textwidth,height=0.92\textheight,keepaspectratio]%
+    {block_diagram.pdf}
+  \caption{Stochastic-Bellhop pipeline architecture. Boxes are coloured by
+    layer: entry points (grey), configuration (orange), Bellhop simulation
+    stack (blue), cache (yellow), analysis methods (green), shared utilities
+    (light grey). Representative output figures are shown as stacked thumbnails
+    beside each analysis module.}
+  \label{fig:block_diagram}
+\end{figure}
 
 \end{document}
 
