@@ -47,18 +47,33 @@ end
 PASS = chk(PASS, 'Shared_Utils on MATLAB path', ~isempty(which('loadConfig')), ...
     'Run: addpath(genpath(''Shared_Utils''))');
 
-% ── Bellhop CPU binary ───────────────────────────────────────────────────────
-bhp  = which('bellhop.exe');
-PASS = chk(PASS, 'bellhop.exe on MATLAB path', ~isempty(bhp), ...
-    sprintf('Not found.  Expected at: %s', fullfile(pwd, 'Bellhop', 'bellhop.exe')));
+% ── Bellhop CPU binary (OS-aware) ────────────────────────────────────────────
+if ispc
+    bhp     = which('bellhop.exe');
+    bhp_lbl = 'bellhop.exe';
+    bhp_hint = fullfile(pwd, 'Bellhop', 'bellhop.exe');
+else
+    bhp     = which('bellhop');
+    bhp_lbl = 'bellhop (Linux/macOS)';
+    bhp_hint = 'Bellhop/bellhop — see SERVER_GUIDE.md Step 0 for Linux build';
+end
+PASS = chk(PASS, [bhp_lbl ' on MATLAB path'], ~isempty(bhp), ...
+    sprintf('Not found.  Expected at: %s', bhp_hint));
 if ~isempty(bhp)
     fprintf('    Path: %s\n', bhp);
 end
 
-% ── Bellhop CUDA binary ──────────────────────────────────────────────────────
-bhp_cuda      = which('bellhopcuda.exe');
-has_cuda_bin  = ~isempty(bhp_cuda);
-PASS = chk(PASS, 'bellhopcuda.exe on MATLAB path', has_cuda_bin, ...
+% ── Bellhop CUDA binary (OS-aware) ───────────────────────────────────────────
+if ispc
+    bhp_cuda = which('bellhopcuda.exe');
+    cuda_lbl = 'bellhopcuda.exe';
+else
+    bhp_cuda = which('bellhopcuda');
+    if isempty(bhp_cuda), bhp_cuda = which('bellhop_cuda'); end
+    cuda_lbl = 'bellhopcuda (Linux/macOS)';
+end
+has_cuda_bin = ~isempty(bhp_cuda);
+PASS = chk(PASS, [cuda_lbl ' on MATLAB path'], has_cuda_bin, ...
     'CUDA build not found — GPU acceleration will be skipped (CPU fallback active).');
 if has_cuda_bin
     fprintf('    Path: %s\n', bhp_cuda);

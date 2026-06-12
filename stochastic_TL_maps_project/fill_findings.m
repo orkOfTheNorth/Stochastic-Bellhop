@@ -27,11 +27,11 @@ fprintf('==================================================================\n\n'
 %  TABLE 1: tab:ks_ln3  — Median KS statistic per scenario × distribution
 %  Recomputes from MC TL cubes using ln3moments (no new LN3 run needed).
 % ─────────────────────────────────────────────────────────────────────────────
-TARGET_DISTS = {'Uniform_5pct', 'Normal_10pct'};
+TARGET_DISTS = {'Normal_5pct', 'Normal_10pct'};
 scen_names   = {cfg.scenarios.name};
 
 fprintf('--- TABLE: tab:ks_ln3  (Median KS for LN3 fit) ---\n');
-fprintf('%-18s  %16s  %16s\n', 'Scenario', 'Uniform 5% (KS)', 'Normal 10% (KS)');
+fprintf('%-18s  %16s  %16s\n', 'Scenario', 'Normal 5% (KS)', 'Normal 10% (KS)');
 fprintf('%s\n', repmat('-', 1, 56));
 
 for si = 1:numel(cfg.scenarios)
@@ -39,10 +39,11 @@ for si = 1:numel(cfg.scenarios)
     row_vals = nan(1, numel(TARGET_DISTS));
 
     for di = 1:numel(TARGET_DISTS)
-        tl_file = fullfile('Cache', sc.name, TARGET_DISTS{di}, sprintf('TL_%s.mat', PARAMS{2}));
+        % TL samples always come from the IS base distribution cache (Normal_10pct).
+        % IS reweighting only affects statistics, not the underlying sample set.
+        tl_file = fullfile('Cache', sc.name, cfg.IS_base_dist, sprintf('TL_%s.mat', PARAMS{2}));
         if ~isfile(tl_file)
-            % Try single-param subsets stored by name
-            tl_file = fullfile('Cache', sc.name, TARGET_DISTS{di}, 'TL_zS.mat');
+            tl_file = fullfile('Cache', sc.name, cfg.IS_base_dist, 'TL_zS.mat');
         end
         if ~isfile(tl_file)
             continue;

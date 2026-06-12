@@ -10,22 +10,27 @@ multiple propagation scenarios and input distributions.
 
 | Method | Key script | Summary |
 |--------|-----------|---------|
-| Monte Carlo | `run_MC.m` | N=50 LHS samples, parallel Bellhop runs, empirical stats |
-| Delta (2nd-order Taylor) | `run_Delta.m` | Jacobian + diagonal Hessian via central FD; no extra Bellhop runs |
-| PCE | `run_pce.m` | Polynomial Chaos fit (order 1–10) to cached MC samples |
-| LN3 | `run_LN3.m` | 3-parameter lognormal fit to MC samples per pixel |
+| Monte Carlo | `run_MC.m` | N=300 base samples (Normal 10%); IS-recycled for Normal 1%/5% — no extra Bellhop runs |
+| Delta (GH orders 1–10) | `run_Delta.m` | Gauss-Hermite quadrature sweep; L2 convergence vs MC reference |
+| PCE | `run_pce.m` | Polynomial Chaos up to order 20; combined LOO cross-validation K\* selection |
+| LN3 | `run_LN3.m` | 3-parameter lognormal fit; pixel-wise CDF RMSE maps |
 
 ## How to Run
 
-All scripts live in `stochastic_TL_maps_project/`. Run from that directory.
+All scripts live in `stochastic_TL_maps_project/`. The orchestrator runs all stages in sequence:
 
-```matlab
-% Re-run analysis on existing MC cache (PCE + LN3 + comparison figures):
-matlab -batch "run_analysis_only"
-
-% Full pipeline from scratch (runs Bellhop for MC, then analysis):
-matlab -batch "run_full_pipeline"
+**Windows:**
+```bat
+run_server.bat
 ```
+
+**Linux / macOS:**
+```bash
+./run_server.sh
+```
+
+Each stage is cache-safe — if output files already exist the step is skipped.
+See [SERVER_GUIDE.md](SERVER_GUIDE.md) for full deployment instructions including Linux binary setup.
 
 Each step is cache-safe — if output files already exist the step is skipped.
 

@@ -23,7 +23,7 @@ if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
 
 %% ── Fixed waveguide parameters ────────────────────────────────────────────
 c    = 1500;                     % sound speed (m/s) — constant SVP
-D    = 35;                       % water depth (m) — matches const_35 baseline
+D    = 2500;                     % water depth (m) — deep_water scenario (const_2500)
 zS   = cfg.nominal.zS_m;        % 5 m
 FOM  = cfg.nominal.FOM_dB;
 
@@ -32,8 +32,8 @@ FOM  = cfg.nominal.FOM_dB;
 geo_rigid = [10, 10, 0];
 
 maxR_m     = 50000;              % 50 km range
-bathy_type = 'const_35';
-cache_dir  = fullfile('..', 'Cache', 'baseline', 'bellhop_raw');
+bathy_type = 'const_2500';
+cache_dir  = fullfile('..', 'Cache', 'deep_water', 'bellhop_raw');
 if ~exist(cache_dir, 'dir'), mkdir(cache_dir); end
 
 % Thorp absorption (dB/km)
@@ -106,7 +106,7 @@ for fi = 1:numel(freqs)
     xlabel('Range (km)'); ylabel('TL (dB)');
     title(sprintf('Range profile at z_S=%.0fm', zS));
 
-    sgtitle(sprintf('Waveguide vs Bellhop | f=%dHz  D=%dm  c=%dm/s  \\alpha=%.2fdB/km  Rigid bottom', ...
+    sgtitle(sprintf('Waveguide vs Bellhop | f=%dHz  D=%gm  c=%dm/s  \\alpha=%.2fdB/km  Rigid bottom', ...
                     freq, D, c, alpha));
 
     out_path = fullfile(fig_dir, sprintf('waveguide_%dHz', freq));
