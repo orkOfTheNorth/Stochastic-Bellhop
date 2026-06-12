@@ -263,23 +263,54 @@ To characterise the nonlinearity quantitatively, we employ a
   \xi = \frac{\theta - \theta_0}{\sigma}
   \label{eq:pce}
 \end{equation}
-where $\Phi_n$ are probabilist Hermite polynomials (Normal) or Legendre polynomials
-(Uniform), orthogonal with respect to their respective PDFs.
-Coefficients are fitted by least-squares regression (QR decomposition) on the existing
-$N=50$ MC TL samples — \emph{no additional Bellhop runs are required}:
+where $\Phi_n$ are probabilist Hermite polynomials (Normal inputs) or Legendre
+polynomials (Uniform inputs), orthogonal with respect to their respective PDFs,
+and $\xi$ is the standardised uncertain parameter.
+
+\paragraph{Matrix formulation.}
+For $N$ MC samples $\{\xi_i\}_{i=1}^N$ the expansion evaluated at all sample points
+becomes the linear system $\mathbf{y} \approx \boldsymbol\Phi\,\mathbf{c}$:
 \begin{equation}
-  \mathbf{C} = (\boldsymbol\Phi^\top \boldsymbol\Phi)^{-1}\boldsymbol\Phi^\top \mathbf{TL},
-  \qquad [\boldsymbol\Phi]_{ij} = \Phi_j(\xi_i)
-  \qquad
-  \gamma_n = \langle \Phi_n^2 \rangle
+  \underbrace{\begin{bmatrix} \TL(\xi_1) \\ \TL(\xi_2) \\ \vdots \\ \TL(\xi_N) \end{bmatrix}}_{\mathbf{y}\;\in\;\mathbb{R}^{N}}
+  =
+  \underbrace{\begin{bmatrix}
+    \Phi_0(\xi_1) & \Phi_1(\xi_1) & \cdots & \Phi_K(\xi_1) \\
+    \Phi_0(\xi_2) & \Phi_1(\xi_2) & \cdots & \Phi_K(\xi_2) \\
+    \vdots        & \vdots        & \ddots & \vdots        \\
+    \Phi_0(\xi_N) & \Phi_1(\xi_N) & \cdots & \Phi_K(\xi_N)
+  \end{bmatrix}}_{\boldsymbol\Phi\;\in\;\mathbb{R}^{N\times(K+1)}}
+  \underbrace{\begin{bmatrix} c_0 \\ c_1 \\ \vdots \\ c_K \end{bmatrix}}_{\mathbf{c}\;\in\;\mathbb{R}^{K+1}}
+  \label{eq:pce_matrix}
 \end{equation}
+In our setting $\mathbf{y}$ holds the TL value at one $(z,r)$ pixel across the $N=50$
+Latin-Hypercube samples, so the regression is solved independently at each of the
+$N_z \times N_r = 574 \times 766 \approx 440\,000$ pixels.
+$\boldsymbol\Phi$ is the same $50\times(K+1)$ Vandermonde-like matrix for all pixels
+(it depends only on the sample points $\xi_i$, not on the TL values), so the QR
+decomposition $\boldsymbol\Phi = \mathbf{Q}\mathbf{R}$ is computed once and reused
+across the entire spatial grid.
+The least-squares solution is:
+\begin{equation}
+  \hat{\mathbf{c}} = \bigl(\boldsymbol\Phi^\top\boldsymbol\Phi
+                    + \lambda\mathbf{I}\bigr)^{-1}\boldsymbol\Phi^\top\mathbf{y},
+  \qquad
+  \lambda = 10^{-10}\,\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)
+  \label{eq:pce_ridge}
+\end{equation}
+where the small ridge penalty $\lambda$ damps coefficient blow-up at high orders
+without biasing the result ($\lambda/\sigma_{\max}^2 \ll 10^{-6}$).
+At maximum order $K=10$ the design matrix is $50\times11$, giving an
+overdetermined system with $N/(K+1)\approx4.5$ samples per degree of freedom.
+
 Variance follows directly from orthogonality:
 \begin{equation}
-  \Var_K[\TL] = \mathrm{Var}\!\left[\sum_{n=0}^{K} c_n\,\Phi_n(\xi_i)\right]_{i=1}^{N}
+  \Var_K[\TL] = \mathrm{Var}\!\left[\hat{\mathbf{y}}^{(K)}\right], \qquad
+  \hat{\mathbf{y}}^{(K)} = \boldsymbol\Phi_{1:K+1}\,\hat{\mathbf{c}}_{1:K+1}
   \label{eq:pce_var}
 \end{equation}
-Variance is estimated directly as the sample variance of the order-$K$ fitted values
-$\hat{y}_i^{(K)}$ at the $N$ sample points, using nested QR projections to guarantee
+computed as the sample variance of the $K$-th order fitted values at the $N=50$
+sample points.
+Nested QR projections (adding one column at a time) guarantee
 monotone convergence: $\Var_1 \leq \Var_2 \leq \cdots \leq \Var_\text{MC}$.
 
 \subsubsection{Automatic Order Selection: Analytic LOO-CV and Ridge Regularisation}
