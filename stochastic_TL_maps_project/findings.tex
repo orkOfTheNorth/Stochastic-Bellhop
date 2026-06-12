@@ -282,6 +282,50 @@ Variance is estimated directly as the sample variance of the order-$K$ fitted va
 $\hat{y}_i^{(K)}$ at the $N$ sample points, using nested QR projections to guarantee
 monotone convergence: $\Var_1 \leq \Var_2 \leq \cdots \leq \Var_\text{MC}$.
 
+\subsubsection{Automatic Order Selection: Analytic LOO-CV and Ridge Regularisation}
+\label{sec:pce_loo}
+
+With only $N=50$ samples and up to $K=10$ polynomial terms, the regression has just
+$N/(K+1)\approx4.5$ samples per parameter at maximum order --- well below the rule-of-thumb
+threshold of 10 for reliable ordinary least-squares fits.
+To guard against overfitting, the implementation uses \emph{analytic leave-one-out
+cross-validation} (LOO-CV) for automatic order selection, computed at essentially zero
+extra cost from the QR decomposition already needed for variance estimation.
+
+\paragraph{How it works.}
+For each pixel $(z,r)$ and PCE order $K$, the LOO prediction error for sample $i$ is
+\begin{equation}
+  e_i^{\text{LOO}} = \frac{r_i}{1 - h_{ii}},
+  \qquad h_{ii} = \sum_{j=1}^{K+1} Q_{ij}^2
+  \label{eq:loo_impl}
+\end{equation}
+where $r_i = y_i - \hat{y}_i^{(K)}$ is the training residual and $h_{ii}$ is the
+$i$-th hat-matrix diagonal, read directly from the $Q$ factor of the thin QR decomposition
+of $\boldsymbol\Phi$.
+The mean LOO-MSE averaged over the $(z,r)$ grid selects the optimal order:
+\begin{equation}
+  K^* = \arg\min_K \;\overline{\text{LOO}}(K),
+  \qquad
+  \overline{\text{LOO}}(K) = \frac{1}{N_z N_r}\sum_{j}\frac{1}{N}\sum_{i}
+  \left(\frac{r_{ij}}{1-h_{ii}}\right)^{\!2}.
+  \label{eq:loo_kstar}
+\end{equation}
+No additional Bellhop runs, no data splitting, and no refitting are required ---
+the LOO estimate reuses the QR factor already computed for nested variance projection.
+A small ridge penalty $\lambda = 10^{-10}\,\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)$
+is applied to the final coefficient solve to suppress coefficient blow-up at high orders
+without biasing the variance estimate.
+
+\paragraph{Effect on $K^*$.}
+The LOO-selected $K^*$ is typically 1--3 orders \emph{lower} than the naive
+$L_1 < 10\%$ threshold rule for converging parameters.  For non-converging parameters
+($z_S$ in deep water, all parameters in slope scenarios) both criteria agree:
+no finite-order expansion is reliable, confirming that the failure is physical
+nonlinearity rather than an overfitting artefact.
+The convergence figures (Figure~\ref{fig:pce_convergence_a} and
+Figure~\ref{fig:cv_all}) show the LOO-CV curve alongside the $L_1$ curve; a vertical
+tick marks the LOO-selected $K^*$.
+
 \subsubsection{Convergence Study}
 
 Figures~\ref{fig:pce_convergence_a}--\ref{fig:pce_convergence_b} show the
