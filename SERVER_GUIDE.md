@@ -1,27 +1,28 @@
-# Running the Stochastic-Bellhop Pipeline on a Windows Server
+# Running the Stochastic-Bellhop Pipeline on a Server
 
-This guide is for a partner picking up the repo cold. No prior codebase knowledge needed.  
+This guide is for a partner picking up the repo cold — no prior codebase knowledge required.  
 Branch: **`12.6-READY-FOR-SERVER-RUN`**
 
 ---
 
 ## Requirements
 
-| Requirement | Notes |
-|---|---|
-| **MATLAB R2021a or later** | Must be on the system PATH (`matlab` launches from CMD) |
-| **Parallel Computing Toolbox** | Optional — without it `parfor` runs sequentially (slower, still correct) |
-| **Git** | To clone the repo |
-| **Python 3.9+** | Only needed for the Streamlit UI (not for the MATLAB pipeline) |
-| *GPU — NVIDIA Compute Capability ≥ 3.5* | Optional — CPU mode works automatically |
+| Requirement | Windows | Linux |
+|---|---|---|
+| **MATLAB R2021a+** | Must be on PATH (`matlab` launches from CMD) | Must be on PATH |
+| **Bellhop binary** | `bellhop.exe` (committed to repo) | `bellhop` — see [Step 0 (Linux)](#step-0-linux-only--get-the-bellhop-binary) |
+| **Git** | Yes | Yes |
+| **Python 3.9+** | Only for Streamlit UI | Only for Streamlit UI |
+| **NVIDIA GPU ≥ CC 3.5** | Optional — auto-detected | Optional — auto-detected |
+| Parallel Computing Toolbox | Optional — `parfor` falls back to sequential | Same |
 
 LaTeX / pdflatex is **not** required to run the MATLAB pipeline.
 
 ---
 
-## Step 1 — Clone the repository and switch branch
+## Step 1 — Clone and switch branch
 
-```bat
+```bash
 git clone https://github.com/orkOfTheNorth/Stochastic-Bellhop.git
 cd Stochastic-Bellhop
 git checkout 12.6-READY-FOR-SERVER-RUN
@@ -29,79 +30,131 @@ git checkout 12.6-READY-FOR-SERVER-RUN
 
 ---
 
+## Step 0 (Linux only) — Get the Bellhop binary
+
+The repo ships `bellhop.exe` (Windows). On Linux you need a native build.
+
+### Option A — Download pre-built binary (easiest)
+
+The Acoustics Toolbox project distributes Linux binaries:
+
+```bash
+# Download the AT toolbox (adjust URL to latest release)
+wget http://oalib.hlsresearch.com/AcousticsToolbox/at.zip
+unzip at.zip -d at_toolbox
+# Copy the Linux bellhop binary into the repo Bellhop/ folder
+cp at_toolbox/bin/bellhop stochastic_TL_maps_project/Bellhop/bellhop
+chmod +x stochastic_TL_maps_project/Bellhop/bellhop
+```
+
+### Option B — Compile from source (most compatible)
+
+Requires `gfortran` (install via `sudo apt install gfortran` or `sudo yum install gcc-gfortran`):
+
+```bash
+git clone https://github.com/A-New-BellHope/bellhop.git bellhop_src
+cd bellhop_src
+make
+cp bellhop ../stochastic_TL_maps_project/Bellhop/bellhop
+cd ..
+```
+
+### Option C — GPU / CUDA build (optional)
+
+If the server has a CUDA-capable NVIDIA GPU, also place `bellhopcuda` (or `bellhop_cuda`) in
+`stochastic_TL_maps_project/Bellhop/`. The MATLAB wrapper auto-detects it.
+
+### Verify
+
+```bash
+stochastic_TL_maps_project/Bellhop/bellhop --help 2>&1 | head -3
+# Should print the BELLHOP header line, not "command not found"
+```
+
+---
+
 ## Step 2 — Verify the environment
 
+**Windows:**
 ```bat
 run_server.bat check_setup
 ```
 
-Expected output:
+**Linux:**
+```bash
+chmod +x run_server.sh   # only needed once
+./run_server.sh check_setup
+```
 
+Expected output:
 ```
 [OK]   MATLAB version >= R2021a
 [OK]   config.json present and parseable
 [OK]   Shared_Utils/ on MATLAB path
-[OK]   bellhop.exe on MATLAB path
+[OK]   bellhop on MATLAB path
 [OK]   Cache/ directory writable
 [OK]   Methods/ directory writable
 ```
 
-**Acceptable FAILs on a CPU-only machine:**
-- `Parallel Computing Toolbox` — parfor runs sequentially; no accuracy impact
-- `GPU available` — `bellhop.exe` (CPU) is used automatically
+**Acceptable FAILs:**
+- `Parallel Computing Toolbox` — parfor runs sequentially; correct but slower
+- `GPU available` — CPU bellhop is used automatically
 
 ---
 
 ## Step 3 — Run the pipeline
 
-### Recommended: full v2 pipeline
+### Full v2 pipeline (recommended)
 
+**Windows:**
 ```bat
-run_server.bat run_all_v2
+run_server.bat
 ```
 
-This is the **default** — calling `run_server.bat` with no argument does the same thing.
+**Linux:**
+```bash
+./run_server.sh
+```
 
-It runs all seven stages in sequence:
+Both default to `run_all_v2`, which runs all 7 stages:
 
-| Stage | Script | What it does |
-|---|---|---|
-| 1 | `run_MC` | 300 Normal-10% samples per scenario/param; IS reweighting for 1% and 5% |
-| 2 | `run_Delta` | Gauss–Hermite quadrature orders 1–10; L2 convergence figures |
-| 3 | `run_pce` | PCE up to order 20; combined LOO cross-validation; K\* selection |
-| 4 | `run_LN3` | LN3 histogram diagnostics + pixel-wise CDF RMSE maps |
-| 5 | `run_Comparison` | Side-by-side detection-probability maps for all methods |
-| 6 | `run_MC_convergence` | EX/Var convergence scatter and derivative plots |
-| 7 | `fill_findings` | Extracts computed statistics and prints LaTeX-ready values |
+| # | Stage | Script | What it does |
+|---|---|---|---|
+| 1 | MC | `run_MC` | 300 Normal-10% samples; IS reweighting for 1% and 5% |
+| 2 | Delta | `run_Delta` | GH quadrature orders 1–10; L2 convergence figures |
+| 3 | PCE | `run_pce` | PCE up to order 20; combined LOO cross-validation; K\* |
+| 4 | LN3 | `run_LN3` | LN3 histogram diagnostics + pixel-wise CDF RMSE maps |
+| 5 | Comparison | `run_Comparison` | Side-by-side detection-probability maps |
+| 6 | MC convergence | `run_MC_convergence` | EX/Var vs N scatter and derivative plots |
+| 7 | Fill findings | `fill_findings` | Prints LaTeX-ready values for findings.tex |
 
-Total runtime estimate on a modern workstation: **4–8 hours** (dominated by Step 1 MC).
-
-Log: `stochastic_TL_maps_project\run_run_all_v2.log`
+**Runtime estimate:** 4–8 hours on a modern workstation (Step 1 MC dominates).  
+**Log:** `stochastic_TL_maps_project/run_run_all_v2.log`
 
 ---
 
 ### Run individual stages
 
-Any stage can be run in isolation (e.g. to resume after a failure or re-run one step):
+**Windows / Linux (just swap `run_server.bat` ↔ `./run_server.sh`):**
 
-```bat
-run_server.bat run_MC               # Monte Carlo — slowest step (~3-5 h)
-run_server.bat run_Delta            # Delta GH sweep  (~30 min)
-run_server.bat run_pce              # PCE             (~20 min)
-run_server.bat run_LN3              # LN3 RMSE maps   (~15 min)
-run_server.bat run_Comparison       # Comparison maps (~5 min)
-run_server.bat run_MC_convergence   # Convergence diagnostics (~10 min)
-run_server.bat fill_findings        # Print LaTeX values (seconds)
+```bash
+./run_server.sh run_MC               # Monte Carlo — slowest (~3-5 h)
+./run_server.sh run_Delta            # Delta GH sweep  (~30 min)
+./run_server.sh run_pce              # PCE             (~20 min)
+./run_server.sh run_LN3              # LN3 RMSE maps   (~15 min)
+./run_server.sh run_Comparison       # Comparison maps (~5 min)
+./run_server.sh run_MC_convergence   # Convergence diagnostics (~10 min)
+./run_server.sh fill_findings        # Print LaTeX values (seconds)
 ```
 
-**All stages skip already-completed work** — if interrupted, re-run the same command and it
-picks up where it left off via the `Cache/` and `Methods/` skip-if-done guards.
+**All stages skip already-completed work.** If interrupted, re-run the same command and
+it picks up where it left off via the `Cache/` and `Methods/` skip-if-done guards.
 
 ---
 
 ## Step 4 — Check results
 
-After the pipeline completes, figures (`.png`) and data (`.mat`) are in:
+Figures (`.png`) and data (`.mat`) land in:
 
 ```
 stochastic_TL_maps_project/Methods/
@@ -113,86 +166,74 @@ stochastic_TL_maps_project/Methods/
   MC_convergence/  ← EX/Var vs N scatter, mean curves, derivative plots
 ```
 
-Figures are saved as `.png` and open in any image viewer.
-
 ---
 
 ## Step 5 — Compile the report (optional)
 
-If MiKTeX / pdflatex is installed:
-
-```bat
+```bash
 cd stochastic_TL_maps_project
 pdflatex findings.tex
-pdflatex findings.tex
+pdflatex findings.tex   # second pass for cross-references
 ```
 
-Two passes are needed for cross-references. Output: `findings.pdf`.
+Output: `findings.pdf` (24 pages).
 
 ---
 
 ## Step 6 — Launch the Streamlit UI (optional)
 
-The interactive map viewer requires Python. Install dependencies once:
+Install Python dependencies once:
 
-```bat
-pip install -r stochastic_TL_maps_project\ui\requirements.txt
+```bash
+pip install -r stochastic_TL_maps_project/ui/requirements.txt
+# On Linux you may need pip3 if pip points to Python 2:
+# pip3 install -r stochastic_TL_maps_project/ui/requirements.txt
 ```
 
-Then launch:
+Launch:
 
-```bat
+```bash
 cd stochastic_TL_maps_project
-streamlit run ui\app.py
+streamlit run ui/app.py
+# On a headless server, add: --server.headless true --server.port 8501
 ```
 
-Opens at `http://localhost:8501`.  
-On a headless server, SSH-tunnel the port first:
+**SSH tunnel** (run on your local machine):
 
-```bat
-ssh -L 8501:localhost:8501 user@server
+```bash
+ssh -L 8501:localhost:8501 user@server-address
 ```
 
 Then open `http://localhost:8501` in your local browser.
 
 **What the UI shows:**
 - Sidebar: scenario, parameter, distribution, FOM (dB), detection threshold, overlay method
-- Main panel: EX(TL) heatmap with colour-coded detection zones (green = P(detect) ≥ threshold)
-- Q-TIP inspector: drag the Range/Depth sliders to any pixel — shows EX, Var, P(detect) for
-  MC, Delta 1st/2nd/LN3, and PCE side by side, plus the MC TL histogram at that pixel
+- Main panel: EX(TL) heatmap with green detection zones (P(detect) ≥ threshold)
+- Q-TIP inspector: drag Range/Depth sliders → EX, Var, P(detect) for MC / Delta / PCE side by side + MC histogram
 
 ---
 
-## GPU acceleration (automatic)
+## GPU acceleration
 
-If the server has a compatible NVIDIA GPU, `bellhopcuda.exe` is selected automatically — no
-configuration needed. `check_setup` shows which binary will be used.
+The MATLAB wrapper (`Bellhop/bellhop.m`) auto-selects the CUDA build when:
+- A CUDA binary is present (`bellhopcuda.exe` on Windows, `bellhopcuda` or `bellhop_cuda` on Linux)
+- MATLAB's `gpuDevice()` returns compute capability ≥ 3.5
 
----
-
-## Resuming an interrupted run
-
-Re-run the same command. Every stage checks for existing output before recomputing:
-- **MC**: skips a param/scenario if `Cache/<scen>/<dist>/TL_<param>.mat` already exists
-- **Delta / PCE / LN3 / Comparison**: skips if the corresponding figure or `.mat` result exists
-- **run_all_v2**: skips any stage whose completion marker is present
+No configuration needed. `check_setup` shows which binary will be used.
 
 ---
 
-## Pipeline design notes (for orientation)
+## Pipeline design (for orientation)
 
-**Importance sampling (IS):** The pipeline runs 300 Bellhop evaluations for `Normal_10pct`
-(the widest distribution), then reweights them analytically to obtain `Normal_5pct` and
-`Normal_1pct` statistics — no extra Bellhop calls. IS weights are
-`w_i ∝ exp(x_i²/2 · (1/σ_large² − 1/σ_target²))`.
+**Importance sampling (IS):** Runs 300 Bellhop evaluations at `Normal_10pct` once, then
+reweights analytically for `Normal_5pct` and `Normal_1pct` — no extra Bellhop calls.
 
-**Detection probability:** All maps show `P(TL < FOM) = P(detect)` — green zones are where
-detection is likely, not where signal is lost. FOM defaults to 100 dB for all scenarios
-except `shallow_water` (FOM = 20 dB).
+**Detection probability:** All maps show P(TL < FOM) = P(detect).
+Green zones = likely detection. FOM = 100 dB for all scenarios except `shallow_water` (20 dB).
 
-**Scenarios:** `deep_water`, `shallow_water`, `upslope`, `downslope` — no baseline scenario.
+**Scenarios:** `deep_water`, `shallow_water`, `upslope`, `downslope`.
 
-**Distributions:** `Normal_1pct`, `Normal_5pct`, `Normal_10pct` — no Uniform distributions.
+**Distributions:** `Normal_1pct`, `Normal_5pct`, `Normal_10pct`.
 
 ---
 
@@ -200,9 +241,12 @@ except `shallow_water` (FOM = 20 dB).
 
 | Symptom | Fix |
 |---|---|
-| `matlab` not found | Add MATLAB bin to PATH: `set PATH=%PATH%;C:\Program Files\MATLAB\R202Xa\bin` |
-| `bellhop.exe not found` | Confirm you are on the correct branch: `git checkout 12.6-READY-FOR-SERVER-RUN` |
-| Out of memory during MC | Reduce `N` in `config.json` → `"N": 100` (default is 300) |
-| Figures not saving | Confirm `Methods/` directory is writable; it is created automatically if absent |
-| Streamlit `ModuleNotFoundError` | Run `pip install -r stochastic_TL_maps_project\ui\requirements.txt` |
-| PCE skipped unexpectedly | Check that MC results exist: `Methods/MC/<scen>/<dist>/results/MC_<param>.mat` |
+| `matlab: command not found` | `export PATH=$PATH:/usr/local/MATLAB/R2024a/bin` (adjust year) |
+| `bellhop: command not found` inside MATLAB | See Step 0 — Linux binary not placed in `Bellhop/` |
+| `bellhop.exe` error on Linux | Expected — the MATLAB wrapper ignores `.exe` on Linux automatically |
+| Permission denied on `run_server.sh` | `chmod +x run_server.sh` |
+| Out of memory during MC | Reduce `N` in `config.json` → `"N": 100` (default 300) |
+| Figures not saving | `Methods/` is created automatically; check disk space with `df -h` |
+| Streamlit `ModuleNotFoundError` | `pip3 install -r stochastic_TL_maps_project/ui/requirements.txt` |
+| PCE skipped unexpectedly | MC results must exist first: `Methods/MC/<scen>/<dist>/results/MC_<param>.mat` |
+| `run_server.sh: line N: $'\r': command not found` | Windows line endings — fix with: `sed -i 's/\r//' run_server.sh` |
