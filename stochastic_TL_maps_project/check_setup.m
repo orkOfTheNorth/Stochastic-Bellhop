@@ -48,15 +48,7 @@ PASS = chk(PASS, 'Shared_Utils on MATLAB path', ~isempty(which('loadConfig')), .
     'Run: addpath(genpath(''Shared_Utils''))');
 
 % ── Bellhop CPU binary (OS-aware) ────────────────────────────────────────────
-if ispc
-    bhp     = which('bellhop.exe');
-    bhp_lbl = 'bellhop.exe';
-    bhp_hint = fullfile(pwd, 'Bellhop', 'bellhop.exe');
-else
-    bhp     = which('bellhop');
-    bhp_lbl = 'bellhop (Linux/macOS)';
-    bhp_hint = 'Bellhop/bellhop — see SERVER_GUIDE.md Step 0 for Linux build';
-end
+[bhp, bhp_lbl, bhp_hint] = bellhopFind('bellhop', 'bellhop', '');
 PASS = chk(PASS, [bhp_lbl ' on MATLAB path'], ~isempty(bhp), ...
     sprintf('Not found.  Expected at: %s', bhp_hint));
 if ~isempty(bhp)
@@ -64,14 +56,7 @@ if ~isempty(bhp)
 end
 
 % ── Bellhop CUDA binary (OS-aware) ───────────────────────────────────────────
-if ispc
-    bhp_cuda = which('bellhopcuda.exe');
-    cuda_lbl = 'bellhopcuda.exe';
-else
-    bhp_cuda = which('bellhopcuda');
-    if isempty(bhp_cuda), bhp_cuda = which('bellhop_cuda'); end
-    cuda_lbl = 'bellhopcuda (Linux/macOS)';
-end
+[bhp_cuda, cuda_lbl, ~] = bellhopFind('bellhopcuda', 'bellhopcuda', 'bellhop_cuda');
 has_cuda_bin = ~isempty(bhp_cuda);
 PASS = chk(PASS, [cuda_lbl ' on MATLAB path'], has_cuda_bin, ...
     'CUDA build not found — GPU acceleration will be skipped (CPU fallback active).');
@@ -142,5 +127,20 @@ function ok = canWriteDir(d)
         ok = true;
     catch
         ok = false;
+    end
+end
+
+function [bin, lbl, default_path] = bellhopFind(pc_name, unix_name, unix_fallback)
+    if ispc
+        bin          = which([pc_name '.exe']);
+        lbl          = [pc_name '.exe'];
+        default_path = fullfile(pwd, 'Bellhop', [pc_name '.exe']);
+    else
+        bin          = which(unix_name);
+        if ~isempty(unix_fallback) && isempty(bin)
+            bin = which(unix_fallback);
+        end
+        lbl          = [unix_name ' (Linux/macOS)'];
+        default_path = ['Bellhop/' unix_name ' — see SERVER_GUIDE.md Step 0'];
     end
 end

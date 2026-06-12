@@ -32,8 +32,6 @@ run_server.bat
 Each stage is cache-safe — if output files already exist the step is skipped.
 See [SERVER_GUIDE.md](SERVER_GUIDE.md) for full deployment instructions including Linux binary setup.
 
-Each step is cache-safe — if output files already exist the step is skipped.
-
 ## Key Outputs
 
 ```
