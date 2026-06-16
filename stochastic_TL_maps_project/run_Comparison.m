@@ -99,7 +99,7 @@ for si = 1:numel(cfg.scenarios)
             mc_file    = fullfile(mc_dir,    sprintf('MC_%s.mat',    sn));
             delta_file = fullfile(delta_dir, sprintf('delta_%s.mat', sn));
 
-            M = load(mc_file,    'MC_EX','MC_Var','MC_P_detect','Cheb_detect','LN3_prob', ...
+            M = load(mc_file,    'MC_EX','MC_Var','MC_P_detect','MC_P_kde','Cheb_detect','LN3_prob', ...
                                  'r_km','z_m','FOM','N');   % TL_all loaded lazily below
             D = load(delta_file, 'TL_expected','Var_TL','Cheb_lb_s','r_km','z_m','DeltaLN3_prob');
 
@@ -116,10 +116,13 @@ for si = 1:numel(cfg.scenarios)
                 fprintf('  Loaded LN3 cache [%s]\n', sn);
             else
                 fprintf('  Computing LN3 moments map [%s]...\n', sn);
-                tmp_tl = load(mc_file, 'TL_all');
-                [Nz, Nr, ~] = size(tmp_tl.TL_all);
-                TL_pix = reshape(permute(tmp_tl.TL_all, [3 1 2]), N, Nz*Nr);
-                clear tmp_tl;
+                tl_cache = fullfile('Cache', sc.name, dist.name, ...
+                                    sprintf('TL_%s.mat', sn));
+                tmp_tl = load(tl_cache, 'TL_save');
+                TL_all_c = double(tmp_tl.TL_save);
+                [Nz, Nr, ~] = size(TL_all_c);
+                TL_pix = reshape(permute(TL_all_c, [3 1 2]), N, Nz*Nr);
+                clear tmp_tl TL_all_c;
                 [ex_v, var_v] = ln3moments(TL_pix, FOM);
                 clear TL_pix;
                 LN3_EX  = reshape(ex_v,  Nz, Nr);
@@ -168,6 +171,7 @@ for si = 1:numel(cfg.scenarios)
             % Include Delta-LN3 if available in the delta results file
             % Convert Delta shadow probabilities to detection probabilities
             Delta_P_detect    = 1 - D.Cheb_lb_s;        % Cheb upper bound on P_detect
+            have_kde = isfield(M, 'MC_P_kde');
             if isfield(D, 'DeltaLN3_prob')
                 DeltaLN3_detect = D.DeltaLN3_prob;       % already P(TL < FOM) = P(detect)
                 detect_pairings = {
@@ -180,6 +184,10 @@ for si = 1:numel(cfg.scenarios)
                     ['MC_vs_Delta' sfx], M.MC_P_detect, Delta_P_detect, 'MC Empirical', 'Delta (Cheb UB)';
                     ['MC_vs_LN3'  sfx], M.MC_P_detect, M.LN3_prob,    'MC Empirical', 'LN3 (MC-fit)';
                 };
+            end
+            if have_kde
+                detect_pairings(end+1,:) = {['LN3_vs_KDE' sfx], M.LN3_prob, M.MC_P_kde, ...
+                                             'LN3 (MC-fit)', 'KDE (non-parametric)'};
             end
 
             for thr_idx = 1:numel(THRESHOLDS)
@@ -213,6 +221,38 @@ for si = 1:numel(cfg.scenarios)
             end
 
             n_figs_total = n_figs_total + numel(THRESHOLDS) * size(detect_pairings,1) + 4;
+
+            %% ── KDE validation scatter: Empirical vs KDE, LN3 vs KDE ──────────
+            if have_kde
+                fig_kde = figure('Position',[50 50 900 400]);
+
+                ax1 = subplot(1,2,1);
+                scatter(ax1, M.MC_P_detect(:), M.MC_P_kde(:), 2, 'filled', ...
+                        'MarkerFaceAlpha', 0.2, 'MarkerFaceColor', [0.2 0.4 0.8]);
+                hold(ax1,'on');
+                plot(ax1, [0 1],[0 1],'r-','LineWidth',1.5);
+                hold(ax1,'off');
+                xlabel(ax1,'P_{detect} Empirical');
+                ylabel(ax1,'P_{detect} KDE');
+                title(ax1,'KDE vs Empirical','Interpreter','none');
+                grid(ax1,'on'); axis(ax1,'equal'); xlim(ax1,[0 1]); ylim(ax1,[0 1]);
+
+                ax2 = subplot(1,2,2);
+                scatter(ax2, M.LN3_prob(:), M.MC_P_kde(:), 2, 'filled', ...
+                        'MarkerFaceAlpha', 0.2, 'MarkerFaceColor', [0.1 0.6 0.3]);
+                hold(ax2,'on');
+                plot(ax2, [0 1],[0 1],'r-','LineWidth',1.5);
+                hold(ax2,'off');
+                xlabel(ax2,'P_{detect} LN3');
+                ylabel(ax2,'P_{detect} KDE (non-parametric)');
+                title(ax2,'LN3 vs KDE — validates LN3 assumption','Interpreter','none');
+                grid(ax2,'on'); axis(ax2,'equal'); xlim(ax2,[0 1]); ylim(ax2,[0 1]);
+
+                sgtitle(sprintf('KDE Validation | %s', tag), 'Interpreter','none');
+                saveFigPNG(fig_kde, fullfile(fig_dir, ['kde_validation' sfx]));
+                drawnow; close(fig_kde);
+                n_figs_total = n_figs_total + 1;
+            end
         end
 
         fprintf('  %d figures saved to %s\n', n_figs_total, fig_dir);

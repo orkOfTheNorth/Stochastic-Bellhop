@@ -327,16 +327,6 @@ for si = 1:numel(cfg.scenarios)
 
         %% ── FIGURES ─────────────────────────────────────────────────────────
 
-        % Anisotropic Gaussian blur params
-        dz = z_m(2) - z_m(1);
-        dr = (r_km(2) - r_km(1)) * 1000;
-        SZ_M  = 1.0;   SR_M  = 100;
-        sz_px = SZ_M / dz;
-        sr_px = SR_M / dr;
-        MIN_FEAT_Z = 20;    MIN_FEAT_R = 500;
-        lpf_cut_z  = min(0.90, 2 * dz / MIN_FEAT_Z);
-        lpf_cut_r  = min(0.90, 2 * dr / MIN_FEAT_R);
-
         for s = 1:7
             lbl = subset_labels{s};
             C   = Cheb_lb{s};          % P(shadow) lower bound
@@ -360,43 +350,6 @@ for si = 1:numel(cfg.scenarios)
             saveFigPNG(figA2, fullfile(fig_dir, sprintf('cheb_ln3_%s', subset_names{s})));
             drawnow; close(figA2);
 
-            %% Fig B: Smoothing comparison (3-panel)
-            C_lpf  = lpf2d(Pd, lpf_cut_z, lpf_cut_r);
-            C_gaus = gaussBlur2d(Pd, sz_px, sr_px);
-            lpf_lbl  = sprintf('LPF (z>%.0fm, r>%.0fm)', MIN_FEAT_Z, MIN_FEAT_R);
-            gaus_lbl = sprintf('Gaussian (sz=%.0fm, sr=%.0fm)', SZ_M, SR_M);
-
-            figB = figure('Position',[50 50 1600 480]);
-            ax1 = subplot(1,3,1);
-            detectionCategoryMap(ax1, r_km, z_m, Pd,     'Non-smoothed',  THRESHOLDS);
-            overlayBathymetry(ax1, bathy_m, sc.maxDepth_m);
-            ax2 = subplot(1,3,2);
-            detectionCategoryMap(ax2, r_km, z_m, C_lpf,  lpf_lbl,         THRESHOLDS);
-            overlayBathymetry(ax2, bathy_m, sc.maxDepth_m);
-            ax3 = subplot(1,3,3);
-            detectionCategoryMap(ax3, r_km, z_m, C_gaus, gaus_lbl,        THRESHOLDS);
-            overlayBathymetry(ax3, bathy_m, sc.maxDepth_m);
-            sgtitle(sprintf('Delta P(detect) Smoothing | %s | %s | %s | FOM=%ddB', ...
-                            sc.name, dist.name, lbl, FOM));
-            saveFigPNG(figB, fullfile(fig_dir, sprintf('smooth_%s', subset_names{s})));
-            drawnow; close(figB);
-
-            % Individual smoothed maps
-            figL = figure('Position',[50 50 700 480]);
-            detectionCategoryMap(gca, r_km, z_m, C_lpf, ...
-                sprintf('Delta %s | %s | %s | %s', lpf_lbl, sc.name, dist.name, lbl), ...
-                THRESHOLDS);
-            overlayBathymetry(gca, bathy_m, sc.maxDepth_m);
-            saveFigPNG(figL, fullfile(fig_dir, sprintf('smooth_lpf_%s', subset_names{s})));
-            drawnow; close(figL);
-
-            figG = figure('Position',[50 50 700 480]);
-            detectionCategoryMap(gca, r_km, z_m, C_gaus, ...
-                sprintf('Delta %s | %s | %s | %s', gaus_lbl, sc.name, dist.name, lbl), ...
-                THRESHOLDS);
-            overlayBathymetry(gca, bathy_m, sc.maxDepth_m);
-            saveFigPNG(figG, fullfile(fig_dir, sprintf('smooth_gauss_%s', subset_names{s})));
-            drawnow; close(figG);
         end
 
         %% Fig: 2nd-order bias map (all 7 subsets)

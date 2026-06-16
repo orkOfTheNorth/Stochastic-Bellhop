@@ -10,13 +10,6 @@ function cfg = loadConfig()
     % Convenience: N_MC from MC.N
     cfg.N_MC = cfg.MC.N;
 
-    % Convenience: IS base distribution name
-    if isfield(cfg.MC, 'IS_base_dist')
-        cfg.IS_base_dist = cfg.MC.IS_base_dist;
-    else
-        cfg.IS_base_dist = 'Normal_10pct';
-    end
-
     % Convenience: PCE max order and LOO weight
     if isfield(cfg, 'PCE')
         cfg.max_pce_order = cfg.PCE.max_order;

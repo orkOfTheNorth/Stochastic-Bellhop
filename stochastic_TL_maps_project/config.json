@@ -28,9 +28,8 @@
     { "name": "Normal_10pct", "type": "normal", "level_pct": 10 }
   ],
   "MC": {
-    "N": 300,
-    "rng_seed": 42,
-    "IS_base_dist": "Normal_10pct"
+    "N": 150,
+    "rng_seed": 42
   },
   "PCE": {
     "max_order": 20,

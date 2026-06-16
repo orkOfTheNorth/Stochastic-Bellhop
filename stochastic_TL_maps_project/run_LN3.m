@@ -76,15 +76,20 @@ for si = 1:numel(cfg.scenarios)
             if skipIfDone(out_fig, sprintf('%s / %s / %s', sc.name, dist.name, sn))
                 % histogram already done; TL_all loaded below only if RMSE needed
             else
+                tl_cache = fullfile('Cache', sc.name, dist.name, ...
+                                    sprintf('TL_%s.mat', sn));
                 try
-                    D = load(mc_file, 'TL_all','r_km','z_m','MC_P_detect');
+                    D_tl = load(tl_cache, 'TL_save');
+                    D_mc = load(mc_file, 'r_km','z_m','MC_P_detect');
                 catch ME
                     fprintf('  SKIP %s — could not load file (%s)\n', sn, ME.message);
                     continue;
                 end
-                TL_all = D.TL_all;
-                r_km   = D.r_km;
-                z_m    = D.z_m;
+                TL_all = double(D_tl.TL_save);
+                r_km   = D_mc.r_km;
+                z_m    = D_mc.z_m;
+                D.MC_P_detect = D_mc.MC_P_detect;
+                clear D_tl D_mc;
                 [Nz, Nr, N] = size(TL_all);
 
                 ri_vec = round(linspace(Nr*0.10, Nr*0.90, GRID_R));
@@ -148,15 +153,19 @@ for si = 1:numel(cfg.scenarios)
 
             % Load TL_all if not already in memory from histogram step
             if ~exist('TL_all','var')
+                tl_cache = fullfile('Cache', sc.name, dist.name, ...
+                                    sprintf('TL_%s.mat', sn));
                 try
-                    D = load(mc_file, 'TL_all','r_km','z_m');
+                    D_tl = load(tl_cache, 'TL_save');
+                    D_mc = load(mc_file, 'r_km','z_m');
                 catch ME
                     fprintf('  SKIP RMSE %s — could not load (%s)\n', sn, ME.message);
                     continue;
                 end
-                TL_all = D.TL_all;
-                r_km   = D.r_km;
-                z_m    = D.z_m;
+                TL_all = double(D_tl.TL_save);
+                r_km   = D_mc.r_km;
+                z_m    = D_mc.z_m;
+                clear D_tl D_mc;
             end
 
             [Nz, Nr, N] = size(TL_all);

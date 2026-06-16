@@ -3,15 +3,11 @@
 % For each completed scenario × distribution, fits Polynomial Chaos Expansion
 % coefficients using the Normal_10pct base-distribution TL samples (no new Bellhop runs).
 %
-% ARCHITECTURE (IS-aware)
-% ───────────────────────
-%   PCE is fitted ONCE per scenario/param on Normal_10pct samples.
-%   Variance under other distributions uses analytic rescaling:
-%
-%     Var_K(σ_target) = Σ_{n=1}^K  c_n² · n! · (σ_target/σ_base)^{2n}
-%
-%   This is exact for polynomial TL functions and avoids running Bellhop
-%   for Normal_1pct / Normal_5pct.
+% ARCHITECTURE
+% ─────────────
+%   PCE is fitted independently for each (scenario × distribution) on N=150
+%   direct LHS samples from that distribution.  ratio = 1 throughout, so
+%   variance reduces to the standard PCE formula: Var_K = Σ_{n=1}^K c_n² · n!
 %
 % COMBINED LOO-CV CRITERION
 % ──────────────────────────
@@ -52,14 +48,7 @@ MAX_ORDER = cfg.max_pce_order;   % 20 (from config)
 alpha_loo = cfg.LOO_alpha;       % 0.5 — weight for LOO_Var vs LOO_EX
 PARAMS    = {'freq', 'zS', 'svp'};
 
-% Base distribution (Normal_10pct): PCE is always fitted on this
-base_name = cfg.IS_base_dist;    % 'Normal_10pct'
-base_idx  = find(strcmp({cfg.distributions.name}, base_name), 1);
-if isempty(base_idx)
-    error('IS base distribution "%s" not found in config.', base_name);
-end
-B_base = computeVarianceBounds(cfg, cfg.distributions(base_idx));
-sig_base = [B_base.sig_freq, B_base.sig_zS, B_base.sig_svp];   % [1 × 3]
+% PCE is fitted on each distribution's own N=150 independent samples.
 
 %% ── Identify completed combos ────────────────────────────────────────────────
 fprintf('=== PCE (order 1..%d, combined LOO) ===\n', MAX_ORDER);
@@ -114,17 +103,16 @@ for ci = 1:numel(completed)
 
     FOM = getFOM(cfg, sc_name);
 
-    %% Variance bounds for the TARGET distribution
+    %% Variance bounds for this distribution
     B_target = computeVarianceBounds(cfg, dist);
-    sig_tgt  = [B_target.sig_freq, B_target.sig_zS, B_target.sig_svp];
 
-    %% Regenerate LHS samples for the BASE distribution (fixed seed → reproducible)
-    S_base = lhsSample(N, cfg, cfg.distributions(base_idx), B_base);
+    %% LHS samples for this distribution (fixed seed → reproducible)
+    S_dist = lhsSample(N, cfg, dist, B_target);
 
-    % Standardised xi ∈ N(0,1) for base distribution
-    xi_all_base = [(S_base.freq - freq0) / B_base.sig_freq, ...
-                   (S_base.zS   - zS0)   / B_base.sig_zS, ...
-                    S_base.svp           / B_base.sig_svp];   % [N × 3]
+    % Standardised xi ∈ N(0,1)
+    xi_all = [(S_dist.freq - freq0) / B_target.sig_freq, ...
+              (S_dist.zS   - zS0)   / B_target.sig_zS, ...
+               S_dist.svp           / B_target.sig_svp];   % [N × 3]
 
     % Gamma norms for analytic Var: <He_n, He_n>_{N(0,1)} = n!
     gamma_vec = factorial(0:MAX_ORDER)';   % [MAX_ORDER+1 × 1]
@@ -145,12 +133,8 @@ for ci = 1:numel(completed)
     for pi = 1:3
         param = PARAMS{pi};
 
-        %% Load TL cube from Normal_10pct cache
-        tl_file = fullfile('Cache', sc_name, base_name, sprintf('TL_%s.mat', param));
-        if ~isfile(tl_file)
-            % fallback: try old per-distribution path for backwards compat
-            tl_file = fullfile('Cache', sc_name, dist_name, sprintf('TL_%s.mat', param));
-        end
+        %% Load TL cube from this distribution's cache
+        tl_file = fullfile('Cache', sc_name, dist_name, sprintf('TL_%s.mat', param));
         if ~isfile(tl_file)
             fprintf('  [SKIP] TL cache missing for %s: %s\n', param, tl_file);
             L2_mat(:,pi) = NaN;
@@ -168,8 +152,8 @@ for ci = 1:numel(completed)
         std_VM  = max(std(Var_MC), 1e-10);
         clear mc_data;
 
-        %% Standardised xi for base distribution
-        xi = xi_all_base(:, pi);   % [N × 1]  ~  N(0,1)
+        %% Standardised xi ~ N(0,1)
+        xi = xi_all(:, pi);   % [N × 1]
 
         %% Build basis and QR decomposition
         Phi    = pce_basis(xi, MAX_ORDER, dist_type);           % [N × MAX_ORDER+1]
@@ -183,8 +167,8 @@ for ci = 1:numel(completed)
         lambda    = 1e-10 * trace(Phi'*Phi);
         C_all{pi} = (Phi'*Phi + lambda*eye(MAX_ORDER+1)) \ (Phi'*TL_mat);
 
-        % Distribution rescaling ratio:  σ_target / σ_base
-        ratio = sig_tgt(pi) / sig_base(pi);
+        % PCE is fitted and evaluated on the same distribution: ratio = 1
+        ratio = 1.0;
 
         %% Convergence metrics (nested QR projections, rank-1 updates) ─────────
         % Analytic variance: Var_K = Σ_{n=1}^K c_n² · n! · ratio^{2n}
@@ -193,19 +177,18 @@ for ci = 1:numel(completed)
         % → constant for all K; EX L2 metric is distribution-specific
         %
         h_cumsum = cumsum(Q.^2, 2);      % [N × MAX_ORDER+1]
-        y_hat_K  = zeros(N, Npix);       % accumulated PCE predictions (base dist)
+        y_hat_K  = Q(:,1) * QTL(1,:);   % init with constant term so residuals are centred
 
         for K = 1:MAX_ORDER
             % Rank-1 update: add K-th order contribution
-            y_hat_K    = y_hat_K + Q(:,K+1) * QTL(K+1,:);
-            c_K_accum(K+1,:) = QTL(K+1,:);   % = Q_{K+1}' TL (unnormalized)
+            y_hat_K = y_hat_K + Q(:,K+1) * QTL(K+1,:);
 
             % Recover PCE coefficient c_n (in original He_n basis) via R:
             % c = R^{-1} * QTL(1:K+1,:)
             c_K = R_qr(1:K+1,1:K+1) \ QTL(1:K+1,:);   % [K+1 × Npix]
 
             % Analytic Var under TARGET distribution (rescaling formula)
-            ratio_n2 = (ratio .^ (2*(1:K)'))';            % [K × 1] scaled factors
+            ratio_n2 = ratio .^ (2*(1:K)');               % [K × 1] scaled factors
             Var_K_pix = sum((c_K(2:end,:).^2) .* (gamma_vec(2:K+1) .* ratio_n2), 1); % [1 × Npix]
             Var_K_pix = max(Var_K_pix, 0);
 
@@ -219,7 +202,7 @@ for ci = 1:numel(completed)
             LOO_EX_mat(K, pi) = mean(loo_K);
 
             % LOO Var: variance of LOO predictions, analytically scaled to target dist
-            y_hat_loo   = y_hat_K + (h_K ./ max(1 - h_K, 1e-10)) .* r_K;  % [N × Npix]
+            y_hat_loo   = y_hat_K - (h_K ./ max(1 - h_K, 1e-10)) .* r_K;  % [N × Npix] ŷ_{-i} = ŷ - h/(1-h)*r
             % Scale LOO variance by ratio² (first-order approximation)
             Var_loo_K   = max(var(y_hat_loo, 0, 1) * ratio^2, 0);          % [1 × Npix]
             LOO_Var_mat(K, pi) = mean((Var_loo_K' - Var_MC).^2) / max(var(Var_MC), eps);
@@ -235,7 +218,7 @@ for ci = 1:numel(completed)
         %% Best-order Var map and detection map ────────────────────────────────
         Ks = Kstar(pi);
         c_best  = R_qr(1:Ks+1,1:Ks+1) \ QTL(1:Ks+1,:);
-        ratio_n2_best = (ratio .^ (2*(1:Ks)'))';
+        ratio_n2_best = ratio .^ (2*(1:Ks)');     % [Ks × 1]
         Var_best_pix = sum((c_best(2:end,:).^2) .* (gamma_vec(2:Ks+1) .* ratio_n2_best), 1);
         Var_best_pix = max(Var_best_pix, 0);
         VarK_best{pi}    = reshape(Var_best_pix, Nz, Nr);
@@ -415,8 +398,7 @@ for ci = 1:numel(completed)
     saveFigPNG(fig_rel, fullfile(fig_dir, 'pce_order_relevance'));
     close(fig_rel);
 
-    %% ── Figure 3: Distribution comparison (Normal_10pct only) ───────────────
-    if strcmp(dist_name, base_name)
+    %% ── Figure 3: Distribution comparison ───────────────────────────────────
         dist_fig_path = fullfile(fig_dir, sprintf('pce_dist_%s_%s.png', sc_name, dist_name));
         if ~isfile(dist_fig_path)
             M = 2000;  rng(42);
@@ -428,8 +410,7 @@ for ci = 1:numel(completed)
             fig_d = figure('Position', [50 50 1100 800]);
             for pi = 1:3
                 if isempty(C_all{pi}), continue; end
-                tl_f  = fullfile('Cache', sc_name, base_name, sprintf('TL_%s.mat', PARAMS{pi}));
-                if ~isfile(tl_f), tl_f = fullfile('Cache', sc_name, dist_name, sprintf('TL_%s.mat', PARAMS{pi})); end
+                tl_f  = fullfile('Cache', sc_name, dist_name, sprintf('TL_%s.mat', PARAMS{pi}));
                 if ~isfile(tl_f), continue; end
                 tmp_pi  = load(tl_f, 'TL_save');
                 TL_pi   = double(tmp_pi.TL_save(:,:,1:N));
@@ -471,7 +452,6 @@ for ci = 1:numel(completed)
             close(fig_d);
             fprintf('  Dist figure saved.\n');
         end
-    end
 
     %% Store for summary ───────────────────────────────────────────────────────
     for pi = 1:3

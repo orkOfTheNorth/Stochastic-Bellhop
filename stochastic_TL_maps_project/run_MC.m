@@ -1,15 +1,13 @@
 function run_MC(sc_target, dist_target)
-%% run_MC — Monte Carlo UQ with Importance Sampling recycling.
+%% run_MC — Direct Monte Carlo UQ, N=150 independent samples per distribution.
 %
-%  Strategy:
-%   - Run 300 Bellhop samples from Normal_10pct (broadest Normal support).
-%   - Derive Normal_5pct and Normal_1pct statistics for FREE via IS reweighting.
-%   - Detection probability = P(TL < FOM)  [inverted from previous convention].
+%  Runs N independent Bellhop samples for EACH (scenario × distribution).
+%  Detection probability = P(TL < FOM).
 %
 %  Usage:
-%   run_MC()                        — all scenarios
-%   run_MC('deep_water','')         — one scenario, all distributions
-%   run_MC('deep_water','Normal_5pct') — one combo (IS-derived; fast)
+%   run_MC()                           — all scenarios × distributions
+%   run_MC('deep_water','')            — one scenario, all distributions
+%   run_MC('deep_water','Normal_5pct') — one scenario × distribution
 %
 if nargin < 2, sc_target = ''; dist_target = ''; end
 
@@ -17,24 +15,26 @@ close all; clc;
 warning('off', 'MATLAB:unknownObjectIEEE');
 warning('off', 'MATLAB:singularMatrix');
 warning('off', 'MATLAB:rankDeficientMatrix');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+try; cd(fileparts(mfilename('fullpath'))); catch; end
 
 set(0, 'DefaultFigureVisible', 'off');
 try
-    if isempty(gcp('nocreate')), parpool('local', 10); end
-catch; end
+    if isempty(gcp('nocreate'))
+        parpool('local', 10);
+    end
+catch
+end
 
 addpath(genpath('Shared_Utils'));
 addpath(genpath('Bellhop'));
 
-cfg            = loadConfig();
+cfg        = loadConfig();
 [snames, slbls, active] = subsetDefs();
-IS_BASE        = cfg.IS_base_dist;      % 'Normal_10pct'
-N              = cfg.N_MC;              % 300
-THRESHOLDS     = cfg.thresholds(:)';
-freq0          = cfg.nominal.freq_Hz;
-zS0            = cfg.nominal.zS_m;
-geo            = cfg.nominal.geo(:)';
+N          = cfg.N_MC;              % 150
+THRESHOLDS = cfg.thresholds(:)';
+freq0      = cfg.nominal.freq_Hz;
+zS0        = cfg.nominal.zS_m;
+geo        = cfg.nominal.geo(:)';
 
 %% ── OUTER LOOP: scenarios ────────────────────────────────────────────────────
 for si = 1:numel(cfg.scenarios)
@@ -58,28 +58,7 @@ for si = 1:numel(cfg.scenarios)
     bathy_m   = bathymetryMaker(sc.bathy_type, sc.maxR_m);
     max_depth = sc.maxDepth_m;
 
-    %% ── STEP 1: Run Bellhop for IS base distribution (Normal_10pct, 300 runs) ─
-    base_dist = cfg.distributions(strcmp({cfg.distributions.name}, IS_BASE));
-    if isempty(base_dist)
-        error('IS base distribution "%s" not found in config.', IS_BASE);
-    end
-    B_base = computeVarianceBounds(cfg, base_dist);
-    S_base = lhsSample(N, cfg, base_dist, B_base);   % S_base.freq/zS/svp [N×1]
-
-    % Perturbation values (zero-mean): used for IS weight computation
-    x_base.freq = S_base.freq - freq0;
-    x_base.zS   = S_base.zS   - zS0;
-    x_base.svp  = S_base.svp;
-
-    base_cache_dir = fullfile('Cache', sc.name, IS_BASE);
-    if ~exist(base_cache_dir,'dir'), mkdir(base_cache_dir); end
-
-    fprintf('\n--- Running IS base: %s ---\n', IS_BASE);
-    [TL_base, x_base] = runOrLoadTLcache(sc, base_cache_dir, raw_cache, ...
-        snames, active, S_base, x_base, freq0, zS0, geo, FOM, N, Nz, Nr, ...
-        max_depth, cfg, base_dist);
-
-    %% ── STEP 2: Compute & save stats for ALL distributions ───────────────────
+    %% ── DISTRIBUTION LOOP ────────────────────────────────────────────────────
     for di = 1:numel(cfg.distributions)
         dist = cfg.distributions(di);
         if ~isempty(sc_target) && ~isempty(dist_target)
@@ -96,10 +75,21 @@ for si = 1:numel(cfg.scenarios)
             if ~exist(d{1},'dir'), mkdir(d{1}); end
         end
 
-        B_dist    = computeVarianceBounds(cfg, dist);
-        is_base   = strcmp(dist.name, IS_BASE);
+        B_dist = computeVarianceBounds(cfg, dist);
+        S_dist = lhsSample(N, cfg, dist, B_dist);
 
-        fprintf('\n  --- Distribution: %s (IS=%d) ---\n', dist.name, ~is_base);
+        x_dist.freq = S_dist.freq - freq0;
+        x_dist.zS   = S_dist.zS   - zS0;
+        x_dist.svp  = S_dist.svp;
+
+        cache_dir = fullfile('Cache', sc.name, dist.name);
+        if ~exist(cache_dir,'dir'), mkdir(cache_dir); end
+
+        fprintf('\n--- Distribution: %s ---\n', dist.name);
+
+        [TL_dist, x_dist] = runOrLoadTLcache(sc, cache_dir, raw_cache, ...
+            snames, active, S_dist, x_dist, freq0, zS0, geo, FOM, N, Nz, Nr, ...
+            max_depth, cfg, dist);
 
         all_stats = struct();
 
@@ -110,62 +100,51 @@ for si = 1:numel(cfg.scenarios)
             mc_file = fullfile(res_dir, sprintf('MC_%s.mat', sn));
             if isfile(mc_file)
                 fprintf('    [SKIP] %s already done\n', sn);
-                tmp = load(mc_file, 'MC_EX','MC_Var','MC_P_detect','Cheb_detect','LN3_prob');
+                tmp = load(mc_file, 'MC_EX','MC_Var','MC_P_detect','MC_P_kde','Cheb_detect','LN3_prob');
                 all_stats.(sn) = tmp;
                 continue;
             end
 
-            %% Determine which parameter is perturbed
-            if fl(1),     param = 'freq'; sig_large = B_base.sig_freq; sig_tgt = B_dist.sig_freq; x_samp = x_base.freq;
-            elseif fl(2), param = 'zS';   sig_large = B_base.sig_zS;   sig_tgt = B_dist.sig_zS;   x_samp = x_base.zS;
-            else,         param = 'svp';  sig_large = B_base.sig_svp;  sig_tgt = B_dist.sig_svp;  x_samp = x_base.svp;
-            end
-
-            if ~isfield(TL_base, sn) || isempty(TL_base.(sn))
-                fprintf('    [WARN] No TL cache for %s/%s\n', IS_BASE, sn);
+            if ~isfield(TL_dist, sn) || isempty(TL_dist.(sn))
+                fprintf('    [WARN] No TL cache for %s/%s\n', dist.name, sn);
                 continue;
             end
-            TL_all = double(TL_base.(sn));   % [Nz × Nr × N]
+            TL_all = double(TL_dist.(sn));   % [Nz × Nr × N]
 
-            %% Compute stats (uniform weights for base, IS weights for others)
-            if is_base
-                MC_EX       = mean(TL_all, 3);
-                MC_Var      = var(TL_all, 0, 3);
-                MC_P_detect = mean(TL_all < FOM, 3);
-                ESS         = N;
-                w_norm      = ones(N,1) / N;
-            else
-                [st, ESS] = importanceSample(TL_all, x_samp, sig_large, sig_tgt, FOM);
-                MC_EX       = st.EX;
-                MC_Var      = st.Var;
-                MC_P_detect = st.P_detect;
-                w_norm      = st.w_norm;
-                fprintf('    %s: ESS=%.0f/%.0f (%.0f%%)\n', ...
-                        sn, ESS, N, 100*ESS/N);
-            end
+            %% Direct statistics (uniform weights)
+            MC_EX       = mean(TL_all, 3);
+            MC_Var      = var(TL_all, 0, 3);
+            MC_P_detect = mean(TL_all < FOM, 3);
+            w_norm      = ones(N,1) / N;
 
             %% Chebyshev detection upper bound: P_detect ≤ 1 - Cheb_lb_shadow
             Cheb_shadow = chebyshevBound(MC_EX, MC_Var, FOM);
-            Cheb_detect = 1 - Cheb_shadow;   % upper bound on P_detect
+            Cheb_detect = 1 - Cheb_shadow;
 
-            %% LN3 probability (using IS-weighted samples via weighted KDE trick)
-            fprintf('    Computing LN3 map (%s)...\n', sn);
+            %% LN3 probability + Gaussian KDE P(detect)
+            fprintf('    Computing LN3 + KDE map (%s)...\n', sn);
             t_ln3 = tic;
             TL_pix   = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr);
             [~, ~, prob_vec] = ln3moments(TL_pix, FOM, w_norm);
             LN3_prob = reshape(prob_vec, Nz, Nr);
-            clear TL_pix prob_vec;
-            fprintf('    LN3 done in %.1fs\n', toc(t_ln3));
+
+            % Gaussian KDE CDF at FOM: P_kde = mean_i Φ((FOM - TL_i) / h)
+            % Bandwidth h via Silverman's rule per pixel
+            h_pix    = max(1.06 * std(TL_pix, 0, 1) * N^(-0.2), 1e-6);  % [1 × Npix]
+            P_kde    = mean(normcdf((FOM - TL_pix) ./ h_pix), 1);         % [1 × Npix]
+            MC_P_kde = reshape(P_kde, Nz, Nr);
+            clear TL_pix prob_vec h_pix P_kde;
+            fprintf('    LN3+KDE done in %.1fs\n', toc(t_ln3));
 
             %% Save result
-            save(mc_file, 'MC_EX','MC_Var','MC_P_detect','Cheb_detect', ...
-                 'LN3_prob','r_grid','z_grid','r_km','z_m','FOM','N','ESS', ...
-                 'B_dist','w_norm','-v7.3');
+            save(mc_file, 'MC_EX','MC_Var','MC_P_detect','MC_P_kde','Cheb_detect', ...
+                 'LN3_prob','r_grid','z_grid','r_km','z_m','FOM','N','B_dist', ...
+                 'w_norm','-v7.3');
             fprintf('    Saved: %s\n', mc_file);
 
             all_stats.(sn) = struct('MC_EX',MC_EX,'MC_Var',MC_Var, ...
-                'MC_P_detect',MC_P_detect,'Cheb_detect',Cheb_detect, ...
-                'LN3_prob',LN3_prob);
+                'MC_P_detect',MC_P_detect,'MC_P_kde',MC_P_kde, ...
+                'Cheb_detect',Cheb_detect,'LN3_prob',LN3_prob);
         end
 
         %% ── Figures ──────────────────────────────────────────────────────────
@@ -173,8 +152,7 @@ for si = 1:numel(cfg.scenarios)
                       r_km, z_m, bathy_m, max_depth, sc, dist, N, FOM, THRESHOLDS);
 
         %% ── Param-distribution figure ────────────────────────────────────────
-        plotParamDistributions(S_base, x_base, B_base, B_dist, dist, IS_BASE, ...
-                               is_base, N, fig_dir);
+        plotParamDistributions(x_dist, B_dist, dist, N, fig_dir);
     end
 end
 
@@ -183,11 +161,11 @@ end   % run_MC
 
 
 %% ═══════════════════════════════════════════════════════════════════════════
-function [TL_base, x_base] = runOrLoadTLcache(sc, cache_dir, raw_cache, ...
-    snames, active, S_base, x_base, freq0, zS0, geo, FOM, N, Nz, Nr, ...
+function [TL_dist, x_dist] = runOrLoadTLcache(sc, cache_dir, raw_cache, ...
+    snames, active, S_dist, x_dist, freq0, zS0, geo, FOM, N, Nz, Nr, ...
     max_depth, cfg, dist)
-%RUNORLOADTLCACHE  Run or load the N=300 Bellhop cache for the IS base dist.
-    TL_base = struct();
+%RUNORLOADTLCACHE  Run or load N Bellhop samples for a distribution.
+    TL_dist = struct();
     for s = 1:numel(snames)
         fl = active{s};  sn = snames{s};
         if sum(fl) > 1, continue; end
@@ -199,11 +177,11 @@ function [TL_base, x_base] = runOrLoadTLcache(sc, cache_dir, raw_cache, ...
             tc = load(tl_file, 'N_saved');
             if tc.N_saved >= N
                 tmp = load(tl_file, 'TL_save');
-                TL_base.(sn) = double(tmp.TL_save(:,:,1:N));
+                TL_dist.(sn) = double(tmp.TL_save(:,:,1:N));
                 xc = load(x_file, 'x_samples');
-                if fl(1),     x_base.freq = xc.x_samples;
-                elseif fl(2), x_base.zS   = xc.x_samples;
-                else,         x_base.svp  = xc.x_samples;
+                if fl(1),     x_dist.freq = xc.x_samples;
+                elseif fl(2), x_dist.zS   = xc.x_samples;
+                else,         x_dist.svp  = xc.x_samples;
                 end
                 fprintf('  [CACHE HIT] %s/%s\n', dist.name, sn);
                 continue;
@@ -212,7 +190,7 @@ function [TL_base, x_base] = runOrLoadTLcache(sc, cache_dir, raw_cache, ...
 
         %% Run Bellhop
         do_freq = logical(fl(1));  do_zS = logical(fl(2));  do_svp = logical(fl(3));
-        freq_s  = S_base.freq;  zS_s = S_base.zS;  svp_s = S_base.svp;
+        freq_s  = S_dist.freq;  zS_s = S_dist.zS;  svp_s = S_dist.svp;
         btype   = sc.bathy_type;  maxR_m = sc.maxR_m;
 
         TL_col  = cell(N, 1);
@@ -240,30 +218,30 @@ function [TL_base, x_base] = runOrLoadTLcache(sc, cache_dir, raw_cache, ...
         fprintf('  Done in %.0fs\n', toc(t_start));
 
         %% Save TL cache
-        TL_save = single(TL_all);
-        N_saved = int32(N);
+        TL_save   = single(TL_all);
+        N_saved   = int32(N);
         dist_name = dist.name;
         save(tl_file, 'TL_save','N_saved','dist_name','-v7.3');
 
-        %% Save perturbation samples (x_samples)
-        if fl(1),     x_samples = S_base.freq - freq0;
-        elseif fl(2), x_samples = S_base.zS   - zS0;
-        else,         x_samples = S_base.svp;
+        %% Save perturbation samples
+        if fl(1),     x_samples = S_dist.freq - freq0;
+        elseif fl(2), x_samples = S_dist.zS   - zS0;
+        else,         x_samples = S_dist.svp;
         end
         save(x_file, 'x_samples', '-v7');
         fprintf('  Saved: %s\n', tl_file);
 
-        TL_base.(sn) = TL_all;
-        if fl(1),     x_base.freq = x_samples;
-        elseif fl(2), x_base.zS   = x_samples;
-        else,         x_base.svp  = x_samples;
+        TL_dist.(sn) = TL_all;
+        if fl(1),     x_dist.freq = x_samples;
+        elseif fl(2), x_dist.zS   = x_samples;
+        else,         x_dist.svp  = x_samples;
         end
     end
 end
 
 
 %% ═══════════════════════════════════════════════════════════════════════════
-function plotMCFigures(all_stats, snames, slbls, active, fig_dir, ...
+function plotMCFigures(all_stats, snames, slbls, ~, fig_dir, ...
     r_km, z_m, bathy_m, max_depth, sc, dist, N, FOM, THRESHOLDS)
 %PLOTMCFIGURES  Generate all MC output figures.
     avail = fieldnames(all_stats);
@@ -283,7 +261,7 @@ function plotMCFigures(all_stats, snames, slbls, active, fig_dir, ...
         saveFigPNG(fig, fullfile(fig_dir, sprintf('TL_%s', sn)));
         close(fig);
 
-        %% Detection probability map (empirical and Chebyshev upper bound)
+        %% Detection probability maps
         figD = figure('Position',[50 50 700 480]);
         detectionCategoryMap(gca, r_km, z_m, st.MC_P_detect, ...
             sprintf('P(detect) MC | %s | %s | %s', sc.name, dist.name, sn), ...
@@ -341,32 +319,25 @@ end
 
 
 %% ═══════════════════════════════════════════════════════════════════════════
-function plotParamDistributions(S_base, x_base, B_base, B_dist, dist, IS_BASE, ...
-                                is_base, N, fig_dir)
-%PLOTPARAMDISTRIBUTIONS  Histogram of the 300 drawn samples vs theoretical PDFs.
+function plotParamDistributions(x_dist, B_dist, dist, N, fig_dir)
+%PLOTPARAMDISTRIBUTIONS  Histogram of LHS samples vs theoretical PDF.
     fig = figure('Position',[50 50 1200 380]);
     params     = {'freq', 'zS',  'svp'};
     param_lbls = {'Frequency perturbation (Hz)', 'Source depth perturbation (m)', 'SVP perturbation (°C)'};
-    sigs_base  = [B_base.sig_freq, B_base.sig_zS, B_base.sig_svp];
-    sigs_tgt   = [B_dist.sig_freq, B_dist.sig_zS, B_dist.sig_svp];
-    x_samps    = {x_base.freq, x_base.zS, x_base.svp};
+    sigs       = [B_dist.sig_freq, B_dist.sig_zS, B_dist.sig_svp];
+    x_samps    = {x_dist.freq, x_dist.zS, x_dist.svp};
 
     for p = 1:3
         ax  = subplot(1, 3, p);
         xs  = x_samps{p};
-        sb  = sigs_base(p);
-        st  = sigs_tgt(p);
-        xi  = linspace(-4*sb, 4*sb, 300);
+        sig = sigs(p);
+        xi  = linspace(-4*sig, 4*sig, 300);
 
         histogram(ax, xs, 30, 'Normalization','pdf', ...
                   'FaceColor',[0.6 0.8 1.0], 'FaceAlpha',0.7, 'EdgeColor','none');
         hold(ax,'on');
-        plot(ax, xi, normpdf(xi, 0, sb), 'b-', 'LineWidth', 2, ...
-             'DisplayName', sprintf('P: %s (σ=%.2g)', IS_BASE, sb));
-        if ~is_base
-            plot(ax, xi, normpdf(xi, 0, st), 'r--', 'LineWidth', 2, ...
-                 'DisplayName', sprintf('Q: %s (σ=%.2g)', dist.name, st));
-        end
+        plot(ax, xi, normpdf(xi, 0, sig), 'b-', 'LineWidth', 2, ...
+             'DisplayName', sprintf('%s (σ=%.2g)', dist.name, sig));
         hold(ax,'off');
         xlabel(ax, param_lbls{p});
         ylabel(ax, 'Density');
@@ -374,7 +345,7 @@ function plotParamDistributions(S_base, x_base, B_base, B_dist, dist, IS_BASE, .
         title(ax, sprintf('%s | N=%d', params{p}, N), 'Interpreter','none');
         grid(ax,'on');
     end
-    sgtitle(sprintf('Sampled parameter distributions — %s (base: %s)', dist.name, IS_BASE));
+    sgtitle(sprintf('LHS sampled parameter distributions — %s', dist.name));
     saveFigPNG(fig, fullfile(fig_dir, 'MC_param_distributions'));
     close(fig);
 end
