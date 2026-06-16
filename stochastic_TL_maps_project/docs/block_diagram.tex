@@ -1,0 +1,209 @@
+\documentclass[border=12pt,tikz]{standalone}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds}
+
+\graphicspath{{./}}
+
+\tikzset{
+  every node/.style={font=\small\sffamily},
+  %% Node styles
+  entry/.style={draw=gray!65, fill=gray!10, rounded corners=4pt,
+    minimum height=0.80cm, minimum width=3.2cm, align=center, inner sep=5pt},
+  config/.style={draw=orange!65, fill=orange!10, rounded corners=4pt,
+    minimum height=0.80cm, minimum width=2.8cm, align=center, inner sep=5pt},
+  bellhop/.style={draw=blue!55, fill=blue!8, rounded corners=4pt,
+    minimum height=0.80cm, minimum width=2.6cm, align=center, inner sep=4pt},
+  cache/.style={draw=yellow!80!black, fill=yellow!15, rounded corners=4pt,
+    minimum height=1.0cm, align=center, inner sep=7pt},
+  analysis/.style={draw=green!60!black, fill=green!9, rounded corners=4pt,
+    minimum height=0.80cm, minimum width=3.0cm, align=center, inner sep=5pt},
+  utils/.style={draw=gray!55, fill=gray!8, rounded corners=4pt,
+    minimum height=0.80cm, align=center, inner sep=7pt},
+  %% Arrow styles
+  arr/.style={->, >=stealth, thick, draw=gray!65},
+  darr/.style={->, >=stealth, dashed, thin, draw=gray!50},
+  dlabel/.style={font=\tiny\sffamily\itshape, text=gray!55},
+}
+
+\begin{document}
+\begin{tikzpicture}
+
+%%────────────────────────────────────────────────────────────────────────────
+%% LAYER 0 — Entry Points
+%%────────────────────────────────────────────────────────────────────────────
+\node[entry] (checksetup) at (2.5,0)
+  {\textbf{check\_setup.m}};
+\node[entry] (runall) at (9,0)
+  {\textbf{run\_all.m}};
+\node[entry] (runaonly) at (15,0)
+  {\textbf{run\_analysis\_only.m}};
+
+%%────────────────────────────────────────────────────────────────────────────
+%% LAYER 1 — Config + Orchestrator
+%%────────────────────────────────────────────────────────────────────────────
+\node[config] (config) at (2.5,-2.8)
+  {\textbf{config.json}\\{\footnotesize loadConfig.m}};
+
+\node[analysis, minimum width=10.5cm] (orch) at (12,-2.8)
+  {\textbf{Pipeline Orchestrator}\\
+   {\footnotesize run\_Delta $\;\to\;$ run\_MC $\;\to\;$ run\_pce
+    $\;\to\;$ run\_LN3 $\;\to\;$ run\_Comparison}};
+
+%%────────────────────────────────────────────────────────────────────────────
+%% LAYER 2 — Bellhop Simulation Stack
+%%────────────────────────────────────────────────────────────────────────────
+\node[bellhop] (bcached) at (4.0,-6.0)  {bellhopCached.m};
+\node[bellhop] (bsimple) at (8.8,-6.0)  {simpleBellhopHazat.m};
+\node[bellhop] (bm)      at (13.5,-6.0) {bellhop.m};
+\node[bellhop, minimum width=2.4cm] (bcpu) at (17.3,-5.3)
+  {\texttt{bellhop.exe}\\{\footnotesize CPU}};
+\node[bellhop, minimum width=2.4cm] (bgpu) at (17.3,-6.7)
+  {\texttt{bellhopcuda.exe}\\{\footnotesize GPU / CUDA}};
+
+% Environment builder helpers
+\node[bellhop, minimum width=2.3cm] (cbe)   at (3.5,-8.2)  {createBellhopEnv.m};
+\node[bellhop, minimum width=2.3cm] (cbb)   at (6.5,-8.2)  {createBellhopBty.m};
+\node[bellhop, minimum width=2.3cm] (bathy) at (9.5,-8.2)  {bathymetryMaker.m};
+\node[bellhop, minimum width=2.3cm] (svpm)  at (12.5,-8.2) {svpMaker.m};
+
+%%────────────────────────────────────────────────────────────────────────────
+%% LAYER 3 — Cache
+%%────────────────────────────────────────────────────────────────────────────
+\node[cache, minimum width=17.2cm] (cachebox) at (9,-10.8)
+  {\textbf{Cache Layer}\\
+   {\footnotesize
+    \texttt{Cache/<scen>/<dist>/TL\_*.mat}\qquad
+    \texttt{Cache/<scen>/bellhop\_raw/*.mat}}};
+
+%%────────────────────────────────────────────────────────────────────────────
+%% LAYER 4 — Analysis Modules + Figure Stacks
+%%────────────────────────────────────────────────────────────────────────────
+
+%% -- run_Delta --
+\node[analysis] (rdelta) at (1.8,-13.5)
+  {\textbf{run\_Delta.m}\\{\footnotesize Taylor-series UQ}};
+\node at (1.8,-16.0) {%
+  \begin{tikzpicture}[inner sep=0pt]
+    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
+      {\includegraphics[width=1.55cm]{Methods/Delta/deep_water/Normal_5pct/figures/bias_2nd_order.png}};
+    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
+      {\includegraphics[width=1.55cm]{Methods/Delta/deep_water/Normal_5pct/figures/smooth_zS.png}};
+  \end{tikzpicture}};
+
+%% -- run_MC --
+\node[analysis] (rmc) at (5.4,-13.5)
+  {\textbf{run\_MC.m}\\{\footnotesize Monte Carlo}};
+\node at (5.4,-16.0) {%
+  \begin{tikzpicture}[inner sep=0pt]
+    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
+      {\includegraphics[width=1.55cm]{Methods/MC/deep_water/Normal_5pct/figures/combined_EX.png}};
+    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
+      {\includegraphics[width=1.55cm]{Methods/MC/deep_water/Normal_5pct/figures/TL_zS.png}};
+  \end{tikzpicture}};
+
+%% -- run_pce --
+\node[analysis] (rpce) at (9.0,-13.5)
+  {\textbf{run\_pce.m}\\{\footnotesize PCE + LOO-CV}};
+\node at (9.0,-16.0) {%
+  \begin{tikzpicture}[inner sep=0pt]
+    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
+      {\includegraphics[width=1.55cm]{Methods/PCE/pce_summary_all.png}};
+    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
+      {\includegraphics[width=1.55cm]{Methods/PCE/deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}};
+  \end{tikzpicture}};
+
+%% -- run_LN3 --
+\node[analysis] (rln3) at (12.6,-13.5)
+  {\textbf{run\_LN3.m}\\{\footnotesize LN3 moment fit}};
+\node at (12.6,-16.0) {%
+  \begin{tikzpicture}[inner sep=0pt]
+    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
+      {\includegraphics[width=1.55cm]{Methods/LN3/baseline/Uniform_1pct/figures/LN3_freq.png}};
+    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
+      {\includegraphics[width=1.55cm]{Methods/LN3/baseline/Uniform_1pct/figures/LN3_zS.png}};
+  \end{tikzpicture}};
+
+%% -- run_Comparison --
+\node[analysis] (rcomp) at (16.2,-13.5)
+  {\textbf{run\_Comparison.m}\\{\footnotesize Method comparison}};
+\node at (16.2,-16.0) {%
+  \begin{tikzpicture}[inner sep=0pt]
+    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
+      {\includegraphics[width=1.55cm]{Methods/Comparison/baseline/Uniform_1pct/figures/EX_diff_MC_Delta.png}};
+    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
+      {\includegraphics[width=1.55cm]{Methods/Comparison/baseline/Uniform_1pct/figures/shadow_70_MC_vs_Delta.png}};
+  \end{tikzpicture}};
+
+%%────────────────────────────────────────────────────────────────────────────
+%% LAYER 5 — Shared Utilities
+%%────────────────────────────────────────────────────────────────────────────
+\node[utils, minimum width=17.2cm] (sharedutils) at (9,-19.2)
+  {\textbf{Shared\_Utils/}\quad
+   {\footnotesize skipIfDone \textbullet{} ln3moments \textbullet{}
+    loadConfig \textbullet{} colors \textbullet{} \ldots\ ($\sim$20 utilities)}};
+
+%%────────────────────────────────────────────────────────────────────────────
+%% BACKGROUND REGION — Bellhop layer
+%%────────────────────────────────────────────────────────────────────────────
+\begin{scope}[on background layer]
+  \node[draw=blue!30, fill=blue!4, rounded corners=8pt,
+        fit=(bcached)(bsimple)(bm)(bcpu)(bgpu)(cbe)(cbb)(bathy)(svpm),
+        inner sep=8pt,
+        label={[blue!55, font=\footnotesize\sffamily\bfseries]above:Bellhop Simulation Stack}]
+    (bhgroup) {};
+\end{scope}
+
+%%────────────────────────────────────────────────────────────────────────────
+%% ARROWS
+%%────────────────────────────────────────────────────────────────────────────
+
+%% Entry → Orchestrator
+\draw[arr] (runall.south)   -- (orch.north -| runall.south);
+\draw[arr] (runaonly.south) -- (orch.north -| runaonly.south);
+
+%% Entry → Config
+\draw[arr] (checksetup.south) -- (config.north);
+
+%% Config → Orchestrator
+\draw[arr] (config.east)
+  -- node[dlabel, above]{cfg}
+  (config.east -| orch.west);
+\draw[arr] (config.east -| orch.west) -- (orch.west);
+
+%% Orchestrator → Bellhop layer
+\draw[arr] (orch.south) -- node[dlabel, right]{Bellhop requests}
+  (orch.south |- bhgroup.north);
+\draw[arr] (orch.south |- bhgroup.north) -| (bcached.north);
+
+%% Bellhop chain
+\draw[arr] (bcached.east) -- (bsimple.west);
+\draw[arr] (bsimple.east) -- (bm.west);
+\draw[arr] (bm.north east) -- (bcpu.west);
+\draw[arr] (bm.south east) -- (bgpu.west);
+
+%% Env helpers → simpleBellhopHazat (dashed, called internally)
+\draw[darr] (cbe.north)   -- (bsimple.south -| cbe.north);
+\draw[darr] (cbb.north)   -- (bsimple.south -| cbb.north);
+\draw[darr] (bathy.north) -- (bsimple.south -| bathy.north);
+\draw[darr] (svpm.north)  -- (bsimple.south -| svpm.north);
+
+%% bellhop.m → Cache
+\draw[arr] (bm.south) -- node[dlabel, right]{TL\_*.mat}
+  (bm.south |- cachebox.north);
+\draw[arr] (bm.south |- cachebox.north) -- (cachebox.north -| bm);
+
+%% Cache → Analysis modules
+\foreach \xmod in {rdelta, rmc, rpce, rln3, rcomp} {
+  \draw[arr] (cachebox.south -| \xmod) -- (\xmod.north);
+}
+
+%% Analysis → SharedUtils (bidirectional dashed: utils are called from all)
+\draw[darr, <->] (sharedutils.north -| rdelta)  -- (rdelta.south  |- sharedutils.north);
+\draw[darr, <->] (sharedutils.north -| rmc)     -- (rmc.south     |- sharedutils.north);
+\draw[darr, <->] (sharedutils.north -| rpce)    -- (rpce.south    |- sharedutils.north);
+\draw[darr, <->] (sharedutils.north -| rln3)    -- (rln3.south    |- sharedutils.north);
+\draw[darr, <->] (sharedutils.north -| rcomp)   -- (rcomp.south   |- sharedutils.north);
+
+\end{tikzpicture}
+\end{document}

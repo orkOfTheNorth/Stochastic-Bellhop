@@ -38,5 +38,24 @@
   "analytical": {
     "sweep_frequencies_Hz": [500, 1000, 2000, 5000, 10000]
   },
-  "thresholds": [0.50, 0.60, 0.70, 0.80, 0.90, 0.95]
+  "thresholds": [0.50, 0.60, 0.70, 0.80, 0.90, 0.95],
+  "bellhop": {
+    "NRD": 574,
+    "NR": 766,
+    "NBEAMS": 1500,
+    "ZBOX_FACTOR": 1.1
+  },
+  "delta": {
+    "GH_max_order": 10
+  },
+  "ln3": {
+    "gamma_fraction": 0.95,
+    "sigma_tail_coverage": 4,
+    "N_EVAL": 50,
+    "N_BINS": 20
+  },
+  "plot": {
+    "dpi": 300,
+    "TL_clim_dB": [50, 150]
+  }
 }
