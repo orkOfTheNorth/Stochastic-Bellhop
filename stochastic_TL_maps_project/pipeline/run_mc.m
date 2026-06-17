@@ -122,24 +122,40 @@ for si = 1:numel(cfg.scenarios)
             Cheb_shadow = chebyshevBound(MC_EX, MC_Var, FOM);
             Cheb_detect = 1 - Cheb_shadow;
 
-            %% LN3 probability + Gaussian KDE P(detect)
-            fprintf('    Computing LN3 + KDE map (%s)...\n', sn);
+            %% LN3 probability: MoM (reference) + MLE IID (final production)
+            fprintf('    Computing LN3-MoM + LN3-MLE + KDE map (%s)...\n', sn);
             t_ln3 = tic;
             TL_pix   = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr);
-            [~, ~, prob_vec] = ln3moments(TL_pix, FOM, w_norm);
-            LN3_prob = reshape(prob_vec, Nz, Nr);
 
-            % Gaussian KDE CDF at FOM: P_kde = mean_i Φ((FOM - TL_i) / h)
-            % Bandwidth h via Silverman's rule per pixel
-            h_pix    = max(1.06 * std(TL_pix, 0, 1) * N^(-0.2), 1e-6);  % [1 × Npix]
-            P_kde    = mean(normcdf((FOM - TL_pix) ./ h_pix), 1);         % [1 × Npix]
+            % Moment-matching LN3 (LHS samples, reference)
+            [~, ~, prob_vec] = ln3moments(TL_pix, FOM, w_norm);
+            LN3_prob     = reshape(prob_vec, Nz, Nr);
+
+            % MLE LN3 on IID samples drawn fresh (final production result)
+            B_iid    = computeVarianceBounds(cfg, dist);
+            S_iid    = iidSample(N, cfg, dist, B_iid, cfg.MC.rng_seed + 1000);
+            TL_iid   = runOrLoadTLcache(sc, ...
+                fullfile('Cache', sc.name, [dist.name '_iid']), raw_cache, ...
+                snames, active, S_iid, x_dist, freq0, zS0, geo, FOM, N, Nz, Nr, ...
+                max_depth, cfg, dist);
+            if isfield(TL_iid, sn) && ~isempty(TL_iid.(sn))
+                TL_iid_pix  = reshape(permute(double(TL_iid.(sn)),[3 1 2]), N, Nz*Nr);
+                LN3_MLE     = reshape(ln3MLE(TL_iid_pix, FOM), Nz, Nr);
+                clear TL_iid_pix;
+            else
+                LN3_MLE = LN3_prob;  % fallback if IID cache unavailable
+            end
+
+            % Gaussian KDE CDF at FOM using LHS samples
+            h_pix    = max(1.06 * std(TL_pix, 0, 1) * N^(-0.2), 1e-6);
+            P_kde    = mean(normcdf((FOM - TL_pix) ./ h_pix), 1);
             MC_P_kde = reshape(P_kde, Nz, Nr);
             clear TL_pix prob_vec h_pix P_kde;
-            fprintf('    LN3+KDE done in %.1fs\n', toc(t_ln3));
+            fprintf('    LN3+MLE+KDE done in %.1fs\n', toc(t_ln3));
 
-            %% Save result
+            %% Save result (LN3_MLE is the final production P(detect))
             save(mc_file, 'MC_EX','MC_Var','MC_P_detect','MC_P_kde','Cheb_detect', ...
-                 'LN3_prob','r_grid','z_grid','r_km','z_m','FOM','N','B_dist', ...
+                 'LN3_prob','LN3_MLE','r_grid','z_grid','r_km','z_m','FOM','N','B_dist', ...
                  'w_norm','-v7.3');
             fprintf('    Saved: %s\n', mc_file);
 

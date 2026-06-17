@@ -28,7 +28,7 @@
     { "name": "Normal_10pct", "type": "normal", "level_pct": 10 }
   ],
   "MC": {
-    "N": 150,
+    "N": 1000,
     "rng_seed": 42
   },
   "PCE": {
