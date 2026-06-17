@@ -9,8 +9,8 @@ function cfg = loadConfig()
     cfg = jsondecode(fileread(cfg_path));
 
     % jsondecode returns JSON arrays as cell arrays in older MATLAB — normalize
-    if iscell(cfg.scenarios),    cfg.scenarios    = cell2mat(cfg.scenarios);    end
-    if iscell(cfg.distributions),cfg.distributions= cell2mat(cfg.distributions);end
+    if iscell(cfg.scenarios),     cfg.scenarios     = cellstructs(cfg.scenarios);     end
+    if iscell(cfg.distributions), cfg.distributions = cellstructs(cfg.distributions); end
     if isfield(cfg,'thresholds') && iscell(cfg.thresholds)
         cfg.thresholds = cell2mat(cfg.thresholds);
     end
