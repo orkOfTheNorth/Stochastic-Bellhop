@@ -102,6 +102,8 @@ for si = 1:numel(cfg.scenarios)
             if isfile(mc_file)
                 fprintf('    [SKIP] %s already done\n', sn);
                 tmp = load(mc_file, 'MC_EX','MC_Var','MC_P_detect','MC_P_kde','Cheb_detect','LN3_prob');
+                if isfield(tmp,'LN3_MLE'), tmp2 = load(mc_file,'LN3_MLE'); tmp.LN3_MLE = tmp2.LN3_MLE;
+                else, tmp.LN3_MLE = tmp.LN3_prob; end  % backward compat
                 all_stats.(sn) = tmp;
                 continue;
             end
@@ -161,7 +163,7 @@ for si = 1:numel(cfg.scenarios)
 
             all_stats.(sn) = struct('MC_EX',MC_EX,'MC_Var',MC_Var, ...
                 'MC_P_detect',MC_P_detect,'MC_P_kde',MC_P_kde, ...
-                'Cheb_detect',Cheb_detect,'LN3_prob',LN3_prob);
+                'Cheb_detect',Cheb_detect,'LN3_prob',LN3_prob,'LN3_MLE',LN3_MLE);
         end
 
         %% ── Figures ──────────────────────────────────────────────────────────
@@ -294,6 +296,17 @@ function plotMCFigures(all_stats, snames, slbls, ~, fig_dir, ...
         overlayBathymetry(gca, bathy_m, max_depth);
         saveFigPNG(figC, fullfile(fig_dir, sprintf('detect_cheb_%s', sn)));
         close(figC);
+
+        %% IID+MLE P(detect) — final production result
+        if isfield(st,'LN3_MLE')
+            figM = figure('Position',[50 50 700 480]);
+            detectionCategoryMap(gca, r_km, z_m, st.LN3_MLE, ...
+                sprintf('P(detect) IID+MLE | %s | %s | %s', sc.name, dist.name, sn), ...
+                THRESHOLDS);
+            overlayBathymetry(gca, bathy_m, max_depth);
+            saveFigPNG(figM, fullfile(fig_dir, sprintf('detect_mle_%s', sn)));
+            close(figM);
+        end
     end
 
     n_avail = numel(avail);
