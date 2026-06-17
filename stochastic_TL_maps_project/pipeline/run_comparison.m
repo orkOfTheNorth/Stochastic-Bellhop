@@ -124,7 +124,7 @@ for si = 1:numel(cfg.scenarios)
                 [Nz, Nr, ~] = size(TL_all_c);
                 TL_pix = reshape(permute(TL_all_c, [3 1 2]), N, Nz*Nr);
                 clear tmp_tl TL_all_c;
-                [ex_v, var_v] = ln3moments(TL_pix, FOM);
+                [ex_v, var_v] = ln3Moments(TL_pix, FOM);
                 clear TL_pix;
                 LN3_EX  = reshape(ex_v,  Nz, Nr);
                 LN3_Var = reshape(var_v, Nz, Nr);

@@ -130,7 +130,7 @@ for si = 1:numel(cfg.scenarios)
             TL_pix   = reshape(permute(TL_all, [3 1 2]), N, Nz*Nr);
 
             % Moment-matching LN3 (LHS samples, reference)
-            [~, ~, prob_vec] = ln3moments(TL_pix, FOM, w_norm);
+            [~, ~, prob_vec] = ln3Moments(TL_pix, FOM, w_norm);
             LN3_prob     = reshape(prob_vec, Nz, Nr);
 
             % MLE LN3 on IID samples drawn fresh (final production result)

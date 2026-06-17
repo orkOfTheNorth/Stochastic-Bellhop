@@ -112,7 +112,7 @@ for si = 1:numel(cfg.scenarios)
 
                         samps  = squeeze(TL_all(zi, ri, :));
                         p_emp  = D.MC_P_detect(zi, ri);   % P(detect) from MC
-                        [p_ln3, gam, mu_ln, sig_ln] = ln3fit(samps, FOM);
+                        [p_ln3, gam, mu_ln, sig_ln] = ln3Fit(samps, FOM);
                         ks     = ksStatLN3(samps, gam, mu_ln, sig_ln);
 
                         ax = nexttile;
