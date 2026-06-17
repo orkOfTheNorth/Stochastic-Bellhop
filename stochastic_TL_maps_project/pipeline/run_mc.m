@@ -134,10 +134,12 @@ for si = 1:numel(cfg.scenarios)
             LN3_prob     = reshape(prob_vec, Nz, Nr);
 
             % MLE LN3 on IID samples drawn fresh (final production result)
-            B_iid    = computeVarianceBounds(cfg, dist);
-            S_iid    = iidSample(N, cfg, dist, B_iid, cfg.MC.rng_seed + 1000);
+            B_iid      = computeVarianceBounds(cfg, dist);
+            S_iid      = iidSample(N, cfg, dist, B_iid, cfg.MC.rng_seed + 1000);
+            iid_cache  = fullfile('Cache', sc.name, [dist.name '_iid']);
+            if ~exist(iid_cache,'dir'), mkdir(iid_cache); end
             TL_iid   = runOrLoadTLcache(sc, ...
-                fullfile('Cache', sc.name, [dist.name '_iid']), raw_cache, ...
+                iid_cache, raw_cache, ...
                 snames, active, S_iid, x_dist, freq0, zS0, geo, FOM, N, Nz, Nr, ...
                 max_depth, cfg, dist);
             if isfield(TL_iid, sn) && ~isempty(TL_iid.(sn))
