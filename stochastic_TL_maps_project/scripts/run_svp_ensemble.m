@@ -6,9 +6,11 @@
 % Replaces the old per-sample individual SVP PNGs.
 
 clear; close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try, cd(ROOT); catch; end
 set(0, 'DefaultFigureVisible', 'off');
-addpath(genpath('Shared_Utils'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg   = loadConfig();
 N     = cfg.MC.N;

@@ -26,10 +26,11 @@
 % Outputs: Methods/Delta/taylor_order_analysis/taylor_order_study_<scen>_<dist>.png
 
 clear; close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try, cd(ROOT); catch; end
 
-addpath(genpath('Shared_Utils'));
-addpath(genpath('Bellhop'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 set(0, 'DefaultFigureVisible', 'off');
 try

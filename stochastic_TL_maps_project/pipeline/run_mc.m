@@ -15,7 +15,8 @@ close all; clc;
 warning('off', 'MATLAB:unknownObjectIEEE');
 warning('off', 'MATLAB:singularMatrix');
 warning('off', 'MATLAB:rankDeficientMatrix');
-try; cd(fileparts(mfilename('fullpath'))); catch; end
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try; cd(ROOT); catch; end
 
 set(0, 'DefaultFigureVisible', 'off');
 try
@@ -25,8 +26,8 @@ try
 catch
 end
 
-addpath(genpath('Shared_Utils'));
-addpath(genpath('Bellhop'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg        = loadConfig();
 [snames, slbls, active] = subsetDefs();

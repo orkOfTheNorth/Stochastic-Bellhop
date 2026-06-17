@@ -1,0 +1,1 @@
+Debug the current project: find errors, trace failures, inspect logs, and identify root causes. Run relevant scripts to reproduce issues, check recent changes, and propose fixes. Be thorough — check syntax errors, runtime exceptions, import failures, config mismatches, and data pipeline issues.

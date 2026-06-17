@@ -7,13 +7,10 @@
 %   matlab -batch "check_setup"
 %   — or interactively: check_setup
 
-try
-    cd(fileparts(mfilename('fullpath')));
-catch
-end
-
-addpath(genpath('Shared_Utils'));
-addpath(genpath('Bellhop'));
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try; cd(ROOT); catch; end
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 PASS = true;
 fprintf('\n====================================================\n');
@@ -43,9 +40,9 @@ if cfg_ok
     end
 end
 
-% ── Shared_Utils on path ─────────────────────────────────────────────────────
-PASS = chk(PASS, 'Shared_Utils on MATLAB path', ~isempty(which('loadConfig')), ...
-    'Run: addpath(genpath(''Shared_Utils''))');
+% ── core library on path ─────────────────────────────────────────────────────
+PASS = chk(PASS, 'core library on MATLAB path', ~isempty(which('loadConfig')), ...
+    'Run: addpath(genpath(fullfile(ROOT, ''core'')))');
 
 % ── Bellhop CPU binary (OS-aware) ────────────────────────────────────────────
 [bhp, bhp_lbl, bhp_hint] = bellhopFind('bellhop', 'bellhop', '');
@@ -81,10 +78,10 @@ catch
 end
 
 % ── Cache and Methods directories ────────────────────────────────────────────
-PASS = chk(PASS, 'Cache/ directory writable',   canWriteDir('Cache'), ...
+PASS = chk(PASS, 'Cache/ directory writable',  canWriteDir('Cache'), ...
     'Create Cache/ or fix permissions.');
-PASS = chk(PASS, 'Methods/ directory writable', canWriteDir('Methods'), ...
-    'Create Methods/ or fix permissions.');
+PASS = chk(PASS, 'Output/ directory writable', canWriteDir('Output'), ...
+    'Create Output/ or fix permissions.');
 
 % ── LaTeX for findings.tex (optional — pipeline does not require it) ─────────
 [s, ~] = system('pdflatex --version');
@@ -134,13 +131,13 @@ function [bin, lbl, default_path] = bellhopFind(pc_name, unix_name, unix_fallbac
     if ispc
         bin          = which([pc_name '.exe']);
         lbl          = [pc_name '.exe'];
-        default_path = fullfile(pwd, 'Bellhop', [pc_name '.exe']);
+        default_path = fullfile(pwd, 'binaries', [pc_name '.exe']);
     else
         bin          = which(unix_name);
         if ~isempty(unix_fallback) && isempty(bin)
             bin = which(unix_fallback);
         end
         lbl          = [unix_name ' (Linux/macOS)'];
-        default_path = ['Bellhop/' unix_name ' — see SERVER_GUIDE.md Step 0'];
+        default_path = ['binaries/' unix_name ' — see SERVER_GUIDE.md Step 0'];
     end
 end

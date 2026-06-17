@@ -9,11 +9,13 @@
 %   — or interactively: fill_findings
 
 try
-    cd(fileparts(mfilename('fullpath')));
+    ROOT = fileparts(fileparts(mfilename('fullpath')));
+    cd(ROOT);
 catch
 end
 
-addpath(genpath('Shared_Utils'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg    = loadConfig();
 FOM    = cfg.nominal.FOM_dB;

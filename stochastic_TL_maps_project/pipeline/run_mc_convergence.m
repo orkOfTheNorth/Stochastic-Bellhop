@@ -18,9 +18,11 @@ close all;
 warning('off', 'MATLAB:unknownObjectIEEE');
 warning('off', 'MATLAB:singularMatrix');
 warning('off', 'MATLAB:rankDeficientMatrix');
-try; cd(fileparts(mfilename('fullpath'))); catch; end
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try; cd(ROOT); catch; end
 
-addpath(genpath('Shared_Utils'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg = loadConfig();
 

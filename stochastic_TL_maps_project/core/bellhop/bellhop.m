@@ -53,7 +53,7 @@ if isempty(runbellhop)
     end
     error('bellhop:notFound', ...
         'Bellhop binary not found on the MATLAB path.\nExpected: %s\n%s', ...
-        hint, 'Add the Bellhop/ directory: addpath(genpath(''Bellhop''))');
+        hint, 'Add the binaries/ directory: addpath(fullfile(ROOT, ''binaries''))');
 end
 
 % Quote path to handle spaces; on Linux single-quotes are safer but

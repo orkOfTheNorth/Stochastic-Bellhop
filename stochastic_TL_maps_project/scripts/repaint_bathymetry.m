@@ -4,9 +4,10 @@
 % all figures with seafloor line + fill, overwrites the PNGs, then
 % deletes this script.
 
-try, cd(fileparts(mfilename('fullpath'))); catch; end
-addpath(genpath('Shared_Utils'));
-addpath(genpath('Bellhop'));
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try, cd(ROOT); catch; end
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg = loadConfig();
 [subset_names, subset_labels, active] = subsetDefs();

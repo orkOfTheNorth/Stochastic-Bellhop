@@ -1,7 +1,8 @@
 function cfg = loadConfig()
 % Read config.json from the project root and expose convenience helpers.
-    here     = fileparts(mfilename('fullpath'));
-    cfg_path = fullfile(here, '..', 'config.json');
+    here     = fileparts(mfilename('fullpath'));  % → core/config
+    root_dir = fileparts(fileparts(here));        % → core → project root
+    cfg_path = fullfile(root_dir, 'config.json');
     if ~isfile(cfg_path)
         error('config.json not found at %s', cfg_path);
     end

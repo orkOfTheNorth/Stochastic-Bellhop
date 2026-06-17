@@ -25,12 +25,13 @@ warning('off', 'MATLAB:unknownObjectIEEE');
 warning('off', 'MATLAB:singularMatrix');
 warning('off', 'MATLAB:rankDeficientMatrix');
 try
-    cd(fileparts(mfilename('fullpath')));
+    ROOT = fileparts(fileparts(mfilename('fullpath')));
+    cd(ROOT);
 catch
 end
 
-addpath(genpath('Shared_Utils'));
-addpath(genpath('Bellhop'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg = loadConfig();
 THRESHOLDS = cfg.thresholds(:)';

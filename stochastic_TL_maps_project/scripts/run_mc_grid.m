@@ -17,7 +17,8 @@
 % After that, any distribution / N combination is ~instant.
 
 clear; close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try, cd(ROOT); catch; end
 
 set(0, 'DefaultFigureVisible', 'off');
 try
@@ -27,8 +28,8 @@ try
 catch
 end
 
-addpath(genpath('Shared_Utils'));
-addpath(genpath('Bellhop'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg   = loadConfig();
 FOM   = cfg.nominal.FOM_dB;

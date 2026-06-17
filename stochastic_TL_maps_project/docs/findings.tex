@@ -70,6 +70,12 @@ uncertainty distributions (Uniform\,1/5/10\%, Normal\,5/10\%).
         slope environments.
   \item \textbf{Full Monte Carlo} is unavoidable for slope bathymetry ($\geq$5\%
         perturbation) and for $z_S$ in deep water with Normal distributions.
+  \item The \textbf{LN3 distribution fit} (method of moments) is statistically
+        suboptimal: MLE would be more efficient, but the LHS samples used throughout
+        this pipeline are \emph{not} i.i.d.\ (stratification breaks independence),
+        so the standard MLE log-likelihood is misspecified.  A design-weighted
+        pseudo-likelihood or survey-sampling correction would be required for a
+        rigorous MLE fit; this remains an open methodological limitation.
 \end{itemize}
 
 \textbf{Practical recommendation:} For sonar mission planning, use
@@ -261,6 +267,34 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
 A three-parameter lognormal (LN3) distribution is fitted to Monte Carlo TL samples
 using method of moments ($\gamma = 0.95 \min(\text{samples})$).
 The KS test statistic measures goodness of fit across all pixels.
+
+\paragraph{Methodological limitation: fitting method and sample structure.}
+Fitting the LN3 distribution by method of moments (or by regression on empirical
+quantiles / CDF) is statistically inefficient compared to \emph{maximum likelihood
+estimation} (MLE).  For an IID sample of size $N$, the MLE estimator achieves the
+Cramér--Rao lower bound asymptotically, whereas moment matching discards information
+in the sample and yields larger parameter variance, particularly for the shape parameter
+$\sigma$ and the shift $\gamma$ of LN3.
+However, the correct remedy --- applying MLE to the $N=50$ MC samples --- is not
+straightforward here, because the samples are drawn by \emph{Latin Hypercube Sampling}
+(LHS), which enforces stratification across the input space.
+LHS samples are \emph{not} independent and identically distributed (i.i.d.):
+the stratification imposes a negative correlation between consecutive strata,
+violating the independence assumption on which the standard LN3 log-likelihood is
+derived.
+Applying the naive i.i.d.\ MLE log-likelihood to LHS samples would underestimate
+parameter uncertainty and produce biased standard errors for $\hat\gamma$,
+$\hat\mu$, $\hat\sigma$ relative to what would be obtained with a true i.i.d.\
+Monte Carlo sample of the same size.
+The theoretically correct approach is to use a \emph{design-weighted} or
+\emph{survey-sampling} likelihood that accounts for the LHS stratification
+(e.g.\ a pseudo-likelihood with stratum weights), or to propagate the LHS samples
+through a copula-based correction before fitting.
+Both approaches are outside the scope of the current pipeline.
+The method-of-moments fit is therefore retained as a pragmatic approximation,
+with the understanding that it is suboptimal and that the LN3 goodness-of-fit
+results (KS statistics in Table~\ref{tab:ks_ln3}) are conservative estimates of
+what a properly weighted MLE fit would achieve.
 
 \begin{table}[H]
   \centering
@@ -610,6 +644,15 @@ Key findings are:
   \item The analytical waveguide study confirms that the FD Jacobian used in the
         numerical pipeline has 8.47\% mean error relative to the exact derivative,
         validating the Bellhop-based Delta method implementation.
+  \item The LN3 distribution fitting strategy (method of moments) is a known
+        methodological weakness.  Maximum likelihood estimation (MLE) would be
+        statistically superior, but the LHS samples used throughout this pipeline
+        are not i.i.d.: LHS stratification introduces negative inter-stratum
+        correlations that violate the independence assumption of the standard MLE
+        log-likelihood.  Applying i.i.d.\ MLE to LHS samples would yield biased
+        parameter uncertainty estimates.  Correcting this requires a
+        design-weighted or survey-sampling pseudo-likelihood, which is left for
+        future work.
 \end{enumerate}
 
 % ============================================================

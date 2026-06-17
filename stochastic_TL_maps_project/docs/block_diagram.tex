@@ -1,209 +1,236 @@
-\documentclass[border=12pt,tikz]{standalone}
+\documentclass[border=14pt]{standalone}
 \usepackage{tikz}
-\usepackage{graphicx}
-\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds,calc}
 
-\graphicspath{{./}}
-
+%% ── Node styles ────────────────────────────────────────────────────────────────
 \tikzset{
   every node/.style={font=\small\sffamily},
-  %% Node styles
-  entry/.style={draw=gray!65, fill=gray!10, rounded corners=4pt,
-    minimum height=0.80cm, minimum width=3.2cm, align=center, inner sep=5pt},
-  config/.style={draw=orange!65, fill=orange!10, rounded corners=4pt,
-    minimum height=0.80cm, minimum width=2.8cm, align=center, inner sep=5pt},
-  bellhop/.style={draw=blue!55, fill=blue!8, rounded corners=4pt,
-    minimum height=0.80cm, minimum width=2.6cm, align=center, inner sep=4pt},
-  cache/.style={draw=yellow!80!black, fill=yellow!15, rounded corners=4pt,
-    minimum height=1.0cm, align=center, inner sep=7pt},
-  analysis/.style={draw=green!60!black, fill=green!9, rounded corners=4pt,
-    minimum height=0.80cm, minimum width=3.0cm, align=center, inner sep=5pt},
-  utils/.style={draw=gray!55, fill=gray!8, rounded corners=4pt,
-    minimum height=0.80cm, align=center, inner sep=7pt},
-  %% Arrow styles
-  arr/.style={->, >=stealth, thick, draw=gray!65},
-  darr/.style={->, >=stealth, dashed, thin, draw=gray!50},
-  dlabel/.style={font=\tiny\sffamily\itshape, text=gray!55},
+  dist/.style={draw=purple!55, fill=purple!7, rounded corners=3pt,
+    minimum width=2.4cm, minimum height=2.5cm, align=center, inner sep=5pt},
+  config/.style={draw=orange!70, fill=orange!10, rounded corners=4pt,
+    minimum height=1.1cm, minimum width=3.0cm, align=center, inner sep=6pt},
+  bellhop/.style={draw=blue!60, fill=blue!8, rounded corners=4pt,
+    minimum height=1.1cm, align=center, inner sep=7pt},
+  cache/.style={draw=yellow!70!black, fill=yellow!12, rounded corners=5pt,
+    minimum height=1.0cm, align=center, inner sep=8pt},
+  algo/.style={draw=teal!65, fill=teal!7, rounded corners=4pt,
+    minimum height=2.5cm, minimum width=3.4cm, align=center, inner sep=7pt},
+  rgroup/.style={draw=green!45!black, fill=green!6, rounded corners=4pt,
+    minimum height=1.6cm, align=center, inner sep=6pt},
+  post/.style={draw=gray!60, fill=gray!9, rounded corners=4pt,
+    minimum height=1.0cm, minimum width=3.4cm, align=center, inner sep=6pt},
+  arr/.style={->, >=Stealth, thick, draw=gray!60},
+  darr/.style={->, >=Stealth, dashed, semithick, draw=gray!45},
+  labl/.style={font=\tiny\sffamily\itshape, text=gray!55},
 }
+
+%% Bell curve drawn via scope (no \pic, no nested tikzpicture)
+\newcommand{\drawbell}[1]{%
+  \begin{scope}[shift={($(#1.north)+(0,-6mm)$)}]
+    \fill[purple!18]
+      (-8mm,0pt) .. controls (-6mm,0.2mm) and (-2.5mm,5mm) .. (0pt,5.4mm)
+                 .. controls (2.5mm,5mm)  and (6mm,0.2mm)  .. (8mm,0pt) -- cycle;
+    \draw[purple!60, semithick]
+      (-8mm,0pt) .. controls (-6mm,0.2mm) and (-2.5mm,5mm) .. (0pt,5.4mm)
+                 .. controls (2.5mm,5mm)  and (6mm,0.2mm)  .. (8mm,0pt);
+  \end{scope}%
+}
+
+%% Result label helper
+\newcommand{\rlbl}[1]{\colorbox{teal!11}{\tiny\sffamily\strut #1}}
 
 \begin{document}
-\begin{tikzpicture}
+\begin{tikzpicture}[node distance=0.6cm]
 
-%%────────────────────────────────────────────────────────────────────────────
-%% LAYER 0 — Entry Points
-%%────────────────────────────────────────────────────────────────────────────
-\node[entry] (checksetup) at (2.5,0)
-  {\textbf{check\_setup.m}};
-\node[entry] (runall) at (9,0)
-  {\textbf{run\_all.m}};
-\node[entry] (runaonly) at (15,0)
-  {\textbf{run\_analysis\_only.m}};
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 0 — Config anchor
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[config] (config) at (0,0)
+  {\textbf{config.json}\\[2pt]
+   {\footnotesize scenarios, FOM}\\
+   {\footnotesize N\_MC, thresholds}};
 
-%%────────────────────────────────────────────────────────────────────────────
-%% LAYER 1 — Config + Orchestrator
-%%────────────────────────────────────────────────────────────────────────────
-\node[config] (config) at (2.5,-2.8)
-  {\textbf{config.json}\\{\footnotesize loadConfig.m}};
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 1 — Uncertainty distribution inputs
+%%   Note: \\ must NOT appear inside {braced groups} when align=center is active.
+%%   The phantom spacer reserves space for the bell curve drawn by \drawbell.
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[dist] (d_freq) at (5.5, 0)
+  {\phantom{\rule{1.9cm}{0.55cm}}\\[3pt]
+   {\footnotesize $\mathrm{freq}\!\sim\!\mathcal{N}(\mu_f,\sigma_f^2)$}\\[-2pt]
+   {\tiny $\sigma_f\!=\!\tfrac{p}{200}\mu_f$}};
 
-\node[analysis, minimum width=10.5cm] (orch) at (12,-2.8)
-  {\textbf{Pipeline Orchestrator}\\
-   {\footnotesize run\_Delta $\;\to\;$ run\_MC $\;\to\;$ run\_pce
-    $\;\to\;$ run\_LN3 $\;\to\;$ run\_Comparison}};
+\node[dist, right=0.5cm of d_freq] (d_zS)
+  {\phantom{\rule{1.9cm}{0.55cm}}\\[3pt]
+   {\footnotesize $z_S\!\sim\!\mathcal{N}(\mu_z,\sigma_z^2)$}\\[-2pt]
+   {\tiny $\sigma_z\!=\!\tfrac{p}{200}\mu_z$}};
 
-%%────────────────────────────────────────────────────────────────────────────
-%% LAYER 2 — Bellhop Simulation Stack
-%%────────────────────────────────────────────────────────────────────────────
-\node[bellhop] (bcached) at (4.0,-6.0)  {bellhopCached.m};
-\node[bellhop] (bsimple) at (8.8,-6.0)  {simpleBellhopHazat.m};
-\node[bellhop] (bm)      at (13.5,-6.0) {bellhop.m};
-\node[bellhop, minimum width=2.4cm] (bcpu) at (17.3,-5.3)
-  {\texttt{bellhop.exe}\\{\footnotesize CPU}};
-\node[bellhop, minimum width=2.4cm] (bgpu) at (17.3,-6.7)
-  {\texttt{bellhopcuda.exe}\\{\footnotesize GPU / CUDA}};
+\node[dist, right=0.5cm of d_zS] (d_svp)
+  {\phantom{\rule{1.9cm}{0.55cm}}\\[3pt]
+   {\footnotesize $\Delta T\!\sim\!\mathcal{N}(0,\sigma_s^2)$}\\[-2pt]
+   {\tiny coupled $T$--MLD shift}};
 
-% Environment builder helpers
-\node[bellhop, minimum width=2.3cm] (cbe)   at (3.5,-8.2)  {createBellhopEnv.m};
-\node[bellhop, minimum width=2.3cm] (cbb)   at (6.5,-8.2)  {createBellhopBty.m};
-\node[bellhop, minimum width=2.3cm] (bathy) at (9.5,-8.2)  {bathymetryMaker.m};
-\node[bellhop, minimum width=2.3cm] (svpm)  at (12.5,-8.2) {svpMaker.m};
+%% Bell curves overlaid on spacer area of each dist node
+\drawbell{d_freq}
+\drawbell{d_zS}
+\drawbell{d_svp}
 
-%%────────────────────────────────────────────────────────────────────────────
-%% LAYER 3 — Cache
-%%────────────────────────────────────────────────────────────────────────────
-\node[cache, minimum width=17.2cm] (cachebox) at (9,-10.8)
-  {\textbf{Cache Layer}\\
-   {\footnotesize
-    \texttt{Cache/<scen>/<dist>/TL\_*.mat}\qquad
-    \texttt{Cache/<scen>/bellhop\_raw/*.mat}}};
+\node[font=\footnotesize\sffamily\bfseries, text=purple!60,
+      above=0.22cm of d_zS] (dist_label)
+  {Uncertainty Inputs\quad ($p=1\%,\,5\%,\,10\%$)};
 
-%%────────────────────────────────────────────────────────────────────────────
-%% LAYER 4 — Analysis Modules + Figure Stacks
-%%────────────────────────────────────────────────────────────────────────────
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 2 — Bellhop engine
+%%   FIX: \\[1pt] moved to TOP LEVEL (not inside {\footnotesize ...})
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[bellhop, minimum width=11.2cm] (bellhop) at (8.7,-3.6)
+  {\textbf{Bellhop Acoustic Propagation Engine}\\[3pt]
+   {\footnotesize \texttt{bellhopCached}$\!\to\!$\texttt{simpleBellhopHazat}$\!\to\!$\texttt{bellhop.exe\,/\,bellhopcuda.exe}}\\[1pt]
+   {\footnotesize Input:\;\texttt{.env}\;(freq,\,$z_S$,\,SVP,\,bathy) $\;\to\;$Output:\;\texttt{.shd}$\!\to\!$TL field $[N_z\!\times\!N_r]$}};
 
-%% -- run_Delta --
-\node[analysis] (rdelta) at (1.8,-13.5)
-  {\textbf{run\_Delta.m}\\{\footnotesize Taylor-series UQ}};
-\node at (1.8,-16.0) {%
-  \begin{tikzpicture}[inner sep=0pt]
-    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
-      {\includegraphics[width=1.55cm]{Methods/Delta/deep_water/Normal_5pct/figures/bias_2nd_order.png}};
-    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
-      {\includegraphics[width=1.55cm]{Methods/Delta/deep_water/Normal_5pct/figures/smooth_zS.png}};
-  \end{tikzpicture}};
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 3 — TL Cache
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[cache, minimum width=11.2cm, below=0.55cm of bellhop] (cache)
+  {\textbf{TL Cache}\quad
+   {\footnotesize \texttt{Cache/<scen>/<dist>/TL\_\{freq,zS,svp\}.mat}\;---\;\texttt{TL\_save}\,$[N_z\!\times\!N_r\!\times\!N]$,\;$N\!=\!150$ LHS samples}};
 
-%% -- run_MC --
-\node[analysis] (rmc) at (5.4,-13.5)
-  {\textbf{run\_MC.m}\\{\footnotesize Monte Carlo}};
-\node at (5.4,-16.0) {%
-  \begin{tikzpicture}[inner sep=0pt]
-    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
-      {\includegraphics[width=1.55cm]{Methods/MC/deep_water/Normal_5pct/figures/combined_EX.png}};
-    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
-      {\includegraphics[width=1.55cm]{Methods/MC/deep_water/Normal_5pct/figures/TL_zS.png}};
-  \end{tikzpicture}};
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 4 — UQ Algorithm blocks
+%%   FIX: \footnotesize used WITHOUT braces so \\ stays at top level.
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[algo] (mc) at (3.5,-9.0)
+  {\textbf{run\_mc}\\[1pt]
+   \textit{Monte Carlo}\\[4pt]
+   \footnotesize
+   $\hat{\mathbb{E}}[TL]=\tfrac{1}{N}\sum_i TL_i$\\[2pt]
+   $\hat{V}[TL]=\tfrac{1}{N\!-\!1}\sum_i(TL_i\!-\!\hat\mu)^2$\\[2pt]
+   $P_\mathrm{det}=P(TL<\mathrm{FOM})$\\[2pt]
+   KDE:\;$\hat{P}\!=\!\tfrac{1}{N}\sum_i\Phi\!\bigl(\tfrac{\mathrm{FOM}-TL_i}{h_i}\bigr)$};
 
-%% -- run_pce --
-\node[analysis] (rpce) at (9.0,-13.5)
-  {\textbf{run\_pce.m}\\{\footnotesize PCE + LOO-CV}};
-\node at (9.0,-16.0) {%
-  \begin{tikzpicture}[inner sep=0pt]
-    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
-      {\includegraphics[width=1.55cm]{Methods/PCE/pce_summary_all.png}};
-    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
-      {\includegraphics[width=1.55cm]{Methods/PCE/deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}};
-  \end{tikzpicture}};
+\node[algo, right=0.5cm of mc] (delta)
+  {\textbf{run\_delta}\\[1pt]
+   \textit{Delta / FOSM}\\[4pt]
+   \footnotesize
+   $J_k=\partial TL/\partial\theta_k\;$(FD)\\[2pt]
+   $\mathrm{Var}\approx\sum_k\sigma_k^2 J_k^2$\\[2pt]
+   GH order $K=1\ldots10$\\[2pt]
+   $P_\mathrm{shd}\geq1-\mathrm{Var}/(\mathrm{Var}+d^2)$};
 
-%% -- run_LN3 --
-\node[analysis] (rln3) at (12.6,-13.5)
-  {\textbf{run\_LN3.m}\\{\footnotesize LN3 moment fit}};
-\node at (12.6,-16.0) {%
-  \begin{tikzpicture}[inner sep=0pt]
-    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
-      {\includegraphics[width=1.55cm]{Methods/LN3/baseline/Uniform_1pct/figures/LN3_freq.png}};
-    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
-      {\includegraphics[width=1.55cm]{Methods/LN3/baseline/Uniform_1pct/figures/LN3_zS.png}};
-  \end{tikzpicture}};
+\node[algo, right=0.5cm of delta] (pce)
+  {\textbf{run\_pce}\\[1pt]
+   \textit{Polynomial Chaos}\\[4pt]
+   \footnotesize
+   $TL\approx\sum_{k=0}^K a_k\Psi_k(\xi)$\\[2pt]
+   $a_k=\langle TL,\Psi_k\rangle/\langle\Psi_k^2\rangle$\\[2pt]
+   LOO-CV:\;$\ell=\alpha\ell_\mathbb{E}+(1-\alpha)\ell_V$\\[2pt]
+   $K^*=\arg\min_K\ell(K)$};
 
-%% -- run_Comparison --
-\node[analysis] (rcomp) at (16.2,-13.5)
-  {\textbf{run\_Comparison.m}\\{\footnotesize Method comparison}};
-\node at (16.2,-16.0) {%
-  \begin{tikzpicture}[inner sep=0pt]
-    \node[draw=gray!40,inner sep=1.5pt] at (1.5mm,1.5mm)
-      {\includegraphics[width=1.55cm]{Methods/Comparison/baseline/Uniform_1pct/figures/EX_diff_MC_Delta.png}};
-    \node[draw=gray!40,inner sep=1.5pt] at (0,0)
-      {\includegraphics[width=1.55cm]{Methods/Comparison/baseline/Uniform_1pct/figures/shadow_70_MC_vs_Delta.png}};
-  \end{tikzpicture}};
+\node[algo, right=0.5cm of pce] (ln3)
+  {\textbf{run\_ln3}\\[1pt]
+   \textit{LN3 + KDE}\\[4pt]
+   \footnotesize
+   $TL\sim\mathrm{LN3}(\gamma,\mu,\sigma)$\\[2pt]
+   $\gamma=0.95\min(TL)$\\[2pt]
+   $\mathrm{RMSE}\!=\!\|F_\mathrm{LN3}\!-\!\hat{F}_\mathrm{emp}\|_2$\\[2pt]
+   KDE bandwidth:\;Silverman};
 
-%%────────────────────────────────────────────────────────────────────────────
-%% LAYER 5 — Shared Utilities
-%%────────────────────────────────────────────────────────────────────────────
-\node[utils, minimum width=17.2cm] (sharedutils) at (9,-19.2)
-  {\textbf{Shared\_Utils/}\quad
-   {\footnotesize skipIfDone \textbullet{} ln3moments \textbullet{}
-    loadConfig \textbullet{} colors \textbullet{} \ldots\ ($\sim$20 utilities)}};
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 5 — Result groups
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[rgroup, below=0.65cm of mc, minimum width=3.6cm] (r_mc)
+  {\rlbl{EX map}\;\rlbl{Var map}\\[3pt]
+   \rlbl{P\_det}\;\rlbl{P\_kde}\\[3pt]
+   {\tiny\sffamily Output/MC/}};
 
-%%────────────────────────────────────────────────────────────────────────────
-%% BACKGROUND REGION — Bellhop layer
-%%────────────────────────────────────────────────────────────────────────────
+\node[rgroup, below=0.65cm of delta, minimum width=3.6cm] (r_delta)
+  {\rlbl{Var map}\;\rlbl{P\_shd}\\[3pt]
+   \rlbl{GH order}\;\rlbl{bias}\\[3pt]
+   {\tiny\sffamily Output/Delta/}};
+
+\node[rgroup, below=0.65cm of pce, minimum width=3.6cm] (r_pce)
+  {\rlbl{converge}\;\rlbl{summary}\\[3pt]
+   \rlbl{LOO-EX}\;\rlbl{LOO-Var}\\[3pt]
+   {\tiny\sffamily Output/PCE/}};
+
+\node[rgroup, below=0.65cm of ln3, minimum width=3.6cm] (r_ln3)
+  {\rlbl{histo}\;\rlbl{RMSE}\\[3pt]
+   \rlbl{P\_LN3}\;\rlbl{KDE val}\\[3pt]
+   {\tiny\sffamily Output/LN3/}};
+
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 6 — Comparison
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[post, below=0.7cm of r_delta, xshift=1.8cm,
+      minimum width=8.4cm] (comp)
+  {\textbf{run\_comparison}\quad
+   {\footnotesize $\Delta_\mathbb{E}\!=\!|EX_\mathrm{MC}\!-\!EX_\Delta|$,\;$\Delta P\!=\!|P_\mathrm{MC}\!-\!P_\Delta|$,\;shadow maps $50\%\!\ldots\!95\%$}};
+
+\node[rgroup, below=0.55cm of comp, minimum width=8.4cm] (r_comp)
+  {\rlbl{dEX}\;\rlbl{dVar}\;\rlbl{shd-70}\;\rlbl{detect}\;\rlbl{KDE-val}\\[3pt]
+   {\tiny\sffamily Output/Comparison/}};
+
+%%═══════════════════════════════════════════════════════════════════════════════
+%% ROW 7 — fill_findings
+%%═══════════════════════════════════════════════════════════════════════════════
+\node[post, below=0.55cm of r_comp, minimum width=8.4cm] (findings)
+  {\textbf{fill\_findings.m}
+   $\;\to\;$\texttt{docs/findings.tex}\;(scalar results for \LaTeX{} paper)};
+
+%%═══════════════════════════════════════════════════════════════════════════════
+%% Background shading regions
+%%═══════════════════════════════════════════════════════════════════════════════
 \begin{scope}[on background layer]
-  \node[draw=blue!30, fill=blue!4, rounded corners=8pt,
-        fit=(bcached)(bsimple)(bm)(bcpu)(bgpu)(cbe)(cbb)(bathy)(svpm),
-        inner sep=8pt,
-        label={[blue!55, font=\footnotesize\sffamily\bfseries]above:Bellhop Simulation Stack}]
-    (bhgroup) {};
+  \node[draw=purple!28, fill=purple!3, rounded corners=7pt, inner sep=8pt,
+        fit=(d_freq)(d_zS)(d_svp)(dist_label)] (dist_region) {};
+
+  \node[draw=teal!28, fill=teal!3, rounded corners=7pt, inner sep=9pt,
+        label={[font=\footnotesize\sffamily\bfseries,
+                text=teal!60]above:UQ Methods},
+        fit=(mc)(delta)(pce)(ln3)] (algo_region) {};
+
+  \node[draw=green!35!black, fill=green!3, rounded corners=7pt, inner sep=7pt,
+        label={[font=\footnotesize\sffamily\bfseries,
+                text=green!50!black]above right:Results},
+        fit=(r_mc)(r_delta)(r_pce)(r_ln3)] (result_region) {};
 \end{scope}
 
-%%────────────────────────────────────────────────────────────────────────────
-%% ARROWS
-%%────────────────────────────────────────────────────────────────────────────
+%%═══════════════════════════════════════════════════════════════════════════════
+%% Arrows
+%%═══════════════════════════════════════════════════════════════════════════════
+\draw[darr] (config.east) --
+  node[labl, above]{scenarios} (dist_region.west);
 
-%% Entry → Orchestrator
-\draw[arr] (runall.south)   -- (orch.north -| runall.south);
-\draw[arr] (runaonly.south) -- (orch.north -| runaonly.south);
+\draw[darr] (config.south) |-
+  node[labl, right, pos=0.65]{nominal} (bellhop.west);
 
-%% Entry → Config
-\draw[arr] (checksetup.south) -- (config.north);
+\draw[arr] (d_freq.south) -- (d_freq.south |- bellhop.north);
+\draw[arr] (d_zS.south)   -- (d_zS.south   |- bellhop.north);
+\draw[arr] (d_svp.south)  -- (d_svp.south  |- bellhop.north);
 
-%% Config → Orchestrator
-\draw[arr] (config.east)
-  -- node[dlabel, above]{cfg}
-  (config.east -| orch.west);
-\draw[arr] (config.east -| orch.west) -- (orch.west);
+\draw[arr] (bellhop.south) --
+  node[labl, right]{TL field $[N_z\!\times\!N_r]$} (cache.north);
 
-%% Orchestrator → Bellhop layer
-\draw[arr] (orch.south) -- node[dlabel, right]{Bellhop requests}
-  (orch.south |- bhgroup.north);
-\draw[arr] (orch.south |- bhgroup.north) -| (bcached.north);
+\draw[arr] (cache.south -| mc)    -- (mc.north);
+\draw[arr] (cache.south -| delta) -- (delta.north);
+\draw[arr] (cache.south -| pce)   -- (pce.north);
+\draw[arr] (cache.south -| ln3)   -- (ln3.north);
 
-%% Bellhop chain
-\draw[arr] (bcached.east) -- (bsimple.west);
-\draw[arr] (bsimple.east) -- (bm.west);
-\draw[arr] (bm.north east) -- (bcpu.west);
-\draw[arr] (bm.south east) -- (bgpu.west);
+\draw[darr] (config.south) |- ($(mc.west)+(0,0.4)$);
 
-%% Env helpers → simpleBellhopHazat (dashed, called internally)
-\draw[darr] (cbe.north)   -- (bsimple.south -| cbe.north);
-\draw[darr] (cbb.north)   -- (bsimple.south -| cbb.north);
-\draw[darr] (bathy.north) -- (bsimple.south -| bathy.north);
-\draw[darr] (svpm.north)  -- (bsimple.south -| svpm.north);
+\draw[arr] (mc.south)    -- (r_mc.north);
+\draw[arr] (delta.south) -- (r_delta.north);
+\draw[arr] (pce.south)   -- (r_pce.north);
+\draw[arr] (ln3.south)   -- (r_ln3.north);
 
-%% bellhop.m → Cache
-\draw[arr] (bm.south) -- node[dlabel, right]{TL\_*.mat}
-  (bm.south |- cachebox.north);
-\draw[arr] (bm.south |- cachebox.north) -- (cachebox.north -| bm);
+\draw[arr] (r_mc.south)    |- (comp.west);
+\draw[arr] (r_delta.south) -- (r_delta.south |- comp.north);
+\draw[arr] (r_pce.south)   |- (comp.east);
+\draw[arr] (r_ln3.south)   |- (comp.east);
 
-%% Cache → Analysis modules
-\foreach \xmod in {rdelta, rmc, rpce, rln3, rcomp} {
-  \draw[arr] (cachebox.south -| \xmod) -- (\xmod.north);
-}
-
-%% Analysis → SharedUtils (bidirectional dashed: utils are called from all)
-\draw[darr, <->] (sharedutils.north -| rdelta)  -- (rdelta.south  |- sharedutils.north);
-\draw[darr, <->] (sharedutils.north -| rmc)     -- (rmc.south     |- sharedutils.north);
-\draw[darr, <->] (sharedutils.north -| rpce)    -- (rpce.south    |- sharedutils.north);
-\draw[darr, <->] (sharedutils.north -| rln3)    -- (rln3.south    |- sharedutils.north);
-\draw[darr, <->] (sharedutils.north -| rcomp)   -- (rcomp.south   |- sharedutils.north);
+\draw[arr] (comp.south)   -- (r_comp.north);
+\draw[arr] (r_comp.south) -- (findings.north);
 
 \end{tikzpicture}
 \end{document}

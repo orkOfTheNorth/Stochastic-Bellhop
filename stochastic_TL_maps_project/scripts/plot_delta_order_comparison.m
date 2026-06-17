@@ -19,9 +19,11 @@
 %                                      delta_order_diff_relative.png
 
 clear; close all;
-try, cd(fileparts(mfilename('fullpath'))); catch; end
+ROOT = fileparts(fileparts(mfilename('fullpath')));
+try, cd(ROOT); catch; end
 
-addpath(genpath('Shared_Utils'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg = loadConfig();
 [subset_names, subset_labels, ~] = subsetDefs();
