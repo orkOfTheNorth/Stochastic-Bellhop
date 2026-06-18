@@ -33,6 +33,8 @@ STEPS = {
     'run_lhs_iid_convergence',  'function',  'LHS+MoM vs IID+MLE convergence';
     'plot_delta_order_comparison', 'script', '1st vs 2nd order correction plots';
     'plot_taylor_order_study',  'script',    'PCE/Taylor order study plots';
+    'run_analytical_delta_validation', 'script', 'Analytical Delta validation figures';
+    'run_analytical_sweep',     'script',    'Waveguide vs Bellhop sweep figures';
     'fill_findings',            'script',    'Patch findings.tex';
 };
 
@@ -44,7 +46,7 @@ log_path = fullfile(ROOT, 'overnight_run.log');
 flog = fopen(log_path, 'w');
 logboth = @(varargin) deal(fprintf(varargin{:}), fprintf(flog, varargin{:}));
 
-logboth('\n=== Stochastic Bellhop Full Pipeline === %s\n', datestr(now));
+logboth('\n=== Stochastic Bellhop Full Pipeline === %s\n', char(datetime('now')));
 
 for si = 1:n
     name  = STEPS{si, 1};
@@ -56,11 +58,10 @@ for si = 1:n
         if strcmp(kind, 'function')
             feval(name);
         else
-            % script — locate in pipeline/ or scripts/
+            % script — search pipeline/, scripts/, then validation/analytical/
             spath = fullfile(ROOT, 'pipeline', [name '.m']);
-            if ~isfile(spath)
-                spath = fullfile(ROOT, 'scripts', [name '.m']);
-            end
+            if ~isfile(spath), spath = fullfile(ROOT, 'scripts', [name '.m']); end
+            if ~isfile(spath), spath = fullfile(ROOT, 'validation', 'analytical', [name '.m']); end
             run(spath);
         end
     catch ME

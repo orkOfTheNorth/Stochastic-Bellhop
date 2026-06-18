@@ -84,7 +84,7 @@ fprintf('%%  (re-run fill_findings.m and paste values above)\n\n');
 %  TABLE 2: tab:analytical_l1  — L1 errors from analytical waveguide validation
 % ─────────────────────────────────────────────────────────────────────────────
 fprintf('\n--- TABLE: tab:analytical_l1  (Analytical Delta validation L1) ---\n');
-anal_dir = fullfile('analytical', 'results');
+anal_dir = fullfile('validation', 'analytical', 'results');
 dists = struct('name', {'Normal_1pct','Normal_5pct','Normal_10pct'}, ...
                'sigma', {0.5, 2.5, 5.0});
 
@@ -191,8 +191,62 @@ fprintf(['IS "DELTA METHOD" THE RIGHT NAME?\n', ...
 'readers avoid confusion with "delta" meaning finite difference or\n', ...
 'the Dirac delta function. The name is not misleading.\n']);
 
+% ─────────────────────────────────────────────────────────────────────────────
+%  AUTO-PATCH: replace $\dagger$ tokens in findings.tex with KS values
+%  Order must match the table rows: scenarios × distributions (outer × inner)
+% ─────────────────────────────────────────────────────────────────────────────
+tex_path = fullfile(ROOT, 'docs', 'findings.tex');
+if isfile(tex_path)
+    try
+        tex = fileread(tex_path);
+
+        % Compute KS values in row-major order: scenarios × distributions
+        kvals = {};
+        for si2 = 1:numel(cfg.scenarios)
+            sc2 = cfg.scenarios(si2);
+            for ki = 1:numel(dist_names)
+                ks_val = NaN;
+                tl_f2  = fullfile('Cache', sc2.name, dist_names{ki}, 'TL_zS.mat');
+                if isfile(tl_f2)
+                    try
+                        d2 = load(tl_f2, 'TL_save');
+                        TL2 = double(d2.TL_save);
+                        [Nz2,Nr2,N2] = size(TL2);
+                        TLp2 = reshape(permute(TL2,[3 1 2]), N2, Nz2*Nr2);
+                        ksv2 = zeros(1, Nz2*Nr2);
+                        for px2 = 1:Nz2*Nr2
+                            xp = TLp2(:,px2); xp = xp(isfinite(xp));
+                            if numel(xp)<4, continue; end
+                            gm = 0.95*min(xp); yp = log(xp-gm); yp = yp(isfinite(yp));
+                            if numel(yp)<4 || std(yp)<1e-12, continue; end
+                            [~,~,ksv2(px2)] = kstest((yp-mean(yp))/std(yp));
+                        end
+                        ks_val = median(ksv2(ksv2>0));
+                    catch, end
+                end
+                kvals{end+1} = ternary(isnan(ks_val), 'N/A', sprintf('%.3f', ks_val)); %#ok<AGROW>
+            end
+        end
+
+        % Replace $\dagger$ tokens one-by-one in document order
+        DAGGER = '$\dagger$';
+        for ki = 1:numel(kvals)
+            idx = strfind(tex, DAGGER);
+            if isempty(idx), break; end
+            tex = [tex(1:idx(1)-1), kvals{ki}, tex(idx(1)+length(DAGGER):end)];
+        end
+
+        fid2 = fopen(tex_path, 'w');
+        fwrite(fid2, tex);
+        fclose(fid2);
+        fprintf('Auto-patched %d dagger values into findings.tex\n', numel(kvals));
+    catch ME2
+        fprintf('[WARN] Auto-patch failed: %s\n', ME2.message);
+    end
+end
+
 fprintf('\n==================================================================\n');
-fprintf('  Done.  Paste the values above into the dagger cells in findings.tex.\n');
+fprintf('  Done.  findings.tex auto-patched with computed values.\n');
 fprintf('==================================================================\n\n');
 
 

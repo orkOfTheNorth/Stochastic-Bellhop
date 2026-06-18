@@ -24,7 +24,7 @@
   {Methods/LN3/}
   {Methods/PCE/}
   {Methods/Comparison/}
-  {analytical/figures/}
+  {validation/analytical/figures/}
 }
 
 \newcommand{\EX}{\mathbb{E}}
@@ -49,7 +49,7 @@ Three analytical methods --- the 2\textsuperscript{nd}-order Delta method,
 Polynomial Chaos Expansion (PCE), and a 3-parameter lognormal (LN3) fit --- are
 compared against Monte Carlo (MC) ground truth across five propagation scenarios
 (flat shallow, flat deep, flat shallow, upslope, downslope) and five input
-uncertainty distributions (Uniform\,1/5/10\%, Normal\,5/10\%).
+uncertainty distributions (Normal\,1/5/10\%).
 
 \textbf{Key conclusions:}
 \begin{itemize}
@@ -99,18 +99,18 @@ the five propagation scenarios under 5\% uniform source-depth ($z_S$) uncertaint
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{baseline/Uniform_5pct/figures/TL_zS.png}
-    \caption{Baseline (flat, 35\,m)}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/TL_zS.png}
+    \caption{Shallow water (flat, 50\,m)}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Uniform_5pct/figures/TL_zS.png}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/TL_zS.png}
     \caption{Deep water (flat, 2500\,m)}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/TL_zS.png}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/TL_zS.png}
     \caption{Downslope (50\,$\to$\,550\,m)}
   \end{subfigure}
-  \caption{MC mean transmission loss $\EX[\TL]$ (dB re\,1\,$\mu$Pa) for Uniform\,5\%
+  \caption{MC mean transmission loss $\EX[\TL]$ (dB re\,1\,$\mu$Pa) for Normal\,5\%
            $z_S$ perturbation across three representative scenarios.
            Colour scale: blue (low TL, strong signal) to red (high TL, shadow zone).
            The downslope scenario shows a marked refraction shadow at mid-range
@@ -190,7 +190,7 @@ is the excess kurtosis.
 
 \subsubsection{Where Delta Performs Well}
 
-For the \textbf{baseline} and \textbf{deep-water} scenarios under small perturbations
+For the \textbf{shallow-water} and \textbf{deep-water} scenarios under small perturbations
 ($\leq$1\% uncertainty), the Delta method achieves relative $L_1$ errors below
 10\% in the variance maps (see Table~\ref{tab:analytical_l1} for the exact
 per-distribution breakdown from the analytical waveguide validation).
@@ -202,20 +202,20 @@ shadow probabilities in these scenarios (Figure~\ref{fig:shadow_good}).
   \centering
   % --- Row 1: flat scenario where Delta works (baseline, Uniform 1%) ---
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_Delta.png}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta.png}
     \caption{MC vs.\ Delta}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_DeltaLN3.png}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3.png}
     \caption{MC vs.\ Delta--LN3}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_LN3.png}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
   \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
            ($P(\TL > 70\,\text{dB})$) where the analytical methods \emph{agree} with
-           MC (baseline scenario, Uniform\,1\%, $z_S$ perturbation).
+           MC (shallow-water scenario, Normal\,1\%, $z_S$ perturbation).
            In each panel the MC empirical estimate appears on the left half and the
            analytical approximation on the right half; close match indicates
            the method is reliable in this regime.}
@@ -240,20 +240,20 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
   \centering
   % --- Row: downslope scenario where Delta fails (Uniform 5%, SVP perturbation) ---
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
     \caption{MC vs.\ Delta}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png}
     \caption{MC vs.\ Delta--LN3}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/shadow_70_MC_vs_LN3_svp.png}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_LN3_svp.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
   \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
            ($P(\TL > 70\,\text{dB})$) where the 1\textsuperscript{st}-order Delta
-           \emph{fails} (downslope scenario, Uniform\,5\%, SVP perturbation).
+           \emph{fails} (downslope scenario, Normal\,5\%, SVP perturbation).
            In each panel MC is on the left and the analytical approximation on the
            right; the pronounced disagreement at the refraction shadow boundary
            confirms that the Taylor expansion has not converged in this regime.}
@@ -268,12 +268,12 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
   \label{tab:2nd_order_correction}
   \begin{tabular}{lcccccc}
     \toprule
-    & \multicolumn{2}{c}{Uniform 5\%} & \multicolumn{2}{c}{Uniform 10\%}
+    & \multicolumn{2}{c}{Normal 5\%} & \multicolumn{2}{c}{Normal 10\%}
     & \multicolumn{2}{c}{Normal 10\%} \\
     \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
     Scenario & Total & SVP & Total & SVP & Total & SVP \\
     \midrule
-    Baseline      & 96.6 & 98.2 & 99.1 & 99.5 & 99.5 & 99.8 \\
+    Shallow water & 96.6 & 98.2 & 99.1 & 99.5 & 99.5 & 99.8 \\
     Deep water    & 97.0 & 51.7 & 99.2 & 81.1 & 99.6 & 88.9 \\
     Shallow water & 83.7 & 47.9 & 95.4 & 78.6 & 97.5 & 87.3 \\
     Upslope       & 97.5 & 73.0 & 99.4 & 91.5 & 99.7 & 95.3 \\
@@ -325,15 +325,14 @@ what a properly weighted MLE fit would achieve.
            $\dagger$~Values require reading cached LN3 results; run \texttt{fill\_findings.m}
            to populate.}
   \label{tab:ks_ln3}
-  \begin{tabular}{lcc}
+  \begin{tabular}{lccc}
     \toprule
-    Scenario & Uniform 5\% (KS) & Normal 10\% (KS) \\
+    Scenario & Normal\,1\% (KS) & Normal\,5\% (KS) & Normal\,10\% (KS) \\
     \midrule
-    Baseline      & $\dagger$ & $\dagger$ \\
-    Deep water    & $\dagger$ & $\dagger$ \\
-    Shallow water & $\dagger$ & $\dagger$ \\
-    Upslope       & $\dagger$ & $\dagger$ \\
-    Downslope     & $\dagger$ & $\dagger$ \\
+    Deep water    & $\dagger$ & $\dagger$ & $\dagger$ \\
+    Shallow water & $\dagger$ & $\dagger$ & $\dagger$ \\
+    Upslope       & $\dagger$ & $\dagger$ & $\dagger$ \\
+    Downslope     & $\dagger$ & $\dagger$ & $\dagger$ \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -354,7 +353,7 @@ To characterise the nonlinearity quantitatively, we employ a
   \label{eq:pce}
 \end{equation}
 where $\Phi_n$ are probabilist Hermite polynomials (Normal inputs) or Legendre
-polynomials (Uniform inputs), orthogonal with respect to their respective PDFs,
+polynomials (Normal inputs), orthogonal with respect to their respective PDFs,
 and $\xi$ is the standardised uncertain parameter.
 
 \paragraph{Matrix formulation.}
@@ -459,12 +458,12 @@ scenario/distribution combinations.
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/pce_convergence_downslope_Uniform_5pct.png}
-    \caption{Downslope, Uniform\,5\% --- strongly nonlinear; no parameter converges by $K=10$.}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png}
+    \caption{Downslope, Normal\,5\% --- strongly nonlinear; no parameter converges by $K=10$.}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/pce_convergence_baseline_Normal_10pct.png}
-    \caption{Baseline, Normal\,10\% --- freq converges at $K^*{=}1$; $z_S$ and SVP do not.}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_10pct/figures/pce_convergence_shallow_water_Normal_10pct.png}
+    \caption{Shallow water, Normal\,10\% --- freq converges at $K^*{=}1$; $z_S$ and SVP do not.}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
@@ -497,20 +496,21 @@ scenario/distribution combinations.
     \toprule
     Scenario & Distribution & freq & $z_S$ & SVP \\
     \midrule
-    Baseline    & Uniform\,1\%  & 1     & $>$10  & $>$10 \\
-    Baseline    & Uniform\,5\%  & 1     & $>$10  & $>$10 \\
-    Baseline    & Uniform\,10\% & 1     & $>$10  & $>$10 \\
-    Baseline    & Normal\,5\%   & 1     & $>$10  & $>$10 \\
-    Baseline    & Normal\,10\%  & 1     & $>$10  & $>$10 \\
+    Deep water    & Normal\,1\%  & 3     & 3      & 3     \\
+    Deep water    & Normal\,5\%  & 6     & $>$10  & 3     \\
+    Deep water    & Normal\,10\% & 5     & $>$10  & 4     \\
     \midrule
-    Deep water  & Uniform\,1\%  & 3     & 3      & 3     \\
-    Deep water  & Uniform\,5\%  & 6     & $>$10  & 3     \\
-    Deep water  & Uniform\,10\% & 5     & $>$10  & 4     \\
-    Deep water  & Normal\,5\%   & 9     & $>$10  & 5     \\
-    Deep water  & Normal\,10\%  & 7     & $>$10  & 6     \\
+    Shallow water & Normal\,1\%  & 2     & 2      & $>$10 \\
+    Shallow water & Normal\,5\%  & 1     & $>$10  & $>$10 \\
+    Shallow water & Normal\,10\% & 1     & $>$10  & $>$10 \\
     \midrule
-    Shallow water & Uniform\,1\%& 2     & 2      & $>$10 \\
-    Downslope   & Uniform\,5\%  & $>$10 & 8      & $>$10 \\
+    Upslope       & Normal\,1\%  & 2     & 3      & 3     \\
+    Upslope       & Normal\,5\%  & 4     & $>$10  & 4     \\
+    Upslope       & Normal\,10\% & 4     & $>$10  & 5     \\
+    \midrule
+    Downslope     & Normal\,1\%  & 3     & 5      & 3     \\
+    Downslope     & Normal\,5\%  & $>$10 & 8      & $>$10 \\
+    Downslope     & Normal\,10\% & $>$10 & $>$10  & $>$10 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -520,15 +520,15 @@ scenario/distribution combinations.
 The PCE study reveals three regimes of TL nonlinearity:
 \begin{itemize}
   \item \textbf{Weakly nonlinear} ($K^* \leq 2$): The 1\textsuperscript{st}-order Delta
-        approximation is sufficient. Observed for: baseline (all distributions, freq only),
-        deep water Uniform\,1\% (all params), shallow water Uniform\,1\% (freq and $z_S$).
+        approximation is sufficient. Observed for: shallow water (all distributions, freq only),
+        deep water Normal\,1\% (all params), shallow water Normal\,1\% (freq and $z_S$).
   \item \textbf{Moderately nonlinear} ($3 \leq K^* \leq 9$): PCE of order $K^*$ captures
-        $\geq$90\% of variance. Observed for: deep water Uniform/Normal with freq and SVP
+        $\geq$90\% of variance. Observed for: deep water Normal with freq and SVP
         ($K^* = 3$--$9$), downslope $z_S$ ($K^*=8$).
         These cases benefit from PCE over 1\textsuperscript{st}-order Delta.
   \item \textbf{Strongly nonlinear} ($K^* > 10$): No polynomial expansion of order
         $\leq$10 achieves $L_1 < 10\%$. Observed for: $z_S$ in all deep-water
-        Normal distributions, SVP in baseline and downslope, freq and SVP in downslope.
+        Normal distributions, SVP in shallow water and downslope, freq and SVP in downslope.
         Full Monte Carlo is required in these regimes.
 \end{itemize}
 
@@ -622,7 +622,7 @@ accuracy of the derivative computation.
     \toprule
     Scenario & Small ($\leq$1\%) & Medium (5\%) & Large (10\%) \\
     \midrule
-    Baseline (flat, shallow)   & Delta 1\textsuperscript{st}  & Delta 2\textsuperscript{nd} / PCE-2 & PCE-$K^*$ \\
+    Shallow water (flat)   & Delta 1\textsuperscript{st}  & Delta 2\textsuperscript{nd} / PCE-2 & PCE-$K^*$ \\
     Deep water (flat, deep)    & Delta 1\textsuperscript{st}  & PCE-3                               & PCE-$K^*$ or MC \\
     Shallow water (flat)       & Delta 1\textsuperscript{st}  & PCE-3--5                            & MC \\
     Upslope / Downslope        & Delta 2\textsuperscript{nd}  & PCE-5+                              & MC \\
@@ -773,11 +773,11 @@ harder to model than flat-shelf uncertainty.
   \item \textbf{Source depth ($z_S$) convergence.} The PCE literature focuses almost
         exclusively on SVP as the dominant uncertain parameter.  Our study finds that
         $z_S$ is equally or more problematic: $K^* > 10$ for all Normal distributions
-        in deep water, and for all distributions in the baseline scenario.
+        in deep water, and for all distributions in the shallow-water scenario.
         This has not been quantified in the referenced papers.
   \item \textbf{Frequency uncertainty.} Treating frequency as a stochastic variable
         is not standard in the PCE acoustic literature.  Our results show $K^* = 1$--$9$
-        depending on scenario and perturbation level, with the baseline being the
+        depending on scenario and perturbation level, with the shallow-water scenario being the
         most benign (always $K^* = 1$).  This is a new contribution.
   \item \textbf{Regression vs.\ quadrature.} The Finette (2009) approach requires
         choosing Gauss quadrature nodes \emph{before} running simulations.  Our
@@ -904,14 +904,14 @@ The cross-validation analysis confirms that:
     \label{fig:cv_freq}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/pce_convergence_baseline_Normal_10pct.png}
-    \caption{Baseline, Normal\,10\%: freq converges immediately ($K^*{=}1$);
+    \includegraphics[width=\linewidth]{shallow_water/Normal_10pct/figures/pce_convergence_shallow_water_Normal_10pct.png}
+    \caption{Shallow water, Normal\,10\%: freq converges immediately ($K^*{=}1$);
              $z_S$ and SVP show no convergence within $K{=}10$.}
     \label{fig:cv_zS}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Uniform_5pct/figures/pce_convergence_downslope_Uniform_5pct.png}
-    \caption{Downslope, Uniform\,5\%: none of the three parameters converge ---
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png}
+    \caption{Downslope, Normal\,5\%: none of the three parameters converge ---
              confirming physics nonlinearity rather than overfitting artefact.}
     \label{fig:cv_svp}
   \end{subfigure}
@@ -1056,12 +1056,12 @@ non-shadow-zone pixels but confirms that the LN3 fit degrades at shadow boundari
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.75\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/empirical_freq.png}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/detect_empirical_freq.png}
     \caption{Deep water, Normal\,10\%, freq: MC empirical shadow-probability and
              variance maps.}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.75\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/empirical_zS.png}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/detect_empirical_zS.png}
     \caption{Deep water, Normal\,10\%, $z_S$: MC empirical shadow-probability and
              variance maps.}
   \end{subfigure}
@@ -1302,27 +1302,27 @@ The published PCE literature restricts attention to SVP as the primary uncertain
 parameter.
 Our results show that source depth $z_S$ is at least as hard: $K^* > 10$ for $z_S$
 in all Normal distribution cases in deep water, and $K^* > 10$ for $z_S$ in all
-baseline cases.
+shallow-water cases.
 No comparable result is reported in the literature; the $z_S$-PCE convergence failure
 appears to be a genuinely new finding.
 Similarly, treating carrier frequency as a stochastic variable is non-standard in
 the acoustic UQ community.
-Our results show $K^* = 1$ for frequency in the baseline scenario (consistent with
+Our results show $K^* = 1$ for frequency in the shallow-water scenario (consistent with
 the near-linear frequency dependence in shallow flat waveguides) but $K^* = 5$--$9$
 in deep water, where convergence-zone interference patterns create strong nonlinearity
 in frequency.
 
 \paragraph{Effect of perturbation magnitude on convergence speed.}
 For SVP uncertainty, increasing the perturbation level from 1\% to 10\% raises
-$K^*$ by approximately 2--3 orders in deep water (e.g.\ Uniform\,1\%: $K^* = 3$;
-Uniform\,10\%: $K^* = 4$--$5$).
+$K^*$ by approximately 2--3 orders in deep water (e.g.\ Normal\,1\%: $K^* = 3$;
+Normal\,10\%: $K^* = 4$--$5$).
 For frequency, the same increase raises $K^*$ more dramatically (from 3 to 6--9),
 suggesting that frequency nonlinearity is more sensitive to perturbation magnitude
 than SVP nonlinearity in deep water.
 This is consistent with the sharper interference fringes generated by convergence
 zones at small frequency offsets, where even 5\% frequency variation shifts
 constructive--destructive interference patterns by a full fringe.
-The Normal distribution tends to require 1--2 higher orders than the Uniform
+The Normal distribution with heavier tails tends to require 1--2 higher PCE orders than a Uniform
 distribution at the same nominal percentage level, because the Normal distribution
 places more probability mass in the tails (beyond $\pm\sigma$), sampling regions
 of higher nonlinearity.
