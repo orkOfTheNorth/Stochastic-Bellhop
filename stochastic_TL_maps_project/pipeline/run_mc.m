@@ -1,4 +1,4 @@
-function run_MC(sc_target, dist_target)
+function run_mc(sc_target, dist_target)
 %% run_MC — Direct Monte Carlo UQ, N=150 independent samples per distribution.
 %
 %  Runs N independent Bellhop samples for EACH (scenario × distribution).

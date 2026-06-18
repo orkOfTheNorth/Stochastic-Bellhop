@@ -1,4 +1,4 @@
-function run_Delta(sc_target, dist_target)
+function run_delta(sc_target, dist_target)
 %% run_Delta — Delta Method UQ across all scenarios and distributions.
 %  Call with no args to run all combos, or run_Delta('deep_water','Normal_10pct')
 %  to process one combo only.

@@ -17,7 +17,7 @@
 %
 % Note: No combined all-methods figure is generated.
 
-function run_Comparison(sc_target, dist_target)
+function run_comparison(sc_target, dist_target)
 %% run_Comparison — MC vs Delta comparison.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
 close all; clc;

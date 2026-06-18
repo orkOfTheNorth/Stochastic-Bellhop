@@ -12,7 +12,7 @@
 %     mc_conv_mean_<param>.png            — mean EX and Var vs N, all 3 dists
 %     mc_conv_deriv_<param>.png           — d(mean)/dN vs N, all 3 dists
 
-function run_MC_convergence(sc_target)
+function run_mc_convergence(sc_target)
 if nargin < 1, sc_target = ''; end
 close all;
 warning('off', 'MATLAB:unknownObjectIEEE');

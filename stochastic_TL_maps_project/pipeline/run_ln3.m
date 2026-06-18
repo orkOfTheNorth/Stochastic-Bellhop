@@ -20,7 +20,7 @@
 % Per scenario (across distributions):
 %   Methods/LN3/<scen>/figures/LN3_RMSE_all.png
 
-function run_LN3(sc_target, dist_target)
+function run_ln3(sc_target, dist_target)
 %% run_LN3 — LN3 fit diagnostic + RMSE maps.  No args = all combos.
 if nargin < 2, sc_target = ''; dist_target = ''; end
 close all;

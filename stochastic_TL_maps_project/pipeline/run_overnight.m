@@ -25,12 +25,12 @@ addpath(fullfile(ROOT, 'validation', 'analytical'));
 set(0, 'DefaultFigureVisible', 'off');
 
 STEPS = {
-    'run_MC',                   'function',  'MC (N=1000, LHS+IID+SVP)';
-    'run_Delta',                'function',  'Delta 1st+2nd order, GH sweep';
+    'run_mc',                   'function',  'MC (N=1000, LHS+IID+SVP)';
+    'run_delta',                'function',  'Delta 1st+2nd order, GH sweep';
     'run_pce',                  'function',  'PCE order 1-20 + LOO-CV';
-    'run_LN3',                  'function',  'LN3 histograms + RMSE maps';
-    'run_Comparison',           'function',  'Comparison detection maps';
-    'run_MC_convergence',       'function',  'MC estimator convergence';
+    'run_ln3',                  'function',  'LN3 histograms + RMSE maps';
+    'run_comparison',           'function',  'Comparison detection maps';
+    'run_mc_convergence',       'function',  'MC estimator convergence';
     'run_lhs_iid_convergence',  'function',  'LHS+MoM vs IID+MLE convergence';
     'plot_delta_order_comparison', 'script', '1st vs 2nd order correction plots';
     'plot_taylor_order_study',  'script',    'PCE/Taylor order study plots';
