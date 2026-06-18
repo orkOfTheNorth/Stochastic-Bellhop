@@ -21,6 +21,7 @@ addpath(genpath(fullfile(ROOT, 'core')));
 addpath(fullfile(ROOT, 'pipeline'));
 addpath(fullfile(ROOT, 'scripts'));
 addpath(fullfile(ROOT, 'binaries'));
+addpath(fullfile(ROOT, 'validation', 'analytical'));
 set(0, 'DefaultFigureVisible', 'off');
 
 STEPS = {
@@ -44,7 +45,7 @@ failed  = false(1, n);
 
 log_path = fullfile(ROOT, 'overnight_run.log');
 flog = fopen(log_path, 'w');
-logboth = @(varargin) deal(fprintf(varargin{:}), fprintf(flog, varargin{:}));
+logboth = @(varargin) cellfun(@(fid) fprintf(fid, varargin{:}), {1, flog});
 
 logboth('\n=== Stochastic Bellhop Full Pipeline === %s\n', char(datetime('now')));
 

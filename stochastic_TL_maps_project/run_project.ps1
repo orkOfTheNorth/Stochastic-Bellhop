@@ -43,12 +43,13 @@ if ($matlabExit -ne 0) {
 
 # ── Step 2: Compile findings.tex ─────────────────────────────────────────────
 Write-Host "`n=== Compiling findings.tex ===" -ForegroundColor Cyan
-Set-Location $TEX_DIR
 
 $pdfOK = $false
 if (Get-Command pdflatex -ErrorAction SilentlyContinue) {
-    pdflatex -interaction=nonstopmode findings.tex | Out-Null
-    pdflatex -interaction=nonstopmode findings.tex | Out-Null   # 2nd pass for refs
+    # Run from project root so \graphicspath{} entries resolve relative to ROOT, not docs/
+    # -output-directory sends findings.pdf / .aux / .log into docs/
+    pdflatex -interaction=nonstopmode -output-directory docs docs/findings.tex | Out-Null
+    pdflatex -interaction=nonstopmode -output-directory docs docs/findings.tex | Out-Null
     if (Test-Path (Join-Path $TEX_DIR "findings.pdf")) {
         Write-Host "findings.pdf compiled successfully." -ForegroundColor Green
         $pdfOK = $true

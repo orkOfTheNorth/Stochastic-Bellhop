@@ -202,15 +202,15 @@ shadow probabilities in these scenarios (Figure~\ref{fig:shadow_good}).
   \centering
   % --- Row 1: flat scenario where Delta works (baseline, Uniform 1%) ---
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta.png}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png}
     \caption{MC vs.\ Delta}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3.png}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3_zS.png}
     \caption{MC vs.\ Delta--LN3}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3.png}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3_zS.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
   \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
@@ -322,7 +322,7 @@ what a properly weighted MLE fit would achieve.
   \centering
   \caption{Median KS statistic for LN3 fit to MC TL samples.
            Values below 0.10 indicate acceptable fit.
-           $\dagger$~Values require reading cached LN3 results; run \texttt{fill\_findings.m}
+           \dag~Values require reading cached LN3 results; run \texttt{fill\_findings.m}
            to populate.}
   \label{tab:ks_ln3}
   \begin{tabular}{lccc}
@@ -544,7 +544,7 @@ the Lloyd's mirror image-source construction, and the first three mode shapes.
 
 \begin{figure}[H]
   \centering
-  \input{analytical/analytical_diagram}
+  \input{validation/analytical/analytical_diagram}
   \caption{Isovelocity waveguide geometry used for analytical validation.
            Source $S$ at depth $z_S$ and its pressure-release image $S'$
            at $-z_S$ form a dipole (Lloyd's mirror) whose radiation pattern

@@ -8,17 +8,16 @@
 %        — same D, zS, maxR as the analytical model
 %   3. Saves a 3-panel comparison PNG to analytical/figures/
 
-try
-    cd(fileparts(mfilename('fullpath')));
-catch
-end
+SCRIPT_DIR = fileparts(mfilename('fullpath'));       % validation/analytical/
+ROOT       = fileparts(fileparts(SCRIPT_DIR));       % project root
+try; cd(SCRIPT_DIR); catch; end
 
-addpath(fullfile('..', 'Shared_Utils'));
-addpath(fullfile('..', 'Bellhop'));
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 cfg = loadConfig();
 
-fig_dir = fullfile('.', 'figures');
+fig_dir = fullfile(SCRIPT_DIR, 'figures');
 if ~exist(fig_dir, 'dir'), mkdir(fig_dir); end
 
 %% ── Fixed waveguide parameters ────────────────────────────────────────────
@@ -33,7 +32,7 @@ geo_rigid = [10, 10, 0];
 
 maxR_m     = 50000;              % 50 km range
 bathy_type = 'const_2500';
-cache_dir  = fullfile('..', 'Cache', 'deep_water', 'bellhop_raw');
+cache_dir  = fullfile(ROOT, 'Cache', 'deep_water', 'bellhop_raw');
 if ~exist(cache_dir, 'dir'), mkdir(cache_dir); end
 
 % Thorp absorption (dB/km)

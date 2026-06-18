@@ -20,8 +20,11 @@
 %   analytical/results/validation_<dist>.mat
 
 clear; close all; clc; warning('off');
-try, cd(fileparts(mfilename('fullpath'))); catch; end
-addpath(genpath('../Shared_Utils'));
+SCRIPT_DIR = fileparts(mfilename('fullpath'));       % validation/analytical/
+ROOT       = fileparts(fileparts(SCRIPT_DIR));       % project root
+try; cd(SCRIPT_DIR); catch; end
+addpath(genpath(fullfile(ROOT, 'core')));
+addpath(fullfile(ROOT, 'binaries'));
 
 %% ── Parameters ──────────────────────────────────────────────────────────────
 freq  = 1000;           % Hz  — 1kHz tractable in deep water (~3370 modes vs 33700 at 10kHz)
