@@ -18,7 +18,7 @@
   },
   "scenarios": [
     { "name": "deep_water",    "bathy_type": "const_2500",   "maxR_m": 50000, "maxDepth_m": 2500 },
-    { "name": "shallow_water", "bathy_type": "const_50",     "maxR_m": 5000,  "maxDepth_m": 50,  "FOM_dB": 20 },
+    { "name": "shallow_water", "bathy_type": "const_50",     "maxR_m": 5000,  "maxDepth_m": 50,  "FOM_dB": 70 },
     { "name": "upslope",       "bathy_type": "slope_550_50", "maxR_m": 10000, "maxDepth_m": 550  },
     { "name": "downslope",     "bathy_type": "slope_50_550", "maxR_m": 10000, "maxDepth_m": 550  }
   ],
