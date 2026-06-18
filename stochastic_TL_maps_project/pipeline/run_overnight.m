@@ -45,7 +45,7 @@ failed  = false(1, n);
 
 log_path = fullfile(ROOT, 'overnight_run.log');
 flog = fopen(log_path, 'w');
-logboth = @(varargin) cellfun(@(fid) fprintf(fid, varargin{:}), {1, flog});
+logboth = @(varargin) cellfun(@(fid) fprintf(fid, varargin{:}), {1, flog}, 'UniformOutput', false);
 
 logboth('\n=== Stochastic Bellhop Full Pipeline === %s\n', char(datetime('now')));
 
