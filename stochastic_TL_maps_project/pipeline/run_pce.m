@@ -46,8 +46,8 @@ freq0 = cfg.nominal.freq_Hz;
 zS0   = cfg.nominal.zS_m;
 N     = cfg.N_MC;
 
-MAX_ORDER = cfg.max_pce_order;   % 20 (from config)
-alpha_loo = cfg.LOO_alpha;       % 0.5 — weight for LOO_Var vs LOO_EX
+MAX_ORDER = min(cfg.max_pce_order, N - 1);   % cap at N-1: QR gives min(N, order+1) cols
+alpha_loo = cfg.LOO_alpha;                    % 0.5 — weight for LOO_Var vs LOO_EX
 PARAMS    = {'freq', 'zS', 'svp'};
 
 % PCE is fitted on each distribution's own N=150 independent samples.
