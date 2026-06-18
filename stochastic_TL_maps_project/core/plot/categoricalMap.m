@@ -44,14 +44,14 @@ shadow_anchors = [
     0.35  0.00  0.00;   % very dark red
 ];
 detect_anchors = [
-    0.85  1.00  0.85;   % pale green
-    0.60  0.94  0.60;   % light green
-    0.30  0.85  0.30;   % medium green
-    0.10  0.70  0.10;   % green
-    0.00  0.55  0.00;   % dark green
-    0.00  0.39  0.00;   % very dark green
-    0.00  0.27  0.00;   % forest green
-    0.00  0.18  0.00;   % deep forest
+    1.00  0.97  0.75;   % pale yellow
+    1.00  0.85  0.30;   % yellow-orange
+    1.00  0.60  0.00;   % orange
+    0.95  0.38  0.00;   % deep orange
+    0.85  0.18  0.00;   % orange-red
+    0.70  0.05  0.00;   % red
+    0.50  0.00  0.00;   % dark red
+    0.30  0.00  0.00;   % very dark red
 ];
 
 if isnumeric(color_style)

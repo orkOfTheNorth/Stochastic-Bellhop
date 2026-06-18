@@ -172,6 +172,9 @@ for si = 1:numel(cfg.scenarios)
         plotMCFigures(all_stats, snames, slbls, active, fig_dir, ...
                       r_km, z_m, bathy_m, max_depth, sc, dist, N, FOM, THRESHOLDS);
 
+        %% ── SVP ensemble figure ──────────────────────────────────────────────
+        plotSVPEnsemble(S_dist.svp, sc, dist, N, fig_dir, cfg);
+
         %% ── Param-distribution figure ────────────────────────────────────────
         plotParamDistributions(x_dist, B_dist, dist, N, fig_dir);
     end
@@ -347,6 +350,36 @@ function plotMCFigures(all_stats, snames, slbls, ~, fig_dir, ...
     end
     sgtitle(sprintf('MC Var[TL] — %s | %s | N=%d', sc.name, dist.name, N));
     saveFigPNG(fig_var, fullfile(fig_dir,'combined_Var'));  close(fig_var);
+end
+
+
+%% ═══════════════════════════════════════════════════════════════════════════
+function plotSVPEnsemble(svp_samps, sc, dist, N, fig_dir, cfg)
+%PLOTSVPENSEMBLE  Lightning-bolt SVP ensemble: N sampled profiles + nominal.
+    out_path = fullfile(fig_dir, 'svp_ensemble');
+    if isfile([out_path '.png'])
+        fprintf('    [SKIP] svp_ensemble already exists\n');
+        return;
+    end
+    svp_nom = makeSVPNoise(0, sc.maxDepth_m, cfg);
+    z_vec   = svp_nom(:,1);
+    fig = figure('Position', [50 50 420 560]);
+    ax  = axes;
+    hold(ax, 'on');
+    for i = 1:N
+        svp_i = makeSVPNoise(svp_samps(i), sc.maxDepth_m, cfg);
+        plot(ax, svp_i(:,2), z_vec, '-', 'Color', [0.4 0.6 0.9 0.12], 'LineWidth', 0.8);
+    end
+    plot(ax, svp_nom(:,2), z_vec, 'k-', 'LineWidth', 2.5, 'DisplayName', 'Nominal');
+    set(ax, 'YDir', 'reverse');
+    xlabel(ax, 'Sound Speed (m/s)');
+    ylabel(ax, 'Depth (m)');
+    title(ax, sprintf('SVP Ensemble | %s | %s | N=%d', sc.name, dist.name, N), ...
+          'Interpreter', 'none');
+    grid(ax, 'on');
+    saveFigPNG(fig, out_path);
+    close(fig);
+    fprintf('    Saved: %s\n', [out_path '.png']);
 end
 
 
