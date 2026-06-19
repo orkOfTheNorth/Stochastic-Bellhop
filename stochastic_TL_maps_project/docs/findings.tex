@@ -277,6 +277,28 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
   \label{fig:shadow_bad}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{baseline/delta_order_diff_relative.png}
+    \caption{Baseline (flat, 50\,m) --- 2\textsuperscript{nd}/1\textsuperscript{st} order ratio.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/delta_order_diff_relative.png}
+    \caption{Downslope --- 2\textsuperscript{nd}/1\textsuperscript{st} order ratio.}
+  \end{subfigure}
+  \caption{Relative magnitude of the 2\textsuperscript{nd}-order Hessian correction
+           compared to the 1\textsuperscript{st}-order (Bellhop-FD Jacobian) variance
+           estimate, across all range--depth pixels.
+           Red pixels: 2\textsuperscript{nd}-order correction dominates ($> 50\%$) ---
+           the 1\textsuperscript{st}-order Taylor approximation has not converged.
+           Left: baseline flat geometry --- correction is concentrated at interference
+           nulls but is moderate in the propagation corridor.
+           Right: downslope --- correction exceeds 80\% across almost the entire domain,
+           confirming that no 2\textsuperscript{nd}-order correction suffices here.}
+  \label{fig:delta_order_ratio}
+\end{figure}
+
 \begin{table}[H]
   \centering
   \caption{Mean relative 2\textsuperscript{nd}-order correction:
