@@ -165,9 +165,10 @@ for ci = 1:numel(completed)
         [Q, R_qr] = qr(Phi, 0);   % thin QR: Q [N×MAX_ORDER+1], R [MAX_ORDER+1×MAX_ORDER+1]
         QTL       = Q' * TL_mat;  % [MAX_ORDER+1 × Npix]
 
-        % Ridge-regularised coefficients (full order, for dist figure)
-        lambda    = 1e-10 * trace(Phi'*Phi);
-        C_all{pi} = (Phi'*Phi + lambda*eye(MAX_ORDER+1)) \ (Phi'*TL_mat);
+        % Full-order coefficients for distribution figure — use QR (numerically stable).
+        % The normal-equations form (Phi'Phi)\(Phi'y) loses ~6 digits at K=10
+        % due to cond(Phi'Phi) ~ N*K! ~ 3.6e9.  R_qr \ QTL is equivalent and stable.
+        C_all{pi} = R_qr \ QTL;
 
         % PCE is fitted and evaluated on the same distribution: ratio = 1
         ratio = 1.0;

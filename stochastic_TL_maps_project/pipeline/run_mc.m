@@ -335,7 +335,8 @@ function plotMCFigures(all_stats, snames, slbls, ~, fig_dir, ...
 
     %% Combined Var[TL]
     fig_var = figure('Position',[50 50 fw 420]);
-    v_max = max(cellfun(@(k) max(all_stats.(k).MC_Var(:)), avail));
+    all_var_vals = cell2mat(cellfun(@(k) all_stats.(k).MC_Var(:), avail, 'UniformOutput', false));
+    v_max = prctile(all_var_vals(isfinite(all_var_vals)), 99.5);
     v_max = max(v_max, 1e-6);
     for k = 1:n_avail
         sn  = avail{k};

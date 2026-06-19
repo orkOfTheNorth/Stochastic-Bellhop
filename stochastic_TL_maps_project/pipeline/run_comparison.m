@@ -283,11 +283,12 @@ for si = 1:numel(cfg.scenarios)
         end
 
         if have_all
-            % shared colorscale across all 6 panels
-            all_v = [cellfun(@(m) max(m(:)), mc_var_maps), ...
-                     cellfun(@(m) max(m(:)), delta_var_maps)];
-            v_max_s = max(all_v);
-            if v_max_s == 0, v_max_s = 1; end
+            % Robust shared colorscale: 99.5th percentile across all 6 panels.
+            % max() saturates on resonance-peak outliers, making the figure all-black.
+            all_v_flat = [cell2mat(cellfun(@(m) m(:), mc_var_maps,   'UniformOutput', false)); ...
+                          cell2mat(cellfun(@(m) m(:), delta_var_maps, 'UniformOutput', false))];
+            v_max_s = prctile(all_v_flat(isfinite(all_v_flat)), 99.5);
+            if v_max_s <= 0, v_max_s = 1; end
 
             bathy_s = bathymetryMaker(sc.bathy_type, sc.maxR_m);
 

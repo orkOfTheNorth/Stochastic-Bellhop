@@ -354,8 +354,12 @@ for si = 1:numel(cfg.scenarios)
         end
 
         %% Fig: 2nd-order bias map (all 7 subsets)
-        dE_abs_max = max(cellfun(@(m) max(abs(m(:))), dE_maps));
-        dE_abs_max = max(dE_abs_max, 0.1);
+        % Use robust 99.5th percentile to prevent resonance-peak outliers from
+        % collapsing the colorscale (max() would make the whole figure appear black).
+        all_dE_vals = cell2mat(cellfun(@(m) m(:), dE_maps, 'UniformOutput', false));
+        finite_vals = all_dE_vals(isfinite(all_dE_vals));
+        dE_abs_max  = prctile(abs(finite_vals), 99.5);
+        dE_abs_max  = max(dE_abs_max, 0.1);
 
         fw = max(1400, 200*7);
         fig_bias = figure('Position',[50 50 fw 420]);
