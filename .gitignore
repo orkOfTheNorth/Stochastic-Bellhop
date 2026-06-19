@@ -36,11 +36,14 @@ update_all_log.txt
 # Allow pipeline output figures to be committed
 !stochastic_TL_maps_project/Methods/**/*.png
 !stochastic_TL_maps_project/validation/analytical/figures/*.png
+!stochastic_TL_maps_project/Methods/Comparison/**/*.png
+!stochastic_TL_maps_project/Methods/Delta/**/*.png
 
 # LaTeX build artifacts
 *.aux
 *.out
 *.pdf
+!stochastic_TL_maps_project/docs/findings.pdf
 *.toc
 *.lof
 *.lot
