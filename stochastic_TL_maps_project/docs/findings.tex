@@ -286,8 +286,40 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
 \subsection{LN3 Shadow Probability Estimation}
 \label{sec:ln3}
 
-A three-parameter lognormal (LN3) distribution is fitted to Monte Carlo TL samples
-using method of moments ($\gamma = 0.95 \min(\text{samples})$).
+\paragraph{A priori motivation for the LN3 model.}
+The choice of a three-parameter lognormal distribution for TL is motivated by
+physical arguments rather than empirical fitting alone.
+
+First, TL is already expressed on a logarithmic (decibel) scale:
+$\mathrm{TL} = -20\log_{10}(|p|/p_0)$.
+Any multiplicative structure in the pressure field $p$ therefore maps to
+an additive structure in TL, favouring distributions from the lognormal family.
+
+Second, in a multi-mode waveguide the received pressure is a coherent sum of
+$M$ normal-mode contributions:
+\begin{equation}
+  p(r,z) = \sum_{m=1}^{M} A_m(r)\,\psi_m(z_S)\,\psi_m(z),
+\end{equation}
+where each mode amplitude $A_m$ depends on environmental parameters
+(frequency, source depth, sound-speed profile) that are random in our UQ setting.
+For large $M$ the central limit theorem suggests that $|p|$ is approximately
+Rayleigh-distributed; converting to dB then yields an approximately lognormal
+distribution for TL~\cite{brekhovskikh1991}.
+
+Third, TL has a physical lower bound: geometric spreading alone imposes a
+minimum loss $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$ at any given range.
+A two-parameter lognormal (LN2) has support on $(0,\infty)$ but no
+finite lower bound in dB, whereas the three-parameter lognormal
+\begin{equation}
+  X - \gamma \sim \mathrm{LN2}, \quad \gamma = \inf_{\text{pixels}} \mathrm{TL},
+\end{equation}
+explicitly encodes this physical floor through the shift parameter $\gamma$.
+We set $\gamma = 0.95\,\min(\text{samples})$ as a robust estimator of
+this lower bound.
+
+A three-parameter lognormal (LN3) distribution is therefore the natural
+parametric model for TL, and is fitted to Monte Carlo samples
+using method of moments.
 The KS test statistic measures goodness of fit across all pixels.
 Specifically, for each pixel the KS statistic is defined as the maximum absolute vertical
 distance between two cumulative distribution functions (CDFs):
