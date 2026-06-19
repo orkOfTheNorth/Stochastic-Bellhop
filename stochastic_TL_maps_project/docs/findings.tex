@@ -301,6 +301,29 @@ Values below $0.1$ are considered a very good fit; values in $[0.1,\,0.2]$ are a
 Here $D_{\mathrm{KS}}$ is used purely as a geometric distance between distributions,
 not as a hypothesis test.
 
+\paragraph{Formal KS test and large-$N$ disclaimer.}
+When applied as a formal hypothesis test, the KS statistic is compared against the
+critical threshold
+\begin{equation}
+  D_{\mathrm{crit}}(N,\alpha) \approx \frac{c(\alpha)}{\sqrt{N}},
+  \qquad c(0.05) = 1.36,
+\end{equation}
+so that $p < \alpha$ (reject the LN3 null hypothesis at significance level $\alpha$)
+whenever $D_{\mathrm{KS}} > D_{\mathrm{crit}}$.
+At $N = 1000$ this gives $D_{\mathrm{crit}} \approx 0.043$.
+All observed KS values in Table~\ref{tab:ks_ln3} exceed this threshold,
+so the LN3 model is formally rejected at the 95\% confidence level.
+
+However, this rejection is an artefact of large sample size.
+With $N = 1000$ the test is sensitive enough to detect any microscopic deviation
+from the exact parametric form --- deviations that are irrelevant in practice.
+Real acoustic TL fields are never distributed as \emph{exactly} LN3;
+the meaningful engineering question is not \emph{``is it exactly LN3?''} but
+\emph{``is it close enough to be useful?''}
+The observed values $D_{\mathrm{KS}} \in [0.076,\,0.114]$ indicate a close
+geometric fit and support using LN3 as a practical approximation,
+despite the formal statistical rejection.
+
 \paragraph{Methodological limitation: fitting method and sample structure.}
 Fitting the LN3 distribution by method of moments (or by regression on empirical
 quantiles / CDF) is statistically inefficient compared to \emph{maximum likelihood
