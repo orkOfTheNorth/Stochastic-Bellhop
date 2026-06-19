@@ -90,9 +90,10 @@ P95 TL maps rather than variance alone, as variance does not distinguish the
 \subsection{Monte Carlo Reference Statistics}
 \label{sec:mc}
 
-Monte Carlo (MC) simulations with $N=50$ Latin Hypercube samples per scenario and
+Monte Carlo (MC) simulations with $N=1000$ samples per scenario and
 distribution provide the reference statistics $\EX[\TL]$ and $\Var[\TL]$ against which
 all analytical approximations are evaluated.
+The sample pool combines Latin Hypercube (LHS), IID, and SVP-perturbed draws.
 Figure~\ref{fig:mc_ex_var} shows representative $\EX[\TL]$ and $\Var[\TL]$ maps for
 the five propagation scenarios under 5\% uniform source-depth ($z_S$) uncertainty.
 
