@@ -150,18 +150,36 @@ pdflatex -interaction=nonstopmode poster.tex
 ```
 Iterate until zero `!` errors. Warnings about missing figures are OK (figures are on server).
 
-### Task B — Re-run pipeline on server (if cache available)
+### Task B — Re-run pipeline on server (cache IS available here)
 
-If the server has `Cache/` populated with TL cubes (~16 GB), re-run:
+The server has the full `Cache/` directory with all TL cubes (~16 GB). Re-runs are possible and expected. Run these to regenerate corrected figures:
+
 ```matlab
 cd stochastic_TL_maps_project
-run_pce    % regenerates pce_dist_*.png (fixed: PCE was at 0 dB, now uses QR)
-run_delta  % regenerates bias_2nd_order.png (fixed: colorscale was ±1500 dB)
-run_comparison  % regenerates var_MC_vs_Delta_3x2.png (fixed: was all-black)
-run_mc     % regenerates combined_Var.png (fixed: colorscale)
+run_pce         % PRIORITY: fixes pce_dist_*.png (were showing PCE at 0 dB — QR fix)
+run_delta       % fixes bias_2nd_order.png (colorscale was ±1500 dB stripes)
+run_comparison  % fixes var_MC_vs_Delta_3x2.png (was all-black)
+run_mc          % fixes combined_Var.png (colorscale)
 ```
 
-Do NOT delete any existing figures before re-running — the pipeline uses `skipIfDone` logic and will only regenerate what's needed.
+You can also run a single scenario/distribution to test:
+```matlab
+run_pce('deep_water', 'Normal_10pct')
+run_delta('deep_water', 'Normal_10pct')
+```
+
+**skipIfDone logic:** The pipeline checks if output figures already exist and skips them. To force regeneration of specific figures, delete them first then re-run. Do NOT bulk-delete — only delete the specific broken figures.
+
+**Which figures are known broken (delete these to force regen):**
+- ALL `pce_dist_*.png` across all 4 scenarios × 3 distributions (12 files total) — PCE was at 0 dB
+- `bias_2nd_order.png` in each `Methods/Methods/Delta/{scenario}/{dist}/figures/` — ±1500 dB colorscale
+- `var_MC_vs_Delta_3x2.png` in each `Methods/Methods/Comparison/{scenario}/{dist}/figures/` — all-black
+- `combined_Var.png` in each `Methods/Methods/MC/{scenario}/{dist}/figures/` — colorscale saturated
+
+**Full pipeline re-run** (runs everything, uses cache — won't redo Bellhop runs):
+```matlab
+run_full_pipeline   % or run_all_v2
+```
 
 ### Task C — Check paper.tex for any missing figure warnings
 
