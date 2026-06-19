@@ -93,8 +93,8 @@
 %% ROW 3 — TL Cache
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[cache, minimum width=11.2cm, below=0.55cm of bellhop] (cache)
-  {\textbf{TL Cache}\quad
-   {\footnotesize \texttt{Cache/<scen>/<dist>/TL\_\{freq,zS,svp\}.mat}\;---\;\texttt{TL\_save}\,$[N_z\!\times\!N_r\!\times\!N]$,\;$N\!=\!150$ LHS samples}};
+  {\textbf{TL Ensemble}\quad
+   {\footnotesize $\bigl\{\mathrm{TL}(r,z;\,\theta_i)\bigr\}_{i=1}^{N}$,\quad$N\!=\!1000$ samples (LHS\,+\,IID),\quad$\theta_i\!\in\!\{\mathrm{freq},z_S,\mathrm{SVP}\}$}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 4 — UQ Algorithm blocks
