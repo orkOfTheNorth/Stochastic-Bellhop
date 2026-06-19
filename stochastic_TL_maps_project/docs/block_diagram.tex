@@ -85,9 +85,9 @@
 %%   FIX: \\[1pt] moved to TOP LEVEL (not inside {\footnotesize ...})
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[bellhop, minimum width=11.2cm] (bellhop) at (8.7,-3.6)
-  {\textbf{Bellhop Acoustic Propagation Engine}\\[3pt]
-   {\footnotesize \texttt{bellhopCached}$\!\to\!$\texttt{simpleBellhopHazat}$\!\to\!$\texttt{bellhop.exe\,/\,bellhopcuda.exe}}\\[1pt]
-   {\footnotesize Input:\;\texttt{.env}\;(freq,\,$z_S$,\,SVP,\,bathy) $\;\to\;$Output:\;\texttt{.shd}$\!\to\!$TL field $[N_z\!\times\!N_r]$}};
+  {\textbf{Acoustic Forward Model — Bellhop Ray Tracer}\\[3pt]
+   {\footnotesize Input:\;$(\mathrm{freq},\,z_S,\,\mathrm{SVP},\,\mathrm{bathymetry})$\quad$\to$\quad Output:\;$\mathrm{TL}(r,z)\in\mathbb{R}^{N_z\times N_r}$}\\[1pt]
+   {\footnotesize Range-dependent ray tracing in $(r,z)$ domain;\;absorption: Thorp formula}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 3 — TL Cache
