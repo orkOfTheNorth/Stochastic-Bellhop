@@ -176,6 +176,19 @@ the Var estimator to reach the $\lesssim 5\%$ relative RMSE target at the
 \subsection{First-Order Delta Method: Accuracy and Failure Modes}
 \label{sec:delta}
 
+\paragraph{Terminology note.}
+The term \emph{Delta method} here refers to linearisation via perturbation calculus
+(first-order Taylor expansion of the model output around the nominal parameter vector),
+and should not be confused with the Dirac delta function or with finite-difference
+approximations.
+The same technique appears under different names in other fields:
+\emph{FOSM} (First-Order Second-Moment method) in structural reliability and engineering,
+\emph{GUM linearisation} in metrology \cite{bipm2008gum}, and
+\emph{error propagation} in experimental physics textbooks.
+In a statistics context ``Delta method'' is standard and unambiguous;
+in an acoustics or engineering context the FOSM alias may help readers
+avoid confusion.
+
 The 1\textsuperscript{st}-order Delta method approximates variance as:
 \begin{equation}
   \Var_1[\TL] \;\approx\; \sum_{i} J_i^2 \,\sigma_i^2,
