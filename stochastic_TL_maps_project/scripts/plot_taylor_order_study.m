@@ -47,9 +47,9 @@ zS0   = cfg.nominal.zS_m;
 geo   = cfg.nominal.geo(:)';
 
 STUDY_CASES = {
-    'downslope',  'Uniform_5pct';
-    'baseline',   'Normal_10pct';
-    'deep_water', 'Normal_10pct';
+    'downslope',    'Normal_5pct';
+    'shallow_water','Normal_10pct';
+    'deep_water',   'Normal_10pct';
 };
 
 MAX_ORDER  = 10;   % PCE order to assess
