@@ -321,6 +321,26 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
   \end{tabular}
 \end{table}
 
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{baseline/Normal_5pct/figures/var_MC_vs_Delta_3x2.png}
+    \caption{Baseline (flat, 50\,m) --- Normal\,5\%.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/var_MC_vs_Delta_3x2.png}
+    \caption{Baseline (flat, 50\,m) --- Normal\,10\%.}
+  \end{subfigure}
+  \caption{MC variance $\Var_\text{MC}[\TL]$ vs.\ Bellhop Finite-Difference Jacobian
+           (Bellhop-FD) Delta variance $\Var_\Delta[\TL]$ for each of the three uncertain
+           parameters (rows: $z_S$, freq, SVP) and the full three-parameter combination.
+           Left: 5\% perturbation --- Delta is a reasonable approximation for freq and SVP
+           but overestimates variance for $z_S$ in the convergence zone.
+           Right: 10\% perturbation --- systematic over/under-estimation across all parameters
+           confirms that the 1\textsuperscript{st}-order Taylor series has not converged.}
+  \label{fig:var_comparison}
+\end{figure}
+
 % ────────────────────────────────────────────────────────────
 \subsection{LN3 Shadow Probability Estimation}
 \label{sec:ln3}
