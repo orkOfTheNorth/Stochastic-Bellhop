@@ -216,23 +216,23 @@ shadow probabilities in these scenarios (Figure~\ref{fig:shadow_good}).
   \centering
   % --- Row 1: flat scenario where Delta works (baseline, Uniform 1%) ---
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png}
-    \caption{MC vs.\ Delta}
+    \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_Delta.png}
+    \caption{MC vs.\ Bellhop-FD Delta}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3_zS.png}
+    \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_DeltaLN3.png}
     \caption{MC vs.\ Delta--LN3}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3_zS.png}
+    \includegraphics[width=\linewidth]{baseline/Uniform_1pct/figures/shadow_70_MC_vs_LN3.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
-  \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
-           ($P(\TL > 70\,\text{dB})$) where the analytical methods \emph{agree} with
-           MC (shallow-water scenario, Normal\,1\%, $z_S$ perturbation).
-           In each panel the MC empirical estimate appears on the left half and the
-           analytical approximation on the right half; close match indicates
-           the method is reliable in this regime.}
+  \caption{Bellhop Finite-Difference Jacobian (Bellhop-FD) Delta vs.\ MC vs.\ Delta--LN3
+           shadow-probability comparison ($P(\TL > 70\,\text{dB})$) where the analytical
+           methods \emph{agree} with MC (baseline flat scenario, Uniform\,1\%).
+           In each panel MC appears on the left and the analytical approximation on the
+           right; close match indicates the method is reliable in this low-perturbation
+           flat-bathymetry regime.}
   \label{fig:shadow_good}
 \end{figure}
 
