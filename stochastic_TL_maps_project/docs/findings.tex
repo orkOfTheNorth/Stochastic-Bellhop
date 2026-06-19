@@ -254,23 +254,26 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
   \centering
   % --- Row: downslope scenario where Delta fails (Uniform 5%, SVP perturbation) ---
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
-    \caption{MC vs.\ Delta}
+    \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/shadow_70_MC_vs_Delta.png}
+    \caption{MC vs.\ Bellhop-FD Delta}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png}
+    \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/shadow_70_MC_vs_DeltaLN3.png}
     \caption{MC vs.\ Delta--LN3}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_LN3_svp.png}
+    \includegraphics[width=\linewidth]{baseline/Normal_10pct/figures/shadow_70_MC_vs_LN3.png}
     \caption{MC vs.\ LN3}
   \end{subfigure}
-  \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
-           ($P(\TL > 70\,\text{dB})$) where the 1\textsuperscript{st}-order Delta
-           \emph{fails} (downslope scenario, Normal\,5\%, SVP perturbation).
-           In each panel MC is on the left and the analytical approximation on the
-           right; the pronounced disagreement at the refraction shadow boundary
-           confirms that the Taylor expansion has not converged in this regime.}
+  \caption{Bellhop Finite-Difference Jacobian (Bellhop-FD) Delta vs.\ MC vs.\ Delta--LN3
+           shadow-probability comparison ($P(\TL > 70\,\text{dB})$) where the
+           1\textsuperscript{st}-order Delta \emph{begins to fail} (baseline scenario,
+           Normal\,10\% --- large perturbation in flat geometry).
+           In each panel MC is on the left and the analytical approximation on the right.
+           The disagreement grows at shadow boundaries where the Hessian correction
+           already exceeds 99\% of the total variance (Table~\ref{tab:2nd_order_correction}).
+           Slope scenarios (downslope, upslope) show even larger failure but their
+           Comparison figures require re-running the pipeline with Normal distributions.}
   \label{fig:shadow_bad}
 \end{figure}
 
