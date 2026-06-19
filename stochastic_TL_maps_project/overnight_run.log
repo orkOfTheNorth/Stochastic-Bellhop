@@ -1,0 +1,7 @@
+
+=== Stochastic Bellhop Full Pipeline === 18-Jun-2026 18:46:43
+
+[1/12] MC (N=1000, LHS+IID+SVP)
+[1/12] Done in 33188 s
+
+[2/12] Delta 1st+2nd order, GH sweep
