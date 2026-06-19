@@ -46,7 +46,8 @@ rng(42);
 dists = struct('name', {'Normal_1pct','Normal_5pct','Normal_10pct'}, ...
                'sig',  {zS0*0.01/2,   zS0*0.05/2,  zS0*0.10/2});
 
-fig_dir = 'figures';  res_dir = 'results';
+fig_dir = fullfile(SCRIPT_DIR, 'figures');
+res_dir = fullfile(SCRIPT_DIR, 'results');
 for d = {fig_dir, res_dir}
     if ~exist(d{1},'dir'), mkdir(d{1}); end
 end

@@ -7,6 +7,10 @@
           {
             "type": "command",
             "command": "powershell -ExecutionPolicy Bypass -File .claude/check_matlab_lint.ps1"
+          },
+          {
+            "type": "command",
+            "command": "powershell -ExecutionPolicy Bypass -File .claude/auto_push.ps1"
           }
         ]
       }
