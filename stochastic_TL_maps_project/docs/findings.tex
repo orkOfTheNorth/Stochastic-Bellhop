@@ -289,6 +289,17 @@ Taylor series has not converged at 2\textsuperscript{nd} order.
 A three-parameter lognormal (LN3) distribution is fitted to Monte Carlo TL samples
 using method of moments ($\gamma = 0.95 \min(\text{samples})$).
 The KS test statistic measures goodness of fit across all pixels.
+Specifically, for each pixel the KS statistic is defined as the maximum absolute vertical
+distance between two cumulative distribution functions (CDFs):
+\begin{equation}
+  D_{\mathrm{KS}} = \sup_{x}\,\bigl|F_{\mathrm{empirical}}(x) - F_{\mathrm{LN3}}(x)\bigr|,
+\end{equation}
+where $F_{\mathrm{empirical}}$ is the empirical CDF of the $N{=}1000$ Bellhop MC samples
+and $F_{\mathrm{LN3}}$ is the CDF of the fitted LN3 distribution.
+$D_{\mathrm{KS}} = 0$ indicates a perfect fit; $D_{\mathrm{KS}} = 1$ indicates no overlap.
+Values below $0.1$ are considered a very good fit; values in $[0.1,\,0.2]$ are acceptable.
+Here $D_{\mathrm{KS}}$ is used purely as a geometric distance between distributions,
+not as a hypothesis test.
 
 \paragraph{Methodological limitation: fitting method and sample structure.}
 Fitting the LN3 distribution by method of moments (or by regression on empirical
