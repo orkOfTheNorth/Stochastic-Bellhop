@@ -142,22 +142,22 @@
 \node[rgroup, below=0.65cm of mc, minimum width=3.6cm] (r_mc)
   {\rlbl{EX map}\;\rlbl{Var map}\\[3pt]
    \rlbl{P\_det}\;\rlbl{P\_kde}\\[3pt]
-   {\tiny\sffamily Output/MC/}};
+   };
 
 \node[rgroup, below=0.65cm of delta, minimum width=3.6cm] (r_delta)
-  {\rlbl{Var map}\;\rlbl{P\_shd}\\[3pt]
-   \rlbl{GH order}\;\rlbl{bias}\\[3pt]
-   {\tiny\sffamily Output/Delta/}};
+  {\rlbl{$\mathrm{Var}_\Delta$ map}\;\rlbl{$P_\mathrm{shd}$}\\[3pt]
+   \rlbl{2nd-order correction}\\[3pt]
+   \rlbl{$|\kappa H^2|/V_1$ ratio}};
 
 \node[rgroup, below=0.65cm of pce, minimum width=3.6cm] (r_pce)
-  {\rlbl{converge}\;\rlbl{summary}\\[3pt]
-   \rlbl{LOO-EX}\;\rlbl{LOO-Var}\\[3pt]
-   {\tiny\sffamily Output/PCE/}};
+  {\rlbl{$L_1(K)$ curve}\;\rlbl{$K^*$}\\[3pt]
+   \rlbl{LOO-CV curve}\\[3pt]
+   \rlbl{$\mathrm{Var}_{K^*}$ map}};
 
 \node[rgroup, below=0.65cm of ln3, minimum width=3.6cm] (r_ln3)
-  {\rlbl{histo}\;\rlbl{RMSE}\\[3pt]
-   \rlbl{P\_LN3}\;\rlbl{KDE val}\\[3pt]
-   {\tiny\sffamily Output/LN3/}};
+  {\rlbl{$D_\mathrm{KS}$ per pixel}\\[3pt]
+   \rlbl{$P(\mathrm{TL}\!>\!\mathrm{FOM})$}\\[3pt]
+   \rlbl{KDE validation}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 6 — Comparison
