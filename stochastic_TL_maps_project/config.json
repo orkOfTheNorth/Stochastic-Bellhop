@@ -1,0 +1,61 @@
+{
+  "nominal": {
+    "freq_Hz": 10000,
+    "zS_m": 5,
+    "FOM_dB": 100,
+    "geo": [1483.5, 1.63, 0.07]
+  },
+  "jacobian_steps": {
+    "freq_Hz": 50,
+    "zS_m": 0.025,
+    "svp_C": 0.125
+  },
+  "SVP": {
+    "nominal_surface_temp_C": 25,
+    "nominal_MLD_m": 30,
+    "MLD_coupling_m_per_C": 5,
+    "salinity_ppt": 37
+  },
+  "scenarios": [
+    { "name": "deep_water",    "bathy_type": "const_2500",   "maxR_m": 50000, "maxDepth_m": 2500 },
+    { "name": "shallow_water", "bathy_type": "const_50",     "maxR_m": 5000,  "maxDepth_m": 50,  "FOM_dB": 70 },
+    { "name": "upslope",       "bathy_type": "slope_550_50", "maxR_m": 10000, "maxDepth_m": 550  },
+    { "name": "downslope",     "bathy_type": "slope_50_550", "maxR_m": 10000, "maxDepth_m": 550  }
+  ],
+  "distributions": [
+    { "name": "Normal_1pct",  "type": "normal", "level_pct": 1  },
+    { "name": "Normal_5pct",  "type": "normal", "level_pct": 5  },
+    { "name": "Normal_10pct", "type": "normal", "level_pct": 10 }
+  ],
+  "MC": {
+    "N": 1000,
+    "rng_seed": 42
+  },
+  "PCE": {
+    "max_order": 20,
+    "LOO_alpha": 0.5
+  },
+  "analytical": {
+    "sweep_frequencies_Hz": [500, 1000, 2000, 5000, 10000]
+  },
+  "thresholds": [0.50, 0.60, 0.70, 0.80, 0.90, 0.95],
+  "bellhop": {
+    "NRD": 574,
+    "NR": 766,
+    "NBEAMS": 1500,
+    "ZBOX_FACTOR": 1.1
+  },
+  "delta": {
+    "GH_max_order": 10
+  },
+  "ln3": {
+    "gamma_fraction": 0.95,
+    "sigma_tail_coverage": 4,
+    "N_EVAL": 50,
+    "N_BINS": 20
+  },
+  "plot": {
+    "dpi": 300,
+    "TL_clim_dB": [50, 150]
+  }
+}

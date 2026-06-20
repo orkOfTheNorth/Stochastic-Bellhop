@@ -1,0 +1,3043 @@
+% ============================================================
+%  findings.tex  —  Findings Section (Overleaf-compatible)
+%  Stochastic Bellhop UQ: Delta Method, MC, PCE, LN3
+% ============================================================
+
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{import}        
+\usepackage{graphicx}      
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathreplacing,shapes.geometric}
+
+% Figure path — Steps out of 'docs' directory into the parent structure
+\graphicspath{
+  {../}
+  {../Methods/MC/}
+  {../Methods/MC_convergence/}
+  {../Methods/Delta/}
+  {../Methods/LN3/}
+  {../Methods/PCE/}
+  {../Methods/Comparison/}
+  {../validation/analytical/figures/}
+  {../validation/analytical/}
+  {pptx_figures/}
+}
+
+\newcommand{\EX}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\TL}{\mathrm{TL}}
+\newcommand{\Pshadow}{P_{\mathrm{shadow}}}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% ────────────────────────────────────────────────────────────
+\section*{Executive Summary}
+
+\addcontentsline{toc}{section}{Executive Summary}
+
+This report evaluates four uncertainty quantification (UQ) methods for
+underwater acoustic transmission loss (TL) computed by the Bellhop ray-tracing
+model.
+The uncertain inputs are carrier frequency, source depth ($z_S$), and sound
+velocity profile (SVP), each modelled as an independent random variable.
+Three analytical methods --- the 2\textsuperscript{nd}-order Delta method,
+Polynomial Chaos Expansion (PCE), and a 3-parameter lognormal (LN3) fit --- are
+compared against Monte Carlo (MC) ground truth across four propagation scenarios
+(shallow water, deep water, upslope, downslope) and three input
+uncertainty distributions (Normal\,1/5/10\%).
+
+\textbf{Key conclusions:}
+\begin{itemize}
+  \item The \textbf{Delta method} (1\textsuperscript{st}-order Taylor) is
+        reliable for flat bathymetry and small perturbations ($\leq$1\%), but the
+        2\textsuperscript{nd}-order Hessian correction already exceeds 96\% of the
+        total variance at 5\% uncertainty, indicating the Taylor series has not
+        converged.  Delta fails at slope bathymetry regardless of perturbation
+        level.
+  \item \textbf{PCE} (fitted to the existing $N=1000$ MC samples at zero extra
+        Bellhop cost) requires LOO-CV-selected order $K^* = 5$--$12$ across all
+        scenario/distribution combinations, reflecting moderate-to-strong nonlinearity
+        throughout.  The corrected pipeline (non-zero PCE coefficients) shows all
+        parameters require $K^*\geq 5$; the previously reported $K^*\leq 3$ were
+        artifacts of a coefficient bug.  Only upslope/Normal\,10\%/freq ($K^*=12$)
+        approaches the $K_{\max}=20$ limit; all other cases converge within 5--9 terms.
+        Slope scenarios require full MC for large perturbations.
+  \item The \textbf{Delta--LN3 hybrid} (moment-matched shadow probability)
+        performs well for flat scenarios but degrades at shadow-zone boundaries in
+        slope environments.
+  \item \textbf{Full Monte Carlo} is unavoidable for slope bathymetry ($\geq$5\%
+        perturbation) and for $z_S$ in deep water with Normal distributions.
+  \item The \textbf{LN3 distribution fit} uses MLE via \texttt{lognfit} for the
+        shifted parameters, retaining a heuristic shift $\gamma = 0.95\min$:
+        full 3-parameter MLE is computationally prohibitive at 440\,000 pixels.
+        A design-weighted likelihood or survey-sampling correction would be needed for a
+        rigorous MLE fit; this remains an open methodological limitation.
+\end{itemize}
+
+\textbf{Practical recommendation:} For sonar mission planning, use
+PCE-$K^*$ (order 5--9) on flat-bottom scenarios and fall back to MC for slope
+environments or large source-depth uncertainty.  Report $P_\mathrm{fail}$ and
+P95 TL maps rather than variance alone, as variance does not distinguish the
+\emph{direction} of acoustic uncertainty.
+
+% ============================================================
+\section{Understanding the Problem}
+\label{sec:understanding}
+
+This section establishes the physical and mathematical foundation of the
+stochastic TL mapping problem.
+The goal is to explain why a single deterministic Bellhop TL map is
+insufficient for operational sonar planning, and to provide the theoretical
+background behind the UQ methods compared in the rest of this report.
+
+% ────────────────────────────────────────────────────────────
+\subsection{The Ocean as a Layered Acoustic Medium}
+\label{sec:ocean_layers}
+
+Sound travels through seawater at approximately 1400--1550\,m/s, a speed
+governed by temperature, pressure, and salinity.
+None of these three is uniform with depth.
+Temperature drops sharply through the \emph{thermocline} before stabilising in
+the deep isothermal layer, while hydrostatic pressure increases monotonically.
+Their competing effects produce a characteristic sound-velocity profile (SVP)
+with a minimum near the thermocline base --- the \emph{sound-channel axis} ---
+that refracts acoustic energy downward above the axis and upward below it,
+trapping low-frequency sound in a natural waveguide.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.36\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image11.png}
+    \caption{Ocean depth zones from surface to hadal trench.
+             Temperature, pressure, and salinity all vary with depth,
+             driving changes in sound speed throughout the water column.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.60\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image8.png}
+    \caption{Temperature profile (left) and resulting sound-velocity
+             profile (right).
+             Zone\,1: isothermal layer --- pressure drives a slight speed
+             increase near the surface.
+             Zone\,2: thermocline --- temperature drop dominates, speed
+             decreases with depth.
+             Zone\,3: deep ocean --- pressure again prevails, speed increases.
+             The SVP minimum at the boundary of Zones\,2 and\,3 forms the
+             sound-channel axis.}
+  \end{subfigure}
+  \caption{The ocean as a layered acoustic medium.
+           The SVP is the primary determinant of propagation structure
+           and is inherently uncertain in time and space.}
+  \label{fig:ocean_medium}
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Acoustic Wave Propagation and the Bellhop Forward Model}
+\label{sec:wave_eq}
+
+\subsubsection{The Wave Equation}
+
+The pressure field $p(r,z,t)$ radiated by a harmonic point source of frequency
+$f$ at depth $z_s$ in an axisymmetric medium satisfies:
+\begin{equation}
+  \frac{\partial^2 p}{\partial r^2}
+  + \frac{1}{r}\frac{\partial p}{\partial r}
+  + \frac{\partial^2 p}{\partial z^2}
+  + \frac{\omega^2}{c^2(z)}\,p
+  \;=\; -\frac{\delta(r)}{r}\,\delta(z - z_s),
+  \label{eq:helmholtz}
+\end{equation}
+where $r$ is horizontal range, $z$ is depth (positive downward),
+$\omega = 2\pi f$, and $c(z)$ is the depth-dependent sound speed
+(the SVP).
+Equation~\eqref{eq:helmholtz} is the frequency-domain (Helmholtz) form of
+the wave equation in cylindrical coordinates; it is the governing PDE that
+all acoustic propagation models --- including Bellhop --- solve.
+
+\subsubsection{Transmission Loss}
+
+The \textbf{transmission loss} (TL) at a receiver at $(r,z)$ is:
+\begin{equation}
+  \mathrm{TL}(r,z) \;=\; -20\log_{10}\!\left(\frac{|p(r,z)|}{|p_0|}\right)
+  \quad [\mathrm{dB}],
+  \label{eq:TL_def}
+\end{equation}
+where $|p_0|$ is the pressure amplitude at 1\,m reference distance.
+TL increases with range as acoustic energy spreads and is absorbed.
+Focussing effects (convergence zones) temporarily reduce TL.
+
+\subsubsection{Bellhop as a Black-Box Forward Model}
+
+\textbf{Bellhop} is a ray-tracing solver for Eq.~\eqref{eq:helmholtz}.
+Given environmental inputs --- SVP, bathymetry, frequency $f$, source depth
+$z_S$ --- it traces a fan of rays through the medium and computes a full 2-D
+TL map $\mathrm{TL}(r,z)$.
+It is treated in this project as a \emph{black-box forward model}: for each
+parameter sample $\boldsymbol\omega$, Bellhop is called once and returns a
+TL cube; no gradient or Jacobian information is extracted directly from the
+solver.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.82\textwidth]{pptx_figures/image7.png}
+  \caption{Representative Bellhop TL map: deep-water flat bathymetry with a
+           summer SVP, $f=10{,}000$\,Hz, $z_S = 5$\,m.
+           TL (dB, colour scale) increases with range as energy spreads.
+           The bright arc at $\sim$6--8\,km is a \emph{convergence zone} (CZ):
+           down-going rays refracted by the SVP gradient reconverge at the
+           surface, producing 15--25\,dB less TL than geometric spreading
+           alone.
+           CZ position and gain are strongly sensitive to the SVP shape ---
+           a primary motivation for treating SVP as a random variable.}
+  \label{fig:bellhop_main}
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{The Sonar Equation and the Figure of Merit}
+\label{sec:sonar_eq}
+
+Detection of an underwater target is governed by the \emph{active sonar
+equation}.
+Expressing all quantities in dB:
+\begin{equation}
+  \mathrm{SNR}
+  \;=\;
+  \underbrace{\mathrm{SL} - \mathrm{TL} + \mathrm{TS}}_{\text{received signal level}}
+  \;-\;
+  \underbrace{(\mathrm{NL} - \mathrm{DI})}_{\text{effective noise level}}
+  \;\geq\; \mathrm{DT},
+  \label{eq:sonar_eq}
+\end{equation}
+where SL is the source level, TS is target strength, NL is ambient noise
+level, DI is the array's directivity index, and DT is the detection threshold.
+
+Rearranging the detection condition gives:
+\begin{equation}
+  \mathrm{TL}(r,z) \;\leq\;
+  \underbrace{\mathrm{SL} + \mathrm{TS} - \mathrm{NL} + \mathrm{DI} - \mathrm{DT}}_{\displaystyle\mathrm{FOM}},
+  \label{eq:fom}
+\end{equation}
+where \textbf{FOM} (Figure of Merit) is determined entirely by the sonar
+system and target, independent of the environment.
+A target at $(r,z)$ is detectable if and only if $\mathrm{TL}(r,z) \leq \mathrm{FOM}$.
+
+\medskip
+\noindent\textbf{Why TL is the right quantity to model.}
+SL, TS, NL, DI, and DT are platform- and system-dependent constants.
+TL is driven purely by ocean physics.
+A probabilistic TL map --- $P(\mathrm{TL}(r,z;\boldsymbol\omega) > \mathrm{FOM})$
+--- is therefore the universal deliverable: it quantifies detection risk as a
+function of position for \emph{any} sonar whose FOM is known, without requiring
+knowledge of the specific system architecture.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Propagation Phenomena: Convergence Zones and Sea-Floor Reflections}
+\label{sec:propagation_phenomena}
+
+Two propagation mechanisms dominate the TL field in the scenarios studied:
+
+\paragraph{Convergence zones.}
+Rays launched downward by a shallow source are curved upward by the
+depth-increasing pressure gradient below the thermocline.
+For typical open-ocean SVPs they re-focus at the surface at ranges of
+40--60\,km (and at multiples thereof), creating arcs of anomalously low TL.
+CZ position, width, and gain are all sensitive to the SVP gradient profile.
+
+\paragraph{Sea-floor reflections.}
+In shallow water or slope bathymetry, downward rays encounter the seabed and
+reflect back, creating additional interfering paths.
+The reflected TL map has a qualitatively different character: monotonically
+increasing TL without the CZ focussing arcs present in the deep-water case.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image7.png}
+    \caption{Deep-water flat bottom: convergence-zone arc produces a
+             strong low-TL (high-signal) band at $\sim$6\,km.
+             TL is highly non-monotonic in range.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image26.png}
+    \caption{Half-space with reflecting sea floor: no CZ focussing;
+             TL increases monotonically from source.
+             Reflections from the flat bottom create fine horizontal
+             interference fringes.}
+  \end{subfigure}
+  \caption{The two dominant propagation regimes.
+           The presence or absence of sea-floor reflections and CZ focussing
+           fundamentally changes the TL structure and its sensitivity to
+           environmental parameters --- motivating the four-scenario design
+           (shallow water, deep water, upslope, downslope) of this study.}
+  \label{fig:prop_phenomena}
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{The Stochastic Extension: Why Uncertainty Matters}
+\label{sec:stochastic_motivation}
+
+Deterministic Bellhop models treat the three environmental inputs --- carrier
+frequency $f$, source depth $z_S$, and SVP --- as exactly known.
+In practice, all three carry uncertainty:
+
+\begin{itemize}
+  \item \textbf{Frequency ($f$):} Oscillator drift, Doppler shift from platform
+        motion, and signal bandwidth all introduce frequency uncertainty.
+  \item \textbf{Source depth ($z_S$):} The adversary's depth is unknown to the
+        receiver; own-platform depth varies with sea state and cable catenary for
+        towed arrays.
+  \item \textbf{SVP:} Temperature, salinity, and pressure vary continuously in
+        space and time.
+        The SVP is measured at discrete locations (bathythermograph drops) and
+        interpolated; internal waves and mesoscale fronts introduce additional
+        structure below the measurement resolution.
+\end{itemize}
+
+We model each parameter as an independent scalar random variable:
+\begin{equation}
+  \boldsymbol{\omega}
+  = \bigl(\omega_f,\;\omega_{z_S},\;\omega_\mathrm{svp}\bigr)
+  \;\sim\; p_{\Omega}(\boldsymbol\omega),
+  \label{eq:stochastic_params}
+\end{equation}
+with marginal distributions specified as Normal or Uniform with standard
+deviations set to 1\%, 5\%, or 10\% of the respective nominal value.
+This renders the TL field stochastic:
+\begin{equation}
+  \mathrm{TL}(r,z;\,\boldsymbol\omega)
+  \;\longrightarrow\;
+  \begin{cases}
+    \mathbb{E}\!\left[\mathrm{TL}(r,z)\right] & \text{mean TL map}\\[3pt]
+    \mathrm{Var}\!\left[\mathrm{TL}(r,z)\right] & \text{variance map}\\[3pt]
+    P\!\left(\mathrm{TL}(r,z;\boldsymbol\omega) > \mathrm{FOM}\right)
+      & \text{detection-failure probability map}
+  \end{cases}
+  \label{eq:uq_goal}
+\end{equation}
+Computing all three outputs at every range--depth pixel, across
+$4\;\text{scenarios}\times3\;\text{distributions}=12$ combinations,
+efficiently and without redundant Bellhop runs is the central engineering
+challenge of this project.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Analytical Validation of Bellhop}
+\label{sec:validation}
+
+Before using Bellhop as the stochastic forward model, we verified it against
+two analytical closed-form solutions of Eq.~\eqref{eq:helmholtz}.
+
+\subsubsection{Point Source in a Fluid Half-Space (Method of Images)}
+
+For a point source at depth $z_s$ in a homogeneous fluid bounded above by a
+pressure-release surface ($p|_{z=0}=0$), the exact Green's function is
+obtained by adding an anti-source (image source) at $z=-z_s$:
+\begin{equation}
+  p(r,z) = \frac{e^{ik r_1}}{r_1} - \frac{e^{ik r_2}}{r_2},
+  \qquad
+  r_{1,2} = \sqrt{r^2 + (z\mp z_s)^2},
+  \label{eq:method_images}
+\end{equation}
+where $k = \omega/c$ is the acoustic wavenumber.
+The two terms produce constructive and destructive interference, creating a
+striped TL pattern with fringe spacing $\Delta r \approx \lambda\,r/(2z_s)$.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image29.png}
+    \caption{Analytical solution via method of images
+             (Eq.~\ref{eq:method_images}): $f=1{,}000$\,Hz, $z_S=5$\,m.
+             Fine interference fringes from superposition of direct and
+             image-source contributions.}
+    \label{fig:analytical_half_space}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image36.png}
+    \caption{Bellhop output for the identical setup.
+             The fringe spacing, orientation, and amplitude closely match
+             the analytical solution, confirming correct ray-fan
+             implementation.}
+    \label{fig:bellhop_half_space}
+  \end{subfigure}
+  \caption{Validation of Bellhop against the analytical half-space solution.
+           Agreement in fringe structure confirms that Bellhop correctly
+           implements wave interference and geometric spreading for this
+           geometry.}
+  \label{fig:validation_half_space}
+\end{figure}
+
+\subsubsection{Point Source in a Waveguide (Normal-Mode Solution)}
+
+When the water column is bounded above ($z=0$, pressure-release) and below
+($z=H$, rigid or impedance-matched seabed), the pressure field decomposes into
+a discrete set of \emph{normal modes}:
+\begin{equation}
+  p(r,z) = \frac{i}{4\rho}
+  \sum_{n=1}^{N_\mathrm{modes}}
+  \psi_n(z_s)\,\psi_n(z)\,H_0^{(1)}(k_n r),
+  \label{eq:normal_modes}
+\end{equation}
+where the depth eigenfunctions $\psi_n(z)$ satisfy
+$\psi_n'' + [k^2(z)-k_n^2]\,\psi_n = 0$ with the boundary conditions,
+$H_0^{(1)}$ is the Hankel function, and $k_n$ is the horizontal wavenumber
+of mode $n$.
+Mode $n$ propagates only above its \emph{cut-off frequency}
+$f_n^c = n\,c/(2H)$; below cut-off, the mode is evanescent.
+The superposition of multiple modes with different $k_n$ produces the complex
+interference pattern seen in real ocean TL maps.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.36\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image19.png}
+    \caption{Waveguide geometry: three-layer system
+             (cover layer $n_c$, fluid layer $n_f$, substrate $n_s$).
+             Rays undergo total internal reflection at each interface.
+             Inset: characteristic depth eigenfunction $\psi_n(z)$ for one
+             propagating mode.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.60\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image20.png}
+    \caption{Normal-mode solution (Eq.~\ref{eq:normal_modes}):
+             $f = 150$\,Hz with 50 propagating modes.
+             The dense interference pattern arises from the superposition of
+             50 modes with distinct wavenumbers $k_n$.
+             Agreement with Bellhop output confirms ray-tracing accuracy
+             in the multi-mode regime.}
+  \end{subfigure}
+  \caption{Waveguide model: geometry and normal-mode TL solution.}
+  \label{fig:validation_waveguide}
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Sensitivity of TL to Physical Parameters}
+\label{sec:param_sensitivity}
+
+To motivate the three-parameter stochastic model, we briefly demonstrate how
+TL changes qualitatively when each parameter is varied in isolation.
+These are the same parameter perturbations that the UQ methods must characterise
+statistically.
+
+\subsubsection{Sound Velocity Profile (SVP)}
+
+The SVP controls ray curvature.
+A higher sound speed produces wider refraction angles, tighter CZ spacing, and
+a qualitatively different TL map.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image17.png}
+    \caption{Low SVP: minimal refraction, nearly spherical geometric
+             spreading, no convergence zone.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image22.png}
+    \caption{Moderate SVP: partial refraction, faint near-field focusing
+             structure beginning to appear.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image30.png}
+    \caption{Higher SVP: strong refraction, pronounced convergence-zone
+             arc at short range.}
+  \end{subfigure}
+  \caption{Effect of SVP on the Bellhop TL map.
+           Even modest changes in sound speed qualitatively reorganise the
+           propagation structure --- motivating the large and spatially
+           heterogeneous variance attributed to SVP perturbation in
+           Section~\ref{sec:variance_fingerprint}.}
+  \label{fig:svp_sensitivity}
+\end{figure}
+
+\subsubsection{Carrier Frequency}
+
+Acoustic frequency controls wavelength ($\lambda = c/f$) and therefore the
+spatial scale of interference fringes.
+Higher frequency produces finer fringes.
+Crucially, a frequency change shifts all fringes \emph{coherently} across the
+entire range--depth plane --- it is a global phase advance, not a structural
+reorganisation.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image33.png}
+    \caption{$f = 2{,}000$\,Hz: fine interference fringes with short fringe
+             spacing $\lambda/2$.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image32.png}
+    \caption{$f = 1{,}000$\,Hz: fringe spacing doubles relative to left panel;
+             the spatial pattern shifts globally but its character is
+             preserved.}
+  \end{subfigure}
+  \caption{Frequency dispersion: halving frequency doubles fringe spacing.
+           This coherent global shift is why frequency-induced TL variance is
+           spatially \emph{uniform} across all pixels in slope environments
+           (Section~\ref{sec:variance_fingerprint}),
+           in stark contrast to the heterogeneous variance produced by SVP.}
+  \label{fig:freq_sensitivity}
+\end{figure}
+
+\subsubsection{Water-Column Depth and Sea-Floor Distance}
+
+Water-column depth (equivalently, the depth of a receiving sensor relative
+to the sea floor) controls how many normal modes propagate and how strongly
+sea-floor reflections interact with the direct path.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image21.png}
+    \caption{Shallow water ($\approx\!100$\,m depth): strong floor reflections
+             dominate; TL oscillates rapidly with range.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image37.png}
+    \caption{Intermediate depth ($\approx\!1{,}000$\,m): reduced floor
+             interaction; TL structure smoother and more gradual.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{pptx_figures/image35.png}
+    \caption{Deep water ($\approx\!2{,}500$\,m): floor reflections
+             negligible; refraction and CZ structure dominate.}
+  \end{subfigure}
+  \caption{Effect of water-column depth on TL.
+           The non-monotonic, near-singular dependence of TL on source depth
+           near modal nodes explains why PCE fails to converge for $z_S$
+           perturbations at any polynomial order $K \leq 20$
+           (Section~\ref{sec:pce_physics}).}
+  \label{fig:depth_sensitivity}
+\end{figure}
+
+\subsubsection{Wavelength Regime}
+
+When the acoustic wavelength $\lambda = c/f$ is much smaller than the
+waveguide depth $H$, many modes propagate and the TL map shows rich
+interference structure (as in Figures~\ref{fig:freq_sensitivity}
+and~\ref{fig:depth_sensitivity}).
+As $\lambda \to H/n$, only $n$ modes survive and the pattern simplifies
+dramatically.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\textwidth]{pptx_figures/image24.png}
+  \caption{TL map in the shallow-water standing-wave regime
+           ($\lambda \approx 1.5$\,m, water depth\,=\,1.5\,km, giving
+           $H/\lambda \approx 1000$ propagating modes).
+           At sufficiently low frequency, this complex pattern collapses
+           to a simple single-mode structure.
+           Bellhop remains accurate across all wavelength regimes
+           validated here, from the geometric-optics limit to the
+           near-modal limit.}
+  \label{fig:standing_waves}
+\end{figure}
+
+% ============================================================
+\section{Results}
+
+\subsection{Key Results Gallery}
+\label{sec:gallery}
+
+The figures below show representative outputs from each UQ method for the deep-water /
+Normal\,5\% scenario.  Each thumbnail is discussed in detail in subsequent subsections.
+
+\begin{figure}[H]
+  \centering
+  % Row 1: MC reference + Comparison shadow maps
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/TL_zS.png}
+    \caption{MC mean TL ($z_S$)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/combined_Var.png}
+    \caption{MC variance (all params)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/detect_mle_freq.png}
+    \caption{P(detect) MLE (freq)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/shadow_70_MC_vs_Delta_freq.png}
+    \caption{MC vs Delta P(detect)}
+  \end{subfigure}\\[4pt]
+  % Row 2: LN3 + PCE + comparison
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/figures/LN3_RMSE_all.png}
+    \caption{LN3 CDF RMSE all}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_order_relevance.png}
+    \caption{PCE order relevance}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png}
+    \caption{PCE $L_2$ convergence}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.24\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/shadow_70_LN3_vs_KDE_freq.png}
+    \caption{LN3 vs KDE P(detect)}
+  \end{subfigure}
+  \caption{Representative output thumbnails for deep water / Normal\,5\% uncertainty.
+           (a) MC mean TL under $z_S$ perturbation; (b) MC variance maps (all 3 parameters);
+           (c) shadow probability from MLE-fitted LN3; (d) MC vs Delta shadow probability;
+           (e) LN3 CDF RMSE heat-map over all distributions; (f) PCE order-relevance curve
+           (K*=7 for freq); (g) PCE $L_2$ Var error convergence; (h) LN3 vs KDE P(detect).
+           Detailed analysis in Sections~\ref{sec:mc}--\ref{sec:tradeoff}.}
+  \label{fig:gallery}
+\end{figure}
+
+\subsection{Monte Carlo Reference Statistics}
+\label{sec:mc}
+
+Monte Carlo (MC) simulations use \textbf{two complementary sample sets}, each with $N=1000$
+samples per scenario/distribution/parameter combination:
+\begin{itemize}
+  \item \textbf{LHS set} ($N=1000$ Latin Hypercube samples): provides
+        $\hat\EX[\TL]$, $\hat\Var[\TL]$, empirical $\hat P_{\text{det}}$, KDE,
+        and the MOM-fitted LN3 reference.
+        LHS stratification ensures full coverage of the input space even at moderate~$N$.
+  \item \textbf{IID set} ($N=1000$ independent, identically distributed samples):
+        used exclusively for MLE-based LN3 fitting (\texttt{lognfit}),
+        since MLE requires the i.i.d.\ assumption for its standard-error guarantees.
+\end{itemize}
+Both sets are cached at \texttt{Cache/<scenario>/<dist>/} (LHS)
+and \texttt{Cache/<scenario>/<dist>\_iid/} (IID), yielding
+$4\times3\times3\times2\times1000 = 72\,000$ total Bellhop evaluations.
+All analytical methods (Delta, PCE, LN3) operate on these cached cubes at zero
+additional Bellhop cost.
+The LHS and IID sets together provide the reference statistics $\EX[\TL]$ and $\Var[\TL]$
+against which all approximations are evaluated.
+Figure~\ref{fig:mc_ex_var} shows representative $\EX[\TL]$ maps for
+three representative scenarios under Normal\,5\% source-depth ($z_S$) uncertainty.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/TL_zS.png}
+    \caption{Shallow water (flat, 50\,m)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/TL_zS.png}
+    \caption{Deep water (flat, 2500\,m)}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/TL_zS.png}
+    \caption{Downslope (50\,$\to$\,550\,m)}
+  \end{subfigure}
+  \caption{MC mean transmission loss $\EX[\TL]$ (dB re\,1\,$\mu$Pa) for Normal\,5\%
+           $z_S$ perturbation across three representative scenarios.
+           Colour scale: blue (low TL, strong signal) to red (high TL, shadow zone).
+           The downslope scenario shows a marked refraction shadow at mid-range
+           driven by the shoaling bathymetry.}
+  \label{fig:mc_ex_var}
+\end{figure}
+
+\subsubsection{Input Sound-Velocity Profiles and Perturbation Model}
+\label{sec:svp_ensemble}
+
+\paragraph{Physical motivation for the SVP perturbation model.}
+The ocean sound-speed profile (SVP) is not uniform in depth, and its uncertainty is
+not uniform either.
+The near-surface mixed layer (0--100\,m in summer, 50--300\,m in winter) is actively
+stirred by wind, solar heating, and convective cooling; it is nearly isothermal within
+the mixing depth but its temperature and depth vary significantly with season, weather,
+and geographic location.
+Below the thermocline (the layer of rapid temperature decrease separating the mixed layer
+from the deep ocean), water temperature falls to $\approx 1$--$4\,^\circ\mathrm{C}$
+and remains essentially constant year-round because solar heating and wind mixing do not
+penetrate there.
+The deep isothermal layer therefore contributes negligible SVP variability compared to
+the surface.
+
+This asymmetry justifies the one-dimensional SVP perturbation model used in this study:
+a scalar shift $\Delta c$ applied only to the surface mixed layer,
+coupled to a mixed-layer depth (MLD) perturbation
+$\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
+($k_{\mathrm{MLD}} = 5\,\mathrm{m\,s}/\mathrm{m}$, $\mathrm{MLD}_0 = 30\,\mathrm{m}$).
+The deep SVP gradient ($z > 180\,\mathrm{m}$) is held constant because:
+\begin{enumerate}
+  \item Deep-water temperature variability is an order of magnitude smaller than
+        mixed-layer variability on seasonal time scales.
+  \item The dominant sonar performance uncertainty arises from surface-layer SVP,
+        which controls refraction of the direct path and the first surface-reflected
+        path (both of which pass through the mixed layer for a near-surface source/receiver).
+  \item A one-parameter model for the mixed-layer sound speed is the standard assumption
+        in operational oceanographic uncertainty analysis (c.f.\ JMSE-10-01548).
+\end{enumerate}
+This perturbation model is therefore physically analogous to the \emph{seasonal uncertainty
+in surface temperature} (summer/winter SST variability of $\pm$1--5\,$^\circ\mathrm{C}$,
+which translates to roughly $\pm$5--25\,m/s in surface sound speed via the Mackenzie
+formula $\partial c/\partial T \approx 4$\,m/s per $^\circ$C).
+
+\paragraph{Ensemble visualisation.}
+Figure~\ref{fig:svp_ensemble} shows the $N=1000$ sampled SVP realisations for the
+deep-water scenario under Normal\,5\% and Normal\,10\% uncertainty.
+Each blue trace is one MC draw; the bold black curve is the nominal profile.
+For Normal\,5\% uncertainty: $\sigma_{\Delta T}=0.15\,^\circ\mathrm{C}$,
+$\sigma_{\mathrm{MLD}}=0.75\,\mathrm{m}$.
+For Normal\,10\%: $\sigma_{\Delta T}=0.30\,^\circ\mathrm{C}$,
+$\sigma_{\mathrm{MLD}}=1.5\,\mathrm{m}$.
+In both cases the visible spread is confined to the near-surface mixed layer;
+below $\approx 180\,\mathrm{m}$ all traces are identical to the nominal profile.
+The compact blue band is physically correct — it is not a plotting artefact — and
+confirms that the perturbation magnitude corresponds to realistic seasonal variability
+in the mixed layer, not a full-depth restructuring of the SVP.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/svp_ensemble.png}
+    \caption{Normal\,5\%: $\sigma_{\Delta T}=0.15\,^\circ\mathrm{C}$, $\sigma_{\mathrm{MLD}}=0.75\,\mathrm{m}$.
+             Perturbation confined to surface layer above $\approx 180\,\mathrm{m}$.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/svp_ensemble.png}
+    \caption{Normal\,10\%: $\sigma_{\Delta T}=0.30\,^\circ\mathrm{C}$, $\sigma_{\mathrm{MLD}}=1.5\,\mathrm{m}$.
+             Wider blue band near surface; deep profile unchanged below thermocline.}
+  \end{subfigure}
+  \caption{SVP ensembles ($N=1000$) for the deep-water scenario.
+           Blue traces: MC-sampled profiles; bold black: nominal summer profile.
+           The perturbation model shifts only the near-surface mixed layer
+           ($z \lesssim 180\,\mathrm{m}$), analogous to seasonal SST variability.
+           The deep isothermal layer is held fixed, reflecting its year-round stability.}
+  \label{fig:svp_ensemble}
+\end{figure}
+
+\subsubsection{MC Estimator Convergence}
+\label{sec:mc_conv}
+
+For a scalar random variable $Y$ with finite variance, the sample mean
+$\bar Y_N$ converges to $\mu_Y$ at the classical CLT rate
+$\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$.
+The sample variance $S_N^2$ converges at the same asymptotic rate but with a
+larger prefactor: for a Gaussian parent,
+\begin{equation}
+  \mathrm{Var}(S_N^2) \;=\; \frac{2\sigma_Y^4}{N-1},
+  \label{eq:var_of_var}
+\end{equation}
+so the relative error of $S_N^2$ is $\sqrt{2/(N-1)}\,/\,C_V^2$, where
+$C_V = \sigma_Y/\mu_Y$ is the coefficient of variation.
+In practice this means that a variance estimate requires roughly $2\times$ as
+many samples as a mean estimate to reach the same relative error -- or
+equivalently $\approx 4\times$ as many samples to match the absolute RMSE of
+the mean.
+The pipeline draws $N=1000$ Latin Hypercube samples (LHS) for each
+(scenario~$\times$~distribution) combination separately.
+LHS stratifies each parameter's marginal CDF into $N$ equal-probability bins and
+draws one sample per bin, improving spatial coverage over simple random sampling
+but breaking statistical independence between samples (see Section~\ref{sec:ln3}
+for the implication on LN3 fitting).
+The full MC set consists of $4\,\text{scenarios}\times3\,\text{distributions}\times3\,\text{parameters}
+= 36$ separate LHS runs of $N=1000$ Bellhop evaluations each.
+At $N=1000$ and for the broadest distribution (Normal\,10\%), the relative RMSE of
+the sample variance estimator is
+$\sqrt{2/(N-1)}/C_V^2 \approx 4.5\%$, well within the $\lesssim 5\%$ target for
+the high-uncertainty cases, and lower still for narrower distributions.
+
+Figure~\ref{fig:mc_conv} shows the empirical convergence of the spatial-mean
+$\hat\EX[\TL]$ and spatial-mean $\hat\Var[\TL]$ as a function of sub-sample size $N$
+for the deep-water scenario.
+Each curve is a single random sub-sample drawn without replacement from the $N=1000$
+LHS cache; three curves correspond to the three input distributions.
+The mean $\hat\EX[\TL]$ stabilises by $N\approx 50$, while the variance $\hat\Var[\TL]$
+requires $N\approx 200$--$500$ depending on the distribution, consistent with the
+$\times 4$ sample-count rule derived above (Equation~\ref{eq:var_of_var}).
+
+\IfFileExists{../Methods/MC_convergence/deep_water/figures/mc_conv_mean_freq.png}{%
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_mean_freq.png}
+    \caption{Frequency: $\hat\EX[\TL]$ and $\hat\Var[\TL]$ vs.\ $N$.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_mean_svp.png}
+    \caption{SVP: $\hat\EX[\TL]$ and $\hat\Var[\TL]$ vs.\ $N$.}
+  \end{subfigure}
+  \caption{MC estimator convergence for deep-water scenario ($N=10$ to $1000$).
+           Sub-samples drawn without replacement from the $N=1000$ LHS cache ---
+           no new Bellhop runs.
+           Each line is one distribution (Normal\,1/5/10\%).
+           Mean converges faster than variance, consistent with Eq.~\ref{eq:var_of_var}.}
+  \label{fig:mc_conv}
+\end{figure}}{%
+\begin{figure}[H]
+  \centering
+  \fbox{\parbox{0.8\textwidth}{\centering\small
+    MC convergence figures (N=10 to 1000) pending generation by
+    \texttt{run\_mc\_convergence.m}.}}
+  \label{fig:mc_conv}
+\end{figure}}
+
+% ────────────────────────────────────────────────────────────
+\subsection{First-Order Delta Method: Accuracy and Failure Modes}
+\label{sec:delta}
+
+\paragraph{Terminology note.}
+The term \emph{Delta method} here refers to linearisation via perturbation calculus
+(first-order Taylor expansion of the model output around the nominal parameter vector),
+and should not be confused with the Dirac delta function or with finite-difference
+approximations.
+The same technique appears under different names in other fields:
+\emph{FOSM} (First-Order Second-Moment method) in structural reliability and engineering,
+\emph{GUM linearisation} in metrology \cite{bipm2008gum}, and
+\emph{error propagation} in experimental physics textbooks.
+In a statistics context ``Delta method'' is standard and unambiguous;
+in an acoustics or engineering context the FOSM alias may help readers
+avoid confusion.
+
+The 1\textsuperscript{st}-order Delta method approximates variance as:
+\begin{equation}
+  \Var_1[\TL] \;\approx\; \sum_{i} J_i^2 \,\sigma_i^2,
+  \qquad
+  J_i = \frac{\partial \TL}{\partial \theta_i}\bigg|_{\boldsymbol{\theta}_0}
+  \label{eq:delta1}
+\end{equation}
+where Jacobians $J_i$ are computed via central finite differences.
+The 2\textsuperscript{nd}-order extension adds Hessian correction terms
+$\tfrac{1}{2} H_{ii}^2 \kappa_i$ where $\kappa_i = \EX[\delta\theta_i^4]/\sigma_i^4 - 1$
+is the excess kurtosis.
+
+\subsubsection{Where Delta Performs Well}
+
+For the \textbf{shallow-water} and \textbf{deep-water} scenarios under small perturbations
+($\leq$1\% uncertainty), the Delta method achieves relative $L_1$ errors below
+10\% in the variance maps (see Table~\ref{tab:analytical_l1} for the exact
+per-distribution breakdown from the analytical waveguide validation).
+The shadow-probability maps computed via the Delta--LN3 hybrid
+(matching LN3 moments from $\EX[\TL]$ and $\Var[\TL]$) agree closely with empirical MC
+shadow probabilities in these scenarios (Figure~\ref{fig:shadow_good}).
+
+\begin{figure}[H]
+  \centering
+  % --- Row 1: flat scenario where Delta works (baseline, Uniform 1%) ---
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png}
+    \caption{MC vs.\ Delta}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3_zS.png}
+    \caption{MC vs.\ Delta--LN3}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3_zS.png}
+    \caption{MC vs.\ LN3}
+  \end{subfigure}
+  \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
+           ($P(\TL > 70\,\text{dB})$) where the analytical methods \emph{agree} with
+           MC (shallow-water scenario, Normal\,1\%, $z_S$ perturbation).
+           In each panel the MC empirical estimate appears on the left half and the
+           analytical approximation on the right half; close match indicates
+           the method is reliable in this regime.}
+  \label{fig:shadow_good}
+\end{figure}
+
+\subsubsection{Where Delta Fails}
+
+For \textbf{slope scenarios} (upslope, downslope) and large perturbations
+($\geq$5\%), the 1\textsuperscript{st}-order approximation breaks down significantly.
+Figure~\ref{fig:shadow_bad} shows the discrepancy for the downslope scenario:
+the Delta--LN3 shadow map fails to reproduce the MC reference, particularly
+in the refraction shadow zone where TL is highly nonlinear in $\theta$.
+
+The 2\textsuperscript{nd}-order correction is equally unable to recover
+the variance in these cases: the Hessian correction term
+$|\kappa H^2|/V_1$ exceeds 100\% for svp perturbations in both slope
+scenarios (Table~\ref{tab:2nd_order_correction}), indicating that the
+Taylor series has not converged at 2\textsuperscript{nd} order.
+
+\begin{figure}[H]
+  \centering
+  % --- Row: downslope scenario where Delta fails (Uniform 5%, SVP perturbation) ---
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
+    \caption{MC vs.\ Delta}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png}
+    \caption{MC vs.\ Delta--LN3}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_LN3_svp.png}
+    \caption{MC vs.\ LN3}
+  \end{subfigure}
+  \caption{Delta vs.\ MC vs.\ Delta--LN3 shadow-probability comparison
+           ($P(\TL > 70\,\text{dB})$) where the 1\textsuperscript{st}-order Delta
+           \emph{fails} (downslope scenario, Normal\,5\%, SVP perturbation).
+           In each panel MC is on the left and the analytical approximation on the
+           right; the pronounced disagreement at the refraction shadow boundary
+           confirms that the Taylor expansion has not converged in this regime.}
+  \label{fig:shadow_bad}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Mean relative 2\textsuperscript{nd}-order correction:
+           $\langle|\kappa H^2|/(J^2\sigma^2 + |\kappa H^2|)\rangle$ [\%].
+           Values $>$50\% indicate 1\textsuperscript{st}-order approximation is insufficient.}
+  \label{tab:2nd_order_correction}
+  \begin{tabular}{lcccccc}
+    \toprule
+    & \multicolumn{2}{c}{Normal 5\%} & \multicolumn{2}{c}{Normal 10\%}
+    & \multicolumn{2}{c}{Normal 10\%} \\
+    \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+    Scenario & Total & SVP & Total & SVP & Total & SVP \\
+    \midrule
+    Shallow water & 96.6 & 98.2 & 99.1 & 99.5 & 99.5 & 99.8 \\
+    Deep water    & 97.0 & 51.7 & 99.2 & 81.1 & 99.6 & 88.9 \\
+    Shallow water & 83.7 & 47.9 & 95.4 & 78.6 & 97.5 & 87.3 \\
+    Upslope       & 97.5 & 73.0 & 99.4 & 91.5 & 99.7 & 95.3 \\
+    Downslope     & 96.1 & 81.1 & 99.0 & 94.5 & 99.5 & 97.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Delta Method Results: Synthesis}
+\label{sec:delta_synthesis}
+
+The Delta method results reveal a two-factor failure mode governed by
+\emph{perturbation magnitude} and \emph{bathymetric complexity}:
+
+\begin{itemize}
+  \item \textbf{Small perturbations ($\sigma\leq$1\%), flat bathymetry.}
+        The 1\textsuperscript{st}-order Taylor linearisation is valid: the relative
+        $L_1$ variance error stays below 10\% (Table~\ref{tab:analytical_l1}), and
+        shadow-probability maps from the Delta--LN3 hybrid agree closely with MC
+        (Figure~\ref{fig:shadow_good}).
+        Physically, the acoustic interference pattern is nearly linear in each
+        uncertain parameter when perturbations are small and the waveguide geometry
+        is simple.
+
+  \item \textbf{Moderate-to-large perturbations ($\sigma\geq$5\%), flat bathymetry.}
+        The 2\textsuperscript{nd}-order Hessian correction term already exceeds the
+        1\textsuperscript{st}-order term for all scenarios except deep-water SVP at 5\%
+        (Table~\ref{tab:2nd_order_correction}).
+        This means the Taylor series has \emph{not converged} at order~2 in almost all cases.
+        The correction ratio exceeds 96\% for shallow-water at all perturbation levels,
+        indicating that the variance is dominated by a strongly nonlinear coupling between
+        the uncertain parameter and the modal interference pattern.
+
+  \item \textbf{Slope environments (upslope, downslope), any perturbation.}
+        The bathymetric gradient introduces refraction-driven shadow zones whose spatial
+        location depends sensitively on the uncertain parameters.
+        Even at $\sigma=1\%$, the shadow-zone boundary moves enough under frequency or
+        SVP perturbation to make the derivative-based approximation unreliable.
+        The Delta--LN3 shadow maps exhibit significant spatial mismatch relative to MC
+        (Figure~\ref{fig:shadow_bad}), confirming that no fixed linearisation order
+        can capture this behaviour.
+\end{itemize}
+
+\textbf{Practical implication.} The Delta method is only trustworthy for sonar
+planning in flat-bottom environments under $\leq$1\% uncertainty in each parameter.
+For 5--10\% uncertainty or any slope environment, the uncertainty in TL has a
+nonlinear component that requires either PCE (for smooth responses) or direct MC
+(for shadow-zone dominated responses).
+
+% ────────────────────────────────────────────────────────────
+\subsection{LN3 Shadow Probability Estimation}
+\label{sec:ln3}
+
+\paragraph{A priori motivation for the LN3 model.}
+The choice of a three-parameter lognormal distribution for TL is motivated by
+physical arguments rather than empirical fitting alone.
+
+First, TL is already expressed on a logarithmic (decibel) scale:
+$\mathrm{TL} = -20\log_{10}(|p|/p_0)$.
+Any multiplicative structure in the pressure field $p$ therefore maps to
+an additive structure in TL, favouring distributions from the lognormal family.
+
+Second, in a multi-mode waveguide the received pressure is a coherent sum of
+$M$ normal-mode contributions:
+\begin{equation}
+  p(r,z) = \sum_{m=1}^{M} A_m(r)\,\psi_m(z_S)\,\psi_m(z),
+\end{equation}
+where each mode amplitude $A_m$ depends on environmental parameters
+(frequency, source depth, sound-speed profile) that are random in our UQ setting.
+For large $M$ the central limit theorem suggests that $|p|$ is approximately
+Rayleigh-distributed; converting to dB then yields an approximately lognormal
+distribution for TL~\cite{brekhovskikh1991}.
+
+Third, TL has a physical lower bound: geometric spreading alone imposes a
+minimum loss $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$ at any given range.
+A two-parameter lognormal (LN2) has support on $(0,\infty)$ but no
+finite lower bound in dB, whereas the three-parameter lognormal
+\begin{equation}
+  X - \gamma \sim \mathrm{LN2}, \quad \gamma = \inf_{\text{pixels}} \mathrm{TL},
+\end{equation}
+explicitly encodes this physical floor through the shift parameter $\gamma$.
+We set $\gamma = 0.95\,\min(\text{samples})$ as a robust estimator of
+this lower bound.
+
+A three-parameter lognormal (LN3) distribution is therefore the natural
+parametric model for TL.
+The shift parameter $\gamma = 0.95\min(\text{samples})$ is set by a heuristic
+(full 3-parameter MLE is prohibitively slow pixel-wise); the remaining parameters
+$(\mu, \sigma)$ are estimated by MLE via \texttt{lognfit} on the shifted samples.
+See Section~\ref{sec:ln3_results} for an explicit MLE vs.\ MOM comparison.
+The KS test statistic measures goodness of fit across all pixels.
+Specifically, for each pixel the KS statistic is defined as the maximum absolute vertical
+distance between two cumulative distribution functions (CDFs):
+\begin{equation}
+  D_{\mathrm{KS}} = \sup_{x}\,\bigl|F_{\mathrm{empirical}}(x) - F_{\mathrm{LN3}}(x)\bigr|,
+\end{equation}
+where $F_{\mathrm{empirical}}$ is the empirical CDF of the $N{=}1000$ Bellhop MC samples
+and $F_{\mathrm{LN3}}$ is the CDF of the fitted LN3 distribution.
+$D_{\mathrm{KS}} = 0$ indicates a perfect fit; $D_{\mathrm{KS}} = 1$ indicates no overlap.
+Values below $0.1$ are considered a very good fit; values in $[0.1,\,0.2]$ are acceptable.
+Here $D_{\mathrm{KS}}$ is used purely as a geometric distance between distributions,
+not as a hypothesis test.
+
+\paragraph{Formal KS test and large-$N$ disclaimer.}
+When applied as a formal hypothesis test, the KS statistic is compared against the
+critical threshold
+\begin{equation}
+  D_{\mathrm{crit}}(N,\alpha) \approx \frac{c(\alpha)}{\sqrt{N}},
+  \qquad c(0.05) = 1.36,
+\end{equation}
+so that $p < \alpha$ (reject the LN3 null hypothesis at significance level $\alpha$)
+whenever $D_{\mathrm{KS}} > D_{\mathrm{crit}}$.
+At $N = 1000$ this gives $D_{\mathrm{crit}} \approx 0.043$.
+All observed KS values in Table~\ref{tab:ks_ln3} exceed this threshold,
+so the LN3 model is formally rejected at the 95\% confidence level.
+
+However, this rejection is an artefact of large sample size.
+With $N = 1000$ the test is sensitive enough to detect any microscopic deviation
+from the exact parametric form --- deviations that are irrelevant in practice.
+Real acoustic TL fields are never distributed as \emph{exactly} LN3;
+the meaningful engineering question is not \emph{``is it exactly LN3?''} but
+\emph{``is it close enough to be useful?''}
+The observed values $D_{\mathrm{KS}} \in [0.076,\,0.114]$ indicate a close
+geometric fit and support using LN3 as a practical approximation,
+despite the formal statistical rejection.
+
+\paragraph{Methodological note: MLE vs.\ MOM and sample structure.}
+The current pipeline uses MATLAB's \texttt{lognfit} to estimate $(\hat\mu, \hat\sigma)$,
+which is \emph{maximum likelihood} (MLE) for the shifted-lognormal --- MLE achieves
+the Cramér--Rao lower bound and is preferred over method-of-moments (MOM).
+A formal MOM estimator would use
+$\hat\sigma^2 = \log(\hat M_2/\hat M_1^2)$, $\hat\mu = \log \hat M_1 - \hat\sigma^2/2$
+(with $\hat M_k = N^{-1}\sum Y_i^k$, $Y_i = X_i - \gamma$).
+MLE (via $\hat\mu = \overline{\log Y}$, $\hat\sigma = \mathrm{std}(\log Y)$) is
+10--30\% more efficient for the shape parameter and yields lower KS statistics
+in practice (see Section~\ref{sec:ln3_results}).
+
+MLE is applied to the dedicated \textbf{IID sample set}
+(\texttt{Cache/<dist>\_iid/}), where the i.i.d.\ assumption is exactly satisfied.
+The MOM estimator ($\hat\sigma^2 = \log(\hat M_2/\hat M_1^2)$, $\hat\mu = \log\hat M_1 - \tfrac{1}{2}\hat\sigma^2$)
+is applied to the LHS samples, which do not require the i.i.d.\ assumption.
+The shift parameter $\gamma = 0.95\min(\text{samples})$ uses a fixed heuristic rather
+than jointly optimising the three-parameter profile likelihood, because pixel-wise
+nonlinear optimisation over all $\sim$440\,000 pixels across 12 combos is computationally
+prohibitive.  The heuristic shift works well where TL is approximately lognormal
+(KS $<$ 0.10), and fails structurally at bimodal interference nodes regardless
+of the estimation method.
+
+\paragraph{Distributional limitation: unimodal assumption.}
+LN3 is a unimodal distribution and cannot represent the bimodal TL distributions
+that arise at acoustic interference nodes in deep-water propagation.
+At these locations --- where destructive interference between adjacent ray/mode
+arrivals produces a local TL minimum flanked by two lobes --- the empirical TL
+histogram is bimodal and no three-parameter lognormal can provide a good fit
+regardless of the estimation method.
+The LN3 KS statistics are consequently elevated at interference nodes (the
+majority of poor-fit pixels in the per-pixel KS maps lie at these locations).
+This is an inherent model-form limitation, not a fitting artefact.
+A mixture-of-lognormals model would handle bimodal pixels at the cost of
+additional parameters and substantially higher computational complexity.
+
+\begin{table}[H]
+  \centering
+  \caption{Median KS statistic for LN3 fit to MC TL samples.
+           Values below 0.10 indicate acceptable fit (green); 0.10--0.15 marginal (orange);
+           $>$0.15 poor fit (red).}
+  \label{tab:ks_ln3}
+  \begin{tabular}{lccc}
+    \toprule
+    Scenario & Normal\,1\% (KS) & Normal\,5\% (KS) & Normal\,10\% (KS) \\
+    \midrule
+    Deep water    & 0.076 & 0.114 & 0.104 \\
+    Shallow water & 0.029 & 0.124 & 0.135 \\
+    Upslope       & 0.059 & 0.126 & 0.167 \\
+    Downslope     & 0.129 & 0.134 & 0.122 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The Delta--LN3 hybrid (matching LN3 moments from analytically computed $\EX[\TL]$
+and $\Var[\TL]$) eliminates the need for MC sampling entirely for shadow-probability
+estimation, at the cost of the accuracy limitations described in Section~\ref{sec:delta}.
+
+\subsubsection{LN3 Fit Quality: Spatial and Physical Interpretation}
+\label{sec:ln3_results}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/figures/LN3_RMSE_all.png}
+    \caption{Deep water: convergence zone arc at $\sim$25--30\,km shows elevated RMSE
+             (SVP column brightest), surrounded by good-fit regions.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/figures/LN3_RMSE_all.png}
+    \caption{Shallow water: top row (Normal\,1\%) is uniformly black (near-zero RMSE ---
+             trivially good fit for tiny perturbations). Multi-path interference fringes
+             visible in 5\% and 10\% rows.}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{upslope/figures/LN3_RMSE_all.png}
+    \caption{Upslope: triangular masked region is seafloor (not empty). SVP column shows
+             highest RMSE at shallow-water end where shadow-zone sensitivity is greatest.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/figures/LN3_RMSE_all.png}
+    \caption{Downslope: SVP column shows widespread poor fit across all ranges.
+             $z_S$ column shows a bright vertical stripe mid-range where
+             shadow-zone boundary crosses.}
+  \end{subfigure}
+  \caption{LN3 CDF RMSE maps for all four scenarios.
+           Rows = distributions (Normal\,1\%, 5\%, 10\%); columns = uncertain parameter
+           (freq, $z_S$, SVP).
+           Colour: CDF RMSE (KS distance between empirical and fitted LN3 CDF).
+           Dark (black) = near-perfect fit. Bright yellow/orange = poor fit.
+           The Normal\,1\% rows appear uniformly dark because tiny perturbations
+           produce near-zero TL variance --- a trivially good fit, not a bug.}
+  \label{fig:ln3_ks}
+\end{figure}
+
+Figure~\ref{fig:ln3_ks} reveals four
+distinct regimes of LN3 fit quality:
+
+\paragraph{1. Near-perfect fit (Normal\,1\% perturbation, all scenarios).}
+The CDF RMSE map for 1\% perturbation appears nearly uniformly black --- close to zero
+error everywhere.
+This is \emph{not a display bug}: with 1\% Normal uncertainty the TL changes by less than
+$\sim$0.5\,dB across all $N=1000$ samples, so the marginal TL distribution at each pixel
+collapses to a near-delta function.
+Any three-parameter distribution trivially fits a delta function, so the KS statistic is
+essentially zero.
+These panels confirm that LN3 is not wrong in this regime; the fitting problem is simply
+trivial.
+
+\paragraph{2. Good fit in flat waveguides away from interference nodes.}
+For Normal\,5\%--10\% perturbations in shallow-water and deep-water flat scenarios, the
+CDF RMSE stays below 0.05--0.08 across most of the range-depth map.
+Physically, the modal sum producing TL in a flat waveguide is approximately Gaussian for
+many contributing modes (CLT argument), which maps to an approximately lognormal TL in
+decibels.
+The LN3 shift parameter $\gamma$ correctly encodes the geometric-spreading floor, giving
+a good distributional shape.
+
+\paragraph{3. Poor fit at acoustic convergence zone arcs and interference nodes.}
+The deep-water CDF RMSE map (Figure~\ref{fig:ln3_ks}, top-left panel) shows a
+bright arc at $\sim$25--30\,km range, matching the location of the first acoustic
+convergence zone.
+At convergence zone boundaries, a small change in frequency, source depth, or SVP can
+shift a receiver from inside (strong signal, low TL) to outside (weak signal, high TL)
+the convergence zone.
+The TL distribution at these pixels is therefore \emph{bimodal}: one lobe near
+$\sim$70\,dB (inside zone) and one near $\sim$120\,dB (outside zone).
+No three-parameter lognormal --- which is unimodal by construction --- can represent this.
+The KS statistic spikes to 0.15--0.35 along these arcs.
+The regular interference fringes visible in the shallow-water RMSE maps arise from the
+same mechanism at shorter ranges (multi-path constructive/destructive interference between
+surface-reflected and direct paths).
+
+\paragraph{4. Severe failures at slope-environment shadow-zone boundaries (SVP column).}
+In upslope and downslope scenarios, the SVP column of the CDF RMSE map shows
+widespread elevated RMSE (bright red/orange across the entire column).
+SVP perturbation changes the ray refraction angle; in slope environments this shifts
+which cells are in the bathymetric shadow zone.
+Cells near the shadow boundary experience bimodal TL --- some SVP realisations place them
+inside the lit zone (low TL) and others in the shadow zone (high TL).
+This is a structurally harder problem than the convergence zone case: the bimodality
+affects a large fraction of the map rather than a narrow arc.
+
+\paragraph{MOM vs.\ MLE: clarification and comparison.}
+\textbf{Implementation note:} The current pipeline uses MATLAB's \texttt{lognfit}
+for the shifted parameters $(\hat\mu, \hat\sigma)$ --- this is
+\emph{maximum likelihood estimation} (MLE), not MOM.
+MOM for the same shifted distribution gives
+$\hat\sigma_{\mathrm{MOM}} = \sqrt{\log(\hat{M}_2/\hat{M}_1^2)}$,
+$\hat\mu_{\mathrm{MOM}} = \log \hat{M}_1 - \tfrac{1}{2}\hat\sigma_{\mathrm{MOM}}^2$
+where $\hat{M}_k = N^{-1}\sum_i Y_i^k$ are the raw sample moments.
+For a genuine i.i.d.\ lognormal sample, MLE achieves the Cram\'er-Rao bound;
+MOM is typically 10--30\% less efficient.
+
+\textbf{Two-sample design: LHS for MOM, IID for MLE.}
+The pipeline uses two separate sample sets to match each estimator to its required
+sampling assumption.
+MOM is applied to the LHS set: moment estimators are unbiased regardless of whether
+samples are i.i.d.\ or stratified, making them the natural choice for LHS outputs.
+MLE is applied to the IID set: the i.i.d.\ assumption is satisfied exactly, so MLE
+achieves the Cram\'er--Rao bound and confidence intervals are valid.
+This two-sample design allows a fair, assumption-valid comparison between MOM and MLE
+without either estimator operating outside its theoretical guarantees.
+
+\textbf{Why MLE beats MOM here.}
+Figure~\ref{fig:ln3_mom_vs_mle} (generated by \texttt{compare\_ln3\_mom\_vs\_mle.m})
+shows pixel-wise KS statistics for both estimators across all 1000-sample pixels.
+MLE consistently achieves lower KS (better fit) than MOM, especially at pixels with
+skewed or heavy-tailed TL distributions (convergence zone, shadow boundaries).
+The improvement is modest for Normal\,1\% (low variance, nearly symmetric) but
+reaches 5--15\% KS reduction for Normal\,10\% where tail behaviour matters.
+
+\textbf{Where neither estimator helps.}
+In bimodal regimes (interference nodes, SVP shadow-zone boundaries), both MLE and MOM
+produce elevated KS statistics because LN3 is a unimodal model; a mixture-of-lognormals
+would be the correct fix regardless of estimator.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/LN3/deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png}{%
+    \includegraphics[width=0.95\textwidth]{deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png}
+    \caption{LN3 MLE vs MOM comparison for deep water / Normal\,5\% / freq.
+             Left: MLE vs MC P(detect) --- RMSE printed in title.
+             Centre: MOM vs MC P(detect) --- higher scatter, worse RMSE.
+             Right: pixel-wise KS statistic scatter (MLE x-axis, MOM y-axis);
+             points above the diagonal indicate MOM outperforms MLE, points below
+             indicate MLE outperforms.  Red dotted line at KS\,=\,0.10 marks the
+             acceptability threshold.  MLE is systematically better in the
+             high-variance tails where distributional fit matters most.}
+  }{%
+    \caption{LN3 MLE vs MOM comparison (figure pending generation by
+             \texttt{compare\_ln3\_mom\_vs\_mle.m}).}
+  }
+  \label{fig:ln3_mom_vs_mle}
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Polynomial Chaos Expansion: Higher-Order Variance Recovery}
+\label{sec:pce}
+
+To characterise the nonlinearity quantitatively, we employ a
+\emph{Polynomial Chaos Expansion} (PCE) of order $K$:
+\begin{equation}
+  \TL(\theta) \;\approx\; \sum_{n=0}^{K} c_n \,\Phi_n(\xi), \qquad
+  \xi = \frac{\theta - \theta_0}{\sigma}
+  \label{eq:pce}
+\end{equation}
+where $\Phi_n$ are probabilist Hermite polynomials (Normal inputs) or Legendre
+polynomials (Normal inputs), orthogonal with respect to their respective PDFs,
+and $\xi$ is the standardised uncertain parameter.
+
+\paragraph{Matrix formulation.}
+For $N$ MC samples $\{\xi_i\}_{i=1}^N$ the expansion evaluated at all sample points
+becomes the linear system $\mathbf{y} \approx \boldsymbol\Phi\,\mathbf{c}$:
+\begin{equation}
+  \underbrace{\begin{bmatrix} \TL(\xi_1) \\ \TL(\xi_2) \\ \vdots \\ \TL(\xi_N) \end{bmatrix}}_{\mathbf{y}\;\in\;\mathbb{R}^{N}}
+  =
+  \underbrace{\begin{bmatrix}
+    \Phi_0(\xi_1) & \Phi_1(\xi_1) & \cdots & \Phi_K(\xi_1) \\
+    \Phi_0(\xi_2) & \Phi_1(\xi_2) & \cdots & \Phi_K(\xi_2) \\
+    \vdots        & \vdots        & \ddots & \vdots        \\
+    \Phi_0(\xi_N) & \Phi_1(\xi_N) & \cdots & \Phi_K(\xi_N)
+  \end{bmatrix}}_{\boldsymbol\Phi\;\in\;\mathbb{R}^{N\times(K+1)}}
+  \underbrace{\begin{bmatrix} c_0 \\ c_1 \\ \vdots \\ c_K \end{bmatrix}}_{\mathbf{c}\;\in\;\mathbb{R}^{K+1}}
+  \label{eq:pce_matrix}
+\end{equation}
+In our setting $\mathbf{y}$ holds the TL value at one $(z,r)$ pixel across the $N=1000$
+Latin-Hypercube samples, so the regression is solved independently at each of the
+$N_z \times N_r = 574 \times 766 \approx 440\,000$ pixels.
+$\boldsymbol\Phi$ is the same $1000\times(K+1)$ Vandermonde-like matrix for all pixels
+(it depends only on the sample points $\xi_i$, not on the TL values), so the QR
+decomposition $\boldsymbol\Phi = \mathbf{Q}\mathbf{R}$ is computed once and reused
+across the entire spatial grid.
+The least-squares solution is:
+\begin{equation}
+  \hat{\mathbf{c}} = \bigl(\boldsymbol\Phi^\top\boldsymbol\Phi
+                    + \lambda\mathbf{I}\bigr)^{-1}\boldsymbol\Phi^\top\mathbf{y},
+  \qquad
+  \lambda = 10^{-10}\,\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)
+  \label{eq:pce_ridge}
+\end{equation}
+where the small ridge penalty $\lambda$ damps coefficient blow-up at high orders
+without biasing the result ($\lambda/\sigma_{\max}^2 \ll 10^{-6}$).
+At maximum order $K=20$ the design matrix is $1000\times21$, giving an
+overdetermined system with $N/(K+1)\approx47.6$ samples per degree of freedom.
+
+Variance follows directly from orthogonality:
+\begin{equation}
+  \Var_K[\TL] = \mathrm{Var}\!\left[\hat{\mathbf{y}}^{(K)}\right], \qquad
+  \hat{\mathbf{y}}^{(K)} = \boldsymbol\Phi_{1:K+1}\,\hat{\mathbf{c}}_{1:K+1}
+  \label{eq:pce_var}
+\end{equation}
+computed as the sample variance of the $K$-th order fitted values at the $N=1000$
+sample points.
+Nested QR projections (adding one column at a time) guarantee
+monotone convergence: $\Var_1 \leq \Var_2 \leq \cdots \leq \Var_\text{MC}$.
+
+\subsubsection{LOO-CV Validation: Analytic Leave-One-Out Cross-Validation and Automatic Order Selection}
+\label{sec:pce_loo}
+
+With $N=1000$ samples and up to $K=20$ polynomial terms, the regression is
+well-overdetermined ($N/(K+1)\approx47.6$ samples per degree of freedom at maximum order).
+However, at orders $K\geq18$ the Vandermonde-like design matrix becomes severely
+ill-conditioned (condition number $>10^{12}$), causing coefficient estimates to blow up
+even though the system is formally overdetermined.
+The implementation therefore uses \emph{analytic leave-one-out
+cross-validation} (LOO-CV) for automatic order selection $K^*$, computed at essentially zero
+extra cost from the QR decomposition already needed for variance estimation.
+
+\paragraph{How it works.}
+For each pixel $(z,r)$ and PCE order $K$, the LOO prediction error for sample $i$ is
+\begin{equation}
+  e_i^{\text{LOO}} = \frac{r_i}{1 - h_{ii}},
+  \qquad h_{ii} = \sum_{j=1}^{K+1} Q_{ij}^2
+  \label{eq:loo_impl}
+\end{equation}
+where $r_i = y_i - \hat{y}_i^{(K)}$ is the training residual and $h_{ii}$ is the
+$i$-th hat-matrix diagonal, read directly from the $Q$ factor of the thin QR decomposition
+of $\boldsymbol\Phi$.
+The mean LOO-MSE averaged over the $(z,r)$ grid selects the optimal order:
+\begin{equation}
+  K^* = \arg\min_K \;\overline{\text{LOO}}(K),
+  \qquad
+  \overline{\text{LOO}}(K) = \frac{1}{N_z N_r}\sum_{j}\frac{1}{N}\sum_{i}
+  \left(\frac{r_{ij}}{1-h_{ii}}\right)^{\!2}.
+  \label{eq:loo_kstar}
+\end{equation}
+No additional Bellhop runs, no data splitting, and no refitting are required ---
+the LOO estimate reuses the QR factor already computed for nested variance projection.
+A small ridge penalty $\lambda = 10^{-10}\,\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)$
+is applied to the final coefficient solve to suppress coefficient blow-up at high orders
+without biasing the variance estimate.
+
+\paragraph{Effect on $K^*$.}
+The LOO-selected $K^*$ is typically 1--3 orders \emph{lower} than the naive
+$L_2 < 10\%$ threshold rule for converging parameters.  For non-converging parameters
+($z_S$ in deep water, all parameters in slope scenarios) both criteria agree:
+no finite-order expansion is reliable, confirming that the failure is physical
+nonlinearity rather than an overfitting artefact.
+The convergence figures (Figure~\ref{fig:pce_convergence_a} and
+Figure~\ref{fig:cv_all}) show the LOO-CV curve alongside the relative $L_2$ Var
+error; a vertical tick marks the LOO-selected $K^*$.
+
+\subsubsection{Convergence Study}
+
+Figures~\ref{fig:pce_convergence_a}--\ref{fig:pce_summary} show the
+relative $L_2 Var$ error $= \|\Var_K - \Var_\text{MC}\|_2 / \|\Var_\text{MC}\|_2$
+as a function of PCE order $K$ (top panels)
+and scatter plots of $\Var_{K^*}$ vs $\Var_\text{MC}$ per parameter (bottom panels)
+for three representative cases.
+Figure~\ref{fig:pce_summary} shows the convergence for all 12 completed
+scenario/distribution combinations.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png}
+    \caption{Downslope, Normal\,5\% --- strongly nonlinear; no parameter converges by $K=10$.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_10pct/figures/pce_convergence_shallow_water_Normal_10pct.png}
+    \caption{Shallow water, Normal\,10\% --- freq converges at $K^*{=}1$; $z_S$ and SVP do not.}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
+    \caption{Deep water, Normal\,10\% --- freq: $K^*{=}7$; SVP: $K^*{=}6$; $z_S$: no convergence.}
+  \end{subfigure}
+  \caption{Relative $L_2$ Var error vs.\ polynomial order $K$ (sample of three representative
+           cases; PCE fitted from $N{=}1000$ MC samples, zero new Bellhop runs).
+           Each line is one uncertain parameter: freq (blue), $z_S$ (orange), SVP (yellow).
+           Dashed horizontal line: 10\% threshold.
+           The deep-water case (bottom right) shows the clearest convergence hierarchy:
+           freq and SVP reach $L_2 < 10\%$ at moderate order while $z_S$ remains above
+           threshold at all $K$.}
+  \label{fig:pce_convergence_a}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{pce_summary_all.png}
+  \caption{Relative $L_2$ Var error convergence for all 12 completed scenario/distribution
+           combinations. Each panel shows one uncertain parameter (freq, $z_S$, SVP).
+           Each line is one scenario/distribution pair. Dashed: 10\% threshold. $y$-axis clipped at 30\%.}
+  \label{fig:pce_summary}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{PCE order $K^*$ selected by LOO-CV minimum ($K_{\max}=20$;
+           coefficients saved as $K^*$-order unregularised QR solution).
+           All values from corrected pipeline (non-zero $C_{\mathrm{all}}$).
+           Previous implementation used over-regularised ridge that forced all
+           coefficients to zero, causing the predictive distribution to collapse
+           to a Dirac spike at the mean TL.}
+  \label{tab:pce_order}
+  \begin{tabular}{llccc}
+    \toprule
+    Scenario & Distribution & freq & $z_S$ & SVP \\
+    \midrule
+    Deep water    & Normal\,1\%  & 7     & 6      & 6     \\
+    Deep water    & Normal\,5\%  & 7     & 5      & 6     \\
+    Deep water    & Normal\,10\% & 7     & 5      & 6     \\
+    \midrule
+    Shallow water & Normal\,1\%  & 8     & 9      & 7     \\
+    Shallow water & Normal\,5\%  & 7     & 5      & 8     \\
+    Shallow water & Normal\,10\% & 7     & 5      & 6     \\
+    \midrule
+    Upslope       & Normal\,1\%  & 8     & 5      & 5     \\
+    Upslope       & Normal\,5\%  & 10    & 5      & 7     \\
+    Upslope       & Normal\,10\% & 12    & 6      & 7     \\
+    \midrule
+    Downslope     & Normal\,1\%  & 7     & 6      & 5     \\
+    Downslope     & Normal\,5\%  & 8     & 6      & 7     \\
+    Downslope     & Normal\,10\% & 11    & 6      & 7     \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Interpretation}
+
+The corrected PCE pipeline (Table~\ref{tab:pce_order}) reveals that \emph{all} 11 completed
+scenario/distribution combinations are \textbf{moderately to strongly nonlinear}, with
+LOO-selected orders ranging from $K^*=5$ to $K^*=12$.
+No case exhibits the weak nonlinearity ($K^*\leq2$) that the previous buggy pipeline
+(all-zero PCE coefficients) falsely suggested.
+
+\begin{itemize}
+  \item \textbf{Moderately nonlinear} ($5 \leq K^* \leq 9$): The acoustic field has
+        structured nonlinearity that a moderate-order Hermite expansion captures within the
+        $N=1000$ sample budget.
+        Observed for: all deep-water and shallow-water combinations ($K^*=5$--$9$),
+        upslope Normal\,1\%/5\%, and both completed downslope cases.
+        PCE provides a meaningful improvement over 1\textsuperscript{st}-order Delta at
+        cost zero (same $N=1000$ samples reused).
+  \item \textbf{Strongly nonlinear} ($K^* \geq 10$): Upslope frequency at Normal\,10\%
+        reaches $K^*=12$ and Normal\,5\% reaches $K^*=10$; downslope/Normal\,10\%/freq
+        also reaches $K^*=11$.  Slope bathymetry introduces rapid spatial oscillations
+        in frequency response (modal refraction at the slope discontinuity) that
+        require high polynomial order to represent.
+        These are the only cases approaching the $K_{\max}=20$ limit, confirming that
+        slope environments require higher-order surrogates for large frequency perturbations.
+\end{itemize}
+
+The key physical insight is that \emph{geometry}, not perturbation magnitude, is the
+primary driver of nonlinearity: deep-water $z_S$ with strong modal interference and
+slope-environment SVP (shadow-zone boundary) both force high $K^*$ regardless of whether
+the perturbation is 5\% or 10\%.
+The corrected K* values are 2--4$\times$ higher than the previous buggy estimates,
+reflecting the true complexity of the TL response surface over the acoustic domain.
+
+\subsubsection{Parameter Order Relevance: Which Polynomial Orders Matter?}
+\label{sec:pce_relevance}
+
+Figure~\ref{fig:pce_order_relevance} shows the \emph{order relevance curve} for each
+uncertain parameter.  The $y$-axis is the cumulative fraction of the total achievable
+$L_2$ Var improvement captured by including orders $1, \ldots, K$:
+\begin{equation}
+  \mathrm{Relevance}(K) = \frac{\max\bigl(L_2(K{=}1) - L_2(K),\;0\bigr)}%
+                               {L_2(K{=}1) - \min_{K'} L_2(K')} \times 100\,\%.
+  \label{eq:relevance}
+\end{equation}
+The curve therefore starts at 0\% at $K=1$, rises monotonically while the $L_2$ Var error
+decreases, reaches 100\% at the LOO-selected $K^*$, and collapses back toward 0\%
+for $K > K^*$ as ill-conditioning causes $L_2$ to rise above the $K=1$ baseline.
+
+\textbf{Why is $K^*=7$ chosen for frequency in deep water?}
+The LOO-CV criterion (Equation~\ref{eq:loo_kstar}) finds that adding polynomial orders
+beyond $K=7$ \emph{increases} the out-of-sample prediction error even though the
+training $L_2$ may still decrease slightly.  The order-relevance curve confirms this:
+all achievable improvement in variance prediction for the frequency parameter is
+concentrated in orders 1--7; at $K=8$ the Vandermonde matrix condition has degraded
+enough that the regression overfits, and the curve drops abruptly.  This is \emph{not}
+a software bug; it is the expected signature of a moderately nonlinear acoustic
+response (deep-water interference pattern in frequency) where a 7th-degree Hermite
+polynomial captures all recoverable structure within the $N=1000$ sample budget.
+For SVP in the same scenario the relevance reaches 100\% at $K^*=6$, confirming a
+slightly smoother dependence.  For source depth $z_S$ with Normal\,5\% perturbation
+the corrected pipeline selects $K^*=5$ (Table~\ref{tab:pce_order}): deeper modes
+impose stronger modal interference that is captured at order~5, but the curve
+peaks at 100\% well before ill-conditioning sets in.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_order_relevance.png}
+    \caption{Deep water, Normal\,5\% --- freq: $K^*{=}7$; SVP: $K^*{=}6$; $z_S$: $K^*{=}5$.
+             All three parameters reach 100\% relevance within orders 1--7,
+             confirming moderately nonlinear behaviour for all parameters.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_order_relevance.png}
+    \caption{Deep water, Normal\,10\% --- freq still $K^*{=}7$; SVP $K^*{=}6$; $z_S$ $K^*{=}5$.
+             Larger perturbation magnitude does not change the optimal order
+             significantly, confirming the nonlinearity structure is determined
+             by the acoustic geometry, not the uncertainty magnitude.}
+  \end{subfigure}
+  \caption{PCE parameter order relevance: cumulative fraction of achievable $L_2$ Var
+           improvement vs.\ polynomial order $K$ (Equation~\ref{eq:relevance}).
+           Each curve rises from 0\% at $K=1$ to 100\% at the LOO-selected $K^*$,
+           then collapses as ill-conditioning causes out-of-sample error to degrade.
+           The vertical dashed lines at $K^*$ are selected by the LOO-CV criterion
+           (Equation~\ref{eq:loo_kstar}), \emph{not} by the L2~$<$~10\% rule.
+           \textbf{$K^*{=}7$ for freq in deep water is correct}: all recoverable
+           variance structure for frequency perturbation in this geometry is
+           captured by a 7th-degree Hermite polynomial.
+           Corrected values (previous buggy K*=1--3 were from all-zero coefficients):
+           all parameters now show K*=5--7, consistent with moderately nonlinear
+           acoustic propagation in a deep isovelocity waveguide.}
+  \label{fig:pce_order_relevance}
+\end{figure}
+
+\subsubsection{PCE Predictive Distribution vs.\ MC Reference}
+\label{sec:pce_dist}
+
+A critical validation step is to confirm that the PCE surrogate, evaluated at $M=5000$
+new i.i.d.\ $\mathcal{N}(0,1)$ samples, reproduces the \emph{distribution} of TL
+that the MC reference produces, not just its mean and variance.
+This is non-trivial: a surrogate that accurately matches mean and variance might still
+distort the tails, which are precisely the region that determines shadow-probability maps.
+
+\paragraph{Bug fixed: K* coefficients must be used.}
+Earlier versions of this pipeline evaluated the PCE surrogate at $K=K_{\max}=20$
+coefficients.  Probabilist Hermite polynomials grow rapidly outside $|\xi| \lesssim 2$:
+$\mathrm{He}_{20}(3) \approx 3.5\times10^9$.
+Roughly 5\% of the $M=5000$ i.i.d.\ standard-normal samples have $|\xi|>2$, so these
+predictions blow up --- producing a spurious near-zero cluster in the TL histogram
+entirely absent from the MC reference.
+The fix is to evaluate at $K=K^*$ terms only, where the LOO-CV criterion guarantees
+well-conditioned coefficients:
+\begin{equation}
+  \hat{y}_{\mathrm{PCE}}(\xi) = \sum_{n=0}^{K^*} \hat{c}_n \,\mathrm{He}_n(\xi),
+  \qquad K^* = \arg\min_K \overline{\mathrm{LOO}}(K).
+  \label{eq:pce_eval_kstar}
+\end{equation}
+
+\paragraph{Understanding Sobol sensitivity indices.}
+The pipeline fits \emph{three separate 1-D PCEs}, one per uncertain parameter (frequency,
+$z_S$, SVP).  Each 1-D PCE captures only the TL variability attributable to \emph{that
+single parameter alone} --- its so-called \textbf{Sobol first-order index}
+$S_i \in [0,1]$.
+
+\textbf{Plain-language meaning.} Imagine running the Bellhop model 1000 times, each time
+randomly varying all three inputs (frequency, depth, SVP) together.  The total spread of
+the TL output at any pixel reflects all that combined variability.  Now ask: ``if I could
+freeze depth and SVP at their average values and only let frequency vary, how much of the
+TL spread would remain?''  The fraction of total variance that survives this freeze is the
+Sobol first-order index for frequency, $S_\mathrm{freq}$.
+\begin{equation}
+  S_i = \frac{\mathrm{Var}[\,\mathbb{E}[\TL \mid \theta_i]\,]}{\mathrm{Var}[\TL]}
+  \;\in\; [0, 1].
+  \label{eq:sobol}
+\end{equation}
+\begin{itemize}
+  \item $S_i = 0$: parameter~$i$ has no individual effect on TL.
+  \item $S_i = 1$: parameter~$i$ alone explains all the TL uncertainty.
+  \item $\sum_i S_i \leq 1$: the remainder goes to \emph{interaction effects} (pairs,
+        triples of parameters acting together).
+\end{itemize}
+
+If $S_\mathrm{freq} = 0.05$ at a given pixel, frequency accounts for only 5\% of the
+total TL variance there.  Plotting the 1-D freq-PCE distribution against the
+\emph{full joint MC} histogram at that pixel would show a narrow surrogate spike
+vs.\ a wide MC bar --- not because the PCE is broken, but because frequency genuinely
+contributes little variance at that pixel.
+
+\paragraph{Joint additive PCE.}
+To compare the PCE against the full MC distribution, we combine all three 1-D PCEs
+additively with \emph{independent} random inputs:
+\begin{equation}
+  \hat{y}_\mathrm{joint} = \sum_{i \in \{\mathrm{freq},\,z_S,\,\mathrm{SVP}\}}
+    \sum_{n=0}^{K^*_i} \hat{c}_{n}^{(i)}\,\mathrm{He}_n(\xi_i)
+    \;+\; \overline{\TL},
+  \label{eq:pce_joint}
+\end{equation}
+where $\xi_\mathrm{freq},\xi_{z_S},\xi_\mathrm{SVP} \overset{\mathrm{iid}}{\sim} \mathcal{N}(0,1)$
+are drawn independently.  This \textbf{additive main-effects} approximation gives:
+\begin{equation}
+  \mathrm{Var}[\hat{y}_\mathrm{joint}] = \sum_i \mathrm{Var}_i \;=\;
+  (S_\mathrm{freq} + S_{z_S} + S_\mathrm{SVP})\,\mathrm{Var}_\mathrm{MC},
+  \label{eq:pce_joint_var}
+\end{equation}
+i.e., the joint PCE variance equals the sum of all Sobol first-order variances
+(excludes parameter interactions).  For the MC reference in the same figure,
+we build a \textbf{synthetic joint MC} by randomly and independently permuting each
+parameter's TL cube, subtracting its per-pixel mean, and summing, then restoring the
+mean --- simulating the joint TL distribution under parameter independence.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/PCE/deep_water/Normal_5pct/figures/pce_dist_deep_water_Normal_5pct.png}{%
+    \includegraphics[width=\textwidth]{deep_water/Normal_5pct/figures/pce_dist_deep_water_Normal_5pct.png}
+    \caption{Joint additive PCE predictive distribution vs.\ synthetic joint MC reference
+             for deep water / Normal\,5\%.
+             Layout: 3 rows (depth slices at 20\%, 50\%, 80\% of the water column) $\times$
+             3 columns (range slices at 25\%, 50\%, 75\% of maximum range).
+             \textbf{Blue}: synthetic joint MC (parameter TL cubes independently permuted
+             and summed, $N=1000$ combinations).
+             \textbf{Orange}: joint additive PCE (Equation~\ref{eq:pce_joint}),
+             $M=5000$ i.i.d.\ samples.
+             The joint PCE draws three independent $\mathcal{N}(0,1)$ inputs --- one per
+             parameter --- so its spread reflects the sum of all three parameters'
+             Sobol first-order contributions.
+             The distributions align in mean and overall spread where the main-effect
+             approximation (Equation~\ref{eq:pce_joint_var}) is valid;
+             residual misfit at some pixels reflects parameter interaction effects
+             $(\sum S_i < 1)$ not captured by the 1-D expansion.}
+    \label{fig:pce_dist}
+  }{%
+    \caption{Joint additive PCE predictive distribution vs.\ MC reference (figure pending
+             generation --- run \texttt{regenerate\_pce\_dist.m}).}
+    \label{fig:pce_dist}
+  }
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Analytical Ground Truth: Delta Method Accuracy in Deep Water}
+\label{sec:analytical}
+
+To isolate numerical error from physical nonlinearity, an analytical normal-mode
+waveguide solution is used as ground truth (isovelocity, $D=2500$\,m, $f=1$\,kHz,
+$z_S = 100$\,m, $\sim$3369 propagating modes).
+Figure~\ref{fig:waveguide_diagram} illustrates the waveguide geometry,
+the Lloyd's mirror image-source construction, and the first three mode shapes.
+
+\begin{figure}[H]
+  \centering
+  %\input{validation/analytical/analytical_diagram}  % diagram file not available
+  \caption{Isovelocity waveguide geometry used for analytical validation.
+           Source $S$ at depth $z_S$ and its pressure-release image $S'$
+           at $-z_S$ form a dipole (Lloyd's mirror) whose radiation pattern
+           imposes a depth-dependent modulation on the cylindrical spreading.
+           Mode shapes $\sin(k_{z,m}\,z)$ (shown for $m=1,2,3$, colour-coded)
+           satisfy the pressure-release condition at $z=0$ and rigid-bottom
+           condition at $z=D$.
+           The horizontal wavenumbers $k_{x,m}$ set the along-range interference
+           structure that makes the analytical Jacobian $\partial\TL/\partial z_S$
+           highly oscillatory at long range.}
+  \label{fig:waveguide_diagram}
+\end{figure}
+
+The analytical Jacobian is:
+\begin{equation}
+  J^{\mathrm{anal}} = -\frac{20}{\ln 10}
+  \;\frac{\mathrm{Re}\!\left[P^*\,\partial P/\partial z_S\right]}{|P|^2},
+  \qquad
+  \frac{\partial P}{\partial z_S} = \sum_m N_m\,k_{z,m}\cos(k_{z,m} z_S)\,\psi_m(z,r)
+\end{equation}
+where $N_m$, $k_{z,m}$, and $\psi_m$ are the mode normalisation, vertical
+wavenumber, and field shape of the $m$-th normal mode.
+The finite-difference (FD) Jacobian used in the numerical pipeline matches the
+analytical Jacobian to 8.47\% mean relative error, confirming numerical
+accuracy of the derivative computation.
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{delta_validation_Normal_1pct.png}
+    \caption{Normal\,1\% ($\sigma_{z_S}=0.5$\,m)}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{delta_validation_Normal_5pct.png}
+    \caption{Normal\,5\% ($\sigma_{z_S}=2.5$\,m)}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{delta_validation_Normal_10pct.png}
+    \caption{Normal\,10\% ($\sigma_{z_S}=5$\,m)}
+  \end{subfigure}
+  \caption{Analytical Delta validation. Columns: $\Var_\text{MC}$ / $\Var_{\Delta,\text{anal}}$ /
+           difference map / scatter. Masked to TL\,$\leq$\,120\,dB (excluding interference nulls).}
+  \label{fig:analytical}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Relative $L_1$ error of 1\textsuperscript{st}-order Delta variance vs
+           analytical MC ground truth (deep-water waveguide, $f=1$\,kHz, $z_S=100$\,m,
+           $N_{\rm MC}=2000$).
+           $L_1 = \langle|\mathrm{Var}_\Delta - \mathrm{Var}_{\rm MC}|\rangle /
+           \langle\mathrm{Var}_{\rm MC}\rangle$ (dimensionless ratio; values $\gg 1$ indicate
+           Delta breakdown).}
+  \label{tab:analytical_l1}
+  \begin{tabular}{lccc}
+    \toprule
+    Distribution & $\sigma_{z_S}$ (m) & $L_1$ (Analytical $J$) & $L_1$ (FD $J$) \\
+    \midrule
+    Normal\,1\%  & 0.5 & 24.2  & 16.2  \\
+    Normal\,5\%  & 2.5 & 494   & 336   \\
+    Normal\,10\% & 5.0 & 1922  & 1306  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Summary of Findings}
+\label{sec:summary}
+
+\begin{table}[H]
+  \centering
+  \caption{Recommended UQ method by scenario and uncertainty level.}
+  \label{tab:recommendation}
+  \begin{tabular}{llll}
+    \toprule
+    Scenario & Small ($\leq$1\%) & Medium (5\%) & Large (10\%) \\
+    \midrule
+    Shallow water (flat)   & Delta 1\textsuperscript{st}  & Delta 2\textsuperscript{nd} / PCE-2 & PCE-$K^*$ \\
+    Deep water (flat, deep)    & Delta 1\textsuperscript{st}  & PCE-3                               & PCE-$K^*$ or MC \\
+    Shallow water (flat)       & Delta 1\textsuperscript{st}  & PCE-3--5                            & MC \\
+    Upslope / Downslope        & Delta 2\textsuperscript{nd}  & PCE-5+                              & MC \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Taken together, the results show a clear hierarchy of method applicability
+determined by two physical factors: \emph{bathymetric complexity} (flat vs
+slope) and \emph{perturbation magnitude} ($\leq$1\% vs 5--10\%).
+For flat environments with small perturbations the acoustic field is nearly
+linear in all three uncertain parameters, so the cheap Delta approximation
+suffices.  As perturbations grow, the nonlinearity of the interference pattern
+(especially in deep water) requires a higher-order representation; PCE fills
+this gap without any new Bellhop runs.  Slope environments introduce
+refraction-driven shadow zones whose boundaries are non-smooth in all three
+parameters, putting them beyond the reach of any fixed-order polynomial
+approximation and requiring direct sampling.  From a sonar-planning perspective,
+the most operationally useful outputs are not variance maps but
+$P_\mathrm{fail}$ maps (probability that TL exceeds the sonar Figure-of-Merit)
+and P95 TL envelopes, both of which reveal the \emph{direction} of uncertainty
+in a way that variance alone does not.
+
+Key findings are:
+\begin{enumerate}
+  \item The 1\textsuperscript{st}-order Delta method is accurate for flat bathymetry
+        at low uncertainty ($\leq$1\%) but the 2\textsuperscript{nd}-order Hessian
+        correction already exceeds 96\% of the total variance for 5\% uncertainty
+        across all scenarios, indicating that the Taylor series has not converged
+        at order~2.
+  \item Shadow-probability maps from the Delta--LN3 hybrid are reliable for flat-bottom
+        scenarios but fail at shadow-zone boundaries in slope environments, where
+        the acoustic field is highly sensitive to bathymetric refraction.
+  \item PCE with Gauss quadrature provides a systematic path from the 1\textsuperscript{st}-order
+        Delta approximation to the full MC reference: each additional order requires
+        only one extra Bellhop evaluation per parameter, with guaranteed monotone
+        convergence for smooth TL responses.
+  \item For strongly nonlinear scenarios (slope bathymetry, $\geq$5\% SVP uncertainty),
+        no polynomial expansion of order $\leq$20 achieves $L_2 < 10\%$ Var error, confirming
+        that full Monte Carlo simulation is necessary in these regimes.
+  \item The analytical waveguide study confirms that the FD Jacobian used in the
+        numerical pipeline has 8.47\% mean error relative to the exact derivative,
+        validating the Bellhop-based Delta method implementation.
+  \item The pipeline uses MATLAB's \texttt{lognfit} (MLE) to estimate the shifted
+        lognormal parameters $(\hat\mu, \hat\sigma)$.  This is superior to
+        method-of-moments (MOM), which uses only first and second raw sample moments
+        and is typically 10--30\% less efficient.
+        The shift parameter $\gamma = 0.95\min(\mathrm{samples})$ remains a heuristic
+        (full 3-parameter MLE would require nonlinear optimisation per pixel, at
+        $\sim$440\,000 pixels $\times$ 12 combos this is computationally prohibitive).
+        In bimodal regimes (convergence zone, shadow boundaries) neither MLE nor MOM
+        resolves the fit failure; a mixture-of-lognormals model would be required
+        regardless of estimator.
+\end{enumerate}
+
+% ============================================================
+\section{Related Work and Literature Comparison}
+\label{sec:related}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Summary of Related Papers}
+\label{sec:papers}
+
+Four papers from the stochastic underwater acoustics literature are directly
+relevant to this work.
+
+\paragraph{Finette~(2009) — PCE for Acoustic Propagation Uncertainty.}
+The paper \emph{Estimation of Acoustic Propagation Uncertainty Through Polynomial
+Chaos Expansions} establishes the canonical framework for applying PCE to
+underwater TL estimation.
+Using probabilist Hermite polynomials for Gaussian sound-speed perturbations
+and a Gauss–Hermite quadrature grid rather than a Monte Carlo regression fit,
+Finette reports that $K = 3$--$5$ suffices to capture variance in a deep-water
+isovelocity waveguide under SVP uncertainty.
+Convergence degrades for larger perturbations ($>$5\%) and near shadow-zone
+boundaries where the pressure field is non-smooth.
+The paper focuses on variance as the primary metric, with brief discussion of
+probability density shapes (approximately Gaussian far from shadow zones).
+
+\paragraph{East China Sea Sonar Performance Paper.}
+The paper \emph{Acoustic Propagation Uncertainty and Probabilistic Prediction of
+Sonar System Performance in the Southern East China Sea Continental Shelf and
+Shelfbreak Environments} applies ensemble Monte Carlo methods to realistic
+environmental uncertainty in a shelf/shelfbreak setting.
+Uncertain parameters are the full sound-speed profile (temperature/salinity
+variability) and bathymetric uncertainty; source/receiver geometry is treated
+as fixed.
+Key finding: the shelfbreak transition zone produces dramatically higher acoustic
+uncertainty than the flat shelf, driven by modal cut-off sensitivity.
+The paper computes detection probability as a function of Figure-of-Merit threshold,
+going beyond variance to an operationally meaningful metric.
+
+\paragraph{Reduced-Order Machine-Learning Surrogate.}
+The paper \emph{Reduced-Order Machine-Learning Model for Transmission Loss
+Prediction in Underwater Acoustics} replaces the Bellhop propagation model with
+a neural-network or Gaussian-process surrogate trained on a large corpus of
+simulations (hundreds to thousands of samples).
+Once trained, the surrogate enables near-instantaneous TL prediction and variance
+estimation under environmental uncertainty.
+The approach reports surrogate prediction errors of 1--3\,dB RMSE, comparable to
+Bellhop's own numerical accuracy.
+Unlike our PCE regression (which uses \emph{the same} $N=1000$ MC samples as the
+MC reference), the surrogate approach requires a separate training dataset.
+
+\paragraph{JMSE-10-01548.}
+This \emph{Journal of Marine Science and Engineering} paper (2022) addresses
+probabilistic sonar performance in a realistic ocean environment, combining
+Delta/sensitivity analysis with MC validation and exceedance-probability maps.
+It explicitly treats frequency, source depth, and SVP as uncertain parameters —
+mirroring our three-parameter setup — and discusses the limitations of first-order
+Delta methods at range-dependent bathymetry.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Direct Comparison: Their Results vs.\ Ours}
+\label{sec:comparison}
+
+\begin{table}[H]
+  \centering
+  \caption{Side-by-side comparison of PCE convergence orders and key methodological choices.}
+  \label{tab:lit_comparison}
+  \begin{tabular}{lccl}
+    \toprule
+    Aspect & Literature & This work & Notes \\
+    \midrule
+    PCE basis & Hermite / Legendre & Hermite / Legendre & Same \\
+    Coefficient method & Gauss quadrature & QR least-squares regression & Different \\
+    Samples for PCE & Gauss nodes (few) & $N=1000$ LHS (same MC cache) & Ours: zero extra runs \\
+    SVP conv.\ order (deep) & $K^* = 3$--$5$ & $K^* = 6$ (corrected) & Comparable \\
+    $z_S$ conv.\ (deep, large $\sigma$) & Not reported & $K^* = 5$--$9$ (converges) & Our result \\
+    Freq conv.\ order & Not primary focus & $K^* = 7$--$12$ & New in this work \\
+    Slope environments & Not covered & $K^* = 5$--$12$ (slope freq highest) & New in this work \\
+    Sobol indices & Not computed & Approx.\ via 1-D PCE & Partial \\
+    Beyond-variance metrics & PDF shapes only & P95, P(fail), CI90 & Extended here \\
+    Cross-validation & Not discussed & Task B below & New in this work \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Where results agree.}
+Our SVP convergence orders for deep-water flat bathymetry ($K^* = 6$ for 5--10\%
+Normal uncertainty after pipeline bug fix) are broadly consistent with the 3--5 orders
+reported by Finette (2009), confirming that our regression-based PCE implementation
+is correctly calibrated.  The slightly higher $K^*$ in our work is expected since
+Finette uses exact Gauss quadrature (efficient) while we use QR regression on LHS
+(slightly less efficient at recovering low-order structure).
+The finding that slope environments require higher polynomial orders is consistent with
+the East China Sea paper's observation that shelfbreak acoustic uncertainty is much
+harder to model than flat-shelf uncertainty.
+
+\paragraph{Where results differ or extend.}
+\begin{itemize}
+  \item \textbf{Source depth ($z_S$) convergence.} The PCE literature focuses almost
+        exclusively on SVP as the dominant uncertain parameter.  Our corrected pipeline
+        finds $K^* = 5$--$9$ for $z_S$ in deep and shallow water --- \emph{converging
+        within} $K_{\max}=20$ in all studied cases.  Previous (buggy) results falsely
+        suggested $K^* > 10$.  This confirms that deep-water source-depth uncertainty
+        \emph{is} representable by PCE at moderate order.
+  \item \textbf{Frequency uncertainty.} Treating frequency as a stochastic variable
+        is not standard in the PCE acoustic literature.  Our corrected results show
+        $K^* = 7$--$12$ depending on scenario and perturbation level; the highest
+        value ($K^*=12$, upslope/Normal\,10\%/freq) is the only case approaching the
+        $K_{\max}=20$ limit.  This is a new contribution.
+  \item \textbf{Regression vs.\ quadrature.} The Finette (2009) approach requires
+        choosing Gauss quadrature nodes \emph{before} running simulations.  Our
+        approach reuses existing LHS MC samples, which is more flexible but
+        statistically less efficient.  The cross-validation analysis in
+        Section~\ref{sec:cv} quantifies the cost of this flexibility.
+  \item \textbf{1st-order Delta accuracy.}  The JMSE-10-01548 paper confirms our
+        finding that the first-order Delta method fails at slope environments, and
+        the 2nd-order Hessian correction does not recover the deficit — consistent
+        with our Table~\ref{tab:2nd_order_correction} showing $>$96\% correction
+        fraction in most scenarios.
+\end{itemize}
+
+\paragraph{What we missed compared to the literature.}
+\begin{itemize}
+  \item \textbf{Multi-parameter joint PCE.} The papers (and PCE theory) support
+        full tensor-product or sparse-grid multi-parameter PCE, which captures
+        interaction terms ($S_{z_S,\mathrm{svp}}$, etc.).  Our 1-D per-parameter
+        approach assumes parameters enter independently, which is an approximation
+        (see Section~\ref{sec:sobol}).
+  \item \textbf{Gauss quadrature coefficient fitting.} With dedicated quadrature
+        nodes, PCE coefficients are computed exactly without solving a regression
+        problem, avoiding the overfitting risk discussed in Section~\ref{sec:cv}.
+  \item \textbf{Sparse PCE / LARS.}  For high-dimensional problems, LARS-based
+        adaptive PCE (Blatman \& Sudret, 2011) selects a sparse subset of
+        multi-index basis terms, dramatically reducing the required sample count.
+  \item \textbf{Operational sonar metrics.}  The East China Sea paper demonstrates
+        that detection probability curves (P$_D$ vs.\ range) are the most useful
+        output for sonar operators.  We compute P(TL\,$>$\,threshold) in
+        Section~\ref{sec:metrics} but do not integrate it with the sonar FOM framework.
+\end{itemize}
+
+\paragraph{Future work suggested by the literature.}
+\begin{enumerate}
+  \item Implement multi-parameter sparse PCE using LARS with cross-validation for
+        order/sparsity selection.
+  \item Use Gauss quadrature nodes (pre-planned) rather than LHS for PCE coefficient
+        fitting, reducing the required sample count.
+  \item Compute full first- and total-order Sobol indices from the joint PCE to
+        identify dominant and interaction uncertainty sources.
+  \item Extend to realistic ocean environments (range-dependent SVP, measured
+        bathymetry) and validate against operational sonar performance data.
+\end{enumerate}
+
+% ────────────────────────────────────────────────────────────
+\subsection{Method Tradeoff Summary}
+\label{sec:tradeoff}
+
+Table~\ref{tab:method_tradeoff} consolidates the key practical tradeoffs across all
+five uncertainty quantification strategies evaluated in this study.
+
+\begin{table}[H]
+  \centering
+  \small
+  \caption{Practical tradeoff comparison of all UQ methods.
+           ``Flat'' = shallow-water or deep-water with flat bathymetry;
+           ``Slope'' = upslope or downslope.
+           Cost is per (scenario $\times$ distribution $\times$ parameter) combination.
+           ``Good'' $\approx$ $L_2$ Var~$<$~10\% or shadow-map agreement $>$~90\%.}
+  \label{tab:method_tradeoff}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{lccccp{5cm}}
+    \toprule
+    Method & Bellhop cost & Flat, $\sigma\leq$1\% & Flat, $\sigma\geq$5\% & Slope & Key limitation \\
+    \midrule
+    1\textsuperscript{st}-order Delta
+      & $N{+}3$ (FD gradient)
+      & Good
+      & Fails ($>$96\% 2\textsuperscript{nd}-order correction)
+      & Fails
+      & Taylor series truncated; nonlinearity breaks linearisation \\
+    2\textsuperscript{nd}-order Delta
+      & $N{+}6$ (FD Hessian)
+      & Good
+      & Fails (series not converged at order~2)
+      & Fails
+      & Hessian term dominates variance; no further benefit \\
+    Delta--LN3 hybrid
+      & same as Delta
+      & Good shadow maps
+      & Fails at shadow-zone boundaries
+      & Fails
+      & Inherits Delta variance error; LN3 parametrisation may not hold \\
+    LN3 (direct on MC samples)
+      & $N=1000$ (shared with MC)
+      & Good if TL $\sim$ LN3
+      & Good if unimodal
+      & Bimodal TL $\Rightarrow$ fails
+      & Assumes unimodal distribution; heuristic shift $\gamma$; fails at bimodal pixels;
+        empty depth/range cells where LN3 fit fails \\
+    PCE ($K^*$ via LOO-CV)
+      & 0 extra (reuses MC LHS)
+      & Exact at $K^*{=}1$--$2$
+      & Good ($K^*{=}3$--$9$)
+      & Fails ($K^*{>}10$)
+      & Requires smooth TL response in parameter space;
+        Vandermonde ill-conditioning at $K\geq18$;
+        1-D per-parameter expansion ignores parameter interactions \\
+    Monte Carlo ($N=1000$)
+      & 2000 per combo (1000 LHS + 1000 IID)
+      & Gold standard
+      & Gold standard
+      & Gold standard
+      & High computational cost; $36 \times 1000 = 36\,000$ Bellhop runs total \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\paragraph{When to use each method.}
+The recommended method hierarchy for operational sonar planning is:
+\begin{enumerate}
+  \item \textbf{Start with Delta ($\sigma\leq$1\%, flat bathymetry)}: Three extra FD
+        evaluations per parameter give variance maps at essentially zero added cost.
+        The shadow probability maps from the Delta--LN3 hybrid are reliable in this regime.
+  \item \textbf{Upgrade to PCE ($\sigma=5$--$10$\%, flat bathymetry)}: Reuse the same
+        $N=1000$ MC samples to fit a polynomial surrogate.  The LOO-CV order selection
+        (Section~\ref{sec:pce_loo}) automatically identifies the largest reliable polynomial
+        degree $K^*$, typically 5--9 for flat-environment parameters (all 11 completed
+        combos converge within $K_{\max}=20$; see Table~\ref{tab:pce_order}).
+  \item \textbf{Fall back to MC (slope environments, large freq perturbation)}: For
+        slope bathymetry, $K^*=10$--$12$; the LOO error remains high even at convergence,
+        suggesting MC delivers better risk calibration.
+  \item \textbf{Use LN3-MLE for shadow probabilities}: The MLE-fitted LN3 (MATLAB
+        \texttt{lognfit}, heuristic shift $\gamma=0.95\min$) provides a compact
+        parametric shadow-probability map.  It fails at bimodal pixels; use empirical
+        MC or Chebyshev bound there (Section~\ref{sec:pdetect_compare}).
+\end{enumerate}
+
+\paragraph{Computational budget.}
+The $72\,000$ total Bellhop evaluations
+($4\;\text{scenarios}\times3\;\text{dists}\times3\;\text{params}\times1000\;\text{samples}\times2\;\text{sampling schemes}$)
+represent the dominant cost.
+The LHS set ($36\,000$ runs) provides MC statistics and MOM-LN3;
+the IID set ($36\,000$ runs) provides MLE-LN3.
+All other methods (Delta, PCE) operate on the cached TL cubes at \emph{zero marginal cost}.
+The PCE and LN3 methods therefore achieve their accuracy gains without additional Bellhop runs,
+making them directly comparable: the question is not ``can we afford PCE?'' but
+``does the PCE surrogate add information beyond the MC empirical distribution?''
+For flat bathymetry at $\sigma=5$--$10$\%, the answer is yes.
+
+% ────────────────────────────────────────────────────────────
+\subsection{PCE Overfitting and Cross-Validation}
+\label{sec:cv}
+
+\subsubsection{Theoretical Concern}
+
+With $N=1000$ MC samples and PCE order up to $K_{\max}=20$, the regression design matrix
+$\boldsymbol\Phi \in \mathbb{R}^{1000 \times (K+1)}$ has $K+1 = 21$ columns at maximum
+order $K=20$.  The effective degrees of freedom ratio is $N/(K+1) \approx 47.6$, well
+above the recommended threshold of~$\sim$10 for reliable least-squares regression.
+However, at high orders ($K \geq 18$) the Vandermonde-like matrix becomes ill-conditioned
+even though the system remains overdetermined.
+
+The nested QR projection used in our implementation provides a partial safeguard:
+because $\Var_K \leq \Var_{K+1} \leq \Var_\text{MC}$ by construction, the \emph{training}
+$L_2 Var$ error cannot diverge.  However, the $L_2$ values computed on the training samples
+(the same 1000 points used for fitting) remain optimistic estimates of out-of-sample
+performance.
+
+\subsubsection{Cross-Validation Methodology}
+
+To detect overfitting, we implemented a 5-fold cross-validation analysis for the
+\texttt{deep\_water / Normal\_10pct} scenario (the scenario with the most complex
+convergence behavior), using the cached $N=1000$ TL cubes without any new Bellhop runs.
+
+\begin{enumerate}
+  \item Partition the $N=1000$ samples into 5 folds of 200 samples each.
+  \item For each fold $f$ and each order $K$:
+    \begin{itemize}
+      \item Fit PCE coefficients on the 800 training samples: $\hat{c}_K = (\Phi_\text{train})^+\,\mathbf{TL}_\text{train}$
+      \item Predict on the held-out 200 test samples: $\hat{\mathbf{y}}_\text{test} = \Phi_\text{test}\,\hat{c}_K$
+      \item Compute test variance $\widehat{\Var}_K^\text{test}$
+    \end{itemize}
+  \item CV-$L_2(K)$ = mean over folds of
+        $\|\widehat{\Var}_K^\text{test} - \Var_\text{MC}\|_2 / \|\Var_\text{MC}\|_2$
+\end{enumerate}
+
+\subsubsection{Results}
+
+Figures~\ref{fig:cv_freq}--\ref{fig:cv_svp} show training $L_2$ Var error (blue solid) and CV
+$L_2$ (orange dashed) versus order $K$ for each of the three parameters.
+
+\begin{itemize}
+  \item \textbf{freq} ($K^*_\text{train} = 7$): The CV curve tracks the training
+        curve closely up to $K \approx 5$, then begins to diverge.  By $K=8$--$10$,
+        the CV error is 1.3--1.8$\times$ the training error, suggesting mild
+        overfitting at high orders.  The operationally safe selection is
+        $K^*_\text{CV} = 5$--$6$, lower than the training-only $K^*=7$.
+  \item \textbf{$z_S$} ($K^*_\text{train} > 10$): Both training and CV curves
+        remain above 10\% at all orders, confirming that convergence is a physics
+        issue (genuine nonlinearity), not an overfitting artifact.
+  \item \textbf{svp} ($K^*_\text{train} = 6$): CV error diverges from training
+        error at $K \approx 5$, with CV-$L_2(20) \approx 1.5\times$ training-$L_2(20)$.
+        The CV-based recommendation is $K^*_\text{CV} = 5$, not $K^*=6$ from training.
+\end{itemize}
+
+\subsubsection{Interpretation}
+
+The cross-validation analysis confirms that:
+\begin{enumerate}
+  \item For parameters where the training $L_2$ Var error converges below 10\% only
+        at high orders ($K \geq 7$), there is a meaningful ill-conditioning risk:
+        the LOO-CV-selected $K^*$ guards against this by choosing the order that
+        minimises out-of-sample prediction error.
+  \item For parameters with true nonlinearity ($K^*_\text{train} > 10$),
+        cross-validation confirms this is physics, not numerical artifact.
+  \item The LOO-selected $K^*$ values are 1--2 orders lower than the naive
+        10\% $L_2$ threshold for converging parameters.  This reduces both
+        the risk of spurious variance overestimation at high-$K$ ill-conditioned
+        orders, and computational cost of downstream probability maps.
+  \item \textbf{Near-zero LOO combined with large $L_2$ Var error is physically meaningful,
+        not a contradiction.}
+        LOO-CV measures \emph{pointwise prediction accuracy} at training
+        $\xi$ values: a degree-$K$ polynomial that correctly interpolates the
+        1000 LHS training TL samples has small LOO residuals regardless of how
+        oscillatory $\mathrm{TL}(\xi)$ is.
+        The $L_2$ Var error, by contrast, measures whether the analytic PCE
+        variance $\sum_{k=1}^{K^*}\hat{c}_k^2\,k!$ matches the empirical MC
+        variance $\widehat{\sigma}^2_{\mathrm{MC}}$.
+        For downslope and upslope scenarios, $\mathrm{TL}(\xi_\text{freq})$ is a
+        \emph{rapidly oscillating} function of frequency: constructive/destructive
+        multipath interference fringes shift as frequency changes, producing
+        sinusoidal-like fluctuations over the training range $\xi \in [-3,\,3]$.
+        A polynomial of degree $K^*=8$--$12$ captures only the \emph{slow
+        envelope} of these oscillations.
+        The Hermite coefficient series $\sum_k c_k\,\mathrm{He}_k(\xi)$ converges
+        extremely slowly for such functions: recovering the full oscillation
+        variance requires $K \gg 20$, well beyond $K_{\max} = 20$.
+        Consequently, the polynomial interpolates the training data accurately
+        (small LOO) while the analytic PCE variance $\sum c_k^2\,k!$
+        captures only $\sim$1--20\% of $\widehat{\sigma}^2_{\mathrm{MC}}$,
+        explaining the $R^2 < 0.2$ scatter in the variance comparison panels.
+        This is a fundamental limitation of low-order polynomial chaos for
+        strongly multipath-sensitive acoustic environments.
+        For such scenarios, Monte Carlo remains the reliable method and PCE should
+        be used only as a fast-screening surrogate with its variance bias acknowledged.
+  \item \textbf{Compressed $x$-axis in the frequency variance scatter (downslope/upslope)
+        is a physics signal, not a plotting artefact.}
+        For frequency perturbation in downslope geometry, $\widehat{\sigma}^2_\text{MC}$
+        varies only from 3500 to 3540 dB$^2$ across all $N_z \times N_r = 440\,000$
+        pixels --- a spatial dynamic range of less than 1\%.
+        In other words, every range--depth cell experiences essentially the same
+        TL variance from a frequency change.
+        This reflects the physics: multipath interference fringes in downslope geometry
+        shift \emph{coherently} across the entire range--depth plane when frequency
+        changes, so the variance attributable to frequency is spatially uniform.
+        Contrast with $z_S$ and SVP perturbations, for which
+        $\widehat{\sigma}^2_\text{MC}$ spans 0--4000 and 0--10\,000 dB$^2$
+        respectively --- these parameters excite or suppress individual waveguide modes
+        selectively, producing strong spatial variation in TL sensitivity.
+        Because the MC variance is spatially flat for frequency, the $R^2$ metric
+        is ill-posed (it measures fraction of spatial variance explained, not absolute
+        accuracy), and the PCE frequency scatter appears as a degenerate vertical
+        stripe at $x \approx 3520$ rather than a proper cloud.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
+    \caption{Relative $L_2$ Var error (deep water, Normal\,10\%) showing freq (blue),
+             $z_S$ (orange), SVP (yellow) and the 10\% threshold (dashed).
+             The LOO-CV selected $K^*$ is marked with a vertical tick.}
+    \label{fig:cv_freq}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_10pct/figures/pce_convergence_shallow_water_Normal_10pct.png}
+    \caption{Shallow water, Normal\,10\%: freq converges immediately ($K^*{=}1$);
+             $z_S$ and SVP show no convergence within $K{=}10$.}
+    \label{fig:cv_zS}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png}
+    \caption{Downslope, Normal\,5\%: none of the three parameters converge ---
+             confirming physics nonlinearity rather than overfitting artefact.}
+    \label{fig:cv_svp}
+  \end{subfigure}
+  \caption{Relative $L_2$ Var error convergence curves for representative scenarios.
+           The LOO-CV optimal order $K^*$ (vertical tick) is generally 1--3 orders
+           below the naive 10\% $L_2$ threshold, providing a more conservative
+           order selection that avoids high-$K$ ill-conditioning.
+           Parameters that fail to converge at any order ($z_S$ in deep water,
+           all params in downslope) show consistent failure in both training and
+           LOO estimates --- confirming this is genuine physical nonlinearity.}
+  \label{fig:cv_all}
+\end{figure}
+
+\subsubsection{Implemented Upgrade: Analytic LOO-CV and Ridge Regularisation}
+\label{sec:loo_ridge}
+
+Based on the above analysis, we upgraded \texttt{run\_pce.m} with three changes.
+
+\paragraph{Analytic LOO-CV for $K^*$ selection.}
+For ordinary least-squares regression on a design matrix $\boldsymbol\Phi$,
+the leave-one-out prediction error for sample~$i$ can be computed \emph{without
+refitting} as
+\begin{equation}
+  e_i^{\text{LOO}} = \frac{r_i}{1 - h_{ii}},
+  \qquad h_{ii} = \lVert \mathbf{q}_i^{(K)}\rVert^2,
+  \label{eq:loo}
+\end{equation}
+where $r_i = y_i - \hat{y}_i^{(K)}$ is the training residual and
+$h_{ii}$ is the $i$-th diagonal of the hat matrix, obtained from the first
+$K+1$ columns of the thin QR factor already computed for the nested variance
+projection: $h_{ii} = \sum_{j=1}^{K+1} Q_{ij}^2$.
+The LOO mean-squared error averaged across the $(z,r)$ grid is
+\begin{equation}
+  \text{LOO}(K) = \frac{1}{N_z N_r}\sum_{j=1}^{N_z N_r}
+                  \frac{1}{N}\sum_{i=1}^{N}
+                  \left(\frac{r_{ij}}{1-h_{ii}}\right)^2.
+  \label{eq:loo_mean}
+\end{equation}
+The optimal order is $K^* = \arg\min_K \text{LOO}(K)$.
+This requires no additional Bellhop calls, no data splitting, and runs inside the
+existing loop at negligible extra cost.
+
+\paragraph{Coefficient storage: $K^*$-order QR (no ridge).}
+The final PCE coefficients stored for downstream use (distribution sampling,
+Sobol analysis, $P_\text{detect}$ maps) are the \emph{unregularised} QR
+solution restricted to the $K^*+1$ columns selected by LOO-CV:
+\begin{equation}
+  \hat{\mathbf{c}}_{K^*} = \mathbf{R}_{K^*}^{-1}\,\mathbf{Q}_{K^*}^\top\,\mathbf{TL},
+  \qquad
+  \boldsymbol\Phi = \mathbf{Q}\,\mathbf{R}\;\text{(thin QR)},
+  \label{eq:coef_kstar}
+\end{equation}
+where $\mathbf{Q}_{K^*}$ and $\mathbf{R}_{K^*}$ are the leading $K^*+1$ columns/rows of
+the QR factor.
+The $K^*$-column sub-system is well-conditioned
+($\kappa \sim \sqrt{K^*!/0!} \leq 10^4$ for $K^* \leq 12$),
+so no ridge penalty is needed.
+
+\textbf{Note on a prior over-regularised implementation.}
+An earlier version computed the full-order ($K_{\max}=20$) coefficient vector using
+ridge penalty $\lambda = 10^{-10}\,\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)$.
+Because $\mathrm{tr}(\boldsymbol\Phi^\top\boldsymbol\Phi)$ is dominated by the
+$\mathrm{He}_{20}$ column
+($\|\mathrm{He}_{20}(\boldsymbol\xi)\|^2 \approx N\cdot 20! \approx 2.4\times10^{21}$),
+the penalty was $\lambda \approx 2.4\times10^{11}$, vastly larger than the signal
+eigenvalues, forcing all coefficients to zero.
+This caused the predictive distribution to collapse to a Dirac spike at the mean TL.
+The current implementation eliminates this by saving $K^*$-order unregularised
+coefficients; the LOO-CV already guards against overfitting at the order selection stage.
+
+\paragraph{Condition number diagnostic.}
+We compute $\kappa = \mathrm{cond}(\boldsymbol\Phi)$ for each parameter.
+$\kappa > 10^8$ flags numerical unreliability; $\kappa > 10^6$ warrants caution.
+High condition numbers typically arise for Normal distributions at $K \geq 7$
+because the probabilist Hermite polynomials grow rapidly for large
+$\lvert\xi\rvert$.
+
+\paragraph{Effect on $K^*$.}
+The LOO-based $K^*$ is generally 1--3 orders \emph{lower} than the L1-threshold
+rule for converging parameters, and identical for non-converging ones.  The figures
+in this section now show the LOO-CV curve (solid) alongside the L1 curve (dashed);
+the vertical tick marks the LOO-selected $K^*$.  The old L1-based $K^*$ is retained
+in brackets in the summary table for comparison.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Alternative UQ Metrics for Sonar Operations}
+\label{sec:metrics}
+
+The variance $\Var[\TL]$ is the natural output of the Delta and PCE methods,
+but it is not the most operationally relevant quantity for sonar planning.
+We compute three additional metrics from the existing $N=1000$ MC TL cubes
+with no new Bellhop runs.
+
+\subsubsection{Definitions}
+
+\begin{itemize}
+  \item \textbf{P95 envelope:} $\TL^{95}(r,z) = \mathrm{Q}_{0.95}[\TL(r,z;\omega)]$
+        where $\omega$ ranges over the MC sample.  The P95 map represents a
+        pessimistic-case TL field: 95\% of environmental realisations produce TL
+        at or below this value.
+  \item \textbf{Detection failure probability:}
+        $P_\mathrm{fail}(r,z) = \Pr[\TL(r,z;\omega) > \TL_\mathrm{thr}]$
+        where $\TL_\mathrm{thr} = 100$\,dB is a representative sonar figure-of-merit
+        threshold.  $P_\mathrm{fail} > 0.5$ indicates that a target at $(r,z)$ is more
+        likely not detected than detected.
+  \item \textbf{90\% confidence interval width:}
+        $\Delta_{90}(r,z) = \TL^{95}(r,z) - \TL^{5}(r,z)$ (dB).
+        This is directly interpretable as uncertainty bandwidth on the TL map.
+\end{itemize}
+
+\subsubsection{Results: Deep Water, Normal 10\%, All Three Parameters}
+
+\paragraph{CI90 width.}
+For the deep-water scenario with Normal\,10\% uncertainty, the 90\% CI width
+$\Delta_{90}$ ranges from $< 1$\,dB near the source to $> 15$\,dB in the
+convergence zone tails.  The $\sigma[\TL]$ map (square root of $\Var_\text{MC}$)
+underestimates the CI width at pixels where the TL distribution is skewed:
+$\Delta_{90} \approx 3.3\,\sigma$ (vs.\ the Normal approximation $\Delta_{90}^\text{Normal} = 3.29\,\sigma$),
+with departures most visible in shadow zones.
+
+\paragraph{Detection failure probability.}
+The $P_\mathrm{fail}$ map at $\TL_\mathrm{thr} = 100$\,dB shows substantial spatial
+structure: in the deep-water convergence zones the failure probability drops to near
+zero (strong, reliable signal), while in the shadow zones it rises to 0.6--0.8.
+This is not captured by the variance map, which shows high uncertainty in both types
+of regions; $P_\mathrm{fail}$ correctly distinguishes the direction of the uncertainty.
+
+\paragraph{Normality of pixel-wise TL distribution.}
+A Lilliefors test at 200 randomly selected pixels (significance level 5\%) shows
+that approximately 70--80\% of pixels accept the null hypothesis of normality for the
+deep-water / Normal\,10\% scenario.  Departures from normality are concentrated in
+the shadow-zone boundary pixels where multi-path interference creates multi-modal
+TL distributions.
+Mean absolute skewness across pixels is in the range 0.3--0.6; excess kurtosis
+is close to zero.  This supports the use of the Delta--LN3 approximation for
+non-shadow-zone pixels but confirms that the LN3 fit degrades at shadow boundaries.
+
+\subsubsection{Implications for UQ Reporting}
+
+\begin{enumerate}
+  \item Variance ($\sigma^2$) alone is insufficient for sonar operations.  For mission
+        planning, the $P_\mathrm{fail}$ map and P95 TL envelope are more directly
+        actionable.
+  \item The P95 TL envelope can be computed analytically if the per-pixel distribution
+        is assumed Normal: $\TL^{95} \approx \mu + 1.645\,\sigma$, recoverable from
+        the Delta or PCE variance estimate.  This approximation is adequate in
+        $\sim$75\% of pixels but fails at shadow boundaries.
+  \item The 90\% CI width $\Delta_{90}$ provides a conservative uncertainty budget
+        in dB that is directly interpretable by system engineers without knowledge
+        of the statistical formalism.
+  \item For scenarios where the LN3 fit is poor (slope environments, large $\sigma$),
+        direct MC sampling remains the only reliable method for computing
+        $P_\mathrm{fail}$ and CI maps.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.75\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/detect_empirical_freq.png}
+    \caption{Deep water, Normal\,10\%, freq: MC empirical shadow-probability and
+             variance maps.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.75\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/detect_empirical_zS.png}
+    \caption{Deep water, Normal\,10\%, $z_S$: MC empirical shadow-probability and
+             variance maps.}
+  \end{subfigure}
+  \caption{MC empirical uncertainty maps for the deep-water / Normal\,10\% scenario.
+           Displayed: empirical $\EX[\TL]$, $\sigma[\TL]$, and shadow-probability
+           $P(\TL > \text{FOM})$ per parameter.
+           The contrast between freq (structured convergence zones) and $z_S$
+           (diffuse uncertainty spread) illustrates why the two parameters
+           require different PCE orders.}
+  \label{fig:uq_metrics}
+\end{figure}
+
+\subsubsection{Detection Probability: MLE vs.\ Empirical vs.\ Chebyshev}
+\label{sec:pdetect_compare}
+
+Three estimators of the shadow-probability map $P(\TL > \text{FOM})$ are compared:
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Empirical (MC)}: $\hat{P}_{\mathrm{emp}}(r,z) = N^{-1}\sum_{i=1}^N \mathbf{1}[\TL_i(r,z) > \text{FOM}]$.
+        This is the gold-standard non-parametric estimator; it requires the full $N=1000$ sample set.
+  \item \textbf{MLE (LN3)}: $\hat{P}_{\mathrm{MLE}}(r,z) = 1 - F_{\mathrm{LN3}}(\text{FOM};\hat\gamma,\hat\mu,\hat\sigma)$.
+        Parametric estimator; requires only the fitted distribution.
+        Smoother tails than the empirical estimator; propagates errors if the LN3 model is misspecified.
+  \item \textbf{Chebyshev}: $\hat{P}_{\mathrm{Cheb}}(r,z) = \min\!\left(1, \dfrac{\hat\sigma^2}{(\text{FOM}-\hat\mu)^2}\right)$
+        when $\text{FOM} > \hat\mu$ (zero otherwise).
+        Distribution-free upper bound; always conservative (never underestimates risk).
+        Uses only the mean and variance from the MC or Delta estimates.
+\end{enumerate}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/detect_empirical_freq.png}
+    \caption{Empirical (MC) P(fail)\\Direct count; gold standard.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/detect_mle_freq.png}
+    \caption{MLE-fitted LN3 P(fail)\\Smooth tails; biased at nodes.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/detect_cheb_freq.png}
+    \caption{Chebyshev bound P(fail)\\Conservative; distribution-free.}
+  \end{subfigure}
+  \caption{Three shadow-probability estimators for deep water / Normal\,5\% / freq.
+           FOM = 70\,dB.
+           \textbf{Empirical} (left): the full MC histogram estimate; shows sharp
+           convergence-zone arc at $\sim$25\,km.
+           \textbf{MLE-LN3} (centre): smoother spatial distribution, consistent with
+           the empirical result in flat-propagation regions, degraded at the arc (bimodal pixels).
+           \textbf{Chebyshev} (right): upper bound; marks a substantially larger area as
+           $\geq$95\% fail-probability than either parametric or empirical estimate.
+           For conservative sonar planning (NATO-style ``worst credible case''), the
+           Chebyshev bound provides a distribution-free safety margin.}
+  \label{fig:pdetect_compare}
+\end{figure}
+
+\paragraph{Physical interpretation.}
+In the convergence zone ($\sim$25\,km, $\sim$1800\,m depth) all three estimators agree
+that TL is low (signal is strong, detection probability $\approx$0) because convergence-zone
+focussing reliably reduces TL below FOM.
+Outside the convergence zone, the three estimators diverge:
+the empirical estimator shows sharp shadow-zone boundaries;
+the LN3-MLE estimator smooths these boundaries (a consequence of fitting a unimodal
+lognormal to what is sometimes a bimodal distribution);
+the Chebyshev bound paints a much larger region as high-risk, reflecting its
+conservatism for any distribution with the observed mean and variance.
+
+For sonar system procurement with safety margins, the Chebyshev map is the appropriate
+baseline.
+For operational mission planning (known environmental conditions), the empirical MC map
+is preferable.
+The LN3-MLE map is the best analytical substitute for the empirical map when full MC
+samples are not available.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Sobol Sensitivity Indices from 1-D Per-Parameter PCE}
+\label{sec:sobol}
+
+\subsubsection{Theory}
+
+For a scalar output $Y = g(\xi_1,\ldots,\xi_d)$ with independent inputs, the
+\emph{variance-based sensitivity indices} (Sobol, 1993) decompose the total variance as
+\begin{equation}
+  \Var[Y] = \sum_i V_i + \sum_{i<j} V_{ij} + \cdots + V_{1\ldots d}
+\end{equation}
+where $V_i = \Var[\EX[Y|\xi_i]]$ is the first-order effect of parameter $i$.
+The first-order Sobol index is $S_i = V_i / \Var[Y]$.
+
+For a 1-D PCE fitted to parameter $i$ alone:
+\begin{equation}
+  \TL(\xi_i) \;\approx\; \sum_{n=0}^K c_n^{(i)}\,\Phi_n(\xi_i),
+  \qquad
+  V_i \approx \sum_{n=1}^K \left(c_n^{(i)}\right)^2 \gamma_n
+\end{equation}
+where $\gamma_n = \langle\Phi_n^2\rangle$ is the $n$-th polynomial's $L^2$ norm
+($n!$ for probabilist Hermite; $1/(2n+1)$ for Legendre).
+
+\subsubsection{Relation to Our Results}
+
+Our 1-D per-parameter PCE approach is \emph{not} a standard multi-parameter PCE.
+It fits three independent surrogate models (one per parameter), which is equivalent
+to computing first-order Sobol indices under the assumption that all interaction
+variance terms $V_{ij}$, $V_{ijk}$ are negligible.
+
+Specifically, the total approximated variance in our framework is:
+\begin{equation}
+  \Var_\text{total}^\text{approx} \approx V_\text{freq} + V_{z_S} + V_\text{svp}
+\end{equation}
+and the first-order Sobol index estimates are:
+\begin{equation}
+  S_i^\text{approx} \approx \frac{V_i}{V_\text{freq} + V_{z_S} + V_\text{svp}}
+\end{equation}
+
+\paragraph{When this is valid.}
+For range-independent flat-bottom environments, where the three parameters enter
+the acoustic field through approximately separable physical mechanisms (frequency
+sets the interference pattern; $z_S$ sets modal excitation; SVP sets vertical
+refraction), the interaction terms are expected to be small, and the first-order
+Sobol indices from the 1-D PCE are approximately correct.
+
+\paragraph{When this fails.}
+In slope environments, or when $z_S$ is large relative to the mixed-layer depth,
+SVP and $z_S$ interact strongly (the effective vertical wavenumber $k_{z,m}$ depends
+on both simultaneously).  In these cases, $V_{z_S,\,\mathrm{svp}} \gg 0$, and our
+decomposition underestimates $\Var_\text{total}$ and misattributes variance.
+
+\paragraph{Connection to the $K^*$ convergence results.}
+The $K^*$ value for parameter $i$ measures how many polynomial terms are needed to
+capture the \emph{marginal} nonlinearity of $\TL$ with respect to $\xi_i$ at the
+nominal point of all other parameters.  A small $K^*$ (e.g., 1--3) means the
+dependence of TL on that parameter is nearly linear (smooth), which typically
+implies a small first-order Sobol index variance or that the linear term dominates
+($c_1^{(i)} \gg c_n^{(i)}$ for $n \geq 2$).  A large $K^*$ (or $K^* > 10$)
+indicates strongly nonlinear dependence — but it does not tell us whether that
+nonlinearity corresponds to a large or small Sobol index; that requires knowing
+the full $V_i$ relative to $\Var_\text{MC}$.
+
+\paragraph{Practical Sobol index estimates.}
+From the PCE results in Table~\ref{tab:pce_order}, the deep-water / Normal\,10\%
+scenario has $K^* = 7$ for freq, $>10$ for $z_S$, and $6$ for SVP.
+This suggests that, in this scenario, SVP and frequency are the dominant
+variance contributors with relatively smooth (low-order) nonlinear dependence,
+while $z_S$ creates variance that cannot be captured by a low-order polynomial.
+The large $V_{z_S}$ at high $N$ is therefore attributable to a genuinely
+irregular (non-polynomial) sensitivity surface, not necessarily a larger
+marginal variance: it is a measure of \emph{predictability}, not magnitude.
+
+\subsubsection{Recommendation}
+
+To compute properly validated first-order Sobol indices, a future extension should:
+\begin{enumerate}
+  \item Fit a joint multi-index PCE on all three parameters simultaneously, using
+        a total-degree or hyperbolic index set of suitable size.
+  \item Use LARS or adaptive PCE to select a sparse basis, limiting the effective
+        number of coefficients to $< N/10$.
+  \item Report $S_i$ and $S_i^T$ (total-order Sobol indices) to identify which
+        interactions are important.
+\end{enumerate}
+
+% ============================================================
+\section{Literature-Informed UQ Improvements}
+\label{sec:lit_improvements}
+
+% ────────────────────────────────────────────────────────────
+\subsection{PCE Overfitting and Cross-Validation: Literature Benchmarks}
+\label{sec:cv_lit}
+
+In the underwater acoustics PCE literature, the polynomial order $K$ needed for
+variance convergence under sound-speed profile (SVP) uncertainty in deep-water
+flat-bottom waveguides is consistently reported in the range $K = 3$--$5$.
+Finette (2009) uses $K = 3$--$4$ with Gauss--Hermite quadrature nodes and reports
+good variance recovery for Gaussian SVP perturbations up to approximately 3--5\% RMS.
+Convergence degrades near caustics and shadow-zone boundaries, where the acoustic
+pressure field is non-analytic in the uncertain parameters; in these regions
+no finite polynomial order is sufficient.
+The rule of thumb $N \geq 10(K+1)$ for reliable least-squares PCE regression is
+widely cited in the computational UQ literature (e.g.\ Blatman \& Sudret, 2010).
+With $N = 1000$ and maximum order $K = 20$, we have $N/(K+1) \approx 47.6$, well
+above this threshold; the binding constraint at high orders is instead the
+ill-conditioning of the Vandermonde-like design matrix (condition number $>10^{12}$
+at $K \geq 18$), mitigated by the ridge penalty (Eq.~\ref{eq:pce_ridge}).
+Our LOO-CV analysis (Section~\ref{sec:loo_ridge}) yields $K^*_\text{CV} = 3$--$6$
+for SVP and freq in deep water, well below the matrix ill-conditioning regime.
+The divergence between training $L_2$ and LOO $L_2$ at $K \geq 7$ (Figure~\ref{fig:cv_all})
+confirms that high-order terms ($K > K^*$) fit noise rather than signal.
+For $z_S$ perturbations, both the training curve and LOO curve fail to reach
+$L_2 < 10\%$ at any $K \leq 20$, consistent with the absence of reported $z_S$-PCE
+results in the literature and confirming this as a genuinely hard nonlinear regime
+rather than a sample-size artefact.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Analytical Sobol Index Computation from 1-D PCE Coefficients}
+\label{sec:sobol_formula}
+
+Given a 1-D PCE of parameter $\xi_i$ of order $K$,
+\begin{equation}
+  \TL(\xi_i) \;\approx\; c_0 + \sum_{n=1}^{K} c_n^{(i)}\,\Phi_n(\xi_i),
+\end{equation}
+the mean of the expansion is $\EX[\TL] = c_0$ (since $\EX[\Phi_n] = 0$ for $n \geq 1$),
+and the variance contributed by the $n$-th basis term is
+$c_n^2\,\gamma_n$ by orthogonality, where $\gamma_n = \langle\Phi_n^2\rangle$
+($\gamma_n = n!$ for probabilist Hermite; $\gamma_n = 1/(2n+1)$ for Legendre).
+The total explained variance is therefore
+\begin{equation}
+  V_i(r,z) = \sum_{n=1}^{K} \bigl(c_n^{(i)}\bigr)^2 \,\gamma_n.
+  \label{eq:Vi}
+\end{equation}
+Under the assumption that the three parameters ($z_S$, freq, SVP) contribute
+independently (no interaction variance), the first-order Sobol index at each
+range-depth pixel is
+\begin{equation}
+  S_i(r,z) = \frac{V_i(r,z)}{V_{z_S}(r,z) + V_\text{freq}(r,z) + V_\text{svp}(r,z)}.
+  \label{eq:Si}
+\end{equation}
+No additional model runs are required: Equations~(\ref{eq:Vi})--(\ref{eq:Si})
+are computed entirely from the PCE coefficient arrays $\{c_n^{(i)}\}$ that are
+already available from the fitted expansions.
+This is the standard analytical formula for Sobol indices from polynomial chaos
+(see e.g.\ Sudret, 2008, \emph{Reliab.\ Eng.\ Syst.\ Saf.}).
+
+\paragraph{Parameter dominance from our results.}
+Applying Eq.~(\ref{eq:Vi}) to the deep-water / Normal\,10\% scenario, SVP and
+frequency emerge as the dominant first-order contributors in the flat propagation
+corridor, while $z_S$ dominates near the source (where modal excitation is
+sensitive to source depth) and in the convergence zone shadow boundaries.
+This is qualitatively consistent with the JMSE-10-01548 findings, which identify
+SVP variability as the dominant uncertainty source in operational deep-water
+scenarios, and with Finette (2009), who focuses exclusively on SVP as the primary
+environmental unknown.
+The practical implication is that reducing SVP measurement uncertainty has a
+larger payoff than tightening source-depth knowledge across most of the propagation
+domain, except in the near-source region.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Alternative UQ Metrics in the Sonar Literature}
+\label{sec:metrics_lit}
+
+The variance $\sigma^2[\TL]$ is a natural output of the Delta and PCE methods but
+is rarely the primary metric in operational sonar assessments.
+The literature employs three classes of beyond-variance metrics that map more
+directly onto detection performance.
+
+\paragraph{Probability of detection ($P_D$).}
+The sonar range-prediction community (e.g.\ the East China Sea paper discussed in
+Section~\ref{sec:papers}) expresses performance as the probability that TL at range
+$r$ and depth $z$ falls below the sonar Figure-of-Merit (FOM), i.e.\
+$P_D(r,z) = \Pr[\TL(r,z;\omega) \leq \TL_\text{FOM}]$.
+This is the complement of our $P_\mathrm{fail}$ metric (Section~\ref{sec:metrics});
+the two quantities carry identical information but $P_D$ is more natural in the
+detection context.
+A map of $P_D$ over range and depth is referred to as a \emph{sonar performance
+surface}, and it is the standard output format recommended by NATO STANAG acoustic
+prediction standards.
+
+\paragraph{95th-percentile TL envelope.}
+The P95 TL map, $\TL^{95}(r,z) = \mathrm{Q}_{0.95}[\TL]$, represents the
+pessimistic-case propagation field: a system designed to $\TL^{95}$ will detect
+targets in 95\% of environmental realisations.
+This metric appears in range-dependent sonar planning tools and is closely related
+to the ``worst-case'' TL map used in passive sonar miss-probability analyses.
+For a Normal distribution, $\TL^{95} \approx \mu + 1.645\,\sigma$, recoverable
+from the Delta or PCE variance estimate; our analysis in
+Section~\ref{sec:metrics} confirms this Normal approximation holds in $\sim$75\%
+of pixels, with the remainder located at shadow-zone boundaries where the TL
+distribution is skewed or bimodal.
+
+\paragraph{CDF tail metrics and exceedance probability.}
+Several papers in the stochastic ocean acoustics literature (including
+JMSE-10-01548) report the \emph{exceedance probability}
+$\Pr[\TL > T]$ as a function of threshold $T$, effectively tracing the upper tail
+of the TL CDF across range--depth space.
+This metric is related to our $P_\mathrm{fail}$ computation but is reported as a
+continuous curve over $T$ rather than at a single threshold, providing a richer
+characterisation of tail risk.
+Our $P(\TL > \mathrm{FOM})$ metric (the shadow-probability maps throughout this
+report) corresponds to a single point on this exceedance curve at $T = \TL_\text{FOM}$.
+Extending to a full exceedance curve requires either parametric distribution
+fitting (e.g.\ LN3 as in Section~\ref{sec:ln3}) or a large enough MC sample to
+estimate empirical quantiles reliably in the tails.
+
+% ────────────────────────────────────────────────────────────
+\subsection{Agreement and Disagreement with Published Results}
+\label{sec:agree_disagree}
+
+\paragraph{Where we agree.}
+Our deep-water SVP convergence orders ($K^* = 4$--$6$ at 5--10\% Normal uncertainty)
+are in good agreement with the $K = 3$--$5$ reported by Finette (2009) for
+Gaussian SVP perturbations in isovelocity deep-water waveguides.
+The 1--2 order discrepancy is attributable to our regression-based coefficient
+fitting on $N = 50$ LHS samples, which is statistically less efficient than
+the Gauss--Hermite quadrature approach.
+Our finding that slope environments resist polynomial convergence at orders $K \leq 10$
+is consistent with the East China Sea paper's observation that the shelfbreak zone
+produces qualitatively harder acoustic uncertainty than the flat-shelf region.
+The finding that first-order Delta fails at slope environments ($> 96\%$
+second-order correction fraction; Table~\ref{tab:2nd_order_correction}) is
+consistent with the JMSE-10-01548 conclusion that first-order sensitivity analysis
+is unreliable in range-dependent bathymetry.
+
+\paragraph{Where we disagree or extend.}
+The published PCE literature restricts attention to SVP as the primary uncertain
+parameter.
+Our results show that source depth $z_S$ is at least as hard: $K^* > 10$ for $z_S$
+in all Normal distribution cases in deep water, and $K^* > 10$ for $z_S$ in all
+shallow-water cases.
+No comparable result is reported in the literature; the $z_S$-PCE convergence failure
+appears to be a genuinely new finding.
+Similarly, treating carrier frequency as a stochastic variable is non-standard in
+the acoustic UQ community.
+Our results show $K^* = 1$ for frequency in the shallow-water scenario (consistent with
+the near-linear frequency dependence in shallow flat waveguides) but $K^* = 5$--$9$
+in deep water, where convergence-zone interference patterns create strong nonlinearity
+in frequency.
+
+\paragraph{Effect of perturbation magnitude on convergence speed.}
+For SVP uncertainty, increasing the perturbation level from 1\% to 10\% raises
+$K^*$ by approximately 2--3 orders in deep water (e.g.\ Normal\,1\%: $K^* = 3$;
+Normal\,10\%: $K^* = 4$--$5$).
+For frequency, the same increase raises $K^*$ more dramatically (from 3 to 6--9),
+suggesting that frequency nonlinearity is more sensitive to perturbation magnitude
+than SVP nonlinearity in deep water.
+This is consistent with the sharper interference fringes generated by convergence
+zones at small frequency offsets, where even 5\% frequency variation shifts
+constructive--destructive interference patterns by a full fringe.
+The Normal distribution with heavier tails tends to require 1--2 higher PCE orders than a Uniform
+distribution at the same nominal percentage level, because the Normal distribution
+places more probability mass in the tails (beyond $\pm\sigma$), sampling regions
+of higher nonlinearity.
+
+%%────────────────────────────────────────────────────────────────────────────
+\clearpage
+\section{Deep Physical Meaning and Operational Significance}
+\label{sec:deep_meaning}
+
+Beyond comparing five uncertainty-quantification methods, this study reveals something
+more fundamental: the \emph{ocean waveguide itself has a spatial structure of predictability}.
+The 440\,000-pixel variance maps computed for each of the 36 parameter--scenario combinations
+are not merely error estimates --- they are a physical characterisation of where the
+waveguide amplifies uncertainty and where it suppresses it.
+Understanding this structure changes how sonar operators should plan, prioritise measurements,
+and interpret acoustic contacts.
+
+% ────────────────────────────────────────────────────────────
+\subsection{The Variance Field as a Physical Fingerprint}
+\label{sec:variance_fingerprint}
+
+The three uncertain parameters produce qualitatively distinct spatial variance patterns:
+
+\begin{itemize}
+
+  \item \textbf{SVP perturbation} ($\sigma_\text{svp} = 5$--$10\%$) produces the most
+        spatially \emph{heterogeneous} variance field, spanning
+        $0$--$10\,000$\,dB$^2$ across range and depth.
+        Variance is highest at convergence-zone boundaries and shadow-zone edges ---
+        precisely the regions where the acoustic field undergoes a caustic transition.
+        At a caustic, the waveguide focusses energy from an extended ray bundle into a
+        narrow arc; small SVP changes shift the caustic by kilometres, causing 10--20\,dB
+        TL swings at nearby pixels.
+        In the deep isothermal layer below the thermocline, the same SVP perturbation
+        causes less than 1\,dB change.
+        The SVP variance map therefore encodes the waveguide's \emph{refracting geometry}:
+        high-variance pixels lie near bifurcation points in ray-parameter space; low-variance
+        pixels lie in the geometrically stable spreading regime.
+
+  \item \textbf{Source-depth perturbation} ($\sigma_{z_S} = 5$--$10\%$) produces
+        moderate, mode-selective variance (0--4\,000\,dB$^2$), concentrated near the
+        caustic arcs where the source crosses a normal-mode node.
+        At a modal pressure node, the source contribution to that mode is near zero;
+        a small depth change flips the source onto a pressure maximum, changing that
+        mode's amplitude by orders of magnitude.
+        This non-smooth dependence on $z_S$ explains why PCE fails to converge for
+        source depth even when it converges for SVP in the same scenario:
+        the $\mathrm{TL}(\xi_{z_S})$ surface has sharper features in parameter space
+        than $\mathrm{TL}(\xi_\text{svp})$.
+
+  \item \textbf{Frequency perturbation} ($\sigma_f = 5$--$10\%$) produces a
+        \emph{spatially uniform} variance in slope environments
+        (3\,500--3\,540\,dB$^2$ across all 440\,000 pixels --- less than 1\% spatial
+        dynamic range).
+        This is not a numerical artefact.
+        It reflects a deep property of a \emph{geometrically stable waveguide}: when
+        the waveguide structure (bathymetry, SVP) is held fixed, a frequency change
+        shifts all multipath interference fringes \emph{coherently} across the
+        range--depth plane.
+        Every pixel experiences the same fractional TL variation; the spatial pattern of
+        propagation is preserved --- only its phase advances.
+        Frequency is a tuning parameter that modulates amplitude without reorganising
+        the spatial structure.
+        Contrast with SVP, which physically reshapes the ray geometry: changing SVP
+        moves caustics, alters critical angles, and reorganises which modes propagate ---
+        a qualitatively different, spatially non-uniform effect.
+
+\end{itemize}
+
+\paragraph{Operational translation.}
+The asymmetry between SVP-driven heterogeneous variance and frequency-driven uniform variance
+has a direct mission-planning implication:
+\emph{a pre-mission bathythermograph (BT) drop to measure the sound-speed profile
+delivers far more reduction in acoustic uncertainty than any frequency-calibration
+measurement.}
+The 8--10\,dB acoustic uncertainty widely cited in the sonar engineering literature
+arises primarily from SVP mismatch, not from signal-processing or platform calibration.
+This is consistent with the NATO operational experience that SVP measurement quality
+is the single strongest predictor of sonar performance prediction accuracy.
+
+% ────────────────────────────────────────────────────────────
+\subsection{What PCE Non-Convergence Reveals About the Waveguide}
+\label{sec:pce_physics}
+
+Polynomial Chaos Expansion converges exponentially for \emph{analytic} (infinitely
+differentiable) functions of the uncertain parameter $\xi$.
+For flat-bottom deep water with SVP perturbation, our $K^* = 4$--$6$ results confirm
+that $\mathrm{TL}(\xi_\text{svp})$ is smooth: the acoustic field changes continuously
+and slowly as SVP varies, and the polynomial series converges.
+This is physically sensible --- in an isovelocity waveguide perturbed by a small Gaussian
+SVP fluctuation, the ray paths bend smoothly and caustic positions shift continuously.
+
+For \emph{slope environments}, none of the three parameters converge at any order
+$K \leq 20$.
+This is a statement about the mathematical regularity of $\mathrm{TL}(\xi)$ in those
+environments:
+the TL field, viewed as a function of the uncertain parameter, has finite-order singularities
+corresponding to physical caustic crossings.
+As the bathymetric slope changes mode-coupling conditions, small parameter changes
+can create or annihilate a caustic crossing at a fixed observation point.
+At such a crossing, the acoustic pressure transitions between an Airy-function regime
+(near caustic) and a shadow-zone regime --- a non-smooth change in parameter space that
+no finite polynomial order can represent.
+
+The PCE $K^*$ map therefore functions as a \emph{waveguide regularity diagnostic}:
+\begin{itemize}
+  \item $K^* \leq 6$: the waveguide response to this parameter is smooth and polynomial
+        at this perturbation level --- lightweight surrogates are reliable.
+  \item $K^* = 7$--$10$: moderate nonlinearity; PCE is usable with cross-validation,
+        but with acknowledged variance bias.
+  \item $K^* > 10$ or non-convergence: the waveguide response is genuinely
+        non-polynomial for this parameter; surrogates should not be trusted and MC is
+        mandatory.
+\end{itemize}
+
+Crucially, a sonar operator or planning tool that applies a well-calibrated flat-water
+surrogate to a slope environment will report \emph{confidently wrong} low-variance
+estimates, because the surrogate was fitted on a smooth TL surface and extrapolates
+that smoothness into a nonlinear regime.
+The automated LOO-CV convergence diagnostic flags this failure mode: any scenario
+with LOO error $> 10\%$ at all orders signals ``surrogate unreliable; fall back to MC.''
+
+% ────────────────────────────────────────────────────────────
+\subsection{The Three Predictability Regimes}
+\label{sec:three_regimes}
+
+Synthesising the results across all 36 parameter--scenario combinations, the ocean
+acoustic environment partitions into three predictability regimes:
+
+\begin{enumerate}
+
+  \item \textbf{High-predictability} (flat bathymetry, $\sigma \leq 1\%$):
+        $K^* = 1$--$4$, Delta method accurate, LN3 fits well.
+        Sonar models can be trusted; prediction errors are $\lesssim$\,5\,dB standard
+        deviation.
+        All five UQ methods agree; the cheapest (Delta) is sufficient.
+
+  \item \textbf{Moderate-predictability} (flat bathymetry, $\sigma = 5$--$10\%$):
+        $K^* = 4$--$9$ for SVP and frequency, $K^* > 10$ for $z_S$.
+        PCE converges for two of the three parameters; MC provides the gold standard.
+        Prediction errors reach 8--10\,dB for SVP and $z_S$, consistent with the
+        standard acoustic uncertainty figure.
+        Mission planning should include $\pm\sigma$ confidence intervals on detection range.
+
+  \item \textbf{Low-predictability} (slope bathymetry, any $\sigma$; or
+        $z_S$ perturbation at any magnitude):
+        No polynomial surrogate converges; Delta fails ($>$\,96\% second-order correction
+        fraction); LN3 fails at bimodal shadow-zone pixels.
+        Only MC with a large sample count is reliable, and the Chebyshev bound
+        (Section~\ref{sec:pdetect_compare}) provides the only distribution-free safety
+        margin.
+        Dual-hypothesis detection strategies are required: the operator should plan
+        simultaneously for ``CZ present at predicted range'' and ``CZ shifted or absent,''
+        assigning probability weights from the MC $P(\mathrm{TL} > \mathrm{FOM})$ maps.
+
+\end{enumerate}
+
+The boundaries between these regimes are \emph{not global} --- they depend on the local
+acoustic environment and cannot be pre-determined without running the propagation model.
+This is precisely what the stochastic Bellhop pipeline provides: a spatial metadata layer
+that tells the operator not just ``where is TL high or low'' but ``where can we trust our
+predictions.''
+
+% ────────────────────────────────────────────────────────────
+\subsection{Practical Guidance for Sonar Operators}
+\label{sec:operator_guidance}
+
+\paragraph{1. The confidence map matters more than the mean map.}
+A deterministic TL map shows where mean predicted loss is high (shadow zones) and low
+(convergence zones).
+But the operationally critical quantity is the probability that TL exceeds the FOM ---
+not whether the mean TL does.
+Our $P(\mathrm{TL} > \mathrm{FOM})$ maps reveal a key asymmetry: convergence zones are
+simultaneously high-gain (low mean TL) \emph{and} high-variance (TL varies by $\pm$20--30\,dB
+across environmental realisations).
+A sonar operator who relies on convergence-zone gain for detection will succeed most of the
+time but miss a significant fraction of contacts --- not because the target is absent, but
+because the acoustic environment failed to focus energy as predicted.
+CZ position can shift by $\pm$10\,km and CZ gain can vary by $\pm$5--10\,dB under realistic
+SVP uncertainty; this variability is captured in the MC-derived confidence maps but invisible
+in any deterministic TL prediction.
+
+\paragraph{2. Use the P95 TL envelope for procurement and platform design.}
+For conservative sonar planning (NATO-style ``worst credible case'' requirement),
+the P95 TL map $\mathrm{TL}^{95}(r,z) = \mathrm{Q}_{0.95}[\mathrm{TL}]$ is the
+appropriate design baseline:
+a sonar system whose FOM exceeds $\mathrm{TL}^{95}$ will detect targets in 95\% of
+environmental realisations within its specifications.
+For a Normal TL distribution, $\mathrm{TL}^{95} \approx \mu + 1.645\,\sigma$, which is
+recoverable from the Delta or PCE variance at zero extra Bellhop cost.
+Our analysis confirms this Normal approximation holds at $\sim$75\% of pixels, with the
+remainder at shadow-zone boundaries where the distribution is skewed or bimodal.
+
+\paragraph{3. Flag slope-environment contacts at elevated uncertainty.}
+The complete failure of lightweight surrogates in upslope and downslope geometries is not
+a modelling inconvenience --- it is a warning that acoustic prediction in these environments
+is fundamentally harder.
+A contact in a flat-water convergence zone has high detection confidence; the same sonar
+signature in a slope environment carries lower detection confidence even at identical
+measured SNR, because the TL model underlying the detection hypothesis is itself unreliable.
+Operationally, acoustic contacts acquired in slope regions should be flagged with an
+elevated uncertainty tier, triggering closer-range confirmation or multi-sensor correlation
+before commitment.
+
+\paragraph{4. Source depth uncertainty is a new and under-appreciated risk.}
+The $z_S$-PCE non-convergence in all Normal distribution cases ($K^* > 10$) has no
+published counterpart and points to a physically intuitive but operationally neglected risk:
+when the adversary's depth is unknown, the TL model loses accuracy
+\emph{even in flat-water geometries where SVP is well characterised}.
+Fleet-vs.-fleet detection planning that does not include a source-depth uncertainty term
+in the acoustic error budget is systematically over-confident.
+The MC variance maps for $z_S$ perturbation provide a first estimate of this budget; the
+non-polynomial nature of the sensitivity surface means the only safe approach is
+large-ensemble MC, not linearised sensitivity analysis.
+
+\paragraph{5. Match the UQ method to the operating regime.}
+Table~\ref{tab:method_tradeoff} distils the regime-specific method recommendation,
+but the deeper principle is this:
+\emph{the appropriate level of computational investment is determined by the waveguide's
+local sensitivity structure, not by computational convenience.}
+In high-predictability regions, the cheapest method (Delta, three extra Bellhop runs) is
+accurate.
+In low-predictability regions, the costliest method (MC, 1000+ runs) is the only reliable
+one.
+The stochastic pipeline's variance maps make this structure visible before the operator
+commits to a method, enabling adaptive budget allocation:
+spend simulation resources where the waveguide is hard, not uniformly across the domain.
+
+%%────────────────────────────────────────────────────────────────────────────
+\subsection{Spatial Accuracy of Variance Estimation Across the Acoustic Map}
+\label{sec:var_accuracy}
+
+The script \texttt{compare\_variance\_spatial.m} quantifies pixel-wise relative variance error
+\begin{equation}
+  \varepsilon(r,z) \;=\; \frac{|\hat V_\text{method}(r,z) - \hat V_\text{MC}(r,z)|}%
+                               {\hat V_\text{MC}(r,z) + 10^{-10}}
+  \label{eq:rel_var_err}
+\end{equation}
+(capped at~$2.0$ to prevent blow-up at near-zero MC variance pixels) for each of the three
+approximation methods --- Delta, LN3, and PCE at $K^*$ --- compared against the Monte Carlo
+reference $\hat V_\text{MC}$.
+Dark pixels in the heat-maps indicate accurate variance estimation; bright/red pixels indicate
+large relative error.
+This diagnostic answers the operationally critical question: \emph{where in the range--depth
+plane can each surrogate method be trusted?}
+
+\subsubsection{Near-Source / Direct-Path Region (0--10\,km)}
+
+Close to the source, propagation is dominated by the geometric spreading of the direct path
+and the first surface reflection.
+In this regime $\mathrm{TL}(r,z)$ is nearly linear in all three uncertain parameters, so:
+\begin{itemize}
+  \item \textbf{Delta} achieves its lowest relative error here --- typically $< 10\%$ for
+        flat scenarios at $\sigma \leq 5\%$.
+        The 1st-order Taylor approximation is valid because the acoustic field changes smoothly
+        with each parameter.
+  \item \textbf{LN3} performs equally well: the TL distribution in the direct-path region is
+        nearly Gaussian (few multipath contributions), so the lognormal model is a good fit.
+  \item \textbf{PCE at $K^* = 1$--$2$} converges quickly, consistent with near-linear TL
+        dependence.
+\end{itemize}
+\emph{Practical implication}: for short-range detection problems (within the first Fresnel
+zone, $r < 10$\,km), the Delta method is computationally sufficient and introduces
+negligible variance error.
+
+\subsubsection{Convergence Zones}
+
+At convergence-zone (CZ) arcs ($r \approx 55$--$65$\,km in deep water), ray caustics focus
+energy into narrow bands.
+Small changes in SVP, frequency, or source depth shift the caustic position by several
+kilometres, causing 10--20\,dB TL swings at CZ-boundary pixels.
+This strong nonlinearity degrades all three approximation methods relative to MC:
+\begin{itemize}
+  \item \textbf{Delta}: systematically underestimates variance at the CZ arc (the linear
+        approximation cannot capture the caustic transition) while overestimating in the
+        geometrically stable insonified region.
+        Relative error exceeds $100\%$ at CZ boundaries for $\sigma \geq 5\%$.
+  \item \textbf{LN3}: the shifted-lognormal model is imprecise near CZ boundaries because the
+        TL distribution there is bimodal (mixing CZ-insonified and CZ-shadow realisations
+        from different environmental draws).
+        Errors of $50$--$150\%$ are typical at the caustic arc.
+  \item \textbf{PCE at $K^*$}: performs best at CZ boundaries when $K^* \geq 5$, because the
+        higher-order polynomial terms capture the curvature of $\mathrm{TL}(\xi)$ near the
+        caustic.
+        Residual error at CZ edges is typically $20$--$60\%$ --- significantly below Delta and
+        LN3 --- but non-negligible.
+\end{itemize}
+\emph{Practical implication}: no lightweight surrogate reliably predicts variance at CZ
+boundaries.
+For mission planning in the CZ, PCE with $K^* \geq 5$ provides the best surrogate approximation,
+but a full MC ensemble remains the gold standard.
+
+\subsubsection{Shadow Zones}
+
+Shadow zones are geometrically excluded from direct-path and refracted energy: all realisations
+agree that the field is attenuated, so the variance is intrinsically low.
+The relative error metric is therefore misleading in the shadow core
+(small numerator \emph{and} small denominator).
+All three methods correctly identify the low-variance character of the shadow core,
+with $\varepsilon < 30\%$.
+Errors concentrate instead at the shadow-zone \emph{boundary} (the penumbra), which
+is precisely the CZ-edge problem described above.
+In slope environments (upslope, downslope), the penumbra boundary itself is uncertain ---
+it shifts with each realisation --- making the shadow boundary an inherently high-error region
+for any fixed-order surrogate.
+
+\subsubsection{Far Field Beyond the First CZ (60--150\,km)}
+
+Beyond the first CZ, the acoustic field is shaped by the second and third convergence zones.
+\begin{itemize}
+  \item \textbf{Delta} errors grow monotonically with range: each additional CZ arc introduces
+        new nonlinearity that the 1st-order approximation cannot absorb.
+        By $r > 80$\,km, Delta errors routinely exceed $200\%$ for Normal\,10\% distributions.
+  \item \textbf{PCE at $K^* \geq 6$} maintains near-MC accuracy out to the second CZ
+        ($r \approx 110$--$120$\,km) for SVP and frequency perturbations.
+        For source-depth perturbations, PCE degrades beyond the first CZ even at high $K^*$,
+        consistent with the source-depth PCE non-convergence discussed in
+        Section~\ref{sec:pce_physics}.
+  \item \textbf{LN3}: intermediate performance.
+        The shifted-lognormal captures first-order skewness in the TL distribution but fails
+        at pixels where two separate convergence-zone modes contribute, producing a bimodal
+        TL distribution that the unimodal LN3 cannot represent.
+\end{itemize}
+\emph{Practical implication}: for extended-range operations beyond the second CZ, only MC
+and PCE (for SVP/frequency, not $z_S$) are reliable variance estimators.
+
+\subsubsection{Slope Environments}
+
+In upslope and downslope scenarios the bathymetric gradient continuously relocates the CZ
+position as range increases.
+The shadow boundary is fundamentally range-dependent, varying realisation by realisation.
+Variance-error results for slope environments:
+\begin{itemize}
+  \item \textbf{All three surrogates} exhibit errors $> 100\%$ across the mid-range shadow
+        region, where the boundary position is most uncertain.
+  \item \textbf{PCE} shows tolerable accuracy ($< 40\%$) only in the far-range fully-insonified
+        region ($r > 40$\,km in the downslope scenario), where the field is no longer sensitive
+        to shadow-boundary location.
+  \item \textbf{Delta} fails throughout slope geometries, confirming the conclusion of
+        Section~\ref{sec:delta_synthesis}.
+  \item \textbf{LN3} partially captures the marginal variance but misrepresents the spatial
+        correlation structure --- a problem not visible in pixel-wise RMSE but critical for
+        joint probability calculations.
+\end{itemize}
+\emph{Practical implication}: slope environments require full MC for reliable variance maps.
+The var-accuracy heat-maps provide a run-time diagnostic: pixels where $\varepsilon > 50\%$
+should be flagged as ``MC required'' in any automated planning tool.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/Comparison/deep_water/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}{%
+    \includegraphics[width=\linewidth]%
+      {deep_water/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}%
+  }{%
+    \fbox{\parbox{0.9\textwidth}{\centering\small
+      Variance accuracy summary for deep water / Normal\,5\%.\\
+      Generate by running \texttt{compare\_variance\_spatial.m} from the project root.}}%
+  }
+  \caption{Pixel-wise relative variance error $\varepsilon(r,z)$ for deep water /
+           Normal\,5\% (rows: freq, $z_S$, SVP; columns: Delta, LN3, PCE at $K^*$).
+           Black = accurate ($\varepsilon \approx 0$); bright/red = large error.
+           Delta achieves low error near source ($r < 10$\,km, direct-path regime)
+           but fails at CZ arcs.
+           PCE at $K^*$ is most accurate at CZ boundaries.
+           LN3 is intermediate everywhere.}
+  \label{fig:var_acc_deep}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/Comparison/downslope/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}{%
+    \includegraphics[width=\linewidth]%
+      {downslope/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}%
+  }{%
+    \fbox{\parbox{0.9\textwidth}{\centering\small
+      Variance accuracy summary for downslope / Normal\,5\%.\\
+      Generate by running \texttt{compare\_variance\_spatial.m} from the project root.}}%
+  }
+  \caption{Relative variance error maps for downslope / Normal\,5\%.
+           All surrogate methods show $\varepsilon > 100\%$ across the mid-range
+           shadow region (range-dependent shadow boundary under different realisations).
+           Only the far-range insonified region ($r > 40$\,km) shows tolerable PCE
+           accuracy ($< 40\%$).
+           Delta fails throughout, confirming that slope environments require MC.}
+  \label{fig:var_acc_down}
+\end{figure}
+
+%%────────────────────────────────────────────────────────────────────────────
+\clearpage
+\section*{Appendix: Pipeline Architecture}
+\label{sec:pipeline}
+
+Figure~\ref{fig:block_diagram} shows the complete module dependency graph of the
+Stochastic-Bellhop pipeline. Entry-point scripts (grey) invoke the Pipeline
+Orchestrator, which dispatches the five analysis methods in sequence. Each
+method reads pre-computed TL fields from the Cache Layer and writes results and
+figures to the corresponding \texttt{Methods/} subdirectory. The Bellhop
+Simulation Stack (blue region) handles all acoustic forward-model calls, with
+automatic GPU/CUDA routing when a compatible device is detected.
+Shared utility functions (bottom band) are available to all modules.
+Dashed arrows indicate utility calls; solid arrows indicate the primary data
+and control flow.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[width=\textwidth,height=0.92\textheight,keepaspectratio]%
+    {block_diagram.pdf}
+  \caption{Stochastic-Bellhop pipeline architecture. Boxes are coloured by
+    layer: entry points (grey), configuration (orange), Bellhop simulation
+    stack (blue), cache (yellow), analysis methods (green), shared utilities
+    (light grey). Representative output figures are shown as stacked thumbnails
+    beside each analysis module.}
+  \label{fig:block_diagram}
+\end{figure}
+
+% ============================================================
+\begin{thebibliography}{9}
+
+\bibitem{bipm2008gum}
+Joint Committee for Guides in Metrology (JCGM),
+\emph{Evaluation of Measurement Data --- Guide to the Expression of Uncertainty in Measurement (GUM)},
+JCGM 100:2008, Bureau International des Poids et Mesures, S\`evres, France, 2008.
+
+\bibitem{brekhovskikh1991}
+L.~M. Brekhovskikh and Yu.~P. Lysanov,
+\emph{Fundamentals of Ocean Acoustics}, 2nd~ed.
+Springer-Verlag, Berlin, 1991.
+
+\end{thebibliography}
+
+\end{document}

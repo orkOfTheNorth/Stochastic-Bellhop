@@ -1,0 +1,668 @@
+%% presentation.tex — ~20-slide Beamer presentation (~15 min)
+%% Stochastic Bellhop UQ: uncertainty quantification of underwater acoustic TL
+
+\documentclass[aspectratio=169,12pt]{beamer}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+
+%% ── Theme ───────────────────────────────────────────────────────────────────────
+\usetheme{Madrid}
+\usecolortheme{whale}
+
+\definecolor{navyblue}{RGB}{0,70,127}
+\definecolor{accentteal}{RGB}{0,128,128}
+\setbeamercolor{palette primary}{bg=navyblue,fg=white}
+\setbeamercolor{palette secondary}{bg=navyblue!80,fg=white}
+\setbeamercolor{palette tertiary}{bg=navyblue!60,fg=white}
+\setbeamercolor{frametitle}{bg=navyblue,fg=white}
+\setbeamercolor{title}{fg=white,bg=navyblue}
+\setbeamercolor{alerted text}{fg=accentteal}
+\setbeamerfont{frametitle}{series=\bfseries}
+
+%% ── graphicspath (TEXINPUTS must point to project root) ─────────────────────────
+\graphicspath{
+  {Methods/MC/deep_water/Normal_5pct/figures/}
+  {Methods/MC/shallow_water/Normal_5pct/figures/}
+  {Methods/Delta/deep_water/Normal_5pct/figures/}
+  {Methods/PCE/deep_water/Normal_5pct/figures/}
+  {Methods/PCE/}
+  {Methods/LN3/deep_water/figures/}
+  {Methods/LN3/deep_water/Normal_5pct/figures/}
+  {Methods/Comparison/deep_water/Normal_5pct/figures/}
+  {Methods/MC_convergence/deep_water/figures/}
+  {docs/}
+}
+
+%% ── Math helpers ────────────────────────────────────────────────────────────────
+\newcommand{\EX}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\TL}{\mathrm{TL}}
+
+%% ── Footer ──────────────────────────────────────────────────────────────────────
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+      \usebeamerfont{author in head/foot}Stochastic Bellhop UQ
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.34\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+      \usebeamerfont{title in head/foot}\insertshorttitle
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.33\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+      \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+    \end{beamercolorbox}}%
+}
+
+%% ═════════════════════════════════════════════════════════════════════════════════
+\title[Stochastic TL UQ]{Uncertainty Quantification of\\Underwater Acoustic Transmission Loss}
+\subtitle{Monte Carlo $\cdot$ Delta/FOSM $\cdot$ PCE $\cdot$ LN3}
+\author{Stochastic Bellhop Project}
+\date{\today}
+
+\begin{document}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 1 — Title
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 2 — Motivation
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Motivation: Why Stochastic Transmission Loss?}
+  \begin{columns}[T]
+    \begin{column}{0.55\textwidth}
+      \textbf{Sonar planning requires TL}, but inputs are uncertain:
+      \begin{itemize}
+        \item Source frequency $f$ drifts with temperature
+        \item Source depth $z_S$ fluctuates with platform motion
+        \item Sound Velocity Profile (SVP) varies with ocean state
+      \end{itemize}
+      \vspace{0.8em}
+      \textbf{Nominal deterministic TL} (single Bellhop run) gives
+      no information about \alert{how much} TL can vary and
+      \alert{how likely} a target is detectable.
+
+      \vspace{0.8em}
+      \textbf{This project:} compare four UQ methods for cost vs accuracy
+      across 4 range/depth scenarios and 3 perturbation magnitudes.
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \begin{block}{Key Question}
+        Given $\theta \sim \mathcal{N}(\mu,\sigma^2)$,\\[3pt]
+        what is $P(\TL(\theta) < \mathrm{FOM})$?\\[6pt]
+        \textit{(Shadow probability / detection probability)}
+      \end{block}
+      \vspace{0.5em}
+      \begin{alertblock}{Figure of Merit (FOM)}
+        Detection threshold in dB.\\
+        $P_{\text{detect}} = P(\TL < \mathrm{FOM})$
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 3 — Problem Setup
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Problem Setup: Scenarios, Parameters, Distributions}
+  \begin{columns}[T]
+    \begin{column}{0.45\textwidth}
+      \textbf{4 bathymetry scenarios:}
+      \begin{itemize}
+        \item \textbf{deep\_water} — isovelocity, flat bottom
+        \item \textbf{shallow\_water} — continental shelf
+        \item \textbf{upslope} — rising bathymetry
+        \item \textbf{downslope} — descending bathymetry
+      \end{itemize}
+
+      \vspace{0.6em}
+      \textbf{3 uncertain parameters} (perturbed independently):
+      \begin{align*}
+        f &\sim \mathcal{N}(\mu_f,\,(\tfrac{p}{200}\mu_f)^2)\\
+        z_S &\sim \mathcal{N}(\mu_z,\,(\tfrac{p}{200}\mu_z)^2)\\
+        \Delta T &\sim \mathcal{N}(0,\sigma_s^2)
+      \end{align*}
+    \end{column}
+    \begin{column}{0.52\textwidth}
+      \textbf{3 perturbation levels:} $p\in\{1\%, 5\%, 10\%\}$
+
+      \vspace{0.5em}
+      \begin{tabular}{@{}lrl@{}}
+        \toprule
+        \textbf{Combos} & $4\times3\times3$ & $=36$ total \\
+        \textbf{MC per combo} & $N=1000$ & LHS samples \\
+        \textbf{Total Bellhop runs} & $36\,000$ & \\
+        \textbf{Output grid} & $N_z\times N_r$ & depth $\times$ range \\
+        \bottomrule
+      \end{tabular}
+
+      \vspace{0.8em}
+      \textbf{UQ methods compared:}
+      \begin{enumerate}
+        \item Monte Carlo (MC) — reference
+        \item Delta / FOSM — 1st-order Taylor
+        \item PCE — Polynomial Chaos Expansion
+        \item LN3 — 3-parameter Lognormal MLE
+      \end{enumerate}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 4 — Pipeline Overview
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Pipeline Overview}
+  \begin{center}
+    \includegraphics[width=0.88\textwidth]{block_diagram.pdf}
+  \end{center}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 5 — MC Theory
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Method 1: Monte Carlo ($N=1000$ LHS)}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Estimators:}
+      \begin{align*}
+        \hat\EX[\TL] &= \frac{1}{N}\sum_{i=1}^N TL_i \\[4pt]
+        \hat\Var[\TL] &= \frac{1}{N-1}\sum_{i=1}^N (TL_i - \hat\mu)^2 \\[4pt]
+        \hat P_{\text{det}} &= \frac{1}{N}\sum_{i=1}^N \mathbf{1}[TL_i < \mathrm{FOM}]
+      \end{align*}
+
+      \vspace{0.5em}
+      \textbf{Sampling:} Latin Hypercube Sampling (LHS) ensures stratified
+      coverage of the input space with exactly $N=1000$ samples.
+
+      \vspace{0.5em}
+      \textbf{Cost:} 1000 Bellhop runs per scenario/distribution/parameter.
+      All other methods reuse this cache — \alert{zero marginal cost}.
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Convergence of} $\hat\EX$ \textbf{and} $\hat\Var$ vs.\ $N$
+      (sub-samples of $N=1000$ cache):
+      \begin{center}
+        \includegraphics[width=\linewidth]{mc_conv_mean_svp.png}
+      \end{center}
+      {\small Mean converges by $N\approx50$;
+       Var requires $N\approx200$--$500$.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 6 — MC Results
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{MC Results: Mean TL and Variance Maps}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Mean TL} under $z_S$ perturbation\\(deep water, Normal 5\%):
+      \begin{center}
+        \includegraphics[width=\linewidth]{TL_zS.png}
+      \end{center}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Variance maps} for all 3 parameters:
+      \begin{center}
+        \includegraphics[width=\linewidth]{combined_Var.png}
+      \end{center}
+      {\small $\Var[\TL]$ is highest in the shadow zone transition region.
+       Frequency perturbation dominates at long range.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 7 — Delta Theory
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Method 2: Delta / FOSM (First-Order Second-Moment)}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{1st-order Taylor expansion} around nominal $\boldsymbol\mu$:
+      \[
+        TL(\boldsymbol\theta) \approx TL(\boldsymbol\mu)
+          + \sum_k J_k(\theta_k - \mu_k)
+      \]
+      where $J_k = \partial TL/\partial\theta_k\big|_{\boldsymbol\mu}$
+      (computed by finite differences — 3 extra Bellhop runs).
+
+      \vspace{0.5em}
+      \textbf{Variance propagation:}
+      \[
+        \Var[\TL] \approx \sum_k \sigma_k^2 J_k^2
+      \]
+
+      \textbf{Shadow probability} (Chebyshev upper bound):
+      \[
+        P_{\text{shd}} \geq 1 - \frac{\Var[\TL]}{\Var[\TL] + d^2}
+      \]
+      where $d = TL_{\text{nom}} - \mathrm{FOM}$.
+
+      \vspace{0.5em}
+      \textbf{Cost:} 3 FD evaluations per parameter.
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{alertblock}{When Delta works}
+        $\sigma \leq 1\%$, flat bathymetry — TL is nearly linear.
+        Var maps accurate; shadow prob reliable.
+      \end{alertblock}
+      \vspace{0.5em}
+      \begin{alertblock}{When Delta fails}
+        Slope environments, large $\sigma$ — shadow zone boundary
+        is non-smooth; linearisation breaks.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 8 — Delta Results
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Delta Results: Shadow Probability Maps}
+  \begin{center}
+    \includegraphics[width=0.78\textwidth]{shadow_70_MC_vs_Delta_freq.png}
+  \end{center}
+  \vspace{0.3em}
+  {\small \textbf{Left:} MC empirical $P_{\text{det}}$ (reference).
+   \textbf{Right:} Delta/Chebyshev $P_{\text{shd}}$ (upper bound).
+   At 1\% perturbation the maps nearly coincide; discrepancy grows at $\geq5\%$.}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 9 — PCE Theory
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Method 3: Polynomial Chaos Expansion (PCE)}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      Approximate TL as a polynomial in the standardised input
+      $\xi = (\theta-\mu)/\sigma$:
+      \[
+        TL(\xi) \approx \sum_{k=0}^{K} a_k\,\Psi_k(\xi)
+      \]
+      where $\Psi_k$ are \textbf{Hermite polynomials}
+      (orthogonal w.r.t.\ $\mathcal{N}(0,1)$).
+
+      \vspace{0.6em}
+      \textbf{Coefficients} via projection (reusing MC samples):
+      \[
+        a_k = \frac{\langle TL, \Psi_k\rangle}{\langle\Psi_k^2\rangle}
+      \]
+
+      \textbf{Then:} $\EX[\TL] = a_0$,
+      $\Var[\TL] = \sum_{k=1}^{K} a_k^2 \langle\Psi_k^2\rangle$.
+
+      \vspace{0.5em}
+      \textbf{Order selection} $K^*$ via \alert{leave-one-out cross-validation
+      (LOO-CV)} on the combined mean + variance error.
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{block}{LOO-CV Error (combined)}
+        \[
+          \ell(K) = \alpha\,\ell_{\mathbb{E}}(K) + (1-\alpha)\,\ell_V(K)
+        \]
+        $K^* = \arg\min_K \ell(K)$
+      \end{block}
+      \vspace{0.5em}
+      \begin{block}{Why not just maximise $K$?}
+        At $K\geq18$, the Vandermonde matrix becomes
+        ill-conditioned despite $N/(K+1)\approx47$.
+        High-order Hermite polynomials blow up at $|\xi|>2$,
+        distorting the reconstructed distribution.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 10 — PCE Convergence
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{PCE: LOO-CV Order Selection (Deep Water, Normal 5\%)}
+  \begin{center}
+    \includegraphics[width=0.88\textwidth]{pce_convergence_deep_water_Normal_5pct.png}
+  \end{center}
+  {\small 8-panel figure: top row — LOO-CV error vs $K$ for mean (blue), variance
+   (orange), combined (red), with $K^*$ marked.
+   Bottom row — MC vs PCE(K*) scatter plots.}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 11 — PCE Order Relevance and K* Table
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{PCE: Order Relevance and $K^*$ Across All Combos}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \textbf{LOO error at $K^*$} — how much each parameter
+      ``needs'' higher-order expansion:
+      \begin{center}
+        \includegraphics[width=\linewidth]{pce_order_relevance.png}
+      \end{center}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \textbf{Selected $K^*$ (all 12 scenario/dist combos):}
+
+      \vspace{0.4em}
+      {\small
+      \begin{tabular}{@{}lrrr@{}}
+        \toprule
+        Scenario / Dist & freq & $z_S$ & SVP \\
+        \midrule
+        deep / 1\%      & 7  & 6 & 6 \\
+        deep / 5\%      & 7  & 5 & 6 \\
+        deep / 10\%     & 7  & 5 & 6 \\
+        shallow / 1\%   & 8  & 9 & 7 \\
+        shallow / 5\%   & 7  & 5 & 8 \\
+        shallow / 10\%  & 7  & 5 & 6 \\
+        upslope / 1\%   & 8  & 5 & 5 \\
+        upslope / 5\%   & 10 & 5 & 7 \\
+        upslope / 10\%  & 12 & 6 & 7 \\
+        downslope / 1\% & 7  & 6 & 5 \\
+        downslope / 5\% & 8  & 6 & 7 \\
+        downslope / 10\%& 11 & 6 & 7 \\
+        \bottomrule
+      \end{tabular}}
+
+      \vspace{0.4em}
+      {\small $K^*=5$--$9$ for flat scenarios;
+       $K^*=10$--$12$ for slope environments.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 12 — PCE vs MC Distribution
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{PCE vs MC: TL Distribution Comparison}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      Each pixel's TL distribution is compared between:
+      \begin{itemize}
+        \item \textbf{MC histogram} (1000 samples)
+        \item \textbf{PCE($K^*$) histogram} (synthetic samples
+              drawn from the polynomial surrogate)
+      \end{itemize}
+      \vspace{0.4em}
+      \textbf{Key insight:} Using $K=K_{\max}=20$ instead of $K^*$
+      causes \alert{Hermite blow-up} at $|\xi|>2$, producing a
+      spurious PCE mean near 0 dB vs MC mean of 100--120 dB.
+
+      \vspace{0.4em}
+      Using $K=K^*$ coefficients only gives correct distributions.
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \IfFileExists{Methods/PCE/deep_water/Normal_5pct/figures/pce_dist_deep_water_Normal_5pct.png}{%
+        \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_dist_deep_water_Normal_5pct.png}
+      }{%
+        \begin{block}{\small Figure pending}
+          {\small\texttt{pce\_dist} figure generating...\\
+          Run \texttt{regenerate\_pce\_dist.m}}
+        \end{block}
+      }
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 13 — LN3 Theory
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Method 4: 3-Parameter Lognormal (LN3) — MLE}
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      \textbf{Model:} $TL - \gamma \sim \mathrm{LN}(\mu, \sigma^2)$
+
+      \vspace{0.5em}
+      \textbf{Shift parameter:} $\gamma = 0.95\min(TL)$ (heuristic)
+
+      \vspace{0.5em}
+      \textbf{MLE estimation} of $(\mu, \sigma)$ via MATLAB \texttt{lognfit}
+      on shifted samples $Y = TL - \gamma$:
+      \begin{align*}
+        \hat\mu &= \overline{\log Y} \\
+        \hat\sigma &= \mathrm{std}(\log Y)
+      \end{align*}
+
+      \vspace{0.5em}
+      \textbf{Shadow probability:}
+      \[
+        P(TL < \mathrm{FOM}) = \Phi_\mathrm{LN}(\mathrm{FOM}-\gamma;\,\hat\mu,\hat\sigma)
+      \]
+
+      \vspace{0.5em}
+      \textbf{Validation:} KS statistic $D = \sup_x |F_\mathrm{LN}(x) - \hat F_\mathrm{emp}(x)|$
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \begin{block}{MLE vs MOM}
+        Method of moments (MOM) estimator:
+        \begin{align*}
+          \hat\sigma^2_\mathrm{MOM} &= \log(\hat M_2/\hat M_1^2) \\
+          \hat\mu_\mathrm{MOM} &= \log(\hat M_1) - \tfrac{1}{2}\hat\sigma^2
+        \end{align*}
+        \alert{MLE outperforms MOM} at nearly all pixels
+        (lower KS statistic), especially at small sample sizes
+        and near-symmetric distributions.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 14 — LN3 KS Fit Quality
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{LN3 Results: KS Goodness-of-Fit Heatmap}
+  \begin{center}
+    \includegraphics[width=0.70\textwidth]{LN3_RMSE_all.png}
+  \end{center}
+  {\small \textbf{Heatmap:} KS statistic at every range--depth pixel.
+   Low values (blue, KS $<\!0.05$) = good fit.
+   Elevated values (red) appear at \alert{bimodal pixels} where two acoustic
+   paths (direct + bottom-bounce) create a non-lognormal distribution.
+   Median KS $\approx 0.03$--$0.05$ across all scenarios.}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 15 — Detection Probability: Three Estimators
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Detection Probability: Three Estimators Compared}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \begin{center}
+        \includegraphics[width=\linewidth]{detect_mle_freq.png}
+      \end{center}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \vspace{1em}
+      \begin{tabular}{@{}lll@{}}
+        \toprule
+        \textbf{Estimator} & \textbf{Type} & \textbf{Properties} \\
+        \midrule
+        Empirical MC & exact & gold standard \\
+                     & (ecdf) & sampling noise \\[4pt]
+        MLE-LN3 & param. & smooth maps \\
+                & fit    & fails bimodal \\[4pt]
+        Chebyshev & upper & conservative \\
+                  & bound & always valid \\
+        \bottomrule
+      \end{tabular}
+
+      \vspace{0.8em}
+      \textbf{Use MLE-LN3} where KS $<\!0.05$.\\
+      \textbf{Use Chebyshev} when only mean and variance are available (Delta method).\\
+      \textbf{Use Empirical MC} as ground truth.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 16 — Method Comparison
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Comprehensive Method Comparison}
+  \begin{center}
+  \renewcommand{\arraystretch}{1.4}
+  \begin{tabular}{@{}lllll@{}}
+    \toprule
+    \textbf{Method} & \textbf{Extra Cost} & \textbf{$\sigma\leq1\%$} & \textbf{$\sigma=5$--$10\%$} & \textbf{Slopes} \\
+    \midrule
+    Delta   & 3 FD runs & \textcolor{green!60!black}{Excellent} & \textcolor{orange}{Marginal} & \textcolor{red}{Fails} \\
+    PCE($K^*$) & 0 (reuses MC) & \textcolor{green!60!black}{Good} & \textcolor{green!60!black}{Good} & \textcolor{orange}{Marginal} \\
+    LN3-MLE & 0 (reuses MC) & \textcolor{green!60!black}{Good} & \textcolor{green!60!black}{Good} & \textcolor{green!60!black}{Good} \\
+    MC ($N=1000$) & 1000 runs & \textcolor{green!60!black}{Gold std.} & \textcolor{green!60!black}{Gold std.} & \textcolor{green!60!black}{Gold std.} \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \vspace{0.8em}
+  \begin{columns}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Recommended hierarchy}
+        \begin{enumerate}
+          \item Delta at $\sigma\leq1\%$, flat bathy
+          \item PCE at $\sigma=5$--$10\%$, flat bathy
+          \item MC for slopes or $z_S$ uncertainty
+        \end{enumerate}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{alertblock}{LN3 role}
+        Use LN3-MLE for \textbf{distributional shape}
+        and compact shadow-probability maps.
+        Not a primary variance estimator.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 17 — Scenario Comparison
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Scenario Comparison: Deep vs Shallow vs Slope}
+  \begin{center}
+  \renewcommand{\arraystretch}{1.3}
+  {\small
+  \begin{tabular}{@{}lp{3.8cm}p{3.8cm}p{4.5cm}@{}}
+    \toprule
+    \textbf{Scenario} & \textbf{PCE $K^*$ (freq)} & \textbf{Delta accuracy} & \textbf{Key characteristic} \\
+    \midrule
+    deep\_water   & 7 (all dists) & Excellent at 1\% & Classic ray convergence zone;
+                                                       Var largest near CZ boundary \\[4pt]
+    shallow\_water & 7--8          & Excellent at 1\% & Mode interference dominant;
+                                                        $z_S$ uncertainty hardest \\[4pt]
+    upslope       & 8--12         & Fails at 5\%+  & Bathymetry traps energy;
+                                                      shadow zone very sensitive \\[4pt]
+    downslope     & 7--11         & Fails at 5\%+  & Energy leaks into deep water;
+                                                      large TL variance at transition \\
+    \bottomrule
+  \end{tabular}}
+  \end{center}
+
+  \vspace{0.6em}
+  \textbf{Key takeaway:} Slope scenarios \alert{require MC} — the shadow zone boundary
+  moves non-linearly with any perturbation, breaking both Delta and PCE.
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 18 — SVP Perturbation
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{SVP Perturbation: Physical Interpretation}
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      The SVP perturbation model applies a uniform temperature shift
+      $\Delta T \sim \mathcal{N}(0,\sigma_s^2)$ to the entire profile,
+      coupled with a mixed-layer depth (MLD) change:
+      \begin{itemize}
+        \item Warmer $\Delta T > 0$: steeper gradient, stronger downward refraction
+        \item Cooler $\Delta T < 0$: weaker gradient, surface duct collapses
+      \end{itemize}
+      \vspace{0.5em}
+      This creates \alert{non-linear} shifts in shadow zone boundaries —
+      particularly sensitive in upslope/downslope scenarios.
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \begin{block}{SVP uncertainty effect}
+        SVP perturbation at 10\% causes the largest variance maps
+        among the three parameters in deep water,
+        because the convergence zone boundary is highly sensitive
+        to sound speed gradient changes.
+      \end{block}
+      \vspace{0.4em}
+      \begin{alertblock}{PCE for SVP}
+        $K^*$ for SVP: 5--8 (flat), consistent convergence.
+        SVP does \textbf{not} show the $z_S$-type resistance
+        that prevents convergence in deep water.
+      \end{alertblock}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 19 — Key Findings
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Key Findings}
+  \begin{enumerate}\itemsep10pt
+    \item \textbf{Delta is near-exact at 1\% perturbation} for flat bathymetry.
+          Only 3 extra Bellhop runs needed.
+          Fails at slope boundaries where TL is non-smooth in parameter space.
+
+    \item \textbf{PCE converges with $K^*=5$--$9$} for flat scenarios (freq, SVP).
+          Slope environments reach $K^*=10$--$12$, signalling that polynomial
+          surrogacy approaches its limit.
+          $z_S$ uncertainty in deep water \alert{resists PCE convergence} even at
+          $K_{\max}=20$: the shadow zone shifts non-linearly with source depth.
+
+    \item \textbf{LN3-MLE is reliable} (KS $<\!0.05$) across most of the
+          range--depth grid.
+          Fails at bimodal interference nodes; use empirical MC or Chebyshev there.
+
+    \item \textbf{All analytical methods reuse the $N=1000$ MC cache} at zero
+          marginal Bellhop cost.
+          The question is not ``can we afford PCE?'' but
+          ``\alert{does the PCE surrogate add information beyond empirical MC?}''
+          For flat bathymetry at $\sigma=5$--$10\%$: \textbf{yes}.
+  \end{enumerate}
+\end{frame}
+
+%% ──────────────────────────────────────────────────────────────────────────────
+%% SLIDE 20 — Conclusions and Future Work
+%% ──────────────────────────────────────────────────────────────────────────────
+\begin{frame}{Conclusions and Future Work}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \textbf{Conclusions:}
+      \begin{itemize}\itemsep5pt
+        \item Four UQ methods benchmarked across 36 scenario/distribution combos
+        \item Delta is the cheapest and best for small perturbations
+        \item PCE extends reliable UQ to moderate perturbations at zero extra cost
+        \item LN3-MLE provides smooth, compact shadow-probability maps
+        \item MC remains necessary for slope environments and $z_S$ uncertainty
+        \item Detection probability can be bounded tightly with Chebyshev
+              or estimated compactly with LN3-MLE
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \textbf{Future Work:}
+      \begin{itemize}\itemsep5pt
+        \item \textbf{3D bathymetry} — extend from 2D range--depth to 3D
+        \item \textbf{Range-dependent SVP} — spatially varying sound velocity
+        \item \textbf{Multi-parameter PCE} — joint expansion over all 3 params
+              (currently 1D per-parameter)
+        \item \textbf{Bayesian updating} — use sonar returns to narrow
+              parameter uncertainty in real-time
+        \item \textbf{Operational interface} — integrate with sonar planning tools
+      \end{itemize}
+
+      \vspace{0.5em}
+      \begin{center}
+        \textbf{Code:} Stochastic-Bellhop\\
+        \textbf{Branch:} 13.0-ACADEMIC-RESTRUCTURE
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\end{document}

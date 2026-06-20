@@ -1,0 +1,49 @@
+# Large binary caches and results — not committed
+bellhop_09122025/2026-05-26/cache/
+bellhop_09122025/2026-05-26/Monte_Carlo/TL_cache/
+bellhop_09122025/2026-05-26/Monte_Carlo/results/*.mat
+bellhop_09122025/2026-05-26/Delta_Method/results/*.mat
+bellhop_09122025/2026-05-26/Decision_Tree/results/*.mat
+bellhop_09122025/2026-05-26/Comparison/results/*.mat
+bellhop_09122025/2026-05-26/Waveguide/results/*.mat
+
+# Stochastic Bellhop project — Bellhop run cache (~16 GB of .mat files)
+stochastic_TL_maps_project/Cache/
+
+# All .mat binary results (large files not suitable for version control)
+*.mat
+
+# Bellhop runtime files (generated during each run)
+*.bty
+*.env
+*.prt
+*.shd
+*.arr
+
+# Log files
+*.log
+update_all_log.txt
+*_log.txt
+
+# MATLAB session files
+*.asv
+*.m~
+
+# Generated figures (regenerate from MATLAB scripts)
+*.png
+*.fig
+
+# Allow pipeline output figures to be committed
+!stochastic_TL_maps_project/Methods/**/*.png
+!stochastic_TL_maps_project/validation/analytical/figures/*.png
+
+# LaTeX build artifacts
+*.aux
+*.out
+*.pdf
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz

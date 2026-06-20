@@ -1,0 +1,312 @@
+%% poster.tex — A0 landscape beamerposter
+%% Stochastic Bellhop UQ: four-method comparison
+
+\documentclass[final]{beamer}
+
+\usepackage[size=a0,orientation=landscape,scale=1.35]{beamerposter}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+%% ── Colour palette ─────────────────────────────────────────────────────────────
+\definecolor{headerblue}{RGB}{0,70,127}
+\definecolor{accentteal}{RGB}{0,128,128}
+\definecolor{lightgray}{RGB}{245,245,245}
+\definecolor{blockhead}{RGB}{0,90,140}
+
+%% ── Beamer theme ───────────────────────────────────────────────────────────────
+\usetheme{default}
+\setbeamercolor{structure}{fg=headerblue}
+\setbeamercolor{block title}{fg=white, bg=blockhead}
+\setbeamercolor{block body}{fg=black, bg=lightgray}
+\setbeamercolor{block title alerted}{fg=white, bg=accentteal}
+\setbeamercolor{block body alerted}{fg=black, bg=white}
+\setbeamerfont{block title}{size=\large,series=\bfseries}
+\setbeamerfont{block body}{size=\normalsize}
+
+%% ── Column layout helper ───────────────────────────────────────────────────────
+\newlength{\colsep}
+\setlength{\colsep}{0.012\paperwidth}
+\newlength{\colwidth}
+\setlength{\colwidth}{0.235\paperwidth}
+
+\newcommand{\postercolumn}[1]{%
+  \begin{minipage}[t]{\colwidth}#1\end{minipage}}
+
+\newcommand{\colspacer}{\hspace{\colsep}}
+
+%% ── Tight figure helper ────────────────────────────────────────────────────────
+\newcommand{\posterfig}[2][0.98]{%
+  \begin{center}
+    \includegraphics[width=#1\linewidth]{#2}
+  \end{center}}
+
+%% ── Math shorthands ────────────────────────────────────────────────────────────
+\newcommand{\EX}{\mathbb{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\TL}{\mathrm{TL}}
+
+%% ── graphicspath: relative to project root (set TEXINPUTS when compiling) ──────
+\graphicspath{
+  {Methods/MC/deep_water/Normal_5pct/figures/}
+  {Methods/MC/}
+  {Methods/Delta/deep_water/Normal_5pct/figures/}
+  {Methods/PCE/deep_water/Normal_5pct/figures/}
+  {Methods/LN3/deep_water/figures/}
+  {Methods/LN3/deep_water/Normal_5pct/figures/}
+  {Methods/Comparison/deep_water/Normal_5pct/figures/}
+  {Methods/MC_convergence/deep_water/figures/}
+  {docs/}
+}
+
+%% ═══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+\begin{frame}[t]{}
+
+%% ── HEADER BANNER ──────────────────────────────────────────────────────────────
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[headerblue]
+    (current page.north west) rectangle
+    ([yshift=-8.5cm]current page.north east);
+  \node[anchor=west, text=white, font=\huge\bfseries, xshift=2.5cm]
+    at ([yshift=-2.8cm]current page.north west)
+    {Uncertainty Quantification of Underwater Acoustic Transmission Loss};
+  \node[anchor=west, text=white!85, font=\Large, xshift=2.5cm]
+    at ([yshift=-5.2cm]current page.north west)
+    {Stochastic Bellhop: Monte Carlo $\cdot$ Delta/FOSM $\cdot$ Polynomial Chaos Expansion $\cdot$ 3-Parameter Lognormal};
+  \node[anchor=east, text=white!70, font=\large, xshift=-2.5cm]
+    at ([yshift=-4.0cm]current page.north east)
+    {4 Scenarios $\;\cdot\;$ 3 Input Distributions $\;\cdot\;$ 3 Uncertain Parameters};
+\end{tikzpicture}
+
+\vspace{8.8cm}
+
+%% ── FOUR COLUMNS ───────────────────────────────────────────────────────────────
+\postercolumn{%
+
+  %% ── Col 1: Problem Setup ────────────────────────────────────────────────────
+  \begin{block}{Problem Setup}
+    Sonar performance depends on Transmission Loss (TL),
+    which is uncertain due to variability in \textbf{source frequency} ($f$),
+    \textbf{source depth} ($z_S$), and \textbf{sound velocity profile} (SVP).
+
+    \vspace{0.5em}
+    \textbf{Goal:} Efficiently propagate input uncertainty through the Bellhop
+    ray-tracing model and estimate $\EX[\TL]$, $\Var[\TL]$, and the shadow
+    probability $P(\TL < \mathrm{FOM})$.
+
+    \vspace{0.5em}
+    \begin{tabular}{@{}ll@{}}
+      \toprule
+      \textbf{Scenarios} & deep, shallow, upslope, downslope \\
+      \textbf{Distributions} & Normal 1\%, 5\%, 10\% \\
+      \textbf{Parameters} & $f$, $z_S$, SVP \\
+      \textbf{MC budget} & $N=1000$ LHS + $N=1000$ IID per combo \\
+      \textbf{Total runs} & $4\times3\times3\times2\times1000=72\,000$ \\
+      \bottomrule
+    \end{tabular}
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{Input Uncertainty Model}
+    Each parameter is perturbed independently:
+    \begin{align*}
+      f &\sim \mathcal{N}\!\left(\mu_f,\,\left(\tfrac{p}{200}\mu_f\right)^{\!2}\right)\\[2pt]
+      z_S &\sim \mathcal{N}\!\left(\mu_z,\,\left(\tfrac{p}{200}\mu_z\right)^{\!2}\right)\\[2pt]
+      \Delta T &\sim \mathcal{N}(0,\,\sigma_s^2)\quad\text{(SVP shift)}
+    \end{align*}
+    where $p\in\{1,5,10\}$\% sets the perturbation magnitude.
+    Samples generated via Latin Hypercube Sampling (LHS).
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{Pipeline Overview}
+    \posterfig[0.95]{block_diagram.pdf}
+  \end{block}
+
+}\colspacer
+%% ────────────────────────────────────────────────────────────────────────────────
+\postercolumn{%
+
+  %% ── Col 2: MC & Delta ───────────────────────────────────────────────────────
+  \begin{block}{Monte Carlo Reference ($N=1000$)}
+    The empirical estimators
+    $\hat\EX[\TL]=\tfrac{1}{N}\sum_i TL_i$ and
+    $\hat\Var[\TL]=\tfrac{1}{N-1}\sum_i(TL_i-\hat\mu)^2$
+    serve as the \textbf{gold standard}.
+
+    \vspace{0.4em}
+    \textbf{Mean TL and variance} under $z_S$ perturbation (deep water, Normal 5\%):
+    \posterfig{TL_zS.png}
+
+    \textbf{Variance maps} for all three parameters:
+    \posterfig{combined_Var.png}
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{MC Estimator Convergence}
+    Both $\hat\EX$ and $\hat\Var$ computed from sub-samples of the $N=1000$ cache
+    (no new Bellhop runs):
+    \posterfig{mc_conv_mean_svp.png}
+    Mean stabilises by $N\!\approx\!50$; variance requires $N\!\approx\!200$--$500$.
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{Delta / FOSM Method}
+    First-order Taylor expansion around the nominal:
+    \[
+      \Var[\TL] \approx \sum_k \sigma_k^2\,J_k^2,\quad
+      J_k = \frac{\partial TL}{\partial\theta_k}\bigg|_{\boldsymbol\mu}
+    \]
+    Shadow probability via Chebyshev bound:
+    $P_\text{shd} \geq 1 - \Var[\TL]\,/\,(\Var[\TL]+d^2)$,
+    where $d = TL_\text{nom} - \mathrm{FOM}$.
+
+    \vspace{0.4em}
+    \textbf{MC vs Delta shadow maps} (70\% threshold, deep water):
+    \posterfig{shadow_70_MC_vs_Delta_freq.png}
+    Delta is \textbf{exact at $\sigma\leq1\%$}, degrades at $\geq5\%$ for slope environments.
+  \end{block}
+
+}\colspacer
+%% ────────────────────────────────────────────────────────────────────────────────
+\postercolumn{%
+
+  %% ── Col 3: PCE & LN3 ────────────────────────────────────────────────────────
+  \begin{block}{Polynomial Chaos Expansion (PCE)}
+    TL is approximated as a polynomial in the standardised input $\xi$:
+    \[
+      TL \approx \sum_{k=0}^{K^*} a_k\,\Psi_k(\xi),\quad
+      a_k = \frac{\langle TL,\Psi_k\rangle}{\langle\Psi_k^2\rangle}
+    \]
+    where $\Psi_k$ are Hermite polynomials.
+    The optimal order $K^*$ is selected by \textbf{leave-one-out cross-validation}
+    (LOO-CV) on the combined mean and variance error.
+
+    \vspace{0.4em}
+    \textbf{LOO-CV convergence and PCE order relevance (deep water):}
+    \posterfig[0.99]{pce_convergence_deep_water_Normal_5pct.png}
+    \posterfig[0.85]{pce_order_relevance.png}
+
+    \vspace{0.3em}
+    \textbf{Selected orders $K^*$ (all 12 combos):}
+
+    \vspace{0.3em}
+    {\small
+    \begin{tabular}{@{}lrrr@{}}
+      \toprule
+      Scenario / Dist & freq & $z_S$ & SVP \\
+      \midrule
+      deep / 1\%  & 7 & 6 & 6 \\
+      deep / 5\%  & 7 & 5 & 6 \\
+      deep / 10\% & 7 & 5 & 6 \\
+      shallow / 1\% & 8 & 9 & 7 \\
+      shallow / 5\% & 7 & 5 & 8 \\
+      shallow / 10\% & 7 & 5 & 6 \\
+      upslope / 1\%  & 8 & 5 & 5 \\
+      upslope / 5\%  & 10 & 5 & 7 \\
+      upslope / 10\% & 12 & 6 & 7 \\
+      downslope / 1\%  & 7 & 6 & 5 \\
+      downslope / 5\%  & 8 & 6 & 7 \\
+      downslope / 10\% & 11 & 6 & 7 \\
+      \bottomrule
+    \end{tabular}}
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{3-Parameter Lognormal (LN3) — MLE Fitting}
+    Each pixel's TL distribution is fitted as $TL-\gamma \sim \mathrm{LN}(\mu,\sigma^2)$
+    with heuristic shift $\gamma = 0.95\min(TL)$.
+    Parameters $(\mu,\sigma)$ are estimated via \textbf{Maximum Likelihood} (\texttt{lognfit}).
+    Shadow probability: $P(\TL<\mathrm{FOM}) = \Phi_\mathrm{LN}(\mathrm{FOM}-\gamma;\mu,\sigma)$.
+
+    \vspace{0.4em}
+    \textbf{KS goodness-of-fit (RMSE heatmap, deep water):}
+    \posterfig{LN3_RMSE_all.png}
+    Median KS $\approx 0.03$--$0.05$; elevated at bimodal pixels (interference nodes).
+    \textbf{MLE outperforms MOM} (method of moments) at nearly all pixels.
+  \end{block}
+
+}\colspacer
+%% ────────────────────────────────────────────────────────────────────────────────
+\postercolumn{%
+
+  %% ── Col 4: Comparison & Conclusions ────────────────────────────────────────
+  \begin{block}{Detection Probability: Three Estimators}
+    \posterfig{detect_mle_freq.png}
+
+    \vspace{0.3em}
+    {\small
+    \begin{tabular}{@{}lll@{}}
+      \toprule
+      \textbf{Estimator} & \textbf{Type} & \textbf{Use} \\
+      \midrule
+      Empirical MC & exact (N=1000) & gold standard \\
+      MLE-LN3 & parametric & smooth maps \\
+      Chebyshev & upper bound & conservative \\
+      \bottomrule
+    \end{tabular}}
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{Method Tradeoff Summary}
+    {\small
+    \begin{tabular}{@{}p{2.6cm}p{3.0cm}p{3.8cm}@{}}
+      \toprule
+      \textbf{Method} & \textbf{Cost} & \textbf{When to use} \\
+      \midrule
+      Delta & 3 extra FD runs & $\sigma\leq1\%$, flat bathy \\
+      PCE ($K^*$ via LOO) & 0 extra & $\sigma=5$--$10\%$, flat bathy \\
+      LN3-MLE & 0 extra & distributional shape, $P$-maps \\
+      MC ($N=1000$) & 1000 runs & slopes, $z_S$, large $\sigma$ \\
+      \bottomrule
+    \end{tabular}}
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{alertblock}{Key Findings}
+    \begin{enumerate}\itemsep4pt
+      \item \textbf{Delta is near-exact at 1\%} perturbation for flat bathymetry;
+            fails at slope boundaries where the TL response is non-smooth.
+      \item \textbf{PCE converges with} $K^*\!=\!5$--$9$ for flat scenarios;
+            reaches $K^*\!=\!10$--$12$ for slope/large-$\sigma$ cases,
+            signalling the edge of polynomial surrogacy.
+      \item \textbf{LN3-MLE is reliable} (KS $<\!0.05$) across most of the
+            range--depth grid; bimodal interference zones require MC.
+      \item \textbf{$z_S$ uncertainty is hardest to approximate}:
+            the shadow-zone boundary shifts non-linearly with depth,
+            requiring full MC even at 5\% perturbation in deep water.
+    \end{enumerate}
+  \end{alertblock}
+
+  \vspace{0.6em}
+  \begin{block}{Conclusions}
+    For operational sonar planning:
+    \begin{itemize}\itemsep3pt
+      \item Start with \textbf{Delta} (near-zero cost, reliable at $\sigma\leq1\%$)
+      \item Upgrade to \textbf{PCE} for moderate uncertainty in flat environments
+      \item Fall back to \textbf{MC} for slope environments or source-depth uncertainty
+      \item Use \textbf{LN3-MLE} for compact shadow-probability estimation
+    \end{itemize}
+  \end{block}
+
+  \vspace{0.6em}
+  \begin{block}{References}
+    {\footnotesize
+    \textbf{[1]} Porter, M.B. (2011). \textit{The Bellhop Manual.} HLS Research.\\[3pt]
+    \textbf{[2]} Brekhovskikh, L. \& Lysanov, Yu. (2003).
+      \textit{Fundamentals of Ocean Acoustics.} Springer.\\[3pt]
+    \textbf{[3]} BIPM (2008). \textit{Evaluation of Measurement Data (GUM).}
+      JCGM 100:2008.
+    }
+  \end{block}
+
+}% end col 4
+
+\end{frame}
+\end{document}
