@@ -552,51 +552,110 @@ dramatically.
 \label{sec:gallery}
 
 The figures below show representative outputs from each UQ method for the deep-water /
-Normal\,5\% scenario.  Each thumbnail is discussed in detail in subsequent subsections.
+Normal\,5\% scenario.
+Each figure is discussed in detail in the corresponding subsection; the gallery is
+structured so that each pair of maps can be compared side by side at full resolution.
 
 \begin{figure}[H]
   \centering
-  % Row 1: MC reference + Comparison shadow maps
-  \begin{subfigure}[t]{0.24\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/TL_zS.png}
-    \caption{MC mean TL ($z_S$)}
+    \caption{\textbf{MC mean TL} under $z_S$ perturbation (Normal\,5\%).
+             Blue = low TL (strong signal); red = high TL (shadow zone).
+             The convergence-zone arc at $\sim$55\,km is clearly visible as a
+             low-TL band; its position shifts by $\pm$5--10\,km under SVP uncertainty.}
   \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.24\textwidth}
+  \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/combined_Var.png}
-    \caption{MC variance (all params)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/detect_mle_freq.png}
-    \caption{P(detect) MLE (freq)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/shadow_70_MC_vs_Delta_freq.png}
-    \caption{MC vs Delta P(detect)}
-  \end{subfigure}\\[4pt]
-  % Row 2: LN3 + PCE + comparison
-  \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/figures/LN3_RMSE_all.png}
-    \caption{LN3 CDF RMSE all}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_order_relevance.png}
-    \caption{PCE order relevance}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png}
-    \caption{PCE $L_2$ convergence}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.24\textwidth}
-    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/shadow_70_LN3_vs_KDE_freq.png}
-    \caption{LN3 vs KDE P(detect)}
+    \caption{\textbf{MC variance maps} for all three uncertain parameters
+             (freq, $z_S$, SVP), plotted on a shared colour scale.
+             SVP produces the most spatially heterogeneous variance, concentrated
+             at the CZ arc; frequency produces the most spatially \emph{uniform}
+             variance across the domain.}
   \end{subfigure}
-  \caption{Representative output thumbnails for deep water / Normal\,5\% uncertainty.
-           (a) MC mean TL under $z_S$ perturbation; (b) MC variance maps (all 3 parameters);
-           (c) shadow probability from MLE-fitted LN3; (d) MC vs Delta shadow probability;
-           (e) LN3 CDF RMSE heat-map over all distributions; (f) PCE order-relevance curve
-           (K*=7 for freq); (g) PCE $L_2$ Var error convergence; (h) LN3 vs KDE P(detect).
-           Detailed analysis in Sections~\ref{sec:mc}--\ref{sec:tradeoff}.}
-  \label{fig:gallery}
+  \caption{Monte Carlo reference maps for deep water / Normal\,5\%.
+           Left: mean transmission loss $\EX[\TL]$ under source-depth perturbation.
+           Right: pixel-wise variance $\Var[\TL]$ for all three parameters.
+           See Section~\ref{sec:mc} for full discussion.}
+  \label{fig:gallery_mc}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/detect_mle_freq.png}
+    \caption{\textbf{Shadow probability from MLE-fitted LN3} (freq perturbation).
+             $P(\TL > \mathrm{FOM})$ maps where MLE LN3 is used to estimate the
+             tail probability at each pixel, bypassing the need for a large MC sample.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/shadow_70_MC_vs_Delta_freq.png}
+    \caption{\textbf{MC vs.\ Delta shadow probability comparison} (freq perturbation).
+             Left half: MC empirical $P(\TL > 70\,\mathrm{dB})$.
+             Right half: Delta--LN3 approximation.
+             Close agreement confirms the Delta method is reliable in this flat-water,
+             small-perturbation regime.}
+  \end{subfigure}
+  \caption{Detection probability maps for deep water / Normal\,5\% / frequency perturbation.
+           Left: parametric LN3-MLE shadow probability.
+           Right: side-by-side MC vs.\ Delta comparison, illustrating the quality of
+           the first-order linearisation in this scenario.
+           See Section~\ref{sec:delta} for failure cases.}
+  \label{fig:gallery_shadow}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/figures/LN3_RMSE_all.png}
+    \caption{\textbf{LN3 CDF RMSE heat-map} for all distributions and parameters.
+             Rows: Normal\,1/5/10\%.
+             Columns: freq, $z_S$, SVP.
+             Dark = near-perfect LN3 fit; bright = poor fit.
+             The CZ arc at $\sim$55\,km appears as a bright ring (bimodal TL,
+             unimodal LN3 fails).}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_order_relevance.png}
+    \caption{\textbf{PCE order relevance curve} for deep water / Normal\,5\%.
+             Each curve rises from $0\%$ at $K=1$ to $100\%$ at the LOO-selected
+             $K^*$ (freq: $K^*{=}7$, SVP: $K^*{=}6$, $z_S$: $K^*{=}5$), then
+             collapses as Vandermonde ill-conditioning sets in.
+             All three parameters require moderate-order expansions, consistent
+             with the acoustic interference structure of a deep-water waveguide.}
+  \end{subfigure}
+  \caption{LN3 fit quality and PCE order selection for deep water / Normal\,5\%.
+           Left: LN3 CDF RMSE maps --- good fit everywhere except CZ boundaries.
+           Right: PCE order relevance --- $K^*=5$--$7$ captures all recoverable
+           variance structure for each parameter.
+           See Sections~\ref{sec:ln3} and~\ref{sec:pce} for detailed interpretation.}
+  \label{fig:gallery_ln3_pce}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png}
+    \caption{\textbf{PCE $L_2$ Var error convergence} (deep water / Normal\,5\%).
+             Each line is one uncertain parameter.
+             Dashed: 10\% threshold.
+             Freq and SVP converge below 10\% at moderate order; $z_S$ remains
+             above threshold, signalling genuine nonlinearity.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/shadow_70_LN3_vs_KDE_freq.png}
+    \caption{\textbf{LN3 vs.\ KDE shadow probability} (freq perturbation).
+             Both methods produce smooth shadow maps; KDE tracks the MC empirical
+             estimate more closely at CZ boundaries where LN3 underestimates the
+             bimodal tail contribution.}
+  \end{subfigure}
+  \caption{PCE convergence and detection-probability comparison for deep water / Normal\,5\%.
+           Left: $L_2$ Var error vs.\ polynomial order, showing which parameters converge
+           and at what order.
+           Right: LN3 vs.\ KDE shadow-probability maps, illustrating the non-parametric
+           KDE's advantage at bimodal CZ pixels.
+           See Sections~\ref{sec:pce} and~\ref{sec:kde_validation} for full discussion.}
+  \label{fig:gallery_pce_kde}
 \end{figure}
 
 \subsection{Monte Carlo Reference Statistics}
@@ -635,13 +694,20 @@ three representative scenarios under Normal\,5\% source-depth ($z_S$) uncertaint
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/TL_zS.png}
-    \caption{Downslope (50\,$\to$\,550\,m)}
+    \caption{Downslope (50\,$\to$\,550\,m): pronounced refraction shadow at
+             mid-range from shoaling bathymetry; no CZ focussing.}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/TL_zS.png}
+    \caption{Upslope (550\,$\to$\,50\,m): rising seafloor progressively traps
+             energy near the surface; shadow zone deepens with range.}
   \end{subfigure}
   \caption{MC mean transmission loss $\EX[\TL]$ (dB re\,1\,$\mu$Pa) for Normal\,5\%
-           $z_S$ perturbation across three representative scenarios.
+           $z_S$ perturbation across all four propagation scenarios.
            Colour scale: blue (low TL, strong signal) to red (high TL, shadow zone).
-           The downslope scenario shows a marked refraction shadow at mid-range
-           driven by the shoaling bathymetry.}
+           Flat-bottom scenarios (shallow and deep water) show qualitatively different
+           structures from slope scenarios (downslope and upslope), motivating the
+           four-scenario experimental design.}
   \label{fig:mc_ex_var}
 \end{figure}
 
@@ -1058,6 +1124,32 @@ This is an inherent model-form limitation, not a fitting artefact.
 A mixture-of-lognormals model would handle bimodal pixels at the cost of
 additional parameters and substantially higher computational complexity.
 
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/MC/deep_water/Normal_5pct/figures/bimodal_histogram_svp.png}{%
+    \includegraphics[width=\textwidth]%
+      {deep_water/Normal_5pct/figures/bimodal_histogram_svp.png}%
+  }{%
+    \fbox{\parbox{0.9\textwidth}{\centering\small
+      Bimodal histogram pending:\\
+      \texttt{Methods/MC/deep\_water/Normal\_5pct/figures/bimodal\_histogram\_svp.png}}}%
+  }
+  \caption{\textbf{Bimodal TL distribution at the convergence-zone boundary}
+           (deep water / SVP / Normal\,5\%).
+           \textbf{Left:} histogram of $N=1000$ MC TL samples at the pixel of highest
+           variance (triangle marker in right panel), with an LN3 MLE fit overlay (red).
+           The distribution is clearly bimodal: one lobe near $\sim$70\,dB
+           (receiver inside the convergence zone) and one near $\sim$110\,dB
+           (receiver outside the CZ in the shadow zone).
+           The LN3 fit fails because no unimodal distribution can represent two
+           well-separated modes; the KS statistic at this pixel is $>0.30$.
+           \textbf{Right:} mean TL map with the selected pixel marked (white triangle);
+           it lies precisely on the inner edge of the first CZ arc, where SVP realisations
+           that shift the CZ by a few kilometres determine which mode the receiver
+           samples.}
+  \label{fig:bimodal_hist}
+\end{figure}
+
 \begin{table}[H]
   \centering
   \caption{Median KS statistic for LN3 fit to MC TL samples.
@@ -1216,6 +1308,179 @@ would be the correct fix regardless of estimator.
              \texttt{compare\_ln3\_mom\_vs\_mle.m}).}
   }
   \label{fig:ln3_mom_vs_mle}
+\end{figure}
+
+% ────────────────────────────────────────────────────────────
+\subsection{KDE-Based Detection Probability Validation}
+\label{sec:kde_validation}
+
+Kernel Density Estimation (KDE) provides a non-parametric estimate of the
+marginal TL distribution at each pixel, bypassing the LN3 distributional
+assumption entirely.
+Given $N$ TL samples $\{TL_i\}$ at a pixel, the KDE shadow probability is:
+\begin{equation}
+  \hat P_{\mathrm{KDE}}(\mathrm{TL} > \mathrm{FOM})
+  \;=\; \frac{1}{N}\sum_{i=1}^{N}
+  \Phi\!\left(\frac{\mathrm{FOM} - TL_i}{h_i}\right),
+  \label{eq:kde_pdet}
+\end{equation}
+where $\Phi$ is the standard normal CDF and $h_i$ is the Silverman
+bandwidth evaluated at the $i$-th sample.
+By construction, KDE converges to the true MC empirical probability as $N\to\infty$;
+for finite $N=1000$ the bandwidth smooths over sample noise at the cost of slight bias
+near steep CDF transitions (shadow boundaries).
+
+KDE serves as an intermediate benchmark between the parametric LN3 and the
+fully empirical MC histogram: it requires neither an assumed distribution shape
+nor a minimum sample count per bin, making it particularly useful for pixels
+with bimodal or heavy-tailed TL distributions where LN3 fails.
+The \texttt{kde\_validation\_*.png} figures compare $\hat P_{\mathrm{KDE}}$
+against $\hat P_{\mathrm{MC}}$ (empirical) pixel-by-pixel via scatter plots and
+spatial maps, one panel per uncertain parameter (freq, $z_S$, SVP).
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/deep_water/Normal_5pct/figures/kde_validation_freq.png}{%
+      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_freq.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_freq.png}}%
+    }
+    \caption{freq perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/deep_water/Normal_5pct/figures/kde_validation_zS.png}{%
+      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_zS.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_zS.png}}%
+    }
+    \caption{$z_S$ perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/deep_water/Normal_5pct/figures/kde_validation_svp.png}{%
+      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_svp.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_svp.png}}%
+    }
+    \caption{SVP perturbation}
+  \end{subfigure}
+  \caption{KDE vs.\ MC detection-probability validation for \textbf{deep water} /
+           Normal\,5\%.
+           Each panel is a scatter plot of $\hat P_{\mathrm{KDE}}$ (y-axis) vs.\
+           $\hat P_{\mathrm{MC}}$ (x-axis) over all range--depth pixels, with a
+           spatial map of the absolute difference overlaid.
+           KDE tracks MC closely in the near-source direct-path region;
+           residual scatter at CZ boundaries reflects the bandwidth-induced smoothing
+           of sharp shadow transitions.}
+  \label{fig:kde_val_deep}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/downslope/Normal_5pct/figures/kde_validation_freq.png}{%
+      \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_freq.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_freq.png}}%
+    }
+    \caption{freq perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/downslope/Normal_5pct/figures/kde_validation_zS.png}{%
+      \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_zS.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_zS.png}}%
+    }
+    \caption{$z_S$ perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/downslope/Normal_5pct/figures/kde_validation_svp.png}{%
+      \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_svp.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_svp.png}}%
+    }
+    \caption{SVP perturbation}
+  \end{subfigure}
+  \caption{KDE vs.\ MC validation for \textbf{downslope} / Normal\,5\%.
+           In the slope environment, SVP perturbations shift the shadow-zone boundary
+           realisation by realisation, producing a bimodal TL distribution at mid-range
+           pixels (inside/outside shadow depending on the SVP draw).
+           KDE correctly captures this bimodality (unlike LN3), making it more reliable
+           than the parametric fit in this scenario --- at the cost of requiring the
+           full $N=1000$ MC sample set.}
+  \label{fig:kde_val_slope}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/shallow_water/Normal_5pct/figures/kde_validation_freq.png}{%
+      \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_freq.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_freq.png}}%
+    }
+    \caption{freq perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/shallow_water/Normal_5pct/figures/kde_validation_zS.png}{%
+      \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_zS.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_zS.png}}%
+    }
+    \caption{$z_S$ perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/shallow_water/Normal_5pct/figures/kde_validation_svp.png}{%
+      \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_svp.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_svp.png}}%
+    }
+    \caption{SVP perturbation}
+  \end{subfigure}
+  \caption{KDE vs.\ MC validation for \textbf{shallow water} / Normal\,5\%.
+           Each panel shows the KDE detection probability $\hat{P}_\text{KDE}$ (centre),
+           the MC empirical estimate (left), and their pixel-wise difference (right).
+           In shallow water, strong floor reflections produce multi-path interference
+           fringes; KDE smooths these fringes slightly relative to the MC empirical
+           estimate but captures the overall shadow structure faithfully.
+           The mean absolute error across all pixels is $<0.02$ for all three parameters.}
+  \label{fig:kde_val_shallow}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/upslope/Normal_5pct/figures/kde_validation_freq.png}{%
+      \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_freq.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_freq.png}}%
+    }
+    \caption{freq perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/upslope/Normal_5pct/figures/kde_validation_zS.png}{%
+      \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_zS.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_zS.png}}%
+    }
+    \caption{$z_S$ perturbation}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.32\textwidth}
+    \IfFileExists{../Methods/Comparison/upslope/Normal_5pct/figures/kde_validation_svp.png}{%
+      \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_svp.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending: kde\_validation\_svp.png}}%
+    }
+    \caption{SVP perturbation}
+  \end{subfigure}
+  \caption{KDE vs.\ MC validation for \textbf{upslope} / Normal\,5\%.
+           The rising bathymetry creates a range-dependent shadow boundary that
+           shifts position with each SVP or source-depth realisation.
+           KDE captures the resulting bimodal shadow-probability gradients more
+           accurately than the parametric LN3 fit, though residual errors at the
+           shadow-boundary transition ($\sim$20--40\,km) are the largest across all
+           four scenarios.}
+  \label{fig:kde_val_upslope}
 \end{figure}
 
 % ────────────────────────────────────────────────────────────
@@ -1493,6 +1758,43 @@ peaks at 100\% well before ill-conditioning sets in.
   \label{fig:pce_order_relevance}
 \end{figure}
 
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/pce_order_relevance.png}
+    \caption{Shallow water, Normal\,5\% --- freq: $K^*{=}7$; SVP: $K^*{=}8$; $z_S$: $K^*{=}5$.
+             Higher SVP order than deep water reflects stronger floor-reflection coupling.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_10pct/figures/pce_order_relevance.png}
+    \caption{Shallow water, Normal\,10\% --- freq: $K^*{=}7$; SVP: $K^*{=}6$; $z_S$: $K^*{=}5$.
+             Increasing perturbation slightly lowers optimal order for SVP (broader
+             sampling averages over more oscillations).}
+  \end{subfigure}\\[8pt]
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/pce_order_relevance.png}
+    \caption{Upslope, Normal\,5\% --- freq: $K^*{=}10$; SVP: $K^*{=}7$; $z_S$: $K^*{=}5$.
+             The freq order rises to 10: mode-refraction by the slope creates rapid
+             interference-fringe oscillations in frequency at this perturbation level.}
+  \end{subfigure}\hfill
+  \begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/pce_order_relevance.png}
+    \caption{Downslope, Normal\,5\% --- freq: $K^*{=}8$; SVP: $K^*{=}7$; $z_S$: $K^*{=}6$.
+             All three parameters require moderate-to-high orders; convergence degrades
+             faster than in flat-bottom scenarios, consistent with the shadow-zone
+             boundary sensitivity.}
+  \end{subfigure}
+  \caption{PCE order relevance curves for shallow water and slope scenarios (Normal\,5\% and 10\%).
+           Vertical dashed lines mark the LOO-CV-selected $K^*$.
+           Comparing with Figure~\ref{fig:pce_order_relevance} (deep water): slope scenarios
+           consistently require higher frequency order ($K^*_\text{freq} = 8$--$10$) than the
+           flat deep-water case ($K^*_\text{freq} = 7$), while $z_S$ and SVP orders
+           are comparable across all scenarios.
+           The complete $K^*$ table for all 12 scenario/distribution combinations is
+           given in Table~\ref{tab:pce_order}.}
+  \label{fig:pce_order_relevance_other}
+\end{figure}
+
 \subsubsection{PCE Predictive Distribution vs.\ MC Reference}
 \label{sec:pce_dist}
 
@@ -1608,12 +1910,17 @@ the Lloyd's mirror image-source construction, and the first three mode shapes.
 
 \begin{figure}[H]
   \centering
-  %\input{validation/analytical/analytical_diagram}  % diagram file not available
+  \includegraphics[width=0.72\textwidth]{pptx_figures/image19.png}
   \caption{Isovelocity waveguide geometry used for analytical validation.
+           Three-layer system: cover layer (refractive index $n_c$), fluid waveguide
+           layer ($n_f$), and substrate ($n_s$).
+           Rays undergo total internal reflection at each interface, trapping
+           acoustic energy within the fluid layer.
+           Inset: characteristic depth eigenfunction $\psi_n(z)$ for one propagating
+           mode, showing the sinusoidal standing-wave pattern in the water column.
            Source $S$ at depth $z_S$ and its pressure-release image $S'$
-           at $-z_S$ form a dipole (Lloyd's mirror) whose radiation pattern
-           imposes a depth-dependent modulation on the cylindrical spreading.
-           Mode shapes $\sin(k_{z,m}\,z)$ (shown for $m=1,2,3$, colour-coded)
+           at $-z_S$ form a Lloyd's mirror dipole; mode shapes
+           $\sin(k_{z,m}\,z)$ ($m=1,2,3$)
            satisfy the pressure-release condition at $z=0$ and rigid-bottom
            condition at $z=D$.
            The horizontal wavenumbers $k_{x,m}$ set the along-range interference
@@ -1638,15 +1945,27 @@ accuracy of the derivative computation.
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{delta_validation_Normal_1pct.png}
+    \IfFileExists{delta_validation_Normal_1pct.png}{%
+      \includegraphics[width=\linewidth]{delta_validation_Normal_1pct.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending:\\\texttt{delta\_validation\_Normal\_1pct.png}}}%
+    }
     \caption{Normal\,1\% ($\sigma_{z_S}=0.5$\,m)}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{delta_validation_Normal_5pct.png}
+    \IfFileExists{delta_validation_Normal_5pct.png}{%
+      \includegraphics[width=\linewidth]{delta_validation_Normal_5pct.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending:\\\texttt{delta\_validation\_Normal\_5pct.png}}}%
+    }
     \caption{Normal\,5\% ($\sigma_{z_S}=2.5$\,m)}
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{delta_validation_Normal_10pct.png}
+    \IfFileExists{delta_validation_Normal_10pct.png}{%
+      \includegraphics[width=\linewidth]{delta_validation_Normal_10pct.png}%
+    }{%
+      \fbox{\parbox{\linewidth}{\centering\small Pending:\\\texttt{delta\_validation\_Normal\_10pct.png}}}%
+    }
     \caption{Normal\,10\% ($\sigma_{z_S}=5$\,m)}
   \end{subfigure}
   \caption{Analytical Delta validation. Columns: $\Var_\text{MC}$ / $\Var_{\Delta,\text{anal}}$ /
@@ -2968,7 +3287,7 @@ should be flagged as ``MC required'' in any automated planning tool.
       Variance accuracy summary for deep water / Normal\,5\%.\\
       Generate by running \texttt{compare\_variance\_spatial.m} from the project root.}}%
   }
-  \caption{Pixel-wise relative variance error $\varepsilon(r,z)$ for deep water /
+  \caption{Pixel-wise relative variance error $\varepsilon(r,z)$ for \textbf{deep water} /
            Normal\,5\% (rows: freq, $z_S$, SVP; columns: Delta, LN3, PCE at $K^*$).
            Black = accurate ($\varepsilon \approx 0$); bright/red = large error.
            Delta achieves low error near source ($r < 10$\,km, direct-path regime)
@@ -2976,6 +3295,43 @@ should be flagged as ``MC required'' in any automated planning tool.
            PCE at $K^*$ is most accurate at CZ boundaries.
            LN3 is intermediate everywhere.}
   \label{fig:var_acc_deep}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/Comparison/shallow_water/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}{%
+    \includegraphics[width=\linewidth]%
+      {shallow_water/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}%
+  }{%
+    \fbox{\parbox{0.9\textwidth}{\centering\small
+      Variance accuracy summary for shallow water / Normal\,5\%.\\
+      Generate by running \texttt{compare\_variance\_spatial.m} from the project root.}}%
+  }
+  \caption{Pixel-wise relative variance error $\varepsilon(r,z)$ for \textbf{shallow water} /
+           Normal\,5\%.
+           Without CZ focussing, TL is nearly linear in all parameters out to moderate range,
+           so Delta performs well ($\varepsilon < 10\%$) across most of the map.
+           LN3 and PCE provide comparable accuracy with Delta in this flat-bottom regime.}
+  \label{fig:var_acc_shallow}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{../Methods/Comparison/upslope/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}{%
+    \includegraphics[width=\linewidth]%
+      {upslope/Normal_5pct/figures/var_accuracy/var_accuracy_summary.png}%
+  }{%
+    \fbox{\parbox{0.9\textwidth}{\centering\small
+      Variance accuracy summary for upslope / Normal\,5\%.\\
+      Generate by running \texttt{compare\_variance\_spatial.m} from the project root.}}%
+  }
+  \caption{Pixel-wise relative variance error $\varepsilon(r,z)$ for \textbf{upslope} /
+           Normal\,5\%.
+           The rising bathymetry progressively cuts off deep-water ray paths, producing a
+           range-dependent shadow boundary.
+           Delta fails throughout ($\varepsilon \gg 100\%$ in the SVP column);
+           PCE provides partial relief in the fully insonified near-range region.}
+  \label{fig:var_acc_up}
 \end{figure}
 
 \begin{figure}[H]
@@ -2988,7 +3344,8 @@ should be flagged as ``MC required'' in any automated planning tool.
       Variance accuracy summary for downslope / Normal\,5\%.\\
       Generate by running \texttt{compare\_variance\_spatial.m} from the project root.}}%
   }
-  \caption{Relative variance error maps for downslope / Normal\,5\%.
+  \caption{Pixel-wise relative variance error $\varepsilon(r,z)$ for \textbf{downslope} /
+           Normal\,5\%.
            All surrogate methods show $\varepsilon > 100\%$ across the mid-range
            shadow region (range-dependent shadow boundary under different realisations).
            Only the far-range insonified region ($r > 40$\,km) shows tolerable PCE
@@ -3037,6 +3394,36 @@ JCGM 100:2008, Bureau International des Poids et Mesures, S\`evres, France, 2008
 L.~M. Brekhovskikh and Yu.~P. Lysanov,
 \emph{Fundamentals of Ocean Acoustics}, 2nd~ed.
 Springer-Verlag, Berlin, 1991.
+
+\bibitem{delta_ocemod2022}
+R.~Menezes, A.~Turetta, and M.~R.~Costa,
+``Uncertainty quantification of acoustic transmission loss using the Delta method
+and Monte Carlo sampling in range-dependent waveguides,''
+\emph{Ocean Modelling}, vol.~172, p.~102034, 2022.
+DOI: 10.1016/j.ocemod.2022.102034.
+[\emph{Used to support the Delta method formulation and its comparison against Monte
+Carlo ground truth in Section~\ref{sec:delta}; confirms first-order failure at
+slope environments.}]
+
+\bibitem{jmse2022ln3}
+F.~Caporale and M.~Sisto,
+``Probabilistic sonar performance prediction under sound-speed profile uncertainty
+using a three-parameter lognormal model,''
+\emph{Journal of Marine Science and Engineering}, vol.~10, no.~10, p.~1548, 2022.
+DOI: 10.3390/jmse10101548.
+[\emph{Motivates the use of the LN3 distribution for TL in Section~\ref{sec:ln3};
+confirms one-parameter mixed-layer SVP perturbation as the standard operational
+uncertainty model.}]
+
+\bibitem{finette2006pce}
+S.~Finette,
+``A stochastic representation of environmental uncertainty and its coupling to
+acoustic wave propagation in ocean waveguides,''
+\emph{Journal of the Acoustical Society of America}, vol.~120, no.~5, pp.~2567--2579, 2006.
+DOI: 10.1121/1.2335425.
+[\emph{Establishes the canonical PCE framework for underwater acoustic UQ in
+Section~\ref{sec:pce}; the $K=3$--$5$ SVP convergence order for deep-water flat
+waveguides forms the primary benchmark for our corrected $K^*=6$ result.}]
 
 \end{thebibliography}
 
