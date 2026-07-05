@@ -199,29 +199,23 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
 \section{הבנת הבעיה}
 \label{sec:understanding}
 
-\begin{english}
-This section establishes the physical and mathematical foundation of the stochastic
-TL mapping problem.
-The goal is to explain why a single deterministic Bellhop TL map is insufficient for
-operational sonar planning, and to provide the theoretical background behind the UQ
-methods compared in the rest of this report.
-\end{english}
+סעיף זה מניח את הבסיס הפיזיקלי והמתמטי של בעיית מיפוי \textenglish{TL} הסטוכסטי.
+המטרה היא להסביר מדוע מפת \textenglish{TL} דטרמיניסטית בודדת של \textenglish{Bellhop}
+אינה מספיקה לתכנון פעולת סונאר, ולספק את הרקע התיאורטי לשיטות ה-\textenglish{UQ}
+הנבחנות ביתר הדוח.
 
 % ─────────────────────────────────────────
 \subsection{הים כמדיום אקוסטי שכבתי}
 \label{sec:ocean_layers}
 
-\begin{english}
-Sound travels through seawater at approximately 1400--1550\,m/s, a speed governed by
-temperature, pressure, and salinity.
-None of these three is uniform with depth.
-Temperature drops sharply through the \emph{thermocline} before stabilising in the
-deep isothermal layer, while hydrostatic pressure increases monotonically.
-Their competing effects produce a characteristic sound-velocity profile (SVP) with a
-minimum near the thermocline base --- the \emph{sound-channel axis} --- that refracts
-acoustic energy downward above the axis and upward below it, trapping low-frequency
-sound in a natural waveguide.
-\end{english}
+קול עובר במי-ים במהירות של כ-1400--1550~מ'/שנ', מהירות הנשלטת על ידי טמפרטורה, לחץ ומליחות.
+אף אחת מהשלוש אינה אחידה עם העומק.
+הטמפרטורה יורדת בחדות דרך ה\emph{תרמוקליין} לפני שהיא מתייצבת בשכבה האיזותרמלית העמוקה,
+בעוד שהלחץ ההידרוסטטי עולה מונוטונית.
+ההשפעות המתחרות שלהם מייצרות פרופיל מהירות קול (\textenglish{SVP}) אופייני עם
+מינימום ליד בסיס התרמוקליין --- \emph{ציר ערוץ הקול} (\textenglish{SOFAR}) ---
+המשבר אנרגיה אקוסטית כלפי מטה מעל הציר וכלפי מעלה מתחתיו,
+ולוכד קול בתדר נמוך בגלידה טבעית.
 
 \begin{figure}[H]
   \centering
@@ -243,29 +237,20 @@ sound in a natural waveguide.
 \subsection{התפשטות גלים אקוסטיים ומודל \textenglish{Bellhop}}
 \label{sec:bellhop}
 
-\begin{english}
-The acoustic field in the ocean is described by the Helmholtz equation in a
-cylindrically symmetric ($r$-$z$) geometry:
-\end{english}
+השדה האקוסטי בים מתואר על ידי משוואת הלמהולץ בגיאומטריה סילינדרית סימטרית ($r$-$z$):
 \begin{equation}
   \nabla^2 p + k^2(r,z)\,p = -S(r,z), \quad k = \frac{2\pi f}{c(r,z)},
 \end{equation}
-\begin{english}
-where $p$ is the complex pressure amplitude, $f$ is frequency, $c(r,z)$ is the
-local sound speed, and $S$ is the source term.
-Transmission loss is defined as:
-\end{english}
+כאשר $p$ הוא האמפליטודה המרוכבת של הלחץ, $f$ הוא התדר, $c(r,z)$ הוא מהירות הקול המקומית,
+ו-$S$ הוא אבר המקור.
+הפסד ההעברה מוגדר כ:
 \begin{equation}
   \TL(r,z) = -20\log_{10}\!\left(\frac{|p(r,z)|}{|p_{\mathrm{ref}}|}\right) \quad [\text{dB}].
 \end{equation}
-\begin{english}
-\textenglish{Bellhop}~\cite{porter1987bellhop} solves this equation in the Gaussian
-beam approximation: acoustic energy propagates along rays, each carrying a Gaussian
-amplitude envelope that handles diffraction without the near-singularity of simple
-geometric optics.
-The model handles sea-floor reflections, surface reflections, and refraction through
-the sound-speed gradient automatically.
-\end{english}
+\textenglish{Bellhop}~\cite{porter1987bellhop} פותר משוואה זו בקירוב הקרן הגאוסיאנית:
+אנרגיה אקוסטית מתפשטת לאורך קרנות, כאשר כל קרן נושאת מעטפת גאוסיאנית
+המטפלת בעקיפה ללא הסינגולאריות של אופטיקה גיאומטרית פשוטה.
+המודל מטפל אוטומטית בהחזרות מקרקעית הים, החזרות מהמשטח ושבירה דרך גרדיאנט מהירות הקול.
 
 \begin{figure}[H]
   \centering
@@ -280,52 +265,37 @@ the sound-speed gradient automatically.
 \subsection{משוואת הסונאר וציון ההצלחה}
 \label{sec:sonar_equation}
 
-\begin{english}
-The passive sonar equation links transmitter, medium, and receiver:
-\end{english}
+משוואת הסונאר הפסיבית קושרת בין המשדר, המדיום והמקלט:
 \begin{equation}
   \mathrm{SNR} = \mathrm{SL} - \TL - (\mathrm{NL} - \mathrm{DI})
 \end{equation}
-\begin{english}
-Detection occurs when $\mathrm{SNR} > \mathrm{DT}$ (detection threshold).
-Rearranging gives the \emph{Figure of Merit} (FOM):
-\end{english}
+גילוי מתרחש כאשר $\mathrm{SNR} > \mathrm{DT}$ (סף הגילוי).
+סידור מחדש נותן את \emph{מדד הציון} (\textenglish{FOM}):
 \begin{equation}
   \mathrm{FOM} = \mathrm{SL} - \mathrm{NL} + \mathrm{DI} - \mathrm{DT}.
 \end{equation}
-\begin{english}
-Detection is possible at a given $(r,z)$ pixel if and only if $\TL(r,z) < \mathrm{FOM}$.
-In a stochastic environment, this becomes a probability:
-\end{english}
+גילוי אפשרי בפיקסל $(r,z)$ נתון אם ורק אם $\TL(r,z) < \mathrm{FOM}$.
+בסביבה סטוכסטית, זה הופך להסתברות:
 \begin{equation}
   \Pshadow(\mathbf{x}) = P\!\bigl(\TL(\mathbf{x};\boldsymbol{\theta}) > \mathrm{FOM}\bigr).
 \end{equation}
-\begin{english}
-This shadow probability $\Pshadow$ is the primary UQ output of interest.
-\end{english}
+הסתברות הצל $\Pshadow$ היא פלט ה-\textenglish{UQ} העיקרי שמעניין אותנו.
 
 % ─────────────────────────────────────────
 \subsection{תופעות התפשטות: אזורי התכנסות והחזרות קרקע}
 \label{sec:propagation_phenomena}
 
-\begin{english}
-Two acoustic propagation phenomena dominate at long range in deep water:
-\end{english}
+שתי תופעות התפשטות אקוסטית שולטות בטווח ארוך במים עמוקים:
 \begin{itemize}
-  \item \begin{english}
-          \textbf{Convergence zones (CZ)}: the sound-channel focusing mechanism
-          produces periodic arcs of low TL (high energy) at multiples of the CZ range
-          ($\sim$55\,km for a typical deep-water SVP).
-          CZ position is highly sensitive to the near-surface SVP: a 5\% SVP
-          perturbation can shift the CZ arc by $\pm$5--10\,km and change CZ gain
-          by $\pm$5--10\,dB.
-        \end{english}
-  \item \begin{english}
-          \textbf{Sea-floor reflections}: in shallow water and slope environments,
-          acoustic energy bounces between the surface and the bottom, creating
-          Lloyd's mirror interference patterns whose spatial period scales
-          with $\lambda/2$ and which are highly sensitive to source depth $z_S$.
-        \end{english}
+  \item \textbf{אזורי התכנסות (\textenglish{CZ})}: מנגנון המיקוד של ערוץ הקול
+        מייצר קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) בכפולות של טווח ה-\textenglish{CZ}
+        ($\sim$55~ק"מ עבור SVP טיפוסי במים עמוקים).
+        מיקום ה-\textenglish{CZ} רגיש מאוד ל-SVP קרוב לפני המים: הפרעת SVP של 5\%{}
+        יכולה להזיז את קשת ה-\textenglish{CZ} ב-$\pm$5--10~ק"מ ולשנות את רווח ה-\textenglish{CZ}
+        ב-$\pm$5--10~dB.
+  \item \textbf{החזרות מקרקעית הים}: במים רדודים ובסביבות מדרון,
+        אנרגיה אקוסטית קופצת בין המשטח לקרקעית, ויוצרת תבניות הפרעה של מראת לויד
+        שהמחזור המרחבי שלהן נמדד ב-$\lambda/2$ והן רגישות מאוד לעומק המקור $z_S$.
 \end{itemize}
 
 \begin{figure}[H]
@@ -346,45 +316,39 @@ Two acoustic propagation phenomena dominate at long range in deep water:
 \subsection{ההרחבה הסטוכסטית: מדוע אי-ודאות חשובה}
 \label{sec:stochastic}
 
-\begin{english}
-A single deterministic TL map $\TL(\mathbf{x};\boldsymbol{\theta}_0)$ computed at
-the nominal parameter vector $\boldsymbol{\theta}_0 = (\bar{f},\bar{z}_S, \overline{\mathrm{SVP}})$
-is insufficient for operational sonar planning for two reasons:
+מפת TL דטרמיניסטית בודדת $\TL(\mathbf{x};\boldsymbol{\theta}_0)$ המחושבת עבור
+וקטור הפרמטרים הנומינלי $\boldsymbol{\theta}_0 = (\bar{f},\bar{z}_S, \overline{\mathrm{SVP}})$
+אינה מספיקה לתכנון פעולת סונאר משתי סיבות:
 
 \begin{enumerate}
-  \item \textbf{Measurement uncertainty.} The true environmental parameters are never
-        known exactly; temperature profiles have $\pm$0.1--0.3$^\circ$C measurement
-        uncertainty, source depths are uncertain by $\pm$5--10\,m, and carrier
-        frequency can drift by $\pm$1\%{}.
-  \item \textbf{Temporal variability.} The ocean SVP changes on time scales from hours
-        (tidal mixing) to months (seasonal cycle); a TL map computed from a morning
-        BT drop may be 5--10\,dB wrong by afternoon.
+  \item \textbf{אי-ודאות במדידה.} הפרמטרים הסביבתיים האמיתיים אינם ידועים במדויק;
+        לפרופילי טמפרטורה יש אי-ודאות מדידה של $\pm$0.1--0.3$^\circ$C,
+        עומקי מקור אינם ודאיים ב-$\pm$5--10~מ',
+        ותדר הנשא יכול לסטות ב-$\pm$1\%{}.
+  \item \textbf{שינוי בזמן.} SVP האוקיינוס משתנה בסולמות זמן ממספר שעות
+        (ערבול גאות) עד חודשים (מחזור עונתי);
+        מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-5--10~dB בשעות הצהריים.
 \end{enumerate}
 
-The stochastic extension models each uncertain parameter as an independent Gaussian
-random variable: $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ where $\sigma_k$
-is a known percentage of $\mu_k$ (1\%, 5\%, or 10\% in our experiments).
-The goal of UQ is to propagate these input distributions through the nonlinear
-Bellhop operator to obtain the output distribution of TL at each pixel, and
-thence the shadow probability $\Pshadow$.
-\end{english}
+ההרחבה הסטוכסטית מדמה כל פרמטר אי-ודאי כמשתנה אקראי גאוסי עצמאי:
+$\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
+הוא אחוז ידוע מ-$\mu_k$ (1\%{}, 5\%{}, או 10\%{} בניסויינו).
+מטרת ה-\textenglish{UQ} היא להעביר התפלגויות כניסה אלו דרך האופרטור הלא-לינארי
+של \textenglish{Bellhop} כדי לקבל את התפלגות הפלט של TL בכל פיקסל,
+ומשם את הסתברות הצל $\Pshadow$.
 
 % ─────────────────────────────────────────
 \subsection{אימות אנליטי של \textenglish{Bellhop}}
 \label{sec:analytical_validation}
 
-\begin{english}
-Before using \textenglish{Bellhop} as the stochastic forward model, we validated its
-accuracy against two analytical solutions.
-\end{english}
+לפני שימוש ב-\textenglish{Bellhop} כמודל הקדמי הסטוכסטי, אימתנו את דיוקו
+מול שני פתרונות אנליטיים.
 
 \subsubsection{מרחב חצי-אינסופי}
 
-\begin{english}
-For an isovelocity half-space (constant sound speed, pressure-release surface,
-penetrable flat bottom), the exact TL is given by the Pekeris waveguide solution.
-\textenglish{Bellhop} agrees to within $<$0.5\,dB over the full propagation range.
-\end{english}
+עבור מרחב חצי-אינסופי איזו-מהירות (מהירות קול קבועה, משטח שחרור לחץ, קרקעית שטוחה חדירה),
+ה-TL המדויק ניתן על ידי פתרון גלידת פקריס.
+\textenglish{Bellhop} מסכים בתוך $<$0.5~dB על פני כל טווח ההתפשטות.
 
 \begin{figure}[H]
   \centering
@@ -402,12 +366,9 @@ penetrable flat bottom), the exact TL is given by the Pekeris waveguide solution
 
 \subsubsection{גלידה מהדי — מודים נורמליים}
 
-\begin{english}
-For a Pekeris waveguide with a rigid bottom boundary, the exact pressure field is
-given by the normal-mode series.
-\textenglish{Bellhop} matches the normal-mode solution with $<$1\,dB mean error at
-frequencies $>$150\,Hz, confirming its adequacy as the forward model.
-\end{english}
+עבור גלידת פקריס עם גבול קרקעית קשיח, שדה הלחץ המדויק ניתן על ידי סידרת המודים הנורמליים.
+\textenglish{Bellhop} תואם את פתרון המודים הנורמליים עם שגיאה ממוצעת $<$1~dB
+בתדרים $>$150~Hz, ומאשר את התאמתו כמודל קדמי.
 
 \begin{figure}[H]
   \centering
@@ -427,14 +388,10 @@ frequencies $>$150\,Hz, confirming its adequacy as the forward model.
 \subsection{רגישות TL לפרמטרים פיזיקליים}
 \label{sec:sensitivity}
 
-\begin{english}
-Before performing full stochastic analysis, we visualise the qualitative sensitivity
-of the TL field to each uncertain parameter by comparing TL maps computed at
-$\theta_0 - \delta$, $\theta_0$, and $\theta_0 + \delta$.
-SVP perturbation produces the most dramatic spatial redistribution of TL,
-particularly at CZ boundaries.
-Source depth and frequency produce more modest, qualitatively distinct patterns.
-\end{english}
+לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL
+לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות ב-$\theta_0 - \delta$, $\theta_0$, ו-$\theta_0 + \delta$.
+הפרעת SVP מייצרת את הפיזור המרחבי הדרמטי ביותר של TL, במיוחד בגבולות ה-\textenglish{CZ}.
+עומק המקור והתדר מייצרים תבניות מתונות יותר ושונות מבחינה איכותית.
 
 \begin{figure}[H]
   \centering
@@ -503,12 +460,9 @@ Source depth and frequency produce more modest, qualitatively distinct patterns.
 \subsection{גלריית תוצאות עיקריות}
 \label{sec:gallery}
 
-\begin{english}
-The figures below show representative outputs from each UQ method for the deep-water /
-Normal\,5\% scenario.
-Each figure is discussed in detail in the corresponding subsection; the gallery is
-structured so that each pair of maps can be compared side by side at full resolution.
-\end{english}
+האיורים להלן מציגים פלטים מייצגים מכל שיטת \textenglish{UQ} עבור תרחיש מים עמוקים / נורמלי 5\%{}.
+כל איור נדון בפירוט בתת-הסעיף המתאים; הגלריה בנויה כך שכל זוג מפות ניתן
+להשוואה זה לצד זה ברזולוציה מלאה.
 
 \begin{figure}[H]
   \centering
@@ -589,21 +543,20 @@ structured so that each pair of maps can be compared side by side at full resolu
 \subsection{סטטיסטיקת ייחוס מונטה קרלו}
 \label{sec:mc}
 
-\begin{english}
-Monte Carlo (MC) simulations use \textbf{two complementary sample sets}, each with
-$N=1000$ samples per scenario/distribution/parameter combination:
+סימולציות \textenglish{MC} משתמשות ב\textbf{שתי קבוצות מדגם משלימות}, כל אחת עם
+$N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
 \begin{itemize}
-  \item \textbf{LHS set} ($N=1000$ Latin Hypercube samples): provides
-        $\hat\EX[\TL]$, $\hat\Var[\TL]$, empirical $\hat P_{\text{det}}$, KDE,
-        and the MOM-fitted LN3 reference.
-        LHS stratification ensures full coverage of the input space.
-  \item \textbf{IID set} ($N=1000$ i.i.d.\ samples): used exclusively for
-        MLE-based LN3 fitting, since MLE requires the i.i.d.\ assumption.
+  \item \textbf{קבוצת \textenglish{LHS}} ($N=1000$ מדגמי ריבוע לטיני): מספקת
+        $\hat\EX[\TL]$, $\hat\Var[\TL]$, $\hat P_{\text{det}}$ אמפירי, \textenglish{KDE},
+        ו-\textenglish{LN3} ייחוסי מותאם ל-\textenglish{MOM}.
+        שיכוב ה-\textenglish{LHS} מבטיח כיסוי מלא של מרחב הכניסה.
+  \item \textbf{קבוצת \textenglish{IID}} ($N=1000$ מדגמים עצמאיים): משמשת אך ורק
+        להתאמת \textenglish{LN3} מבוססת \textenglish{MLE},
+        מכיוון ש-\textenglish{MLE} דורש את הנחת ה-\textenglish{IID}.
 \end{itemize}
-Both sets are cached at \texttt{Cache/<scenario>/<dist>/} (LHS) and
-\texttt{Cache/<scenario>/<dist>\_iid/} (IID), yielding
-$4\times3\times3\times2\times1000 = 72\,000$ total Bellhop evaluations.
-\end{english}
+שתי הקבוצות שמורות ב-\texttt{Cache/<sc>/<dist>/} (\textenglish{LHS}) וב-%
+\texttt{Cache/<sc>/<dist>\_iid/} (\textenglish{IID}),
+ומניבות $4\times3\times3\times2\times1000 = 72{,}000$ הערכות \textenglish{Bellhop} בסך הכל.
 
 \begin{figure}[H]
   \centering
@@ -630,23 +583,18 @@ $4\times3\times3\times2\times1000 = 72\,000$ total Bellhop evaluations.
 \subsubsection{פרופילי SVP שנדגמו ומודל ההפרעה}
 \label{sec:svp_ensemble}
 
-\begin{english}
-\paragraph{Physical motivation for the SVP perturbation model.}
-The ocean sound-speed profile is not uniform in depth, and its uncertainty is not
-uniform either.
-The near-surface mixed layer (0--100\,m in summer) is actively stirred by wind and
-solar heating; it is nearly isothermal within the mixing depth but its temperature
-varies significantly with season and weather.
-Below the thermocline, water temperature falls to $\approx 1$--$4\,^\circ$C and
-remains essentially constant year-round.
-This asymmetry justifies the one-dimensional SVP perturbation model: a scalar shift
-$\Delta c$ applied only to the surface mixed layer, coupled to a mixed-layer depth
-perturbation $\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
-($k_{\mathrm{MLD}} = 5\,$m\,s/m, $\mathrm{MLD}_0 = 30\,$m).
-The deep SVP gradient ($z > 180\,$m) is held constant because deep-water temperature
-variability is an order of magnitude smaller than mixed-layer variability on seasonal
-time scales.
-\end{english}
+\paragraph{מוטיבציה פיזיקלית למודל הפרעת ה-SVP.}
+פרופיל מהירות הקול האוקיינוס אינו אחיד בעומק, ואי-הוודאות שלו גם אינה אחידה.
+שכבת הערבוב הקרובה לפני השטח (0--100~מ' בקיץ) מעורבת באופן פעיל על ידי הרוח וחימום השמש;
+היא כמעט איזותרמלית בתוך עומק הערבוב, אך הטמפרטורה שלה משתנה משמעותית לפי עונה ומזג אוויר.
+מתחת לתרמוקליין, טמפרטורת המים יורדת ל-$\approx 1$--$4\,^\circ$C
+ונשארת יציבה לאורך השנה כולה.
+אסימטריה זו מצדיקה את מודל הפרעת ה-SVP החד-ממדי: הזזה סקלרית $\Delta c$
+המוחלת רק על שכבת הערבוב השטחית, מצומדת להפרעת עומק שכבת הערבוב
+$\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
+($k_{\mathrm{MLD}} = 5$~מ'~שנ'/מ', $\mathrm{MLD}_0 = 30$~מ').
+גרדיאנט ה-SVP העמוק ($z > 180$~מ') נשמר קבוע מפני שהשונות של טמפרטורת מים עמוקים
+קטנה בסדר גודל משונות שכבת הערבוב בסולמות זמן עונתיים.
 
 \begin{figure}[H]
   \centering
@@ -668,24 +616,18 @@ time scales.
 \subsubsection{התכנסות מאמד MC}
 \label{sec:mc_conv}
 
-\begin{english}
-For a scalar random variable $Y$ with finite variance, the sample mean
-$\bar Y_N$ converges to $\mu_Y$ at the classical CLT rate
+עבור משתנה אקראי סקלרי $Y$ עם שונות סופית, הממוצע המדגמי
+$\bar Y_N$ מתכנס אל $\mu_Y$ בקצב \textenglish{CLT} הקלאסי
 $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$.
-The sample variance $S_N^2$ converges at the same asymptotic rate but with a
-larger prefactor:
-\end{english}
+השונות המדגמית $S_N^2$ מתכנסת באותו קצב אסימפטוטי, אך עם מקדם גדול יותר:
 \begin{equation}
   \mathrm{Var}(S_N^2) \;=\; \frac{2\sigma_Y^4}{N-1},
   \label{eq:var_of_var}
 \end{equation}
-\begin{english}
-so the relative error of $S_N^2$ is $\sqrt{2/(N-1)}/C_V^2$ where
-$C_V=\sigma_Y/\mu_Y$ is the coefficient of variation.
-At $N=1000$ and for the broadest distribution (Normal\,10\%), the relative RMSE
-of the sample variance estimator is $\approx 4.5\%$, within the $\lesssim 5\%$
-target.
-\end{english}
+לכן השגיאה היחסית של $S_N^2$ היא $\sqrt{2/(N-1)}/C_V^2$
+כאשר $C_V=\sigma_Y/\mu_Y$ הוא מקדם הווריאציה.
+ב-$N=1000$ ועבור ההתפלגות הרחבה ביותר (נורמלי 10\%{}), שגיאת ה-RMSE היחסית
+של מאמד השונות המדגמית היא $\approx 4.5\%$, בתוך יעד ה-$\lesssim 5\%$.
 
 \begin{figure}[H]
   \centering
@@ -706,36 +648,29 @@ target.
 \subsection{שיטת דלתא מסדר ראשון: דיוק ומצבי כשל}
 \label{sec:delta}
 
-\begin{english}
-\paragraph{Terminology note.}
-The term \emph{Delta method} here refers to linearisation via perturbation calculus
-(first-order Taylor expansion of the model output around the nominal parameter vector),
-also known as FOSM (First-Order Second-Moment method) in structural reliability
-and as GUM linearisation in metrology.
+\paragraph{הערת מינוח.}
+המונח \emph{שיטת דלתא} כאן מתייחס ללינאריזציה באמצעות חשבון הפרעות
+(פיתוח טיילור מסדר ראשון של פלט המודל סביב וקטור הפרמטרים הנומינלי),
+הידועה גם כ-\textenglish{FOSM} בתחום אמינות קונסטרוקציה
+וכלינאריזציית \textenglish{GUM} במטרולוגיה.
 
-The 1st-order Delta method approximates variance as:
-\end{english}
+שיטת דלתא מסדר 1 מקרבת את השונות כ:
 \begin{equation}
   \Var_1[\TL] \;\approx\; \sum_{i} J_i^2 \,\sigma_i^2,
   \qquad J_i = \frac{\partial \TL}{\partial \theta_i}\bigg|_{\boldsymbol{\theta}_0},
   \label{eq:delta1}
 \end{equation}
-\begin{english}
-where Jacobians $J_i$ are computed via central finite differences.
-The 2nd-order extension adds Hessian correction terms
-$\tfrac{1}{2} H_{ii}^2 \kappa_i$ where $\kappa_i = \EX[\delta\theta_i^4]/\sigma_i^4 - 1$
-is the excess kurtosis.
-\end{english}
+כאשר הג'קוביאנים $J_i$ מחושבים באמצעות הפרשים סופיים מרכזיים.
+ההרחבה מסדר 2 מוסיפה אברי תיקון הסיאן
+$\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sigma_i^4 - 1$
+הוא הקורטוזיס העודף.
 
 \subsubsection{היכן שיטת דלתא מצליחה}
 
-\begin{english}
-For the \textbf{shallow-water} and \textbf{deep-water} scenarios under small
-perturbations ($\leq$1\% uncertainty), the Delta method achieves relative $L_1$
-errors below 10\% in the variance maps.
-The shadow-probability maps computed via the Delta--LN3 hybrid agree closely with
-empirical MC shadow probabilities in these scenarios.
-\end{english}
+עבור תרחישי \textbf{מים רדודים} ו\textbf{מים עמוקים} תחת הפרעות קטנות
+(אי-ודאות $\leq$1\%{}), שיטת דלתא משיגה שגיאות $L_1$ יחסיות מתחת ל-10\%{} במפות השונות.
+מפות הסתברות הצל המחושבות דרך ההיברידי דלתא--\textenglish{LN3} מסכימות בקרבה עם
+הסתברויות הצל האמפיריות של MC בתרחישים אלו.
 
 \begin{figure}[H]
   \centering
@@ -760,14 +695,11 @@ empirical MC shadow probabilities in these scenarios.
 
 \subsubsection{היכן שיטת דלתא נכשלת}
 
-\begin{english}
-For \textbf{slope scenarios} (upslope, downslope) and large perturbations
-($\geq$5\%), the 1st-order approximation breaks down significantly.
-The 2nd-order correction is equally unable to recover the variance:
-the Hessian correction term $|\kappa H^2|/V_1$ exceeds 100\% for SVP perturbations
-in both slope scenarios, indicating that the Taylor series has not converged at
-2nd order.
-\end{english}
+עבור \textbf{תרחישי מדרון} (עולה, יורד) והפרעות גדולות
+($\geq$5\%{}), הקירוב מסדר 1 מתמוטט משמעותית.
+תיקון סדר 2 גם כן אינו מסוגל לשחזר את השונות:
+אבר תיקון ההסיאן $|\kappa H^2|/V_1$ עולה על 100\%{} עבור הפרעות SVP
+בשני תרחישי המדרון, מה שמציין שסידרת טיילור לא התכנסה בסדר 2.
 
 \begin{figure}[H]
   \centering
@@ -814,62 +746,55 @@ in both slope scenarios, indicating that the Taylor series has not converged at
 
 \subsubsection{סינתזת תוצאות שיטת דלתא}
 
-\begin{english}
-The Delta method results reveal a two-factor failure mode governed by
-\emph{perturbation magnitude} and \emph{bathymetric complexity}:
+תוצאות שיטת דלתא חושפות מצב כשל דו-גורמי הנשלט על ידי
+\emph{גודל ההפרעה} ו\emph{מורכבות הבתימטריה}:
 
 \begin{itemize}
-  \item \textbf{Small perturbations ($\sigma\leq$1\%), flat bathymetry.}
-        The 1st-order Taylor linearisation is valid; shadow-probability maps from
-        the Delta--LN3 hybrid agree closely with MC.
+  \item \textbf{הפרעות קטנות ($\sigma\leq$1\%{}), בתימטריה שטוחה.}
+        לינאריזציית טיילור מסדר 1 תקפה; מפות הסתברות הצל של ההיברידי
+        דלתא--\textenglish{LN3} מסכימות בקרבה עם MC.
 
-  \item \textbf{Moderate-to-large perturbations ($\sigma\geq$5\%), flat bathymetry.}
-        The 2nd-order Hessian correction term already exceeds the 1st-order term for
-        all scenarios except deep-water SVP at 5\%.
-        The Taylor series has \emph{not converged} at order~2 in almost all cases.
+  \item \textbf{הפרעות בינוניות עד גדולות ($\sigma\geq$5\%{}), בתימטריה שטוחה.}
+        אבר תיקון ההסיאן מסדר 2 כבר עולה על אבר סדר 1 בכל התרחישים
+        מלבד SVP מים עמוקים ב-5\%{}.
+        סידרת טיילור \emph{לא התכנסה} בסדר 2 בכמעט כל המקרים.
 
-  \item \textbf{Slope environments (upslope, downslope), any perturbation.}
-        The bathymetric gradient introduces refraction-driven shadow zones whose
-        spatial location depends sensitively on the uncertain parameters.
-        Even at $\sigma=1\%$, the Delta--LN3 shadow maps exhibit significant spatial
-        mismatch relative to MC.
+  \item \textbf{סביבות מדרון (עולה, יורד), כל הפרעה.}
+        גרדיאנט הבתימטריה מכניס אזורי צל המונעים על ידי שבירה
+        שמיקומם המרחבי תלוי בצורה רגישה בפרמטרים האי-ודאיים.
+        אפילו ב-$\sigma=1\%$, מפות הצל של דלתא--\textenglish{LN3} מציגות
+        אי-התאמה מרחבית משמעותית ביחס ל-MC.
 \end{itemize}
 
-\textbf{Practical implication.} The Delta method is only trustworthy for sonar
-planning in flat-bottom environments under $\leq$1\% uncertainty in each parameter.
-For 5--10\% uncertainty or any slope environment, either PCE or direct MC is required.
-\end{english}
+\textbf{השלכה מעשית.} שיטת דלתא אמינה בלבד לתכנון סונאר בסביבות קרקעית שטוחה
+עם אי-ודאות של $\leq$1\%{} בכל פרמטר.
+עבור אי-ודאות 5--10\%{} או כל סביבת מדרון, דרושה \textenglish{PCE} או MC ישיר.
 
 % ─────────────────────────────────────────
 \subsection{אמידת הסתברות הצל — LN3}
 \label{sec:ln3}
 
-\begin{english}
-\paragraph{A priori motivation for the LN3 model.}
-The choice of a three-parameter lognormal distribution for TL is motivated by
-physical arguments:
+\paragraph{מוטיבציה לבחירת מודל LN3.}
+הבחירה בהתפלגות לוגנורמלית תלת-פרמטרית ל-TL מונעת על ידי טיעונים פיזיקליים:
 
-First, TL is already expressed on a logarithmic (dB) scale:
+ראשית, TL מבוטא כבר בסקאלה לוגריתמית (dB):
 $\mathrm{TL} = -20\log_{10}(|p|/p_0)$.
-Any multiplicative structure in the pressure field therefore maps to an additive
-structure in TL, favouring distributions from the lognormal family.
+כל מבנה כפלי בשדה הלחץ ממופה לכן למבנה חיבורי ב-TL,
+ומעדיף התפלגויות ממשפחת הלוגנורמלי.
 
-Second, in a multi-mode waveguide the received pressure is a coherent sum of $M$
-normal-mode contributions; for large $M$ the CLT suggests that $|p|$ is approximately
-Rayleigh-distributed, which converts to approximately lognormal TL.
+שנית, בגלידה רב-מודלית, הלחץ המקובל הוא סכום קוהרנטי של $M$ תרומות מודים נורמליים;
+עבור $M$ גדול, ה-\textenglish{CLT} מציע ש-$|p|$ מתפלג בערך כרייליי,
+שממיר ל-TL לוגנורמלי בערך.
 
-Third, TL has a physical lower bound: geometric spreading imposes a minimum loss
+שלישית, ל-TL יש תחתון פיזיקלי: התפשטות גיאומטרית מטילה הפסד מינימלי
 $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
-The three-parameter lognormal
-\end{english}
+הלוגנורמלי התלת-פרמטרי
 \begin{equation}
   X - \gamma \sim \mathrm{LN2}, \quad \gamma = 0.95\,\min(\text{samples}),
 \end{equation}
-\begin{english}
-explicitly encodes this physical floor through the shift parameter $\gamma$.
-Parameters $(\hat\mu, \hat\sigma)$ are estimated by MLE via \texttt{lognfit}
-(superior to MOM, which is typically 10--30\% less efficient):
-\end{english}
+מקודד במפורש את הרצפה הפיזיקלית דרך פרמטר ההזזה $\gamma$.
+הפרמטרים $(\hat\mu, \hat\sigma)$ מוערכים ב-\textenglish{MLE} דרך \texttt{lognfit}
+(עדיף על \textenglish{MOM}, שבדרך כלל פחות יעיל ב-10--30\%{}):
 \begin{equation}
   \hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})
   = \Phi\!\left(\frac{\ln(\mathrm{FOM}-\hat\gamma)-\hat\mu}{\hat\sigma}\right).
@@ -904,11 +829,9 @@ Parameters $(\hat\mu, \hat\sigma)$ are estimated by MLE via \texttt{lognfit}
 
 \subsubsection{כשל דו-מודלי בגבולות CZ}
 
-\begin{english}
-At pixels near convergence-zone boundaries, the TL distribution becomes bimodal:
-the acoustic field switches between a focused (low TL) and defocused (high TL) state
-as SVP varies, and no unimodal lognormal can capture both modes simultaneously.
-\end{english}
+בפיקסלים ליד גבולות אזורי ההתכנסות, התפלגות ה-TL הופכת דו-מודלית:
+השדה האקוסטי עובר בין מצב ממוקד (TL נמוך) לבין מצב לא-ממוקד (TL גבוה)
+כאשר SVP משתנה, ולא ניתן ללכוד שני השיאים בו-זמנית עם לוגנורמלי חד-שיאי.
 
 \begin{figure}[H]
   \centering
@@ -921,23 +844,17 @@ as SVP varies, and no unimodal lognormal can capture both modes simultaneously.
   \label{fig:bimodal}
 \end{figure}
 
-\begin{english}
-\textbf{Practical note.} In bimodal regimes (CZ, shadow boundaries) neither MLE nor
-MOM resolves the fit failure; a mixture-of-lognormals model would be required
-regardless of estimator.
-The shift parameter $\gamma = 0.95\min(\mathrm{samples})$ remains a heuristic ---
-full 3-parameter MLE would require nonlinear optimisation per pixel (computationally
-prohibitive at $\sim$440\,000 pixels $\times$ 12 combos).
-\end{english}
+\textbf{הערה מעשית.} במשטרים דו-מודליים (CZ, גבולות צל) אין לא \textenglish{MLE}
+ואין לא \textenglish{MOM} שפותרים את כשל ההתאמה; יידרש מודל תערובת-לוגנורמלים ללא תלות במאמד.
+פרמטר ההזזה $\gamma = 0.95\min(\mathrm{samples})$ נשאר היוריסטיקה ---
+\textenglish{MLE} תלת-פרמטרי מלא ידרוש אופטימיזציה לא-לינארית לכל פיקסל
+(בלתי אפשרי חישובית ב-$\sim$440{,}000 פיקסלים $\times$ 12 צירופים).
 
 \subsubsection{MLE מול MOM — השוואת גרזן}
 
-\begin{english}
-MLE fits have been compared against MOM estimates across all scenarios.
-MLE is systematically more efficient: lower bias and 10--30\% lower RMSE in both
-$\hat\mu$ and $\hat\sigma$ estimates. The MOM estimates are used only as a
-cross-check.
-\end{english}
+התאמות \textenglish{MLE} הושוו מול מאמדי \textenglish{MOM} בכל התרחישים.
+\textenglish{MLE} יעיל יותר באופן שיטתי: הטיה נמוכה יותר ו-\textenglish{RMSE} נמוך ב-10--30\%{}
+הן באמידות $\hat\mu$ והן ב-$\hat\sigma$. מאמדי \textenglish{MOM} משמשים רק כבדיקת צולב.
 
 \begin{figure}[H]
   \centering
@@ -955,19 +872,15 @@ cross-check.
 \subsection{אימות KDE של הסתברות גילוי}
 \label{sec:kde_validation}
 
-\begin{english}
-Kernel Density Estimation (KDE) provides a non-parametric approximation of the TL
-CDF at each pixel using the Parzen--Rosenblatt window:
-\end{english}
+אמידת צפיפות ליבה (\textenglish{KDE}) מספקת קירוב לא-פרמטרי של ה-\textenglish{CDF} של ה-TL
+בכל פיקסל תוך שימוש בחלון פרצן--רוזנבלט:
 \begin{equation}
   \hat{P}_{\mathrm{shadow}}^{\mathrm{KDE}}(\mathbf{x})
   = \frac{1}{N}\sum_{i=1}^N \Phi\!\left(\frac{\mathrm{FOM}-\TL^{(i)}(\mathbf{x})}{h}\right),
 \end{equation}
-\begin{english}
-where the bandwidth $h$ is set by Silverman's rule: $h = 1.06\,\hat\sigma_{\TL}\,N^{-1/5}$.
-The three-column KDE validation figures show: (i) MC empirical $\Pshadow$,
-(ii) KDE estimate, and (iii) pixel-wise difference map.
-\end{english}
+כאשר רוחב הסרט $h$ נקבע על פי כלל סילברמן: $h = 1.06\,\hat\sigma_{\TL}\,N^{-1/5}$.
+איורי האימות של \textenglish{KDE} עם שלושה עמודות מציגים:
+(i) $\Pshadow$ אמפירי של MC, (ii) מאמד \textenglish{KDE}, ו-(iii) מפת הפרשים פיקסל-פיקסל.
 
 \begin{figure}[H]
   \centering
@@ -1045,30 +958,24 @@ The three-column KDE validation figures show: (i) MC empirical $\Pshadow$,
 \subsection{PCE — שחזור שונות מסדר גבוה}
 \label{sec:pce}
 
-\begin{english}
-PCE represents the TL field as a polynomial series in the standardised uncertain
-parameters $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
-\end{english}
+\textenglish{PCE} מייצג את שדה ה-TL כסידרה פולינומית בפרמטרים האי-ודאיים המנורמלים
+$\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
 \begin{equation}
   \TL(\mathbf{x};\boldsymbol{\xi})
   \approx \sum_{|\boldsymbol{\alpha}|\leq K} c_{\boldsymbol{\alpha}}(\mathbf{x})\,
   \Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi}),
 \end{equation}
-\begin{english}
-where $\Psi_{\boldsymbol{\alpha}}$ are probabilists' Hermite polynomials and
-$c_{\boldsymbol{\alpha}}$ are coefficients estimated by ordinary least squares
-(OLS) regression on the $N=1000$ MC samples at zero additional Bellhop cost.
-Variance is recovered directly from the non-constant coefficients:
-\end{english}
+כאשר $\Psi_{\boldsymbol{\alpha}}$ הם פולינומי הרמיט ההסתברותיים
+ו-$c_{\boldsymbol{\alpha}}$ הם מקדמים הנאמדים בנסיגת ריבועים רגילה
+(\textenglish{OLS}) על $N=1000$ מדגמי MC ללא עלות \textenglish{Bellhop} נוספת.
+השונות משוחזרת ישירות מהמקדמים הלא-קבועים:
 \begin{equation}
   \Var[\TL] \approx \sum_{|\boldsymbol{\alpha}|>0} c_{\boldsymbol{\alpha}}^2.
 \end{equation}
-\begin{english}
-The optimal order $K^*$ is selected by LOO-CV (leave-one-out cross-validation)
-minimising the L2 Var error.
-The \emph{order relevance curve} shows the marginal contribution of each additional
-polynomial order: relevance$_k = \max(e_{k-1} - e_k, 0)/e_{\mathrm{total}} \times 100\%$.
-\end{english}
+הסדר האופטימלי $K^*$ נבחר באמצעות \textenglish{LOO-CV} (בדיקה צולבת השמט-אחד)
+הממזערת את שגיאת L2 של השונות.
+\emph{עקומת רלוונטיות הסדר} מציגה את התרומה השולית של כל סדר פולינומי נוסף:
+רלוונטיות$_k = \max(e_{k-1} - e_k, 0)/e_{\mathrm{total}} \times 100\%$.
 
 \begin{figure}[H]
   \centering
@@ -1146,12 +1053,10 @@ polynomial order: relevance$_k = \max(e_{k-1} - e_k, 0)/e_{\mathrm{total}} \time
 \subsection{אמידת הסתברות גילוי עם סונאר}
 \label{sec:pdetect}
 
-\begin{english}
-Three methods are used to estimate the detection probability $P_{\rm det}(r,z)$:
-(1) \textbf{MLE}: parametric LN3 tail probability;
-(2) \textbf{Empirical MC}: direct fraction of samples with $\TL < \mathrm{FOM}$;
-(3) \textbf{Chebyshev}: distribution-free bound using only $\hat\mu$ and $\hat\sigma$.
-\end{english}
+שלוש שיטות משמשות לאמידת הסתברות הגילוי $P_{\rm det}(r,z)$:
+(1) \textbf{\textenglish{MLE}}: הסתברות זנב של \textenglish{LN3} פרמטרי;
+(2) \textbf{\textenglish{MC} אמפירי}: חלק ישיר של מדגמים עם $\TL < \mathrm{FOM}$;
+(3) \textbf{חסם צ'ביצ'ב}: חסם חופשי-התפלגות המשתמש רק ב-$\hat\mu$ וב-$\hat\sigma$.
 
 \begin{figure}[H]
   \centering
@@ -1194,16 +1099,12 @@ Three methods are used to estimate the detection probability $P_{\rm det}(r,z)$:
 \subsection{אמת אנליטי: דיוק שיטת דלתא במים עמוקים}
 \label{sec:analytical_gt}
 
-\begin{english}
-For a Pekeris waveguide with known normal-mode solution, the exact analytical Jacobian
-is available:
+עבור גלידת פקריס עם פתרון מודים נורמליים ידוע, הג'קוביאן האנליטי המדויק זמין:
 $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$.
-The finite-difference Jacobian used in the numerical pipeline has mean error
-8.47\% relative to the exact derivative, validating the Bellhop-based Delta
-implementation.
-The $L_1$ relative error of the Delta variance map versus the analytical variance
-is summarised in Table~\ref{tab:analytical_l1}.
-\end{english}
+לג'קוביאן הפרשים-הסופיים המשמש בצינור המספרי יש שגיאה ממוצעת של 8.47\%{}
+ביחס לנגזרת המדויקת, המאמת את יישום דלתא מבוסס \textenglish{Bellhop}.
+שגיאת $L_1$ היחסית של מפת השונות של דלתא לעומת השונות האנליטית
+מסוכמת בטבלה~\ref{tab:analytical_l1}.
 
 \begin{figure}[H]
   \centering
@@ -1268,21 +1169,19 @@ is summarised in Table~\ref{tab:analytical_l1}.
   \end{english}
 \end{table}
 
-\begin{english}
-Taken together, the results show a clear hierarchy of method applicability
-determined by two physical factors: \emph{bathymetric complexity} (flat vs slope)
-and \emph{perturbation magnitude} ($\leq$1\% vs 5--10\%).
-For flat environments with small perturbations the acoustic field is nearly linear,
-so the cheap Delta approximation suffices.
-As perturbations grow, the nonlinearity of the interference pattern requires
-a higher-order representation; PCE fills this gap without any new Bellhop runs.
-Slope environments introduce refraction-driven shadow zones whose boundaries are
-non-smooth in all three parameters, putting them beyond the reach of any
-fixed-order polynomial approximation and requiring direct sampling.
-From a sonar-planning perspective, the most operationally useful outputs are not
-variance maps but $P_\mathrm{fail}$ maps and P95 TL envelopes, which reveal the
-\emph{direction} of uncertainty in a way that variance alone does not.
-\end{english}
+יחד, התוצאות מראות היררכיה ברורה של ישימות שיטות
+הנקבעת על ידי שני גורמים פיזיקליים: \emph{מורכבות בתימטרית} (שטוח לעומת מדרון)
+ו\emph{גודל ההפרעה} ($\leq$1\%{} לעומת 5--10\%{}).
+בסביבות שטוחות עם הפרעות קטנות, השדה האקוסטי הוא כמעט לינארי,
+ולכן קירוב דלתא הזול מספיק.
+כאשר ההפרעות גדלות, הלא-לינאריות של תבנית ההפרעה דורשת ייצוג מסדר גבוה יותר;
+\textenglish{PCE} ממלא פער זה ללא הרצות \textenglish{Bellhop} חדשות.
+סביבות מדרון מכניסות אזורי צל המונעים על ידי שבירה שגבולותיהם
+אינם חלקים בכל שלושת הפרמטרים, ומציבים אותם מחוץ להישג של כל קירוב פולינומי מסדר קבוע
+ודורשים דגימה ישירה.
+מנקודת מבט של תכנון סונאר, הפלטים השימושיים ביותר מבחינה מבצעית אינם
+מפות שונות, אלא מפות $P_\mathrm{fail}$ ומעטפות TL של P95,
+המגלות את \emph{כיוון} אי-הוודאות בדרך שהשונות לבדה אינה מציגה.
 
 % ============================================================
 %  3.  עבודות קשורות והשוואת ספרות
@@ -1293,29 +1192,26 @@ variance maps but $P_\mathrm{fail}$ maps and P95 TL envelopes, which reveal the
 \subsection{סיכום מאמרים קשורים}
 \label{sec:papers}
 
-\begin{english}
-Four papers from the stochastic underwater acoustics literature are directly relevant.
+ארבעה מאמרים מהספרות של אקוסטיקה תת-ימית סטוכסטית רלוונטיים ישירות.
 
-\paragraph{Finette~(2006/2009) — PCE for Acoustic Propagation Uncertainty.}
-Establishes the canonical framework for applying PCE to underwater TL estimation
-using probabilist Hermite polynomials for Gaussian sound-speed perturbations.
-Reports that $K=3$--5 suffices for a deep-water isovelocity waveguide; convergence
-degrades for larger perturbations ($>$5\%) and near shadow-zone boundaries.
+\paragraph{\textenglish{Finette (2006/2009)} --- \textenglish{PCE} לאי-ודאות בהתפשטות אקוסטית.}
+מבסס את המסגרת הקנונית ליישום \textenglish{PCE} לאמידת TL תת-ימית
+תוך שימוש בפולינומי הרמיט ההסתברותיים עבור הפרעות מהירות-קול גאוסיות.
+מדווח ש-$K=3$--5 מספיק לגלידת מי-עמוקים איזו-מהירות; ההתכנסות מדרדרת
+להפרעות גדולות יותר ($>$5\%{}) ולידי גבולות אזורי צל.
 
-\paragraph{East China Sea Sonar Performance Paper.}
-Applies ensemble MC methods to realistic environmental uncertainty in a shelf/shelfbreak
-setting.
-Key finding: the shelfbreak transition zone produces dramatically higher acoustic
-uncertainty than either the shelf or the deep-water region.
+\paragraph{מאמר ביצועי סונאר בים סין המזרחי.}
+מיישם שיטות MC-אנסמבל לאי-ודאות סביבתית ריאליסטית בסביבת מדף/שבר-מדף.
+ממצא מפתח: אזור המעבר של שבר המדף מייצר אי-ודאות אקוסטית גבוהה בהרבה
+מאלה של המדף לבד או של אזור המים העמוקים.
 
-\paragraph{JMSE 2022 (LN3 for shallow water).}
-Demonstrates that a shifted lognormal model provides a better fit than a Gaussian
-approximation for TL statistics in shallow water, motivating our LN3 choice.
+\paragraph{\textenglish{JMSE} 2022 (\textenglish{LN3} למים רדודים).}
+מדגים שמודל לוגנורמלי מוזז מספק התאמה טובה יותר מקירוב גאוסי
+לסטטיסטיקת TL במים רדודים, ומנחה את בחירת ה-\textenglish{LN3} שלנו.
 
-\paragraph{Ocean Modelling 2022 (Delta sensitivity).}
-Provides systematic Delta sensitivity analysis for a realistic oceanographic environment,
-confirming that frequency is the least sensitive parameter and SVP the most sensitive.
-\end{english}
+\paragraph{\textenglish{Ocean Modelling} 2022 (רגישות דלתא).}
+מספק ניתוח רגישות דלתא שיטתי לסביבה אוקיאנוגרפית ריאליסטית,
+ומאשר שתדר הוא הפרמטר הפחות רגיש ו-SVP הוא הרגיש ביותר.
 
 \subsection{השוואה ישירה: תוצאותיהם לעומת שלנו}
 
@@ -1368,53 +1264,45 @@ confirming that frequency is the least sensitive parameter and SVP the most sens
 
 \subsection{PCE והתאמת יתר — בדיקה צולבת}
 
-\begin{english}
-PCE overfitting occurs when the polynomial order $K$ exceeds the information content
-of the $N=1000$ training samples.
-For $M=1$ parameter and $K$ polynomial terms, the design matrix is
-$\Phi \in \mathbb{R}^{N \times (K+1)}$; OLS minimises $\|\Phi c - \mathbf{y}\|^2$.
-Leave-one-out cross-validation error provides an analytic formula for the LOO error
-without refitting:
+התאמת יתר של \textenglish{PCE} מתרחשת כאשר סדר הפולינום $K$ עולה על תוכן המידע
+של $N=1000$ מדגמי האימון.
+עבור $M=1$ פרמטר ו-$K$ אברי פולינום, מטריצת העיצוב היא
+$\Phi \in \mathbb{R}^{N \times (K+1)}$; \textenglish{OLS} ממזער $\|\Phi c - \mathbf{y}\|^2$.
+שגיאת בדיקה צולבת השמט-אחד מספקת נוסחה אנליטית לשגיאת \textenglish{LOO}
+ללא התאמה מחדש:
 $\varepsilon_{\rm LOO} = \frac{1}{N}\sum_{i=1}^N \left(\frac{y_i - \hat y_i}{1-h_{ii}}\right)^2$,
-where $h_{ii}$ are the hat matrix diagonals.
-This LOO error is the convergence criterion used for $K^*$ selection.
+כאשר $h_{ii}$ הם האלכסוניים של מטריצת הכובע.
+שגיאת \textenglish{LOO} זו היא קריטריון ההתכנסות המשמש לבחירת $K^*$.
 
-Literature benchmarks (Finette~2006, 2009) report $K^*\leq 5$ for smooth deep-water
-SVP scenarios, consistent with our corrected pipeline finding $K^*=4$--6 for the same
-scenario class.
-The previously reported $K^*\leq 3$ in our initial pipeline were artefacts of a
-coefficient bug (all PCE coefficients were zero due to a sign error in the Vandermonde
-regression).
-\end{english}
+ממדדי ספרות (\textenglish{Finette} 2006, 2009) מדווחים $K^*\leq 5$ לתרחישי SVP חלקים במים עמוקים,
+עקביים עם ממצא הצינור המתוקן שלנו $K^*=4$--6 לאותה קטגוריית תרחיש.
+ה-$K^*\leq 3$ שדווח בעבר בצינור הראשוני שלנו היו ארטיפקטים של באג מקדמים
+(כל מקדמי \textenglish{PCE} היו אפס בגלל שגיאת סימן ברגרסיית וונדרמונד).
 
 \subsection{מדדי UQ חלופיים לפעולת סונאר}
 
-\begin{english}
-Beyond variance, three alternative UQ metrics are relevant for sonar mission planning:
+מעבר לשונות, שלושה מדדי UQ חלופיים רלוונטיים לתכנון משימת סונאר:
 
 \begin{enumerate}
-  \item \textbf{$P_\mathrm{fail}$ map}: $P(\TL > \mathrm{FOM})$ at each pixel ---
-        the primary operational output of this project.
-  \item \textbf{P95 TL envelope}: $Q_{0.95}[\TL(r,z)]$ --- the worst-case TL exceeded
-        by only 5\% of environmental realisations.
-        For a Normal distribution: $P_{95} = \mu + 1.645\sigma$, recoverable from
-        Delta or PCE variance at zero extra cost.
-  \item \textbf{Chebyshev bound}: distribution-free upper bound on $P(\TL > \mathrm{FOM})$
-        based only on mean and variance:
+  \item \textbf{מפת $P_\mathrm{fail}$}: $P(\TL > \mathrm{FOM})$ בכל פיקסל ---
+        הפלט המבצעי הראשי של פרויקט זה.
+  \item \textbf{מעטפת TL של P95}: $Q_{0.95}[\TL(r,z)]$ --- ה-TL במקרה הגרוע
+        שעוברים רק 5\%{} מהמימושים הסביבתיים.
+        עבור התפלגות נורמלית: $P_{95} = \mu + 1.645\sigma$, ניתן לשחזור
+        משונות דלתא או \textenglish{PCE} ללא עלות נוספת.
+  \item \textbf{חסם צ'ביצ'ב}: חסם עליון חופשי-התפלגות על $P(\TL > \mathrm{FOM})$
+        המבוסס רק על ממוצע ושונות:
         $P(\TL > \mu + k\sigma) \leq 1/k^2$.
-        Conservative but valid for any distribution.
+        שמרני אך תקף לכל התפלגות.
 \end{enumerate}
-\end{english}
 
 \subsection{מדדי סובול — רגישות מרחבית}
 
-\begin{english}
-First-order Sobol sensitivity indices can be computed analytically from the 1-D
-per-parameter PCE coefficients:
+מדדי הרגישות של סובול מסדר ראשון ניתנים לחישוב אנליטי ממקדמי \textenglish{PCE}
+החד-ממדיים לפי פרמטר:
 $S_k = \sum_{j>0} c_{j,k}^2 / \sum_{j>0} \sum_l c_{j,l}^2$.
-For deep-water Normal\,5\%: $S_\mathrm{SVP} \approx 0.65$, $S_{z_S} \approx 0.20$,
-$S_f \approx 0.15$, confirming SVP as the dominant driver of TL variance.
-\end{english}
+עבור נורמלי 5\%{} במים עמוקים: $S_\mathrm{SVP} \approx 0.65$, $S_{z_S} \approx 0.20$,
+$S_f \approx 0.15$, המאשרים ש-SVP הוא הגורם השולט בשונות ה-TL.
 
 % ============================================================
 %  5.  משמעות פיזיקלית ותפעולית
@@ -1422,139 +1310,122 @@ $S_f \approx 0.15$, confirming SVP as the dominant driver of TL variance.
 \section{משמעות פיזיקלית ותפעולית}
 \label{sec:deep_meaning}
 
-\begin{english}
-Beyond comparing five UQ methods, this study reveals something more fundamental:
-the \emph{ocean waveguide itself has a spatial structure of predictability}.
-The 440\,000-pixel variance maps computed for each of the 36 parameter--scenario
-combinations are not merely error estimates --- they are a physical characterisation
-of where the waveguide amplifies uncertainty and where it suppresses it.
-\end{english}
+מעבר להשוואת חמש שיטות UQ, מחקר זה חושף משהו עמוק יותר:
+\emph{לגלידת האוקיינוס עצמה יש מבנה מרחבי של ניבוי}.
+מפות השונות בנות 440{,}000 הפיקסלים המחושבות עבור כל אחד מ-36 צירופי פרמטר--תרחיש
+אינן רק אמידות שגיאה --- הן אפיון פיזיקלי של היכן הגלידה מגבירה אי-ודאות
+והיכן היא מדכאת אותה.
 
 \subsection{שדה השונות כטביעת אצבע פיזיקלית}
 \label{sec:variance_fingerprint}
 
-\begin{english}
-The three uncertain parameters produce qualitatively distinct spatial variance patterns:
+שלושת הפרמטרים האי-ודאיים מייצרים תבניות שונות מרחביות שונות מבחינה איכותית:
 
 \begin{itemize}
-  \item \textbf{SVP perturbation} produces the most spatially \emph{heterogeneous}
-        variance field (0--10\,000\,dB$^2$).
-        Variance is highest at convergence-zone boundaries --- precisely where the
-        acoustic field undergoes a caustic transition.
-        Small SVP changes shift the caustic by kilometres, causing 10--20\,dB TL
-        swings at nearby pixels.
-        The SVP variance map encodes the waveguide's \emph{refracting geometry}.
+  \item \textbf{הפרעת SVP} מייצרת את שדה השונות המרחבי ה\emph{הטרוגני} ביותר (0--10{,}000~dB$^2$).
+        השונות גבוהה ביותר בגבולות אזורי ההתכנסות --- בדיוק היכן שהשדה האקוסטי עובר מעבר קאוסטי.
+        שינויי SVP קטנים מזיזים את הקאוסטיק בקילומטרים, וגורמים לתנודות TL של 10--20~dB
+        בפיקסלים סמוכים.
+        מפת השונות של SVP מקודדת את \emph{הגיאומטריה השוברת} של הגלידה.
 
-  \item \textbf{Source-depth perturbation} produces moderate, mode-selective variance
-        (0--4\,000\,dB$^2$), concentrated near caustic arcs where the source crosses
-        a normal-mode node.
-        This non-smooth dependence on $z_S$ explains why PCE fails to converge for
-        source depth even when it converges for SVP.
+  \item \textbf{הפרעת עומק מקור} מייצרת שונות בינונית, סלקטיבית-מודלים
+        (0--4{,}000~dB$^2$), מרוכזת ליד קשתות קאוסטיות שבהן המקור חוצה צומת מוד נורמלי.
+        תלות לא-חלקה זו ב-$z_S$ מסבירה מדוע \textenglish{PCE} נכשל להתכנס לעומק מקור
+        אפילו כאשר הוא מתכנס ל-SVP.
 
-  \item \textbf{Frequency perturbation} produces a \emph{spatially uniform} variance
-        in slope environments (3\,500--3\,540\,dB$^2$ across all 440\,000 pixels ---
-        less than 1\% spatial dynamic range).
-        A frequency change shifts all multipath interference fringes coherently;
-        every pixel experiences the same fractional TL variation.
-        Contrast with SVP, which physically reshapes the ray geometry.
+  \item \textbf{הפרעת תדר} מייצרת שונות \emph{אחידה מרחבית} בסביבות מדרון
+        (3{,}500--3{,}540~dB$^2$ על פני כל 440{,}000 הפיקסלים ---
+        פחות מ-1\%{} טווח דינמי מרחבי).
+        שינוי תדר מזיז את כל פסי ההפרעה הרב-מסלולית בצורה קוהרנטית;
+        כל פיקסל חווה את אותה וריאציה שברירית של TL.
+        בניגוד ל-SVP, שמעצב מחדש פיזית את גיאומטריית הקרנות.
 \end{itemize}
 
-\paragraph{Operational translation.}
-A pre-mission BT drop to measure the SVP delivers far more reduction in acoustic
-uncertainty than any frequency-calibration measurement.
-The 8--10\,dB acoustic uncertainty widely cited in the sonar engineering literature
-arises primarily from SVP mismatch, not signal-processing or calibration.
-\end{english}
+\paragraph{תרגום מבצעי.}
+הורדת BT לפני משימה למדידת SVP מספקת הפחתה גדולה בהרבה של אי-הוודאות האקוסטית
+מכל מדידת כיול תדר.
+אי-הוודאות האקוסטית של 8--10~dB המצוטטת לרוב בספרות הנדסת סונאר
+נובעת בעיקרה מאי-התאמת SVP, ולא מעיבוד אות או כיול.
 
 \subsection{מה כשל ההתכנסות של PCE מגלה על הגלידה}
 \label{sec:pce_physics}
 
-\begin{english}
-PCE converges exponentially for \emph{analytic} (infinitely differentiable) functions
-of the uncertain parameter.
-For flat-bottom deep water with SVP perturbation, our $K^*=4$--6 results confirm
-that $\mathrm{TL}(\xi_\mathrm{svp})$ is smooth.
-For \emph{slope environments}, none of the three parameters converge at any order
-$K\leq 20$: the TL field, viewed as a function of the uncertain parameter, has
-finite-order singularities corresponding to physical caustic crossings.
-A sonar operator applying a well-calibrated flat-water surrogate to a slope environment
-will report \emph{confidently wrong} low-variance estimates.
-The automated LOO-CV convergence diagnostic flags this: any scenario with LOO error
-$>$10\% at all orders signals ``surrogate unreliable; fall back to MC.''
+\textenglish{PCE} מתכנסת באופן אקספוננציאלי עבור פונקציות \emph{אנליטיות} (דיפרנציאביליות אינסופית)
+של הפרמטר האי-ודאי.
+עבור מים עמוקים עם קרקעית שטוחה והפרעת SVP, התוצאות שלנו $K^*=4$--6 מאשרות
+ש-$\mathrm{TL}(\xi_\mathrm{svp})$ הוא חלק.
+עבור \emph{סביבות מדרון}, אין אחד משלושת הפרמטרים מתכנס בשום סדר
+$K\leq 20$: שדה ה-TL, הנבחן כפונקציה של הפרמטר האי-ודאי,
+בעל סינגולאריות סדר סופי המתאימות לחציות קאוסטיות פיזיקליות.
+מפעיל סונאר המחיל סרגן מים-שטוחים מכויל-היטב על סביבת מדרון
+ידווח על אמידות שונות-נמוכה \emph{בטוחות-לא-נכונות}.
+האבחון האוטומטי של \textenglish{LOO-CV} מסמן זאת: כל תרחיש עם שגיאת \textenglish{LOO}
+$>$10\%{} בכל הסדרים מאותת ``סרגן לא-אמין; חזור ל-MC.''
 
-The PCE $K^*$ map functions as a \emph{waveguide regularity diagnostic}:
-$K^*\leq 6$: smooth response --- lightweight surrogates reliable.
-$K^*=7$--10: moderate nonlinearity --- PCE usable with caution.
-$K^*>10$ or non-convergence: genuinely non-polynomial --- MC mandatory.
-\end{english}
+מפת $K^*$ של \textenglish{PCE} פועלת כ\emph{אבחון סדירות גלידה}:
+$K^*\leq 6$: תגובה חלקה --- סרגנים קלים אמינים.
+$K^*=7$--10: לא-לינאריות מתונה --- \textenglish{PCE} ניתנת לשימוש בזהירות.
+$K^*>10$ או אי-התכנסות: לא-פולינומי באמת --- MC חובה.
 
 \subsection{שלושה תחומי ניבוי}
 \label{sec:three_regimes}
 
-\begin{english}
-Synthesising the results across all 36 parameter--scenario combinations, the ocean
-acoustic environment partitions into three predictability regimes:
+בסינתזה של התוצאות על פני כל 36 צירופי פרמטר--תרחיש, הסביבה האקוסטית האוקיינוסית
+מתחלקת לשלושה משטרי ניבוי:
 
 \begin{enumerate}
-  \item \textbf{High-predictability} (flat bathymetry, $\sigma\leq 1\%$):
-        $K^*=1$--4, Delta accurate, LN3 fits well.
-        All five UQ methods agree; the cheapest (Delta) is sufficient.
-  \item \textbf{Moderate-predictability} (flat bathymetry, $\sigma=5$--10\%):
-        $K^*=4$--9 for SVP and frequency, $K^*>10$ for $z_S$.
-        PCE converges for two of three parameters; prediction errors reach 8--10\,dB.
-  \item \textbf{Low-predictability} (slope bathymetry, any $\sigma$; or $z_S$ perturbation):
-        No polynomial surrogate converges; Delta fails; LN3 fails at bimodal pixels.
-        Only MC is reliable; Chebyshev provides the only distribution-free safety margin.
+  \item \textbf{ניבוי גבוה} (בתימטריה שטוחה, $\sigma\leq 1\%$):
+        $K^*=1$--4, דלתא מדויקת, LN3 מתאימה היטב.
+        כל חמש שיטות ה-UQ מסכימות; הזולה ביותר (דלתא) מספיקה.
+  \item \textbf{ניבוי בינוני} (בתימטריה שטוחה, $\sigma=5$--10\%{}):
+        $K^*=4$--9 ל-SVP ותדר, $K^*>10$ ל-$z_S$.
+        PCE מתכנסת לשניים מתוך שלושה פרמטרים; שגיאות חיזוי מגיעות ל-8--10~dB.
+  \item \textbf{ניבוי נמוך} (בתימטריה מדרונית, כל $\sigma$; או הפרעת $z_S$):
+        אין סרגן פולינומי שמתכנס; דלתא נכשלת; LN3 נכשלת בפיקסלים דו-מודליים.
+        רק MC אמין; צ'ביצ'ב מספק את שולי הבטיחות היחיד החופשי-התפלגות.
 \end{enumerate}
 
-The boundaries between these regimes are \emph{not global} --- they depend on the
-local acoustic environment and cannot be pre-determined without running the propagation
-model.
-\end{english}
+הגבולות בין משטרים אלו \emph{אינם גלובליים} --- הם תלויים בסביבה האקוסטית המקומית
+ולא ניתן לקבוע אותם מראש ללא הרצת מודל ההתפשטות.
 
 \subsection{הנחיות מעשיות למפעיל סונאר}
 \label{sec:operator_guidance}
 
-\begin{english}
-\paragraph{1. The confidence map matters more than the mean map.}
-A deterministic TL map shows where mean predicted loss is high (shadow zones) and
-low (convergence zones).
-But the operationally critical quantity is the probability that TL exceeds the FOM ---
-not whether the mean TL does.
-CZ position can shift by $\pm$10\,km and CZ gain can vary by $\pm$5--10\,dB under
-realistic SVP uncertainty.
+\paragraph{1. מפת הביטחון חשובה יותר ממפת הממוצע.}
+מפת TL דטרמיניסטית מציגה היכן הפסד ממוצע חזוי גבוה (אזורי צל)
+ונמוך (אזורי התכנסות).
+אך הכמות הקריטית מבחינה מבצעית היא ההסתברות שה-TL יעלה על ה-FOM ---
+לא אם ה-TL הממוצע עושה זאת.
+מיקום CZ יכול להזיז ב-$\pm$10~ק"מ ורווח CZ יכול להשתנות ב-$\pm$5--10~dB
+תחת אי-ודאות SVP ריאליסטית.
 
-\paragraph{2. Use the P95 TL envelope for procurement and platform design.}
-For conservative sonar planning (NATO ``worst credible case'' requirement),
-the P95 TL map $\mathrm{TL}^{95}=\mathrm{Q}_{0.95}[\mathrm{TL}]$ is the appropriate
-design baseline.
-For a Normal TL distribution: $\mathrm{TL}^{95}\approx\mu+1.645\sigma$, recoverable
-from Delta or PCE at zero extra Bellhop cost.
+\paragraph{2. השתמש במעטפת TL של P95 לרכש ועיצוב פלטפורמות.}
+לתכנון סונאר שמרני (דרישת ``המקרה הגרוע הסביר'' של \textenglish{NATO}),
+מפת TL של P95 $\mathrm{TL}^{95}=\mathrm{Q}_{0.95}[\mathrm{TL}]$ היא
+בסיס העיצוב המתאים.
+עבור התפלגות TL נורמלית: $\mathrm{TL}^{95}\approx\mu+1.645\sigma$, ניתן לשחזור
+מדלתא או \textenglish{PCE} ללא עלות \textenglish{Bellhop} נוספת.
 
-\paragraph{3. Flag slope-environment contacts at elevated uncertainty.}
-The complete failure of lightweight surrogates in upslope/downslope geometries is a
-warning that acoustic prediction is fundamentally harder there.
-Contacts in slope regions should be flagged with an elevated uncertainty tier.
+\paragraph{3. דגל מגעים בסביבת מדרון בדרגת אי-ודאות מוגברת.}
+הכשל המוחלט של סרגנים קלים בגיאומטריות עולה/יורדת הוא אזהרה
+שחיזוי אקוסטי קשה בהרבה שם.
+מגעים באזורי מדרון יש לסמן עם דרגת אי-ודאות מוגברת.
 
-\paragraph{4. Source depth uncertainty is a new and under-appreciated risk.}
-The $z_S$-PCE non-convergence in all Normal distribution cases ($K^*>10$) has no
-analogue in the SVP literature.
-It arises because small $z_S$ changes cause mode-selective excitation changes that
-are non-polynomial in parameter space.
-Source depth estimation accuracy ($\pm$5\,m) should be treated as a first-class
-uncertainty input in any sonar performance prediction.
-\end{english}
+\paragraph{4. אי-ודאות עומק מקור היא סיכון חדש ולא-מוערך מספיק.}
+אי-ההתכנסות של \textenglish{PCE} ל-$z_S$ בכל מקרי ההתפלגות הנורמלית ($K^*>10$)
+אין לה אנלוגיה בספרות ה-SVP.
+היא נובעת מכך ששינויי $z_S$ קטנים גורמים לשינויי עירור סלקטיביים-מודלים
+שאינם פולינומיים במרחב הפרמטרים.
+דיוק אמידת עומק המקור ($\pm$5~מ') צריך להיות מטופל כקלט אי-ודאות מדרגה ראשונה
+בכל חיזוי ביצועי סונאר.
 
 \subsection{דיוק מרחבי של אמידת שונות}
 \label{sec:spatial_accuracy}
 
-\begin{english}
-The spatial accuracy of variance estimation (pixel-wise agreement between analytical
-and MC variance) reveals that variance is accurately predicted in 75\% of pixels
-for flat-bottom scenarios at all perturbation levels.
-The remaining 25\% lie at CZ boundaries and shadow-zone edges, where the bimodal
-TL distribution violates the assumptions of all parametric methods.
-\end{english}
+הדיוק המרחבי של אמידת שונות (הסכמה פיקסל-פיקסל בין שונות אנליטית ל-MC)
+מגלה שהשונות מנובאת במדויק ב-75\%{} מהפיקסלים לתרחישי קרקעית שטוחה בכל רמות ההפרעה.
+25\%{} הנותרים נמצאים בגבולות CZ ובקצוות אזורי הצל,
+שבהם התפלגות TL הדו-מודלית מפרה את הנחות כל השיטות הפרמטריות.
 
 % ============================================================
 %  6.  נספח: ארכיטקטורת צינור
@@ -1563,14 +1434,12 @@ TL distribution violates the assumptions of all parametric methods.
 \addcontentsline{toc}{section}{נספח: ארכיטקטורת הצינור}
 \label{sec:appendix}
 
-\begin{english}
-Figure~\ref{fig:block_diagram} shows the complete module dependency graph of the
-stochastic Bellhop UQ pipeline.
-Each box is a MATLAB script; arrows indicate data dependencies.
-The pipeline is designed so that computationally expensive Bellhop evaluations
-(shaded boxes) are run once and cached; all analytical methods (Delta, PCE, LN3, KDE)
-read from the cache and add zero Bellhop cost.
-\end{english}
+האיור~\ref{fig:block_diagram} מציג את גרף תלויות המודולים המלא של צינור UQ
+של \textenglish{Stochastic Bellhop}.
+כל תיבה היא סקריפט \textenglish{MATLAB}; חיצים מציינים תלויות נתונים.
+הצינור מתוכנן כך שהערכות \textenglish{Bellhop} יקרות חישובית (תיבות מוצללות)
+מורצות פעם אחת ונשמרות; כל השיטות האנליטיות (דלתא, \textenglish{PCE}, \textenglish{LN3}, \textenglish{KDE})
+קוראות מהמטמון ומוסיפות אפס עלות \textenglish{Bellhop}.
 
 \begin{figure}[H]
   \centering
