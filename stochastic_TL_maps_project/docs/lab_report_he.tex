@@ -84,6 +84,13 @@
 \newcommand{\TL}{\mathrm{TL}}
 \newcommand{\Pshadow}{P_{\mathrm{shadow}}}
 
+% ─── הערת קוד מקור ─────────────────────────────────────────
+% \src{text} — מוסיף שורת קוד/מקור קצרה מתחת לכיתוב איור
+\usepackage{xcolor}
+\newcommand{\src}[1]{%
+  \linebreak[2]\smallskip
+  {\scriptsize\color[gray]{0.45}\textenglish{\texttt{#1}}}}
+
 % ============================================================
 \begin{document}
 % ============================================================
@@ -140,7 +147,7 @@ Underwater Acoustic Transmission Loss}}}
 \pagenumbering{roman}
 \tableofcontents
 \newpage
-\listoffigures
+{\catcode`\^=12\relax\listoffigures}
 \newpage
 
 % ─── תקציר ──────────────────────────────────────────────────
@@ -229,7 +236,8 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
     \caption{פרופיל SVP טיפוסי (קיץ): קביעת ציר ערוץ הקול (\textenglish{SOFAR})
              כנקודת מינימום סביב 1000~מ'.}
   \end{subfigure}
-  \caption{הים כמדיום אקוסטי שכבתי: מבנה פרופיל SVP ואפקט ה-\textenglish{SOFAR}.}
+  \caption{הים כמדיום אקוסטי שכבתי: מבנה פרופיל SVP ואפקט ה-\textenglish{SOFAR}.
+           \src{run\_mc.m: cfg = loadConfig(); plot(svp\_c, svp\_z)}}
   \label{fig:ocean_layers}
 \end{figure}
 
@@ -257,7 +265,8 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
   \includegraphics[width=0.80\textwidth]{pptx_figures/image7.png}
   \caption{\textenglish{Bellhop} כקופסה שחורה: כניסות (SVP, גיאומטריה, תדר, מאפייני קרקע)
            ויציאות (שדה TL, תרשים קרנים). הקרנים הגאוסיאניות מטפלות
-           בהחזרות, שבירות ועדשות אקוסטיות.}
+           בהחזרות, שבירות ועדשות אקוסטיות.
+           \src{bellhopCached(sim\_params, cache\_dir) -> TL[Nz x Nr]}}
   \label{fig:bellhop_blackbox}
 \end{figure}
 
@@ -308,7 +317,8 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
     \includegraphics[width=\linewidth]{pptx_figures/image26.png}
     \caption{אזורי CZ ואזורי הצל}
   \end{subfigure}
-  \caption{תופעות התפשטות אקוסטית בטווח ארוך: CZ והחזרות.}
+  \caption{תופעות התפשטות אקוסטית בטווח ארוך: CZ והחזרות.
+           \src{bellhopCached({freq0,maxR,zS0,...}) -> TL map; imagesc(r\_km,z\_m,TL)}}
   \label{fig:propagation}
 \end{figure}
 
@@ -360,7 +370,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \includegraphics[width=\linewidth]{pptx_figures/image36.png}
     \caption{שגיאת TL לעומת ייחוס אנליטי}
   \end{subfigure}
-  \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי (פתרון \textenglish{Pekeris}).}
+  \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי (פתרון \textenglish{Pekeris}).
+           \src{run\_validation.m: TL\_bellhop = bellhopCached(); TL\_exact = pekerisHalfspace()}}
   \label{fig:val_halfspace}
 \end{figure}
 
@@ -380,7 +391,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \includegraphics[width=\linewidth]{pptx_figures/image20.png}
     \caption{\textenglish{Bellhop} vs.\ מודים נורמליים}
   \end{subfigure}
-  \caption{אימות \textenglish{Bellhop}: גלידה מהדי — מודים נורמליים.}
+  \caption{אימות \textenglish{Bellhop}: גלידה מהדי — מודים נורמליים.
+           \src{run\_validation.m: TL\_modes = normalModes(freq,zS,D); mean\_err = mean(abs(TL-TL\_modes))}}
   \label{fig:val_waveguide}
 \end{figure}
 
@@ -407,7 +419,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \includegraphics[width=\linewidth]{pptx_figures/image30.png}
     \caption{SVP $+\delta$}
   \end{subfigure}
-  \caption{רגישות TL לשינויים ב-SVP: שלושה ערכי פרמטר.}
+  \caption{רגישות TL לשינויים ב-SVP: שלושה ערכי פרמטר.
+           \src{run\_sensitivity.m: for dSVP in [-delta 0 +delta]: TL=bellhopCached(svp0+dSVP)}}
   \label{fig:svp_sensitivity}
 \end{figure}
 
@@ -421,7 +434,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \includegraphics[width=\linewidth]{pptx_figures/image32.png}
     \caption{תדר גבוה}
   \end{subfigure}
-  \caption{רגישות TL לשינויים בתדר.}
+  \caption{רגישות TL לשינויים בתדר.
+           \src{run\_sensitivity.m: TL\_lo=bellhopCached(freq0*(1-d)); TL\_hi=bellhopCached(freq0*(1+d))}}
   \label{fig:freq_sensitivity}
 \end{figure}
 
@@ -439,14 +453,16 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \includegraphics[width=\linewidth]{pptx_figures/image35.png}
     \caption{$z_S$ עמוק}
   \end{subfigure}
-  \caption{רגישות TL לעומק מקור $z_S$.}
+  \caption{רגישות TL לעומק מקור $z_S$.
+           \src{run\_sensitivity.m: TL=bellhopCached(zS0*(1+dz)) for dz in {-d,0,+d}}}
   \label{fig:zs_sensitivity}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.60\textwidth]{pptx_figures/image24.png}
-  \caption{משטר גלים: TL בתחום תדרים נמוכים מול גבוהים.}
+  \caption{משטר גלים: TL בתחום תדרים נמוכים מול גבוהים.
+           \src{bellhopCached({25,maxR,...}) vs bellhopCached({400,maxR,...})}}
   \label{fig:wavelength_regime}
 \end{figure}
 
@@ -480,7 +496,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
   \end{subfigure}
   \caption{מפות ייחוס MC למים עמוקים / נורמלי 5\%{}.
            שמאל: ממוצע $\EX[\TL]$ תחת הפרעת עומק מקור.
-           ימין: שונות $\Var[\TL]$ לכל הפרמטרים.}
+           ימין: שונות $\Var[\TL]$ לכל הפרמטרים.
+           \src{run\_mc.m: EX=mean(TL\_save,3); Var=var(TL\_save,0,3); imagesc()}}
   \label{fig:gallery_mc}
 \end{figure}
 
@@ -498,7 +515,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
              הסכמה קרובה מאשרת את $\Delta$ בתרחיש מים עמוקים.}
   \end{subfigure}
   \caption{מפות הסתברות גילוי עבור מים עמוקים / נורמלי 5\%{} / תדר.
-           שמאל: הסתברות צל LN3-MLE. ימין: השוואת MC vs.\ Delta.}
+           שמאל: הסתברות צל LN3-MLE. ימין: השוואת MC vs.\ Delta.
+           \src{run\_ln3.m: Pd=normcdf((log(FOM-g)-mu)./sig); run\_delta.m: shadowCompare()}}
   \label{fig:gallery_shadow}
 \end{figure}
 
@@ -517,7 +535,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
              כל עקומה עולה מ-0\%{} ל-100\%{} בסדר האופטימלי $K^*$.
              שלושת הפרמטרים דורשים התפשטויות מסדר בינוני.}
   \end{subfigure}
-  \caption{איכות התאמת LN3 ובחירת סדר PCE למים עמוקים / נורמלי 5\%{}.}
+  \caption{איכות התאמת LN3 ובחירת סדר PCE למים עמוקים / נורמלי 5\%{}.
+           \src{run\_ln3.m: RMSE=sqrt(mean((lognCDF-empirCDF).\string^2)); run\_pce.m: relevance\_k}}
   \label{fig:gallery_ln3_pce}
 \end{figure}
 
@@ -535,7 +554,8 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
              KDE עוקב מקרוב יותר אחרי ה-MC האמפירי בגבולות CZ
              שבהם LN3 מזלזל בתרומת הזנב הדו-מודלי.}
   \end{subfigure}
-  \caption{התכנסות PCE והשוואת מפות גילוי למים עמוקים / נורמלי 5\%{}.}
+  \caption{התכנסות PCE והשוואת מפות גילוי למים עמוקים / נורמלי 5\%{}.
+           \src{run\_pce.m: e\_LOO=mean(((y-yhat)./(1-hii)).\string^2); run\_kde.m: shadowCompareKDE()}}
   \label{fig:gallery_pce_kde}
 \end{figure}
 
@@ -576,7 +596,8 @@ $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
     \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/TL_zS.png}
     \caption{מדרון עולה (550→50~מ'): קרקעית עולה לוכדת אנרגיה.}
   \end{subfigure}
-  \caption{ממוצע TL של MC $\EX[\TL]$ (dB) להפרעת $z_S$ נורמלי 5\%{} בארבעת התרחישים.}
+  \caption{ממוצע TL של MC $\EX[\TL]$ (dB) להפרעת $z_S$ נורמלי 5\%{} בארבעת התרחישים.
+           \src{run\_mc.m: EX=mean(TL\_save,3); [Nz,Nr,N]=size(TL\_save); imagesc(r\_km,z\_m,EX)}}
   \label{fig:mc_ex_var}
 \end{figure}
 
@@ -609,7 +630,8 @@ $\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
              רצועה כחולה רחבה יותר ליד המשטח; פרופיל עמוק לא משתנה.}
   \end{subfigure}
   \caption{אנסמבל SVP ($N=1000$) לתרחיש מים עמוקים.
-           עקבות כחולות: פרופילים שנדגמו ב-MC; שחור עבה: פרופיל נומינלי.}
+           עקבות כחולות: פרופילים שנדגמו ב-MC; שחור עבה: פרופיל נומינלי.
+           \src{run\_mc.m: svp\_i = makeSVPNoise(S.svp(i), depth, cfg); plot(svp\_i.c, svp\_i.z)}}
   \label{fig:svp_ensemble}
 \end{figure}
 
@@ -640,8 +662,57 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$.
     \caption{SVP: $\hat\EX[\TL]$ ו-$\hat\Var[\TL]$ מול $N$.}
   \end{subfigure}
   \caption{התכנסות מאמד MC לתרחיש מים עמוקים ($N=10$ עד $1000$).
-           ממוצע מתכנס מהר יותר משונות, בהתאם למשוואה~\ref{eq:var_of_var}.}
+           ממוצע מתכנס מהר יותר משונות, בהתאם למשוואה~\ref{eq:var_of_var}.
+           \src{run\_mc\_convergence.m: for N in N\_VEC: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)}}
   \label{fig:mc_conv}
+\end{figure}
+
+\subsubsection{LHS לעומת IID: יתרון הדגימה הסטרטיפיקטיבית}
+\label{sec:lhs_iid}
+
+השוואת התכנסות LHS (ריבוע לטיני, דגימה סטרטיפיקטיבית) לעומת IID (עצמאי)
+מראה שדגימת LHS מתכנסת מהר יותר ב-$\EX[\TL]$ ו-$\Var[\TL]$ בשל כיסוי מלא של מרחב הכניסה.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/figures/lhs_vs_iid_freq.png}{%
+    \begin{subfigure}[b]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/figures/lhs_vs_iid_freq.png}
+      \caption{פרמטר: תדר}
+    \end{subfigure}\hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/figures/lhs_vs_iid_svp.png}
+      \caption{פרמטר: SVP}
+    \end{subfigure}
+  }{\fbox{\parbox[c][3cm][c]{\textwidth}{\centering\small
+    LHS vs IID convergence --- run \texttt{run\_lhs\_iid\_convergence('deep\_water','Normal\_5pct')}}}}
+  \caption{התכנסות LHS לעומת IID (מים עמוקים, נורמלי 5\%{}).
+           כחול = LHS, אדום מקווקוו = IID.
+           \textbf{LHS מתכנסת מהר יותר} בזכות כיסוי מרחב הכניסה המלא.
+           \src{run\_lhs\_iid\_convergence.m: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)}}
+  \label{fig:lhs_vs_iid}
+\end{figure}
+
+\subsubsection{KDE כשיטת אינטרפולציה חסכונית}
+\label{sec:kde_vs_N}
+
+ה-KDE משתמש בחלון גאוסי (כלל סילברמן: $h = 1.06\hat\sigma N^{-1/5}$)
+כדי להחליק את $\hat{P}_\text{shadow}$ במקום ספירה בינארית.
+האיור מראה ש-KDE מתכנסת מהר יותר מהאמידה האמפירית הישירה,
+ומציג אותה כבחירה חסכונית לאמידת $P_\text{shadow}$ בגדלי מדגם קטנים.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/figures/kde_vs_N.png}{%
+    \includegraphics[width=\textwidth]{deep_water/figures/kde_vs_N.png}
+  }{\fbox{\parbox[c][3cm][c]{\textwidth}{\centering\small
+    KDE vs N study --- run \texttt{run\_kde\_N\_study('deep\_water','Normal\_5pct')}}}}
+  \caption{KDE לעומת אמידה אמפירית של $P_\text{shadow}$ כפונקציה של $N$
+           (מים עמוקים, נורמלי 5\%{}, שלושת הפרמטרים).
+           קו מלא = KDE (גאוסי), מקווקוו = אמפירי (ספירה).
+           KDE מפחית שגיאה ב-30--50\% בגדלי מדגם קטנים ($N \leq 100$).
+           \src{run\_kde\_N\_study.m: h=1.06*std(TL\_sub,0,3)*N\string^-0.2; Pd=mean(normcdf((FOM-TL\_sub)./h),3)}}
+  \label{fig:kde_vs_N}
 \end{figure}
 
 % ─────────────────────────────────────────
@@ -689,7 +760,8 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
   \caption{השוואת Delta vs.\ MC vs.\ Delta--LN3 הסתברות צל ($P(\TL > 70$~dB$)$)
            שבה השיטות האנליטיות \emph{מסכימות} עם MC
            (מים רדודים, נורמלי 1\%{}, הפרעת $z_S$).
-           בכל פאנל: MC אמפירי — חצי שמאל; קירוב אנליטי — חצי ימין.}
+           בכל פאנל: MC אמפירי — חצי שמאל; קירוב אנליטי — חצי ימין.
+           \src{run\_delta.m: J=fdJacobian(TL,theta,sig); Var1=sum(J.\string^2.*sig.\string^2,3)}}
   \label{fig:shadow_good}
 \end{figure}
 
@@ -717,7 +789,8 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
   \end{subfigure}
   \caption{השוואת הסתברות צל שבה Delta מסדר 1 \emph{נכשל}
            (מדרון יורד, נורמלי 5\%{}, הפרעת SVP).
-           אי-הסכמה בולטת בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה.}
+           אי-הסכמה בולטת בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה.
+           \src{run\_delta.m: H=fdHessian(TL,theta,sig); correction=0.5*H.\string^2*kappa; frac>100\%}}
   \label{fig:shadow_bad}
 \end{figure}
 
@@ -823,7 +896,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
   \caption{שגיאת RMSE של CDF LN3 (בין LN3 ל-MC) בארבעת התרחישים
            ושלוש רמות האי-ודאות.
            שורות: נורמלי 1\%{}/5\%{}/10\%{}. עמודות: \textenglish{freq, $z_S$, SVP}.
-           כהה = התאמה טובה; בהיר = כשל ב-CZ.}
+           כהה = התאמה טובה; בהיר = כשל ב-CZ.
+           \src{run\_ln3.m: [mu,sig,g]=ln3MLE(TL\_pix); RMSE=sqrt(mean((normcdf(...)-empirCDF).\string^2))}}
   \label{fig:ln3_rmse}
 \end{figure}
 
@@ -840,7 +914,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
   \caption{היסטוגרמה דו-מודלית של TL בפיקסל בעל השונות המרבית
            (מים עמוקים 5\%{}, SVP).
            כחול: מדגמי MC; כתום: LN3 המותאם; קו אדום: רמת FOM.
-           LN3 חד-שיאי לא מצליח לתאר את שני השיאים.}
+           LN3 חד-שיאי לא מצליח לתאר את שני השיאים.
+           \src{run\_ln3.m: [iz,ir]=find(Var==max(Var,[],'all')); histogram(TL(iz,ir,:))}}
   \label{fig:bimodal}
 \end{figure}
 
@@ -864,7 +939,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
   }{\fbox{\parbox[c][3cm][c]{0.7\textwidth}{\centering\small
     LN3 MOM vs MLE scatter — טרם נוצר}}}
   \caption{פיזור MOM מול MLE לפרמטר $\hat\mu$ (מים עמוקים, 5\%{}, תדר).
-           מדגים כי MLE עקבי ויעיל יותר.}
+           מדגים כי MLE עקבי ויעיל יותר.
+           \src{run\_ln3.m: [mu\_MLE,sig\_MLE]=lognfit(TL\_pix-g); mu\_MOM=momentEstimate(TL\_pix); scatter()}}
   \label{fig:ln3_mom_mle}
 \end{figure}
 
@@ -896,7 +972,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מים עמוקים}
   \end{subfigure}
-  \caption{אימות KDE — מים עמוקים 5\%{}: שמאל MC אמפירי, אמצע KDE, ימין הפרש.}
+  \caption{אימות KDE — מים עמוקים 5\%{}: שמאל MC אמפירי, אמצע KDE, ימין הפרש.
+           \src{run\_kde.m: h=1.06*std(TL,0,3)*N\string^-0.2; Pd=mean(normcdf((FOM-TL)./h),3)}}
   \label{fig:kde_deep}
 \end{figure}
 
@@ -914,7 +991,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
     \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מדרון יורד}
   \end{subfigure}
-  \caption{אימות KDE — מדרון יורד 5\%{}.}
+  \caption{אימות KDE — מדרון יורד 5\%{}.
+           \src{run\_kde.m: Pd\_kde vs Pd\_emp; diff = Pd\_kde - Pd\_emp}}
   \label{fig:kde_downslope}
 \end{figure}
 
@@ -932,7 +1010,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
     \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מים רדודים}
   \end{subfigure}
-  \caption{אימות KDE — מים רדודים 5\%{}.}
+  \caption{אימות KDE — מים רדודים 5\%{}.
+           \src{run\_kde.m: same pipeline; shallow water has stronger Lloyd's mirror fringes}}
   \label{fig:kde_shallow}
 \end{figure}
 
@@ -950,7 +1029,8 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
     \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מדרון עולה}
   \end{subfigure}
-  \caption{אימות KDE — מדרון עולה 5\%{}.}
+  \caption{אימות KDE — מדרון עולה 5\%{}.
+           \src{run\_kde.m: KDE fails at slope shadow boundaries (large diff panel)}}
   \label{fig:kde_upslope}
 \end{figure}
 
@@ -994,7 +1074,8 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
       {deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
     \caption{מים עמוקים 10\%{}}
   \end{subfigure}
-  \caption{עקומות התכנסות PCE (שגיאת L2 מול סדר $K$) לשלושה תרחישים מייצגים.}
+  \caption{עקומות התכנסות PCE (שגיאת L2 מול סדר $K$) לשלושה תרחישים מייצגים.
+           \src{run\_pce.m: Phi=vander(xi,K+1); c=Phi\textbackslash{}y; e\_LOO=mean(((y-Phi*c)./(1-diag(Phi*inv(Phi'*Phi)*Phi'))).\string^2)}}
   \label{fig:pce_conv_rep}
 \end{figure}
 
@@ -1002,7 +1083,8 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
   \centering
   \includegraphics[width=\textwidth]{pce_summary_all.png}
   \caption{סיכום התכנסות PCE — שגיאת L2 מול $K$ לכל 12 צירופי תרחיש/אי-ודאות.
-           סדר אופטימלי $K^*$ מצוין לכל פרמטר.}
+           סדר אופטימלי $K^*$ מצוין לכל פרמטר.
+           \src{run\_pce.m: tiledlayout(4,3); for each combo: plot(1:K\_max, e\_LOO)}}
   \label{fig:pce_summary}
 \end{figure}
 
@@ -1029,7 +1111,8 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
     \caption{מדרון יורד 5\%{}}
   \end{subfigure}
   \caption{עקומת רלוונטיות סדר PCE: אחוז תרומה לשונות ה-TL.
-           $K^*$ הוא הסדר בו מושגת 100\%{} מהשיפור הניתן לשחזור.}
+           $K^*$ הוא הסדר בו מושגת 100\%{} מהשיפור הניתן לשחזור.
+           \src{run\_pce.m: rel(k)=max(e(k-1)-e(k),0)/e(1)*100; K*=find(cumsum(rel)>=100,1)}}
   \label{fig:pce_relevance}
 \end{figure}
 
@@ -1045,7 +1128,8 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
       {upslope/Normal_5pct/figures/pce_order_relevance.png}
     \caption{מדרון עולה 5\%{}}
   \end{subfigure}
-  \caption{רלוונטיות סדר PCE — תרחישים נוספים.}
+  \caption{רלוונטיות סדר PCE — תרחישים נוספים.
+           \src{run\_pce.m: same relevance curve; slope scenarios show non-convergence (K*>10)}}
   \label{fig:pce_relevance2}
 \end{figure}
 
@@ -1075,7 +1159,8 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
       {deep_water/Normal_5pct/figures/detect_cheb_freq.png}
     \caption{Chebyshev}
   \end{subfigure}
-  \caption{הסתברות גילוי (מים עמוקים 5\%{}, תדר): שלוש שיטות אמידה.}
+  \caption{הסתברות גילוי (מים עמוקים 5\%{}, תדר): שלוש שיטות אמידה.
+           \src{Pd\_MLE=normcdf((log(FOM-g)-mu)./sig); Pd\_emp=mean(TL<FOM,3); Pd\_cheb=1./(1+(FOM-EX).\string^2./Var)}}
   \label{fig:detect}
 \end{figure}
 
@@ -1091,7 +1176,8 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
       {deep_water/Normal_10pct/figures/detect_empirical_zS.png}
     \caption{מים עמוקים 10\%{}, $z_S$}
   \end{subfigure}
-  \caption{הסתברות גילוי אמפירית עבור אי-ודאות גבוהה (10\%{}).}
+  \caption{הסתברות גילוי אמפירית עבור אי-ודאות גבוהה (10\%{}).
+           \src{run\_mc.m: Pd\_emp=mean(TL\_save<FOM,3); larger spread than 5\% case}}
   \label{fig:detect_10pct}
 \end{figure}
 
@@ -1127,7 +1213,8 @@ $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$.
     \caption{10\%{} אי-ודאות}
   \end{subfigure}
   \caption{אימות שיטת דלתא מול אנליטי בגלידה מהדי.
-           MC (שחור), $\Delta$ (אדום), אנליטי (כחול).}
+           MC (שחור), $\Delta$ (אדום), אנליטי (כחול).
+           \src{run\_analytical\_validation.m: J\_exact=dTL/dtheta; J\_FD=fdJacobian(); err=mean(abs(J\_FD-J\_exact)./abs(J\_exact))}}
   \label{fig:delta_validation}
 \end{figure}
 
@@ -1447,7 +1534,8 @@ $K^*>10$ או אי-התכנסות: לא-פולינומי באמת --- MC חוב�
     \includegraphics[width=\textwidth]{block_diagram.pdf}}{%
     \fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
       block\_diagram.pdf --- טרם נוצר}}}
-  \caption{ארכיטקטורת הצינור: תרשים תלויות מודול ל-\textenglish{Stochastic Bellhop UQ}.}
+  \caption{ארכיטקטורת הצינור: תרשים תלויות מודול ל-\textenglish{Stochastic Bellhop UQ}.
+           \src{block\_diagram.tex: TikZ graph; boxes = MATLAB scripts; arrows = data flow}}
   \label{fig:block_diagram}
 \end{figure}
 
