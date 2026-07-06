@@ -87,8 +87,9 @@
 % ─── הערת קוד מקור ─────────────────────────────────────────
 % \src{text} — מוסיף שורת קוד/מקור קצרה מתחת לכיתוב איור
 \usepackage{xcolor}
+% \src forces a new paragraph line so RTL caption and LTR code stay separate
 \newcommand{\src}[1]{%
-  \linebreak[2]\smallskip
+  \newline\smallskip
   {\scriptsize\color[gray]{0.45}\textenglish{\texttt{#1}}}}
 
 % ============================================================
@@ -107,14 +108,14 @@
 
 {\LARGE\textbf{דו"ח סיכום פרויקט}}\\[0.5cm]
 
-{\huge\textbf{אמידת אי-ודאות בהפסד\\[0.3cm] ההעברה האקוסטי התת-ימי}}\\[0.4cm]
+{\huge\textbf{אמידת אי-ודאות ב הפסד\\[0.3cm] ההעברה האקוסטי \textenglish{(TL)} תת-ימי}}\\[0.4cm]
 {\Large\textbf{\textenglish{Uncertainty Quantification in\\[0.2cm]
 Underwater Acoustic Transmission Loss}}}
 
 \vspace{0.8cm}\hrule height 0.5pt\vspace{0.8cm}
 
-{\large\textbf{מבצע:} אורי אינדיג \quad (\textenglish{Ory Indig})}\\[0.4cm]
-{\large\textbf{מנחה:} \quad }\\[0.4cm]
+{\large\textbf{מבצעים:} אורי אינדיג \quad  יואב וולף \quad (\)}\\[0.4cm]
+{\large\textbf{מנחה:} \quad סג"ן סער פופלינגר}\\[0.4cm]
 {\large\textbf{מעבדה:} \textenglish{SIPL — Signal and Image Processing Lab}}\\[1cm]
 
 \hrule height 0.5pt\vspace{0.8cm}
@@ -154,25 +155,30 @@ Underwater Acoustic Transmission Loss}}}
 \section*{תקציר}
 \addcontentsline{toc}{section}{תקציר}
 
-\textbf{עברית:}
 דו"ח זה מעריך ארבע שיטות לכימות אי-ודאות (\textenglish{UQ}) בהפסד ההעברה האקוסטי
 (\textenglish{TL}) התת-ימי, המחושב על ידי מודל הקרנים \textenglish{Bellhop}.
-הכניסות האי-ודאיות הן תדר הנשא, עומק המקור ($z_S$) ופרופיל מהירות הקול (\textenglish{SVP}),
-שכל אחת מהן מדורגת כמשתנה אקראי עצמאי.
-שלוש שיטות אנליטיות — שיטת דלתא מסדר שני, התפשטות כאוס פולינומי (\textenglish{PCE}),
-והתאמת לוגנורמלי תלת-פרמטרי (\textenglish{LN3}) — משווות מול ייחוס מונטה קרלו
-(\textenglish{MC}) בארבעה תרחישי התפשטות (מים רדודים, מים עמוקים, מדרון עולה,
-מדרון יורד) ושלוש התפלגויות כניסה (נורמלי 1\%{}/5\%{}/10\%{}).
+לכל הפחות נרצה לשערך את המומנטים הראשונים של התפלגות ה-\textenglish{TL} בנקודה —
+השונות והתוחלת — בעזרתן ניתן להשתמש בחסם צ'בישב חד-צדדי (אי-שוויון קנטלי):
+\begin{equation}
+  P\!\bigl(\TL(\mathbf{x}) > \mathrm{FOM}\bigr)
+  \;\leq\;
+  \frac{\Var[\TL(\mathbf{x})]}{\Var[\TL(\mathbf{x})] + \bigl(\mathrm{FOM} - \EX[\TL(\mathbf{x})]\bigr)^2}.
+  \label{eq:cantelli}
+\end{equation}
+הכניסות של ההדמייה אליהם נתייחס כמשתנים אחקראיים גאוסיים הן תדר הנשא של האות הנפלט מהסונאר, עומק המקור ($z_S$) ופרופיל מהירות הקול המשתנה ביחס לעומק (\textenglish{SVP}),
+שכל אחת מן הכניסות הינה מתשנה אקראי בלתי תלוי סטטיסטית באחרים.
+שלוש השיטות המתקדמות אותן נציג — שיטת דלתא מסדר ראשון ושני, התפשטות כאוס פולינומי (\textenglish{PCE}),
+והתאמת לוגנורמלי תלת-פרמטרי (\textenglish{LN3})-אותן נשווה אל מול שיטת מונטה קרלו (\textenglish{MC}) היקרה חישובית.
+ נדמה ארבעה תרחישי התפשטות (מים רדודים, מים עמוקים, מדרון עולה, מדרון יורד) ושלוש התפלגויות כניסה (נורמלי 1\%{}/5\%{}/10\%{}).
 
 \textbf{מסקנות עיקריות:}
 \begin{itemize}
-  \item \textbf{שיטת דלתא} (טיילור מסדר ראשון) אמינה עבור מורפולוגיה שטוחה וקטגות קטנות
-        ($\leq$1\%{}), אך תיקון ההסיאן מסדר שני כבר עולה על 96\%{} מהשונות הכוללת
-        עבור 5\%{} אי-ודאות.
+  \item \textbf{שיטת דלתא} (טיילור מסדר ראשון) אמינה עבור מורפולוגיה שטוחה ואי וודאות קטנה (1% מהערך הנומילני)
+        ($\leq$1\%{}), אך  תיקון ההסיאן (טיילור מסדר שני) כבר עולה על 96\%{} מהשונות הכוללת
+        עבור 5\%{} אי-ודאות ומעלה, כלומר התופעה הסטוכסטית לא ניתנת לקירוב ליניארי באי וודות גדולה.
   \item \textbf{PCE} (המותאם למדגמי MC הקיימים) דורש סדר $K^*=5$--$12$ ומציג התכנסות
         מתונה עד חזקה בכל צירופי תרחיש/התפלגות.
-  \item \textbf{ההיברידי $\Delta$-LN3} מבצע היטב בתרחישים שטוחים אך מתדרדר בגבולות
-        אזורי הצל בסביבות מדרון.
+
   \item \textbf{MC מלא} הכרחי עבור מורפולוגיית מדרון ($\geq$5\%{} הפרעה) ועבור $z_S$
         במים עמוקים עם התפלגויות נורמליות.
 \end{itemize}
@@ -180,22 +186,43 @@ Underwater Acoustic Transmission Loss}}}
 \textbf{המלצה מעשית:} לתכנון משימת סונאר, יש להשתמש ב-PCE-$K^*$ (סדר 5--9) בתרחישים
 עם קרקעית שטוחה ולחזור ל-MC לסביבות מדרון או אי-ודאות גדולה בעומק המקור.
 
-\vspace{0.5cm}
-\noindent\textbf{\textenglish{Abstract (English):}}
+\newpage
+\section*{\textenglish{Abstract}}
+\addcontentsline{toc}{section}{\textenglish{Abstract}}
 \begin{english}
 This report evaluates four uncertainty quantification (UQ) methods for underwater
-acoustic transmission loss (TL) computed by the Bellhop ray-tracing model.
-The uncertain inputs are carrier frequency, source depth ($z_S$), and sound velocity
-profile (SVP), each modelled as an independent random variable.
-Three analytical methods --- the 2nd-order Delta method, Polynomial Chaos Expansion
-(PCE), and a 3-parameter lognormal (LN3) fit --- are compared against Monte Carlo (MC)
-ground truth across four propagation scenarios (shallow water, deep water, upslope,
-downslope) and three input uncertainty distributions (Normal\,1/5/10\%).
-Key conclusions: Delta method is reliable for flat bathymetry at $\leq$1\% uncertainty;
-PCE requires order $K^*=5$--12; full MC is necessary for slope environments.
-Practical recommendation: use PCE-$K^*$ for flat-bottom scenarios and fall back to MC
-for slope environments or large source-depth uncertainty.
-Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
+acoustic Transmission Loss (TL) computed by the Bellhop ray-tracing model.
+The uncertain simulation inputs modelled as independent Gaussian random variables
+are the sonar carrier frequency, source depth ($z_S$), and the sound velocity profile
+(SVP).
+At minimum, we estimate the first moments of the TL distribution at each pixel ---
+the mean $\mathbb{E}[\mathrm{TL}]$ and variance $\mathrm{Var}[\mathrm{TL}]$ ---
+which together bound the detection probability via the one-sided Chebyshev
+(Cantelli) inequality (Eq.~\ref{eq:cantelli}).
+Three advanced methods --- 1st- and 2nd-order Delta, Polynomial Chaos Expansion
+(PCE), and a 3-parameter lognormal (LN3) fit --- are compared against Monte Carlo
+(MC) ground truth across four propagation scenarios
+(shallow water, deep water, upslope, downslope) and three input distributions
+(Normal\,1\%/5\%/10\%).
+
+\textbf{Key conclusions:}
+\begin{itemize}
+  \item \textbf{Delta method} (1st-order Taylor) is reliable for flat bathymetry
+        and small uncertainty ($\leq$1\% of nominal value), but the Hessian
+        (2nd-order Taylor) correction already exceeds 96\% of total variance
+        at 5\% uncertainty, indicating the stochastic field is not amenable to
+        linear approximation at large perturbations.
+  \item \textbf{PCE} (fitted to existing MC samples) requires order
+        $K^*=5$--$12$ and shows moderate to strong convergence across all
+        scenario/distribution combinations.
+  \item \textbf{Full MC} is necessary for slope bathymetry ($\geq$5\%
+        perturbation) and for $z_S$ uncertainty in deep water with Normal
+        distributions.
+\end{itemize}
+
+\textbf{Practical recommendation:}
+For sonar mission planning, use PCE-$K^*$ (order 5--9) in flat-bottom scenarios
+and fall back to MC for slope environments or large source-depth uncertainty.
 \end{english}
 \newpage
 \pagenumbering{arabic}
@@ -207,8 +234,8 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
 \label{sec:understanding}
 
 סעיף זה מניח את הבסיס הפיזיקלי והמתמטי של בעיית מיפוי \textenglish{TL} הסטוכסטי.
-המטרה היא להסביר מדוע מפת \textenglish{TL} דטרמיניסטית בודדת של \textenglish{Bellhop}
-אינה מספיקה לתכנון פעולת סונאר, ולספק את הרקע התיאורטי לשיטות ה-\textenglish{UQ}
+המטרה היא להסביר את חשיבות סימולציות ה\textenglish{TL} בהפעלת סונאר לצורך גילוי כמו גם הסבר מדוע מפת \textenglish{TL} דטרמיניסטית בודדת של \textenglish{Bellhop}
+אינה מספיקה להבנת פעולת הסונאר לבדה, ולספק את הרקע התיאורטי לשיטות ה-\textenglish{UQ}
 הנבחנות ביתר הדוח.
 
 % ─────────────────────────────────────────
@@ -226,52 +253,44 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.45\textwidth}
-    \includegraphics[width=\linewidth]{pptx_figures/image11.png}
-    \caption{אזורי עומק אוקיינוס: טמפרטורה, לחץ ומליחות משתנים עם העומק,
-             ומניעים שינויים במהירות הקול לאורך עמוד המים.}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.45\textwidth}
-    \includegraphics[width=\linewidth]{pptx_figures/image8.png}
-    \caption{פרופיל SVP טיפוסי (קיץ): קביעת ציר ערוץ הקול (\textenglish{SOFAR})
-             כנקודת מינימום סביב 1000~מ'.}
-  \end{subfigure}
-  \caption{הים כמדיום אקוסטי שכבתי: מבנה פרופיל SVP ואפקט ה-\textenglish{SOFAR}.
-           \src{run\_mc.m: cfg = loadConfig(); plot(svp\_c, svp\_z)}}
+  \includegraphics[width=0.55\textwidth]{../../images/Bookman_2015_SVP.png}
+  \caption{פרופיל \textenglish{SVP} טיפוסי (קיץ): ציר ערוץ הקול (\textenglish{SOFAR})
+           כנקודת מינימום סביב 1000~מ' — לוכד גלים אקוסטיים בגלידה טבעית.\\[2pt]
+           {\scriptsize\color[gray]{0.45}\textenglish{Source: Bookman, Todd. 2015.
+           \textit{Eavesdropping On The Ocean}. Wilbur. Retrieved.}}}
   \label{fig:ocean_layers}
 \end{figure}
-
 % ─────────────────────────────────────────
 \subsection{התפשטות גלים אקוסטיים ומודל \textenglish{Bellhop}}
 \label{sec:bellhop}
 
-השדה האקוסטי בים מתואר על ידי משוואת הלמהולץ בגיאומטריה סילינדרית סימטרית ($r$-$z$):
+השדה האקוסטי בים מתואר על ידי משוואת הלמהולץ בגיאומטריה סילינדרית סימטרית ($r$-$z$) (גיאומטריה זו היא המופיעה בסימולציית BELLHOP כתמונת חתך ):
 \begin{equation}
   \nabla^2 p + k^2(r,z)\,p = -S(r,z), \quad k = \frac{2\pi f}{c(r,z)},
 \end{equation}
 כאשר $p$ הוא האמפליטודה המרוכבת של הלחץ, $f$ הוא התדר, $c(r,z)$ הוא מהירות הקול המקומית,
-ו-$S$ הוא אבר המקור.
+ו-$S$ הוא אבר התלוי בעוצמת המקור.
 הפסד ההעברה מוגדר כ:
 \begin{equation}
   \TL(r,z) = -20\log_{10}\!\left(\frac{|p(r,z)|}{|p_{\mathrm{ref}}|}\right) \quad [\text{dB}].
 \end{equation}
-\textenglish{Bellhop}~\cite{porter1987bellhop} פותר משוואה זו בקירוב הקרן הגאוסיאנית:
-אנרגיה אקוסטית מתפשטת לאורך קרנות, כאשר כל קרן נושאת מעטפת גאוסיאנית
-המטפלת בעקיפה ללא הסינגולאריות של אופטיקה גיאומטרית פשוטה.
+\textenglish{Bellhop}~\cite{porter1987bellhop} פותר משוואה זו בעזרת קירוב קרניים:
+האנרגיה אקוסטית מתפשטת לאורך הקרניים, כאשר כל קרן נושאת מעטפת גאוסיאנית
+המדמה תרחיש עקיפה.
 המודל מטפל אוטומטית בהחזרות מקרקעית הים, החזרות מהמשטח ושבירה דרך גרדיאנט מהירות הקול.
-
+בפרויקיט זה התחייסנו אל ההדמייה  כקופסא שחורה ללא התעמקות במימושה. 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.80\textwidth]{pptx_figures/image7.png}
   \caption{\textenglish{Bellhop} כקופסה שחורה: כניסות (SVP, גיאומטריה, תדר, מאפייני קרקע)
-           ויציאות (שדה TL, תרשים קרנים). הקרנים הגאוסיאניות מטפלות
-           בהחזרות, שבירות ועדשות אקוסטיות.
+           ויציאות (שדה TL, תרשים קרנים). הקרנים מדמות
+           החזרות, שבירות ועדשות אקוסטיות.
            \src{bellhopCached(sim\_params, cache\_dir) -> TL[Nz x Nr]}}
   \label{fig:bellhop_blackbox}
 \end{figure}
-
+#קלוד בכל מקום בו יש רפרנס לקוד יש לעשות אותו בשורה חדשה כי הRTL וLTR לא עובדים אם הם באותה שורה#
 % ─────────────────────────────────────────
-\subsection{משוואת הסונאר וציון ההצלחה}
+\subsection{משוואת הסונאר וגילוי}
 \label{sec:sonar_equation}
 
 משוואת הסונאר הפסיבית קושרת בין המשדר, המדיום והמקלט:
@@ -284,40 +303,41 @@ Report $P_\mathrm{fail}$ and P95 TL maps rather than variance alone.
   \mathrm{FOM} = \mathrm{SL} - \mathrm{NL} + \mathrm{DI} - \mathrm{DT}.
 \end{equation}
 גילוי אפשרי בפיקסל $(r,z)$ נתון אם ורק אם $\TL(r,z) < \mathrm{FOM}$.
-בסביבה סטוכסטית, זה הופך להסתברות:
+בסביבה סטוכסטית בה הכניסות אקראיות, זה הופך להסתברות:
 \begin{equation}
   \Pshadow(\mathbf{x}) = P\!\bigl(\TL(\mathbf{x};\boldsymbol{\theta}) > \mathrm{FOM}\bigr).
 \end{equation}
-הסתברות הצל $\Pshadow$ היא פלט ה-\textenglish{UQ} העיקרי שמעניין אותנו.
+הסתברות הגילוי $P_\mathrm{det}(\mathbf{x}) = 1 - \Pshadow(\mathbf{x})$ היא פלט ה-\textenglish{UQ} העיקרי שמעניין אותנו.
+נעיר שמשוואות הסונאר הפאסיבית והאקטיבית מוצגות בפירוט בספר הייחוס~\cite{jensen2011coac},
+פרקים 1--2.
 
 % ─────────────────────────────────────────
 \subsection{תופעות התפשטות: אזורי התכנסות והחזרות קרקע}
 \label{sec:propagation_phenomena}
-
+סימולציות התפשוטות הגלים רגישות מאוד לשינויים קטנים בכניסות והדבר מתבטא בשינוי במיקום איזורי ההתכנסות ואיזורי הצל.(הספק אות גובה לעומת הספק נמוך בהתאמה) 
 שתי תופעות התפשטות אקוסטית שולטות בטווח ארוך במים עמוקים:
 \begin{itemize}
   \item \textbf{אזורי התכנסות (\textenglish{CZ})}: מנגנון המיקוד של ערוץ הקול
-        מייצר קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) בכפולות של טווח ה-\textenglish{CZ}
-        ($\sim$55~ק"מ עבור SVP טיפוסי במים עמוקים).
+        מייצר דוגמת קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) אורך קשותות אלה יהיה לדוגמה
+        $\sim$55~ק"מ עבור SVP טיפוסי במים עמוקים. ניתן לראות קשתות אלו באיור 10.
         מיקום ה-\textenglish{CZ} רגיש מאוד ל-SVP קרוב לפני המים: הפרעת SVP של 5\%{}
-        יכולה להזיז את קשת ה-\textenglish{CZ} ב-$\pm$5--10~ק"מ ולשנות את רווח ה-\textenglish{CZ}
-        ב-$\pm$5--10~dB.
+        יכולה להזיז את הקשתות בעלות ההספק הגבוה ה-\textenglish{CZ} ב-$\pm$5--10~ק"מ ולשנות את רווח ה-\textenglish{CZ}
+        ב-\textenglish{$\pm$5--10~dB}.
   \item \textbf{החזרות מקרקעית הים}: במים רדודים ובסביבות מדרון,
-        אנרגיה אקוסטית קופצת בין המשטח לקרקעית, ויוצרת תבניות הפרעה של מראת לויד
+        הרבה מהאנרגיה אקוסטית קופצת בין המשטח לקרקעית, ויוצרת תבניות הפרעה של מראת לויד
         שהמחזור המרחבי שלהן נמדד ב-$\lambda/2$ והן רגישות מאוד לעומק המקור $z_S$.
 \end{itemize}
-
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image7.png}
-    \caption{הגדרת הגיאומטריה}
+    \caption{}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image26.png}
-    \caption{אזורי CZ ואזורי הצל}
+    \caption{אזורי CZ ואזורי הצל ,ניתן לשים לב להחזרות מהקרקית}
   \end{subfigure}
-  \caption{תופעות התפשטות אקוסטית בטווח ארוך: CZ והחזרות.
+  \caption{תופעות התפשטות אקוסטית בטווח ארוך: CZ והחזרות. אלו סימולציות בSVP קבוע , איזורי ההתכנסות הן בצורות מעויינים לעומת הקשתות שיש בפועל( זהו מצב לא פיזיקלי אך מהווה דוגמה פשוטה בה השתמשנו בשבל הכרת הסימולציה)
            \src{bellhopCached({freq0,maxR,zS0,...}) -> TL map; imagesc(r\_km,z\_m,TL)}}
   \label{fig:propagation}
 \end{figure}
@@ -1636,6 +1656,14 @@ New York: Springer, 2003.
 BIPM, IEC, IFCC, ILAC, ISO, IUPAC, IUPAP, and OIML,
 ``Evaluation of measurement data --- Guide to the expression of uncertainty in
 measurement (GUM),'' \textit{JCGM 100:2008}, 2008.
+\end{english}
+
+\bibitem{jensen2011coac}
+\begin{english}
+F.~B.~Jensen, W.~A.~Kuperman, M.~B.~Porter, and H.~Schmidt,
+\textit{Computational Ocean Acoustics}, 2nd~ed.
+New York: Springer, 2011.
+\textenglish{DOI: 10.1007/978-1-4419-8678-8}
 \end{english}
 
 \end{thebibliography}
