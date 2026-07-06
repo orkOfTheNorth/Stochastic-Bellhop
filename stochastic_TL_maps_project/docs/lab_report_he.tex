@@ -331,11 +331,11 @@ and fall back to MC for slope environments or large source-depth uncertainty.
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image7.png}
-    \caption{}
+    \caption{הדמייה של הTL בכל נקודה, יש לשים לב לאיזור הסגול, איזור זה מכונה איזור צל, ניתן לראות איך הקרניים מתעוותות סביבו ויוצרות איזור עם TL גובה (איזורים בהם הTL יורד מתחת לרף הFOM כלומר זהו איזור בו אין גילוי) }
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image26.png}
-    \caption{אזורי CZ ואזורי הצל ,ניתן לשים לב להחזרות מהקרקית}
+    \caption{הדמיית הTL כאשר יש החזרות מהקרקעית , גם כאן ישנו איזור צל אך גם הספק החוזר מהקרקעית "ממלא" את איזור הצל עד רמה מסויימת}
   \end{subfigure}
   \caption{תופעות התפשטות אקוסטית בטווח ארוך: CZ והחזרות. אלו סימולציות בSVP קבוע , איזורי ההתכנסות הן בצורות מעויינים לעומת הקשתות שיש בפועל( זהו מצב לא פיזיקלי אך מהווה דוגמה פשוטה בה השתמשנו בשבל הכרת הסימולציה)
            \src{bellhopCached({freq0,maxR,zS0,...}) -> TL map; imagesc(r\_km,z\_m,TL)}}
@@ -343,61 +343,62 @@ and fall back to MC for slope environments or large source-depth uncertainty.
 \end{figure}
 
 % ─────────────────────────────────────────
-\subsection{ההרחבה הסטוכסטית: מדוע אי-ודאות חשובה}
+\subsection{הבעיה הסטוכסטית: מדוע אי-ודאות חשובה}
 \label{sec:stochastic}
 
-מפת TL דטרמיניסטית בודדת $\TL(\mathbf{x};\boldsymbol{\theta}_0)$ המחושבת עבור
+ניתן לחשוב על מפת TL דטרמיניסטית בודדת $\TL(\mathbf{x};\boldsymbol{\theta}_0)$ כמחושבת עבור
 וקטור הפרמטרים הנומינלי $\boldsymbol{\theta}_0 = (\bar{f},\bar{z}_S, \overline{\mathrm{SVP}})$
-אינה מספיקה לתכנון פעולת סונאר משתי סיבות:
+הדמייה דטרמניסיטית כזו אינה מספיקה לתכנון פעולת סונאר משתי סיבות:
 
 \begin{enumerate}
   \item \textbf{אי-ודאות במדידה.} הפרמטרים הסביבתיים האמיתיים אינם ידועים במדויק;
-        לפרופילי טמפרטורה יש אי-ודאות מדידה של $\pm$0.1--0.3$^\circ$C,
-        עומקי מקור אינם ודאיים ב-$\pm$5--10~מ',
+        לפרופילי טמפרטורה יש אי-ודאות מדידה של $\pm$0.1--0.3$^\circ$C, #קלוד לשים בטקסט אנגלית כי LTR לא עובד#
+        עומקי מקור אינם ודאיים ב-$\pm$5--10~מ',#גם פה#
         ותדר הנשא יכול לסטות ב-$\pm$1\%{}.
-  \item \textbf{שינוי בזמן.} SVP האוקיינוס משתנה בסולמות זמן ממספר שעות
-        (ערבול גאות) עד חודשים (מחזור עונתי);
-        מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-5--10~dB בשעות הצהריים.
+  \item \textbf{שינוי בזמן.} SVP האוקיינוס משתנה תוך מספר שעות
+        (השכבה העלייונה מתחממת מהמשמש במהלך הצהריים, ערבול של גאות ושפל...) וגם בפרקי זמן של חודשים (מחזור עונתי- קירור וחימום של השכבה העליונה);
+        מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-5--10~dB בשעות הצהריים #בDB באנגלית#.
 \end{enumerate}
 
-ההרחבה הסטוכסטית מדמה כל פרמטר אי-ודאי כמשתנה אקראי גאוסי עצמאי:
+ההרחבה הסטוכסטית מדמה כל פרמטר כמשתנה אקראי גאוסי עצמאי:
 $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 הוא אחוז ידוע מ-$\mu_k$ (1\%{}, 5\%{}, או 10\%{} בניסויינו).
-מטרת ה-\textenglish{UQ} היא להעביר התפלגויות כניסה אלו דרך האופרטור הלא-לינארי
+מטרת ה-\textenglish{UQ} היא להעביר התפלגויות כניסה אלו דרך הקופסא השחורה 
 של \textenglish{Bellhop} כדי לקבל את התפלגות הפלט של TL בכל פיקסל,
-ומשם את הסתברות הצל $\Pshadow$.
+ומשם את הסתברות הגילוי  $\Pshadow$. #תמיד מדברים על P גילוי ולא P צל#
 
 % ─────────────────────────────────────────
 \subsection{אימות אנליטי של \textenglish{Bellhop}}
 \label{sec:analytical_validation}
 
-לפני שימוש ב-\textenglish{Bellhop} כמודל הקדמי הסטוכסטי, אימתנו את דיוקו
-מול שני פתרונות אנליטיים.
-
+לפני שימוש ב-\textenglish{Bellhop} כמנוע ההדמייה העיקרי לצורך  חקר הסטוכסטיות, אימתנו את דיוקו
+מול שני פתרונות אנליטיים ידועים. חלק זה הכרחי בין היתר בגלל שמימושו של\textenglish{Bellhop} בקירוב קרניים וידוע שכך הוא מפספס תופעות התאבכות גליות מסויימות ומראה תמונה "מוחלקת" לעומת המצב בפועל.
+#אנחנו משתמשים בשיטת הדמויות ולא בגלידה#
 \subsubsection{מרחב חצי-אינסופי}
 
-עבור מרחב חצי-אינסופי איזו-מהירות (מהירות קול קבועה, משטח שחרור לחץ, קרקעית שטוחה חדירה),
-ה-TL המדויק ניתן על ידי פתרון גלידת פקריס.
-\textenglish{Bellhop} מסכים בתוך $<$0.5~dB על פני כל טווח ההתפשטות.
-
+עבור מרחב חצי-אינסופי בעל מהירות קול אחידה (מהירות קול קבועה, קרקעית שטוחה 100% חדירה),
+ה-TL המדויק ניתן על ידי פתרון #תוסיף פה את משוואה 2.76 מJENSEN#.
+ במקרה כזה \textenglish{Bellhop} מסכים בתוך $<$0.5~dB על פני  טווח ההתפשטות לפתרון האנליטי.
+#גם בקוד זה נקרא פתרון שיטת הדמויות ולא גלידה#
+אחד מהפתרונות הידועים #תן פה את האזכור הנכון של JENSEEN# הוא פתרון של מקור בחצי המישור
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image29.png}
-    \caption{מרחב חצי-אינסופי}
+    \caption{פתרון אנליטי של מרחב חצי-אינסופי(קרקעית חדירה לחלוטין)}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image36.png}
-    \caption{שגיאת TL לעומת ייחוס אנליטי}
+    \caption{הדמייה של BELLHOP תחת אותם התנאים (יש דמיון רב!)}
   \end{subfigure}
-  \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי (פתרון \textenglish{Pekeris}).
+  \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי (פתרון בשיטת הדמויות).
            \src{run\_validation.m: TL\_bellhop = bellhopCached(); TL\_exact = pekerisHalfspace()}}
   \label{fig:val_halfspace}
 \end{figure}
 
-\subsubsection{גלידה מהדי — מודים נורמליים}
+\subsubsection{הים כמוליך גלים} #בכל החלק הזה תוריד את התמונות האלה ותשים מה שיש מVALIDATION אבל שים לב שמשתמשים בתרון של מוליך גלים, תמונה ב היא בכלל צריכה להיות "סימולציה אנליטית של הים בתור מוליך גלים עם 50 מודים"#
 
-עבור גלידת פקריס עם גבול קרקעית קשיח, שדה הלחץ המדויק ניתן על ידי סידרת המודים הנורמליים.
+עבור פתרון מוליך גלים, שדה הלחץ המדויק ניתן על ידי חיבור מודים עצמיים של המערכת.
 \textenglish{Bellhop} תואם את פתרון המודים הנורמליים עם שגיאה ממוצעת $<$1~dB
 בתדרים $>$150~Hz, ומאשר את התאמתו כמודל קדמי.
 
@@ -417,7 +418,7 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 \end{figure}
 
 % ─────────────────────────────────────────
-\subsection{רגישות TL לפרמטרים פיזיקליים}
+\subsection{רגישות TL לפרמטרים פיזיקליים} #להוריד את כל החלק הזה תסתכל על "C:\Users\orind\Downloads\הרעשת הסימולציה.docx" הרעיון היה לראות איזה מפות מתקבלות מאיזה פרמרטרים#
 \label{sec:sensitivity}
 
 לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL
@@ -507,6 +508,7 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \caption{\textbf{ממוצע TL MC} תחת הפרעה ב-$z_S$ (נורמלי 5\%{}).
              כחול = TL נמוך (אות חזק); אדום = TL גבוה (אזור צל).
              קשת ה-CZ ב-$\sim$55~ק"מ נראית בברור.}
+	#פה צריך לשים את הVAR בסקאלה לוגריתמית תריץ מחדש#
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/combined_Var.png}
@@ -733,6 +735,71 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$.
            KDE מפחית שגיאה ב-30--50\% בגדלי מדגם קטנים ($N \leq 100$).
            \src{run\_kde\_N\_study.m: h=1.06*std(TL\_sub,0,3)*N\string^-0.2; Pd=mean(normcdf((FOM-TL\_sub)./h),3)}}
   \label{fig:kde_vs_N}
+\end{figure}
+
+\subsubsection{התכנסות \textenglish{LN3} כפונקציה של $N$: \textenglish{MOM} לעומת \textenglish{MLE}}
+\label{sec:ln3_conv_N}
+
+שתי אסטרטגיות ההתאמה של \textenglish{LN3} נשענות על מדגמים שונים:
+\textenglish{MOM} (שיטת המומנטים) מוחלת על מדגמי \textenglish{LHS},
+ואילו \textenglish{MLE} (שיטת הנראות המרבית) על מדגמי \textenglish{IID}.
+האיור מציג כיצד סטטיסטיקת \textenglish{KS} ומרחק \textenglish{Wasserstein-1}
+בין ה-\textenglish{LN3} המותאמת לבין ה-\textenglish{CDF} האמפירית של \textenglish{MC}
+($N=1000$, מקובע) יורדים עם גדילת גודל המדגם $N$.
+ה-\textenglish{MOM} על מדגמי \textenglish{LHS} צפויה להתכנס מהר יותר בזכות הכיסוי
+הסטרטיפיקטיבי; ה-\textenglish{MLE} על \textenglish{IID} עשויה לגלות יתרון רנדומי בגדלי
+מדגם גדולים בשל עקביות המאמד הפרמטרי.
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/Normal_5pct/figures/ln3_conv_vs_N.png}{%
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/ln3_conv_vs_N.png}
+      \caption{מים עמוקים, נורמלי 5\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/ln3_conv_vs_N.png}
+      \caption{מים עמוקים, נורמלי 10\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
+    \end{subfigure}
+  }{\fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
+    \textenglish{LN3 convergence vs N --- run \texttt{scripts/ln3\_convergence\_vs\_N.m}}}}}
+  \caption{התכנסות \textenglish{LN3} כפונקציה של $N$ (מים עמוקים).
+           קו מלא = \textenglish{MOM-LHS}, מקווקוו = \textenglish{MLE-IID}.
+           ציר $x$: $N$ (סולם לוגריתמי, $N=10$ עד $1000$);
+           ציר $y$: חציון שדה של \textenglish{KS} ו-\textenglish{W1} (\textenglish{dB}).
+           \src{scripts/ln3\_convergence\_vs\_N.m: KS=max(abs(Fln3-Femp)); W1=trapz(x,abs(Fln3-Femp))}}
+  \label{fig:ln3_conv_N}
+\end{figure}
+
+\subsubsection{התכנסות \textenglish{PCE} כפונקציה של $N$}
+\label{sec:pce_conv_N}
+
+עבור סדר קבוע $K=K^*$ (הנבחר על-ידי \textenglish{LOO-CV} מתוך הרצת $N=1000$),
+מצומצם גודל מדגם האימון מ-1000 ל-50.
+מדד \textenglish{KS} ומרחק \textenglish{W1} בין ה-\textenglish{CDF} שמנבא
+ה-\textenglish{PCE} לבין ה-\textenglish{CDF} האמפירית של \textenglish{MC}
+גדלים ככל ש-$N$ קטן, עם עלייה חדה מתחת
+ל-$N \approx 2(K^*+1)$ (הסף המינימלי להיסוס-יתר בענף הרגרסיה).
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/Normal_5pct/figures/pce_conv_vs_N.png}{%
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_conv_vs_N.png}
+      \caption{מים עמוקים, נורמלי 5\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_conv_vs_N.png}
+      \caption{מים עמוקים, נורמלי 10\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
+    \end{subfigure}
+  }{\fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
+    \textenglish{PCE convergence vs N --- run \texttt{scripts/pce\_convergence\_vs\_N.m}}}}}
+  \caption{התכנסות \textenglish{PCE} כפונקציה של $N$ (מים עמוקים, $K=K^*$ קבוע).
+           ציר $x$: $N$ (סולם לוגריתמי, $N=50$ עד $1000$);
+           ציר $y$: חציון שדה של \textenglish{KS} ו-\textenglish{W1} (\textenglish{dB}).
+           קו אנכי מקווקוו: $N = 2(K^*+1)$ (סף מינימום).
+           \src{scripts/pce\_conv\_vs\_N.m: [Q,R]=qr(Phi\_n,0); C=R\textbackslash(Q'*TL); KS=max(abs(Fpce-Femp))}}
+  \label{fig:pce_conv_N}
 \end{figure}
 
 % ─────────────────────────────────────────
