@@ -262,7 +262,7 @@ for ci = 1:numel(completed)
         xline(ax_loo, Kstar(pi), '--', 'Color', colors(pi,:)*0.7, 'LineWidth', 1, ...
               'HandleVisibility','off');
     end
-    set(ax_loo, 'XTick', max(1, 1:2:MAX_ORDER));
+    set(ax_loo, 'XTick', max(1, 1:2:MAX_ORDER), 'YScale', 'log');
     xlabel(ax_loo, 'PCE Order K');
     ylabel(ax_loo, 'LOO_{combined} (norm.)');
     title(ax_loo, sprintf('LOO Combined  [K*=vert]\n%s | %s', sc_name, dist_name), ...
@@ -279,7 +279,7 @@ for ci = 1:numel(completed)
         hold(ax_l2, 'on');
     end
     yline(ax_l2, 10, 'k--', '10%', 'LineWidth', 1.2, 'LabelHorizontalAlignment','left');
-    set(ax_l2, 'XTick', max(1, 1:2:MAX_ORDER));
+    set(ax_l2, 'XTick', max(1, 1:2:MAX_ORDER), 'YScale', 'log');
     xlabel(ax_l2, 'PCE Order K');
     ylabel(ax_l2, 'Relative L2 Var error (%)');
     title(ax_l2, sprintf('L2 Variance\n%s | %s', sc_name, dist_name), ...
@@ -296,7 +296,7 @@ for ci = 1:numel(completed)
              'DisplayName', PARAMS{pi});
         hold(ax_lex, 'on');
     end
-    set(ax_lex, 'XTick', max(1, 1:2:MAX_ORDER));
+    set(ax_lex, 'XTick', max(1, 1:2:MAX_ORDER), 'YScale', 'log');
     xlabel(ax_lex, 'PCE Order K');
     ylabel(ax_lex, 'LOO_{EX} (norm.)');
     title(ax_lex, sprintf('LOO EX (prediction)\n%s | %s', sc_name, dist_name), ...
@@ -313,7 +313,7 @@ for ci = 1:numel(completed)
              'DisplayName', PARAMS{pi});
         hold(ax_lv, 'on');
     end
-    set(ax_lv, 'XTick', max(1, 1:2:MAX_ORDER));
+    set(ax_lv, 'XTick', max(1, 1:2:MAX_ORDER), 'YScale', 'log');
     xlabel(ax_lv, 'PCE Order K');
     ylabel(ax_lv, 'LOO_{Var} (norm.)');
     title(ax_lv, sprintf('LOO Var (variance)\n%s | %s', sc_name, dist_name), ...
@@ -383,6 +383,7 @@ for ci = 1:numel(completed)
         ax_rel = subplot(1, 3, pi);
         l2_v   = L2_mat(:, pi);
         if all(isnan(l2_v)), axis(ax_rel,'off'); continue; end
+        [~, K_var_star] = min(l2_v);   % K that maximises Var improvement
         l2_start = l2_v(1);
         l2_end   = min(l2_v);
         total_imp = max(l2_start - l2_end, eps);
@@ -391,12 +392,13 @@ for ci = 1:numel(completed)
         plot(ax_rel, 1:MAX_ORDER, relevance, 'b-o', 'LineWidth',1.5,'MarkerSize',5);
         hold(ax_rel,'on');
         yline(ax_rel, 90, 'r--', '90%', 'LineWidth',1);
-        xline(ax_rel, Kstar(pi), 'g--', sprintf('K*=%d', Kstar(pi)), 'LineWidth',1.2);
+        xline(ax_rel, K_var_star, 'g--', sprintf('K_{Var}=%d', K_var_star), 'LineWidth',1.2);
+        xline(ax_rel, Kstar(pi),  'm--', sprintf('K*=%d (LOO)', Kstar(pi)),  'LineWidth',1.2);
         hold(ax_rel,'off');
         set(ax_rel, 'XTick', max(1, 1:2:MAX_ORDER));
         xlabel(ax_rel, 'PCE Order K');
         ylabel(ax_rel, '% Var improvement (cumul.)');
-        title(ax_rel, sprintf('%s\nKstar=%d', PARAMS{pi}, Kstar(pi)), ...
+        title(ax_rel, sprintf('%s\nK_{Var}=%d  K*=%d', PARAMS{pi}, K_var_star, Kstar(pi)), ...
               'FontSize',9,'Interpreter','none');
         grid(ax_rel,'on');
     end
@@ -484,7 +486,7 @@ for pi = 1:3
         hold(ax,'on');
     end
     yline(ax, 10, 'k--', 'LineWidth', 1.2);
-    set(ax, 'XTick', max(1, 1:2:MAX_ORDER));
+    set(ax, 'XTick', max(1, 1:2:MAX_ORDER), 'YScale', 'log');
     ylabel(ax, 'Relative L2 (%)');
     title(ax, sprintf('param = %s', PARAMS{pi}), 'FontSize',9,'Interpreter','none');
     if pi == 1
