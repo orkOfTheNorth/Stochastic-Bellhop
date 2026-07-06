@@ -17,14 +17,12 @@
 % ============================================================
 
 
-
 % ─── מנוע עברית RTL ─────────────────────────────────────────
 \usepackage{fontspec}
 \setmainlanguage{hebrew}
 
 
 % david.ttf — גופן עברית סטנדרטי מותקן ב-Windows
-
 
 
 \newfontfamily\hebrewfont[Script=Hebrew, BoldFont=davidbd.ttf]{david.ttf}
@@ -38,8 +36,6 @@
 \usepackage{enumitem}
 \usepackage{tocloft}
 \usepackage{fancyhdr}
-
-
 
 
 % ─── כותרות עברית ───────────────────────────────────────────
@@ -183,32 +179,10 @@
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─── דף שער ─────────────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \begin_inset ERT
@@ -223,16 +197,7 @@ begin{titlepage}
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-
-\backslash
-thispagestyle{empty}
-\end_layout
-
-\end_inset
 
  
 \end_layout
@@ -252,17 +217,7 @@ thispagestyle{empty}
 
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.3cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -270,21 +225,11 @@ status collapsed
 מעבדת עיבוד אותות ותמונות (
 \lang english
 SIPL
-\lang english
+\lang hebrew
 )
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.3cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -295,17 +240,6 @@ status collapsed
 \begin_inset VSpace 0.5cm
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-hrule
-\end_layout
-
-\end_inset
 
  height 1pt
 \begin_inset VSpace 0.5cm
@@ -321,31 +255,14 @@ hrule
 
 \series bold
 דו
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 ח סיכום פרויקט
 \series default
 
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.5cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
 
@@ -358,39 +275,19 @@ status collapsed
 
 \series bold
 אמידת אי-ודאות ב הפסד
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.3cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  ההעברה האקוסטי 
 \lang english
 (TL)
-\lang english
+\lang hebrew
  תת-ימי
 \series default
 
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.4cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -400,21 +297,11 @@ status collapsed
 
 \lang english
 Uncertainty Quantification in
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.2cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  Underwater Acoustic Transmission Loss
-\lang english
+\lang hebrew
 
 \series default
 
@@ -428,17 +315,6 @@ status collapsed
 \begin_inset VSpace 0.8cm
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-hrule
-\end_layout
-
-\end_inset
 
  height 0.5pt
 \begin_inset VSpace 0.8cm
@@ -480,17 +356,7 @@ status collapsed
 
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.4cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -505,29 +371,12 @@ status collapsed
 \end_inset
 
 סג
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 ן סער פופלינגר
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.4cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -539,21 +388,11 @@ status collapsed
  
 \lang english
 SIPL — Signal and Image Processing Lab
-\lang english
+\lang hebrew
 
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[1cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
 
@@ -562,16 +401,6 @@ status collapsed
 \begin_layout Standard
 \align center
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-hrule
-\end_layout
-
-\end_inset
 
  height 0.5pt
 \begin_inset VSpace 0.8cm
@@ -584,29 +413,12 @@ hrule
 סמסטר:
 \series default
  אביב תשפ
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 ו
 \size default
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.3cm]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -626,7 +438,7 @@ status collapsed
 מספר ארכיון: 
 \lang english
 P XXXX-2-26
-\lang english
+\lang hebrew
 
 \size default
  
@@ -650,30 +462,6 @@ end{titlepage}
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─── הקדשה ──────────────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-thispagestyle{empty}
-\end_layout
-
-\end_inset
 
  
 \begin_inset VSpace 5cm*
@@ -701,30 +489,6 @@ thispagestyle{empty}
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─── תודות ──────────────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-thispagestyle{empty}
-\end_layout
-
-\end_inset
 
  
 \end_layout
@@ -753,19 +517,19 @@ addcontentsline{toc}{section}{תודות}
 אני מודה לצוות מעבדת 
 \lang english
 SIPL
-\lang english
+\lang hebrew
  על ההדרכה והתמיכה לאורך כל שלבי הפרויקט. תודה מיוחדת למפתחי תוכנת 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  (
 \lang english
 Michael Porter
-\lang english
+\lang hebrew
 ) אשר הפכה את הסימולציה האקוסטית הנדרשת לנגישה למחקר אקדמי. אנו מודים גם לאוסף הנתונים הפתוח של 
 \lang english
 JMSE
-\lang english
+\lang hebrew
  על נתוני הסביבה הימית ששימשו לאימות. 
 \begin_inset Newpage newpage
 \end_inset
@@ -775,30 +539,6 @@ JMSE
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─── תוכן עניינים ───────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-pagenumbering{roman}
-\end_layout
-
-\end_inset
 
  
 \begin_inset CommandInset toc
@@ -808,16 +548,6 @@ LatexCommand tableofcontents
 
 
 \begin_inset Newpage newpage
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
 \end_inset
 
 
@@ -862,15 +592,6 @@ relax
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
  
 \begin_inset Newpage newpage
 \end_inset
@@ -879,19 +600,6 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─── תקציר ──────────────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -918,31 +626,24 @@ addcontentsline{toc}{section}{תקציר}
 
 \begin_layout Standard
 דו
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 ח זה מעריך ארבע שיטות לכימות אי-ודאות (
 \lang english
 UQ
-\lang english
+\lang hebrew
 ) בהפסד ההעברה האקוסטי (
 \lang english
 TL
-\lang english
+\lang hebrew
 ) התת-ימי, המחושב על ידי מודל הקרנים 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 . לכל הפחות נרצה לשערך את המומנטים הראשונים של התפלגות ה-
 \lang english
 TL
-\lang english
+\lang hebrew
  בנקודה — השונות והתוחלת — בעזרתן ניתן להשתמש בחסם צ'בישב חד-צדדי (אי-שוויון קנטלי): 
 \begin_inset Formula \begin{equation}
   P\!\bigl(\TL(\mathbf{x}) > \mathrm{FOM}\bigr)
@@ -959,48 +660,27 @@ TL
 ) ופרופיל מהירות הקול המשתנה ביחס לעומק (
 \lang english
 SVP
-\lang english
+\lang hebrew
 ), שכל אחת מן הכניסות הינה מתשנה אקראי בלתי תלוי סטטיסטית באחרים. שלוש השיטות המתקדמות אותן נציג — שיטת דלתא מסדר ראשון ושני, התפשטות כאוס פולינומי (
 \lang english
 PCE
-\lang english
+\lang hebrew
 ), והתאמת לוגנורמלי תלת-פרמטרי (
 \lang english
 LN3
-\lang english
+\lang hebrew
 )-אותן נשווה אל מול שיטת מונטה קרלו (
 \lang english
 MC
-\lang english
+\lang hebrew
 ) היקרה חישובית. נדמה ארבעה תרחישי התפשטות (מים רדודים, מים עמוקים, מדרון עולה, מדרון יורד) ושלוש התפלגויות כניסה (נורמלי 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 /5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 /10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ).
 \end_layout
@@ -1019,52 +699,20 @@ status collapsed
 שיטת דלתא
 \series default
  (טיילור מסדר ראשון) אמינה עבור מורפולוגיה שטוחה ואי וודאות קטנה (1
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-% מהערך הנומילני)
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
  (
 \begin_inset Formula $\leq$
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ), אך תיקון ההסיאן (טיילור מסדר שני) כבר עולה על 96%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  מהשונות הכוללת עבור 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  אי-ודאות ומעלה, כלומר התופעה הסטוכסטית לא ניתנת לקירוב ליניארי באי וודות גדולה. 
 \end_layout
@@ -1095,14 +743,7 @@ MC מלא
 \end_inset
 
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  הפרעה) ועבור 
 \begin_inset Formula $z_S$
@@ -1135,7 +776,7 @@ status collapsed
 
 \lang english
 Abstract
-\lang english
+\lang hebrew
 
 \end_layout
 
@@ -1264,42 +905,9 @@ Practical recommendation:
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-pagenumbering{arabic}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  1.  הבנת הבעיה
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -1323,40 +931,27 @@ name "sec:understanding"
 סעיף זה מניח את הבסיס הפיזיקלי והמתמטי של בעיית מיפוי 
 \lang english
 TL
-\lang english
+\lang hebrew
  הסטוכסטי. המטרה היא להסביר את חשיבות סימולציות ה
 \lang english
 TL
-\lang english
+\lang hebrew
  בהפעלת סונאר לצורך גילוי כמו גם הסבר מדוע מפת 
 \lang english
 TL
-\lang english
+\lang hebrew
  דטרמיניסטית בודדת של 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  אינה מספיקה להבנת פעולת הסונאר לבדה, ולספק את הרקע התיאורטי לשיטות ה-
 \lang english
 UQ
-\lang english
+\lang hebrew
  הנבחנות ביתר הדוח.
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -1389,7 +984,7 @@ name "sec:ocean_layers"
  לפני שהיא מתייצבת בשכבה האיזותרמלית העמוקה, בעוד שהלחץ ההידרוסטטי עולה מונוטונית. ההשפעות המתחרות שלהם מייצרות פרופיל מהירות קול (
 \lang english
 SVP
-\lang english
+\lang hebrew
 ) אופייני עם מינימום ליד בסיס התרמוקליין — 
 \emph on
 ציר ערוץ הקול
@@ -1397,7 +992,7 @@ SVP
  (
 \lang english
 SOFAR
-\lang english
+\lang hebrew
 ) — המשבר אנרגיה אקוסטית כלפי מטה מעל הציר וכלפי מעלה מתחתיו, ולוכד קול בתדר נמוך בגלידה טבעית.
 \end_layout
 
@@ -1411,17 +1006,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Graphics 
@@ -1437,28 +1022,18 @@ centering
 פרופיל 
 \lang english
 SVP
-\lang english
+\lang hebrew
  טיפוסי (קיץ): ציר ערוץ הקול (
 \lang english
 SOFAR
-\lang english
+\lang hebrew
 ) כנקודת מינימום סביב 1000
 \begin_inset space ~
 
 \end_inset
 
 מ' — לוכד גלים אקוסטיים בגלידה טבעית.
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[2pt]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
@@ -1482,7 +1057,7 @@ Source: Bookman, Todd. 2015.
 Eavesdropping On The Ocean
 \shape default
 . Wilbur. Retrieved.
-\lang english
+\lang hebrew
 
 \size default
 
@@ -1507,19 +1082,6 @@ name "fig:ocean_layers"
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -1527,7 +1089,7 @@ status collapsed
 התפשטות גלים אקוסטיים ומודל 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 
 \end_layout
 
@@ -1582,7 +1144,7 @@ name "sec:bellhop"
 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 
 \begin_inset space ~
 
@@ -1606,17 +1168,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Graphics 
@@ -1632,7 +1184,7 @@ centering
 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  כקופסה שחורה: כניסות (SVP, גיאומטריה, תדר, מאפייני קרקע) ויציאות (שדה TL, תרשים קרנים). הקרנים מדמות החזרות, שבירות ועדשות אקוסטיות. 
 \begin_inset ERT
 status collapsed
@@ -1646,14 +1198,6 @@ src{
 \end_inset
 
 bellhopCached(sim_params, cache_dir) -> TL[Nz x Nr]
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -1677,18 +1221,6 @@ name "fig:bellhop_blackbox"
 
 \begin_layout Standard
 #קלוד בכל מקום בו יש רפרנס לקוד יש לעשות אותו בשורה חדשה כי הRTL וLTR לא עובדים אם הם באותה שורה# 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -1726,7 +1258,7 @@ name "sec:sonar_equation"
  (
 \lang english
 FOM
-\lang english
+\lang hebrew
 ): 
 \begin_inset Formula \begin{equation}
   \mathrm{FOM} = \mathrm{SL} - \mathrm{NL} + \mathrm{DI} - \mathrm{DT}.
@@ -1754,7 +1286,7 @@ FOM
  היא פלט ה-
 \lang english
 UQ
-\lang english
+\lang hebrew
  העיקרי שמעניין אותנו. נעיר שמשוואות הסונאר הפאסיבית והאקטיבית מוצגות בפירוט בספר הייחוס
 \begin_inset space ~
 
@@ -1773,19 +1305,6 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -1811,7 +1330,7 @@ name "sec:propagation_phenomena"
 אזורי התכנסות (
 \lang english
 CZ
-\lang english
+\lang hebrew
 )
 \series default
 : מנגנון המיקוד של ערוץ הקול מייצר דוגמת קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) אורך קשותות אלה יהיה לדוגמה 
@@ -1824,33 +1343,19 @@ CZ
 \end_inset
 
 ק
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 מ עבור SVP טיפוסי במים עמוקים. ניתן לראות קשתות אלו באיור 10. מיקום ה-
 \lang english
 CZ
-\lang english
+\lang hebrew
  רגיש מאוד ל-SVP קרוב לפני המים: הפרעת SVP של 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  יכולה להזיז את הקשתות בעלות ההספק הגבוה ה-
 \lang english
 CZ
-\lang english
+\lang hebrew
  ב-
 \begin_inset Formula $\pm$
 \end_inset
@@ -1861,19 +1366,12 @@ CZ
 \end_inset
 
 ק
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 מ ולשנות את רווח ה-
 \lang english
 CZ
-\lang english
+\lang hebrew
  ב-
 \lang english
 
@@ -1886,7 +1384,7 @@ CZ
 \end_inset
 
 dB
-\lang english
+\lang hebrew
 . 
 \end_layout
 
@@ -1916,63 +1414,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image7.png
 	width 100line%
@@ -1984,14 +1449,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -2002,50 +1459,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image26.png
 	width 100line%
@@ -2061,14 +1495,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -2090,34 +1516,12 @@ src{
 \end_inset
 
 bellhopCached(
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 freq0,maxR,zS0,...
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 ) -> TL map; imagesc(r_km,z_m,TL)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -2140,19 +1544,6 @@ name "fig:propagation"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -2211,14 +1602,7 @@ C, עומקי מקור אינם ודאיים ב-
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . 
 \end_layout
@@ -2250,43 +1634,22 @@ dB בשעות הצהריים.
 \end_inset
 
  (1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , או 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  בניסויינו). מטרת ה-
 \lang english
 UQ
-\lang english
+\lang hebrew
  היא להעביר התפלגויות כניסה אלו דרך האופרטור הלא-לינארי של 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  כדי לקבל את התפלגות הפלט של TL בכל פיקסל, ומשם את הסתברות הצל 
 \begin_inset Formula $\Pshadow$
 \end_inset
@@ -2296,19 +1659,6 @@ Bellhop
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -2316,7 +1666,7 @@ status collapsed
 אימות אנליטי של 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 
 \end_layout
 
@@ -2335,7 +1685,7 @@ name "sec:analytical_validation"
 לפני שימוש ב-
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  כמודל הקדמי הסטוכסטי, אימתנו את דיוקו מול שני פתרונות אנליטיים.
 \end_layout
 
@@ -2347,7 +1697,7 @@ Bellhop
 עבור מרחב חצי-אינסופי איזו-מהירות (מהירות קול קבועה, משטח שחרור לחץ, קרקעית שטוחה חדירה), ה-TL המדויק ניתן על ידי פתרון גלידת פקריס. 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  מסכים בתוך 
 \begin_inset Formula $<$
 \end_inset
@@ -2370,63 +1720,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image29.png
 	width 100line%
@@ -2442,14 +1759,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -2460,50 +1769,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image36.png
 	width 100line%
@@ -2519,14 +1805,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -2538,11 +1816,11 @@ end{subfigure}
 אימות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 : מרחב חצי-אינסופי (פתרון 
 \lang english
 Pekeris
-\lang english
+\lang hebrew
 ). 
 \begin_inset ERT
 status collapsed
@@ -2556,14 +1834,6 @@ src{
 \end_inset
 
 run_validation.m: TL_bellhop = bellhopCached(); TL_exact = pekerisHalfspace()
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -2593,7 +1863,7 @@ name "fig:val_halfspace"
 עבור גלידת פקריס עם גבול קרקעית קשיח, שדה הלחץ המדויק ניתן על ידי סידרת המודים הנורמליים. 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  תואם את פתרון המודים הנורמליים עם שגיאה ממוצעת 
 \begin_inset Formula $<$
 \end_inset
@@ -2625,63 +1895,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image19.png
 	width 100line%
@@ -2697,14 +1934,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -2715,50 +1944,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image20.png
 	width 100line%
@@ -2772,7 +1978,7 @@ status collapsed
 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  vs.
 \begin_inset space \space{}
 
@@ -2783,14 +1989,6 @@ Bellhop
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -2802,7 +2000,7 @@ end{subfigure}
 אימות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 : גלידה מהדי — מודים נורמליים. 
 \begin_inset ERT
 status collapsed
@@ -2816,14 +2014,6 @@ src{
 \end_inset
 
 run_validation.m: TL_modes = normalModes(freq,zS,D); mean_err = mean(abs(TL-TL_modes))
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -2846,19 +2036,6 @@ name "fig:val_waveguide"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -2894,7 +2071,7 @@ name "sec:sensitivity"
 . הפרעת SVP מייצרת את הפיזור המרחבי הדרמטי ביותר של TL, במיוחד בגבולות ה-
 \lang english
 CZ
-\lang english
+\lang hebrew
 . עומק המקור והתדר מייצרים תבניות מתונות יותר ושונות מבחינה איכותית.
 \end_layout
 
@@ -2908,63 +2085,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image17.png
 	width 100line%
@@ -2984,14 +2128,6 @@ SVP
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3002,50 +2138,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image22.png
 	width 100line%
@@ -3065,14 +2178,6 @@ SVP
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3083,50 +2188,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image30.png
 	width 100line%
@@ -3146,14 +2228,6 @@ SVP
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3175,14 +2249,6 @@ src{
 \end_inset
 
 run_sensitivity.m: for dSVP in [-delta 0 +delta]: TL=bellhopCached(svp0+dSVP)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -3214,63 +2280,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image33.png
 	width 100line%
@@ -3286,14 +2319,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3304,50 +2329,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image32.png
 	width 100line%
@@ -3363,14 +2365,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3392,14 +2386,6 @@ src{
 \end_inset
 
 run_sensitivity.m: TL_lo=bellhopCached(freq0*(1-d)); TL_hi=bellhopCached(freq0*(1+d))
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -3431,63 +2417,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image21.png
 	width 100line%
@@ -3507,14 +2460,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3525,50 +2470,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image37.png
 	width 100line%
@@ -3588,14 +2510,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3606,50 +2520,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename pptx_figures/image35.png
 	width 100line%
@@ -3669,14 +2560,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -3702,34 +2585,9 @@ src{
 \end_inset
 
 run_sensitivity.m: TL=bellhopCached(zS0*(1+dz)) for dz in 
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 -d,0,+d
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -3761,17 +2619,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Graphics 
@@ -3797,54 +2645,18 @@ src{
 \end_inset
 
 bellhopCached(
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 25,maxR,...
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 ) vs bellhopCached(
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 400,maxR,...
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 )
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -3868,27 +2680,6 @@ name "fig:wavelength_regime"
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  2.  תוצאות
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -3908,19 +2699,6 @@ name "sec:results"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -3944,16 +2722,9 @@ name "sec:gallery"
 האיורים להלן מציגים פלטים מייצגים מכל שיטת 
 \lang english
 UQ
-\lang english
+\lang hebrew
  עבור תרחיש מים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . כל איור נדון בפירוט בתת-הסעיף המתאים; הגלריה בנויה כך שכל זוג מפות ניתן להשוואה זה לצד זה ברזולוציה מלאה.
 \end_layout
@@ -3968,63 +2739,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/TL_zS.png
 	width 100line%
@@ -4044,14 +2782,7 @@ status collapsed
 \end_inset
 
  (נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ). כחול = TL נמוך (אות חזק); אדום = TL גבוה (אזור צל). קשת ה-CZ ב-
 \begin_inset Formula $\sim$
@@ -4063,28 +2794,13 @@ status collapsed
 \end_inset
 
 ק
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 מ נראית בברור.
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4095,50 +2811,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/combined_Var.png
 	width 100line%
@@ -4160,20 +2853,12 @@ freq,
 \end_inset
 
 , SVP
-\lang english
+\lang hebrew
 ), בסקאלת צבע משותפת. SVP מייצר שונות מרחבית הטרוגנית ביותר.
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4183,14 +2868,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 מפות ייחוס MC למים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . שמאל: ממוצע 
 \begin_inset Formula $\EX[\TL]$
@@ -4213,14 +2891,6 @@ src{
 \end_inset
 
 run_mc.m: EX=mean(TL_save,3); Var=var(TL_save,0,3); imagesc()
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -4252,63 +2922,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/detect_mle_freq.png
 	width 100line%
@@ -4332,14 +2969,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4350,50 +2979,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/shadow_70_MC_vs_Delta_freq.png
 	width 100line%
@@ -4426,14 +3032,6 @@ Delta
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4443,14 +3041,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 מפות הסתברות גילוי עבור מים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  / תדר. שמאל: הסתברות צל LN3-MLE. ימין: השוואת MC vs.
 \begin_inset space \space{}
@@ -4470,14 +3061,6 @@ src{
 \end_inset
 
 run_ln3.m: Pd=normcdf((log(FOM-g)-mu)./sig); run_delta.m: shadowCompare()
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -4509,63 +3092,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/figures/LN3_RMSE_all.png
 	width 100line%
@@ -4581,34 +3131,13 @@ status collapsed
 מפת RMSE של CDF ב-LN3
 \series default
  לכל ההתפלגויות והפרמטרים. שורות: נורמלי 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 /5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 /10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . עמודות: 
 \lang english
@@ -4617,20 +3146,12 @@ freq,
 \end_inset
 
 , SVP
-\lang english
+\lang hebrew
 . כהה = התאמה טובה; בהיר = התאמה גרועה.
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4641,50 +3162,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
@@ -4700,34 +3198,13 @@ status collapsed
 עקומת רלוונטיות סדר PCE
 \series default
  למים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . כל עקומה עולה מ-0%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  ל-100%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  בסדר האופטימלי 
 \begin_inset Formula $K^*$
@@ -4738,14 +3215,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4755,14 +3224,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 איכות התאמת LN3 ובחירת סדר PCE למים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . 
 \begin_inset ERT
@@ -4789,14 +3251,6 @@ string
 \end_inset
 
 2)); run_pce.m: relevance_k
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -4828,63 +3282,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png
 	width 100line%
@@ -4900,38 +3321,16 @@ status collapsed
 התכנסות שגיאת L2 PCE
 \series default
  (מים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ). כל קו הוא פרמטר אי-ודאי אחד. קו מקווקוו: סף 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 .
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -4942,50 +3341,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/shadow_70_LN3_vs_KDE_freq.png
 	width 100line%
@@ -5010,14 +3386,6 @@ KDE הסתברות צל
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -5027,14 +3395,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 התכנסות PCE והשוואת מפות גילוי למים עמוקים / נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . 
 \begin_inset ERT
@@ -5061,14 +3422,6 @@ string
 \end_inset
 
 2); run_kde.m: shadowCompareKDE()
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -5092,19 +3445,6 @@ name "fig:gallery_pce_kde"
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -5127,7 +3467,7 @@ name "sec:mc"
 סימולציות 
 \lang english
 MC
-\lang english
+\lang hebrew
  משתמשות ב
 \series bold
 שתי קבוצות מדגם משלימות
@@ -5145,7 +3485,7 @@ MC
 קבוצת 
 \lang english
 LHS
-\lang english
+\lang hebrew
 
 \series default
  (
@@ -5167,19 +3507,19 @@ LHS
  אמפירי, 
 \lang english
 KDE
-\lang english
+\lang hebrew
 , ו-
 \lang english
 LN3
-\lang english
+\lang hebrew
  ייחוסי מותאם ל-
 \lang english
 MOM
-\lang english
+\lang hebrew
 . שיכוב ה-
 \lang english
 LHS
-\lang english
+\lang hebrew
  מבטיח כיסוי מלא של מרחב הכניסה. 
 \end_layout
 
@@ -5189,7 +3529,7 @@ LHS
 קבוצת 
 \lang english
 IID
-\lang english
+\lang hebrew
 
 \series default
  (
@@ -5199,19 +3539,19 @@ IID
  מדגמים עצמאיים): משמשת אך ורק להתאמת 
 \lang english
 LN3
-\lang english
+\lang hebrew
  מבוססת 
 \lang english
 MLE
-\lang english
+\lang hebrew
 , מכיוון ש-
 \lang english
 MLE
-\lang english
+\lang hebrew
  דורש את הנחת ה-
 \lang english
 IID
-\lang english
+\lang hebrew
 . 
 \end_layout
 
@@ -5223,7 +3563,7 @@ Cache/<sc>/<dist>/
  (
 \lang english
 LHS
-\lang english
+\lang hebrew
 ) וב-
 \family typewriter
 Cache/<sc>/<dist>_iid/
@@ -5231,7 +3571,7 @@ Cache/<sc>/<dist>_iid/
  (
 \lang english
 IID
-\lang english
+\lang hebrew
 ), ומניבות 
 \begin_inset Formula $4\times3\times3\times2\times1000 = 72{,}000$
 \end_inset
@@ -5239,7 +3579,7 @@ IID
  הערכות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  בסך הכל.
 \end_layout
 
@@ -5253,63 +3593,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_5pct/figures/TL_zS.png
 	width 100line%
@@ -5330,14 +3637,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -5348,50 +3647,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/TL_zS.png
 	width 100line%
@@ -5412,77 +3688,36 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[8pt]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/TL_zS.png
 	width 100line%
@@ -5503,14 +3738,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -5521,50 +3748,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename upslope/Normal_5pct/figures/TL_zS.png
 	width 100line%
@@ -5585,14 +3789,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -5610,14 +3806,7 @@ end{subfigure}
 \end_inset
 
  נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  בארבעת התרחישים. 
 \begin_inset ERT
@@ -5632,14 +3821,6 @@ src{
 \end_inset
 
 run_mc.m: EX=mean(TL_save,3); [Nz,Nr,N]=size(TL_save); imagesc(r_km,z_m,EX)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -5747,63 +3928,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/svp_ensemble.png
 	width 100line%
@@ -5815,14 +3963,7 @@ status collapsed
 
 \begin_layout Plain Layout
 נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 : 
 \begin_inset Formula $\sigma_{\Delta T}=0.15\,^\circ$
@@ -5851,14 +3992,6 @@ C,
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -5869,50 +4002,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_10pct/figures/svp_ensemble.png
 	width 100line%
@@ -5924,14 +4034,7 @@ status collapsed
 
 \begin_layout Plain Layout
 נורמלי 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 : 
 \begin_inset Formula $\sigma_{\Delta T}=0.30\,^\circ$
@@ -5951,14 +4054,6 @@ C,
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -5984,14 +4079,6 @@ src{
 \end_inset
 
 run_mc.m: svp_i = makeSVPNoise(S.svp(i), depth, cfg); plot(svp_i.c, svp_i.z)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -6044,7 +4131,7 @@ name "sec:mc_conv"
  בקצב 
 \lang english
 CLT
-\lang english
+\lang hebrew
  הקלאסי 
 \begin_inset Formula $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$
 \end_inset
@@ -6077,14 +4164,7 @@ CLT
 \end_inset
 
  ועבור ההתפלגות הרחבה ביותר (נורמלי 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ), שגיאת ה-RMSE היחסית של מאמד השונות המדגמית היא 
 \begin_inset Formula $\approx 4.5\%$
@@ -6107,63 +4187,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/figures/mc_conv_mean_freq.png
 	width 100line%
@@ -6191,14 +4238,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -6209,50 +4248,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/figures/mc_conv_mean_svp.png
 	width 100line%
@@ -6280,14 +4296,6 @@ SVP:
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -6333,14 +4341,6 @@ src{
 \end_inset
 
 run_mc_convergence.m: for N in N_VEC: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -6399,17 +4399,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset ERT
@@ -6424,80 +4414,30 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 deepwater/figures/lhsvsiidfreq.png
-\begin_inset ERT
-status collapsed
+
+
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
-}
-\end_layout
+\align center
 
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/figures/lhs_vs_iid_freq.png
 	width 100line%
@@ -6513,14 +4453,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -6531,50 +4463,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/figures/lhs_vs_iid_svp.png
 	width 100line%
@@ -6590,37 +4499,11 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Box Boxed
@@ -6644,17 +4527,6 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 LHS vs IID convergence — run 
@@ -6667,28 +4539,12 @@ run_lhs_iid_convergence('deep_water','Normal_5pct')
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 התכנסות LHS לעומת IID (מים עמוקים, נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ). כחול = LHS, אדום מקווקוו = IID. 
 \series bold
@@ -6707,14 +4563,6 @@ src{
 \end_inset
 
 run_lhs_iid_convergence.m: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -6777,17 +4625,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset ERT
@@ -6802,34 +4640,7 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 deepwater/figures/kdevsN.png
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Graphics 
@@ -6839,24 +4650,6 @@ status collapsed
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Box Boxed
@@ -6880,17 +4673,6 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 KDE vs N study — run 
@@ -6902,15 +4684,6 @@ run_kde_N_study('deep_water','Normal_5pct')
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
  
 \begin_inset Caption Standard
@@ -6925,14 +4698,7 @@ KDE לעומת אמידה אמפירית של
 \end_inset
 
  (מים עמוקים, נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , שלושת הפרמטרים). קו מלא = KDE (גאוסי), מקווקוו = אמפירי (ספירה). KDE מפחית שגיאה ב-30–50% בגדלי מדגם קטנים (
 \begin_inset Formula $N \leq 100$
@@ -6963,14 +4729,6 @@ string
 \end_inset
 
 -0.2; Pd=mean(normcdf((FOM-TL_sub)./h),3)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -6993,19 +4751,6 @@ name "fig:kde_vs_N"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -7037,11 +4782,11 @@ name "sec:delta"
  כאן מתייחס ללינאריזציה באמצעות חשבון הפרעות (פיתוח טיילור מסדר ראשון של פלט המודל סביב וקטור הפרמטרים הנומינלי), הידועה גם כ-
 \lang english
 FOSM
-\lang english
+\lang hebrew
  בתחום אמינות קונסטרוקציה וכלינאריזציית 
 \lang english
 GUM
-\lang english
+\lang hebrew
  במטרולוגיה.
 \end_layout
 
@@ -7087,33 +4832,19 @@ GUM
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ), שיטת דלתא משיגה שגיאות 
 \begin_inset Formula $L_1$
 \end_inset
 
  יחסיות מתחת ל-10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  במפות השונות. מפות הסתברות הצל המחושבות דרך ההיברידי דלתא–
 \lang english
 LN3
-\lang english
+\lang hebrew
  מסכימות בקרבה עם הסתברויות הצל האמפיריות של MC בתרחישים אלו.
 \end_layout
 
@@ -7127,63 +4858,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png
 	width 100line%
@@ -7204,14 +4902,6 @@ Delta
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -7222,50 +4912,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3_zS.png
 	width 100line%
@@ -7286,77 +4953,36 @@ Delta–LN3
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[8pt]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3_zS.png
 	width 100line%
@@ -7377,14 +5003,6 @@ LN3
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -7421,14 +5039,7 @@ dB
 מסכימות
 \emph default
  עם MC (מים רדודים, נורמלי 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , הפרעת 
 \begin_inset Formula $z_S$
@@ -7471,14 +5082,6 @@ string
 \end_inset
 
 2,3)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -7514,28 +5117,14 @@ name "fig:shadow_good"
 \end_inset
 
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ), הקירוב מסדר 1 מתמוטט משמעותית. תיקון סדר 2 גם כן אינו מסוגל לשחזר את השונות: אבר תיקון ההסיאן 
 \begin_inset Formula $|\kappa H^2|/V_1$
 \end_inset
 
  עולה על 100%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  עבור הפרעות SVP בשני תרחישי המדרון, מה שמציין שסידרת טיילור לא התכנסה בסדר 2.
 \end_layout
@@ -7550,63 +5139,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png
 	width 100line%
@@ -7627,14 +5183,6 @@ Delta
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -7645,50 +5193,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png
 	width 100line%
@@ -7709,77 +5234,36 @@ Delta–LN3
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[8pt]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[t]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/shadow_70_MC_vs_LN3_svp.png
 	width 100line%
@@ -7800,14 +5284,6 @@ LN3
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -7821,14 +5297,7 @@ end{subfigure}
 נכשל
 \emph default
  (מדרון יורד, נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , הפרעת SVP). אי-הסכמה בולטת בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה. 
 \begin_inset ERT
@@ -7855,14 +5324,6 @@ string
 \end_inset
 
 2*kappa; frac>100%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -7894,17 +5355,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Caption Standard
@@ -7919,14 +5370,7 @@ centering
 \end_inset
 
 50%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  מצביעים על כך שהקירוב מסדר 1 אינו מספיק.
 \end_layout
@@ -8365,21 +5809,14 @@ Downslope
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ), בתימטריה שטוחה.
 \series default
  לינאריזציית טיילור מסדר 1 תקפה; מפות הסתברות הצל של ההיברידי דלתא–
 \lang english
 LN3
-\lang english
+\lang hebrew
  מסכימות בקרבה עם MC.
 \end_layout
 
@@ -8391,26 +5828,12 @@ LN3
 \end_inset
 
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ), בתימטריה שטוחה.
 \series default
  אבר תיקון ההסיאן מסדר 2 כבר עולה על אבר סדר 1 בכל התרחישים מלבד SVP מים עמוקים ב-5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . סידרת טיילור 
 \emph on
@@ -8431,7 +5854,7 @@ status collapsed
 , מפות הצל של דלתא–
 \lang english
 LN3
-\lang english
+\lang hebrew
  מציגות אי-התאמה מרחבית משמעותית ביחס ל-MC. 
 \end_layout
 
@@ -8445,46 +5868,19 @@ LN3
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  בכל פרמטר. עבור אי-ודאות 5–10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  או כל סביבת מדרון, דרושה 
 \lang english
 PCE
-\lang english
+\lang hebrew
  או MC ישיר.
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -8532,7 +5928,7 @@ name "sec:ln3"
  גדול, ה-
 \lang english
 CLT
-\lang english
+\lang hebrew
  מציע ש-
 \begin_inset Formula $|p|$
 \end_inset
@@ -8562,7 +5958,7 @@ CLT
  מוערכים ב-
 \lang english
 MLE
-\lang english
+\lang hebrew
  דרך 
 \family typewriter
 lognfit
@@ -8570,16 +5966,9 @@ lognfit
  (עדיף על 
 \lang english
 MOM
-\lang english
+\lang hebrew
 , שבדרך כלל פחות יעיל ב-10–30%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ): 
 \begin_inset Formula \begin{equation}
@@ -8605,63 +5994,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/figures/LN3_RMSE_all.png
 	width 100line%
@@ -8677,14 +6033,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -8695,50 +6043,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/figures/LN3_RMSE_all.png
 	width 100line%
@@ -8754,77 +6079,36 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.4em]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename upslope/figures/LN3_RMSE_all.png
 	width 100line%
@@ -8840,14 +6124,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -8858,50 +6134,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/figures/LN3_RMSE_all.png
 	width 100line%
@@ -8917,14 +6170,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -8934,34 +6179,13 @@ end{subfigure}
 
 \begin_layout Plain Layout
 שגיאת RMSE של CDF LN3 (בין LN3 ל-MC) בארבעת התרחישים ושלוש רמות האי-ודאות. שורות: נורמלי 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 /5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 /10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . עמודות: 
 \lang english
@@ -8970,7 +6194,7 @@ freq,
 \end_inset
 
 , SVP
-\lang english
+\lang hebrew
 . כהה = התאמה טובה; בהיר = כשל ב-CZ. 
 \begin_inset ERT
 status collapsed
@@ -8996,14 +6220,6 @@ string
 \end_inset
 
 2))
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -9043,17 +6259,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Graphics 
@@ -9067,14 +6273,7 @@ centering
 
 \begin_layout Plain Layout
 היסטוגרמה דו-מודלית של TL בפיקסל בעל השונות המרבית (מים עמוקים 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , SVP). כחול: מדגמי MC; כתום: LN3 המותאם; קו אדום: רמת FOM. LN3 חד-שיאי לא מצליח לתאר את שני השיאים. 
 \begin_inset ERT
@@ -9089,14 +6288,6 @@ src{
 \end_inset
 
 run_ln3.m: [iz,ir]=find(Var==max(Var,[],'all')); histogram(TL(iz,ir,:))
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -9126,11 +6317,11 @@ name "fig:bimodal"
  במשטרים דו-מודליים (CZ, גבולות צל) אין לא 
 \lang english
 MLE
-\lang english
+\lang hebrew
  ואין לא 
 \lang english
 MOM
-\lang english
+\lang hebrew
  שפותרים את כשל ההתאמה; יידרש מודל תערובת-לוגנורמלים ללא תלות במאמד. פרמטר ההזזה 
 \begin_inset Formula $\gamma = 0.95\min(\mathrm{samples})$
 \end_inset
@@ -9138,30 +6329,16 @@ MOM
  נשאר היוריסטיקה — 
 \lang english
 MLE
-\lang english
+\lang hebrew
  תלת-פרמטרי מלא ידרוש אופטימיזציה לא-לינארית לכל פיקסל (בלתי אפשרי חישובית ב-
 \begin_inset Formula $\sim$
 \end_inset
 
 440
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 000 פיקסלים 
 \begin_inset Formula $\times$
@@ -9178,28 +6355,21 @@ MLE מול MOM — השוואת גרזן
 התאמות 
 \lang english
 MLE
-\lang english
+\lang hebrew
  הושוו מול מאמדי 
 \lang english
 MOM
-\lang english
+\lang hebrew
  בכל התרחישים. 
 \lang english
 MLE
-\lang english
+\lang hebrew
  יעיל יותר באופן שיטתי: הטיה נמוכה יותר ו-
 \lang english
 RMSE
-\lang english
+\lang hebrew
  נמוך ב-10–30%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  הן באמידות 
 \begin_inset Formula $\hat\mu$
@@ -9212,7 +6382,7 @@ status collapsed
 . מאמדי 
 \lang english
 MOM
-\lang english
+\lang hebrew
  משמשים רק כבדיקת צולב.
 \end_layout
 
@@ -9226,17 +6396,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset ERT
@@ -9251,59 +6411,12 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 deepwater/Normal5pct/figures/LN3MOMvsMLEscatterfreq.png
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png
 	width 70text%
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
 
 \end_inset
 
@@ -9329,17 +6442,6 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 LN3 MOM vs MLE scatter — טרם נוצר
@@ -9347,15 +6449,6 @@ LN3 MOM vs MLE scatter — טרם נוצר
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
  
 \begin_inset Caption Standard
@@ -9366,14 +6459,7 @@ status collapsed
 \end_inset
 
  (מים עמוקים, 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , תדר). מדגים כי MLE עקבי ויעיל יותר. 
 \begin_inset ERT
@@ -9388,14 +6474,6 @@ src{
 \end_inset
 
 run_ln3.m: [mu_MLE,sig_MLE]=lognfit(TL_pix-g); mu_MOM=momentEstimate(TL_pix); scatter()
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -9419,19 +6497,6 @@ name "fig:ln3_mom_mle"
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -9454,11 +6519,11 @@ name "sec:kde_validation"
 אמידת צפיפות ליבה (
 \lang english
 KDE
-\lang english
+\lang hebrew
 ) מספקת קירוב לא-פרמטרי של ה-
 \lang english
 CDF
-\lang english
+\lang hebrew
  של ה-TL בכל פיקסל תוך שימוש בחלון פרצן–רוזנבלט: 
 \begin_inset Formula \begin{equation}
   \hat{P}_{\mathrm{shadow}}^{\mathrm{KDE}}(\mathbf{x})
@@ -9477,7 +6542,7 @@ CDF
 . איורי האימות של 
 \lang english
 KDE
-\lang english
+\lang hebrew
  עם שלושה עמודות מציגים: (i) 
 \begin_inset Formula $\Pshadow$
 \end_inset
@@ -9485,7 +6550,7 @@ KDE
  אמפירי של MC, (ii) מאמד 
 \lang english
 KDE
-\lang english
+\lang hebrew
 , ו-(iii) מפת הפרשים פיקסל-פיקסל.
 \end_layout
 
@@ -9499,63 +6564,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
@@ -9571,14 +6603,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -9589,50 +6613,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
@@ -9652,14 +6653,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -9670,50 +6663,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
@@ -9729,14 +6699,6 @@ SVP — מים עמוקים
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -9746,14 +6708,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 אימות KDE — מים עמוקים 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 : שמאל MC אמפירי, אמצע KDE, ימין הפרש. 
 \begin_inset ERT
@@ -9780,14 +6735,6 @@ string
 \end_inset
 
 -0.2; Pd=mean(normcdf((FOM-TL)./h),3)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -9819,63 +6766,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
@@ -9891,14 +6805,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -9909,50 +6815,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
@@ -9972,14 +6855,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -9990,50 +6865,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
@@ -10049,14 +6901,6 @@ SVP — מדרון יורד
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10066,14 +6910,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 אימות KDE — מדרון יורד 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . 
 \begin_inset ERT
@@ -10088,14 +6925,6 @@ src{
 \end_inset
 
 run_kde.m: Pd_kde vs Pd_emp; diff = Pd_kde - Pd_emp
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -10127,63 +6956,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
@@ -10199,14 +6995,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10217,50 +7005,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
@@ -10280,14 +7045,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10298,50 +7055,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
@@ -10357,14 +7091,6 @@ SVP — מים רדודים
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10374,14 +7100,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 אימות KDE — מים רדודים 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . 
 \begin_inset ERT
@@ -10396,14 +7115,6 @@ src{
 \end_inset
 
 run_kde.m: same pipeline; shallow water has stronger Lloyd's mirror fringes
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -10435,63 +7146,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename upslope/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
@@ -10507,14 +7185,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10525,50 +7195,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename upslope/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
@@ -10588,14 +7235,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10606,50 +7245,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename upslope/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
@@ -10665,14 +7281,6 @@ SVP — מדרון עולה
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10682,14 +7290,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 אימות KDE — מדרון עולה 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 . 
 \begin_inset ERT
@@ -10704,14 +7305,6 @@ src{
 \end_inset
 
 run_kde.m: KDE fails at slope shadow boundaries (large diff panel)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -10735,19 +7328,6 @@ name "fig:kde_upslope"
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -10770,7 +7350,7 @@ name "sec:pce"
 
 \lang english
 PCE
-\lang english
+\lang hebrew
  מייצג את שדה ה-TL כסידרה פולינומית בפרמטרים האי-ודאיים המנורמלים 
 \begin_inset Formula $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$
 \end_inset
@@ -10794,7 +7374,7 @@ PCE
  הם מקדמים הנאמדים בנסיגת ריבועים רגילה (
 \lang english
 OLS
-\lang english
+\lang hebrew
 ) על 
 \begin_inset Formula $N=1000$
 \end_inset
@@ -10802,7 +7382,7 @@ OLS
  מדגמי MC ללא עלות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  נוספת. השונות משוחזרת ישירות מהמקדמים הלא-קבועים: 
 \begin_inset Formula \begin{equation}
   \Var[\TL] \approx \sum_{|\boldsymbol{\alpha}|>0} c_{\boldsymbol{\alpha}}^2.
@@ -10816,7 +7396,7 @@ Bellhop
  נבחר באמצעות 
 \lang english
 LOO-CV
-\lang english
+\lang hebrew
  (בדיקה צולבת השמט-אחד) הממזערת את שגיאת L2 של השונות. 
 \emph on
 עקומת רלוונטיות הסדר
@@ -10838,63 +7418,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png
 	width 100line%
@@ -10906,28 +7453,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מים עמוקים 5%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -10938,50 +7469,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png
 	width 100line%
@@ -10993,28 +7501,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מדרון יורד 5%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11025,50 +7517,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png
 	width 100line%
@@ -11080,28 +7549,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מים עמוקים 10%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11141,14 +7594,6 @@ string
 \end_inset
 
 2)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -11180,17 +7625,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Graphics 
@@ -11224,14 +7659,6 @@ src{
 \end_inset
 
 run_pce.m: tiledlayout(4,3); for each combo: plot(1:K_max, e_LOO)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -11263,63 +7690,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.45
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
@@ -11331,28 +7725,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מים עמוקים 5%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11363,50 +7741,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.45
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_10pct/figures/pce_order_relevance.png
 	width 100line%
@@ -11418,91 +7773,42 @@ status collapsed
 
 \begin_layout Plain Layout
 מים עמוקים 10%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-
-\backslash
-[0.4em]
-\end_layout
-
+\begin_inset Newline newline
 \end_inset
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.45
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
@@ -11514,28 +7820,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מים רדודים 5%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11546,50 +7836,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.45
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename downslope/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
@@ -11601,28 +7868,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מדרון יורד 5%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11636,14 +7887,7 @@ end{subfigure}
 \end_inset
 
  הוא הסדר בו מושגת 100%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  מהשיפור הניתן לשחזור. 
 \begin_inset ERT
@@ -11658,14 +7902,6 @@ src{
 \end_inset
 
 run_pce.m: rel(k)=max(e(k-1)-e(k),0)/e(1)*100; K*=find(cumsum(rel)>=100,1)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -11697,63 +7933,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.45
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename shallow_water/Normal_10pct/figures/pce_order_relevance.png
 	width 100line%
@@ -11765,28 +7968,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מים רדודים 10%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11797,50 +7984,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.45
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename upslope/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
@@ -11852,28 +8016,12 @@ status collapsed
 
 \begin_layout Plain Layout
 מדרון עולה 5%
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -11895,14 +8043,6 @@ src{
 \end_inset
 
 run_pce.m: same relevance curve; slope scenarios show non-convergence (K*>10)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -11925,19 +8065,6 @@ name "fig:pce_relevance2"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -11967,19 +8094,19 @@ name "sec:pdetect"
 
 \lang english
 MLE
-\lang english
+\lang hebrew
 
 \series default
 : הסתברות זנב של 
 \lang english
 LN3
-\lang english
+\lang hebrew
  פרמטרי; (2) 
 \series bold
 
 \lang english
 MC
-\lang english
+\lang hebrew
  אמפירי
 \series default
 : חלק ישיר של מדגמים עם 
@@ -12011,63 +8138,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/detect_mle_freq.png
 	width 100line%
@@ -12083,14 +8177,6 @@ MLE
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -12101,50 +8187,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/detect_empirical_freq.png
 	width 100line%
@@ -12160,14 +8223,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -12178,50 +8233,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_5pct/figures/detect_cheb_freq.png
 	width 100line%
@@ -12237,14 +8269,6 @@ Chebyshev
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -12254,14 +8278,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 הסתברות גילוי (מים עמוקים 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , תדר): שלוש שיטות אמידה. 
 \begin_inset ERT
@@ -12288,14 +8305,6 @@ string
 \end_inset
 
 2./Var)
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -12327,63 +8336,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_10pct/figures/detect_empirical_freq.png
 	width 100line%
@@ -12395,28 +8371,13 @@ status collapsed
 
 \begin_layout Plain Layout
 מים עמוקים 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , תדר
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -12427,50 +8388,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "48col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.48
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset Graphics 
 	filename deep_water/Normal_10pct/figures/detect_empirical_zS.png
 	width 100line%
@@ -12482,14 +8420,7 @@ status collapsed
 
 \begin_layout Plain Layout
 מים עמוקים 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 , 
 \begin_inset Formula $z_S$
@@ -12500,14 +8431,6 @@ status collapsed
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -12517,14 +8440,7 @@ end{subfigure}
 
 \begin_layout Plain Layout
 הסתברות גילוי אמפירית עבור אי-ודאות גבוהה (10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ). 
 \begin_inset ERT
@@ -12539,14 +8455,6 @@ src{
 \end_inset
 
 run_mc.m: Pd_emp=mean(TL_save<FOM,3); larger spread than 5% case
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -12569,19 +8477,6 @@ name "fig:detect_10pct"
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -12607,19 +8502,12 @@ name "sec:analytical_gt"
 \end_inset
 
 . לג'קוביאן הפרשים-הסופיים המשמש בצינור המספרי יש שגיאה ממוצעת של 8.47%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  ביחס לנגזרת המדויקת, המאמת את יישום דלתא מבוסס 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 . שגיאת 
 \begin_inset Formula $L_1$
 \end_inset
@@ -12653,63 +8541,30 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset ERT
 status collapsed
 
@@ -12722,34 +8577,7 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 deltavalidationNormal1pct.png
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Graphics 
@@ -12759,26 +8587,6 @@ status collapsed
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-
 \begin_inset Box Boxed
 position "c"
 hor_pos "l"
@@ -12800,28 +8608,10 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  — אין קובץ
 \end_layout
@@ -12829,42 +8619,18 @@ status collapsed
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  אי-ודאות
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -12875,50 +8641,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset ERT
 status collapsed
 
@@ -12931,34 +8674,7 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 deltavalidationNormal5pct.png
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Graphics 
@@ -12968,26 +8684,6 @@ status collapsed
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-
 \begin_inset Box Boxed
 position "c"
 hor_pos "l"
@@ -13009,28 +8705,10 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  — אין קובץ
 \end_layout
@@ -13038,42 +8716,18 @@ status collapsed
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  אי-ודאות
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -13084,50 +8738,27 @@ end{subfigure}
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
+\begin_inset Box Frameless
+position "b"
+hor_pos "c"
+has_inner_box 1
+inner_pos "b"
+use_parbox 0
+use_makebox 0
+width "32col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
 
 \begin_layout Plain Layout
+\align center
 
-\backslash
-begin{subfigure}[b]
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
-0.32
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-textwidth
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
- 
 \begin_inset ERT
 status collapsed
 
@@ -13140,59 +8771,12 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 deltavalidationNormal10pct.png
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Graphics 
 	filename delta_validation_Normal_10pct.png
 	width 100line%
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
 
 \end_inset
 
@@ -13218,28 +8802,10 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  — אין קובץ
 \end_layout
@@ -13247,42 +8813,18 @@ status collapsed
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  אי-ודאות
 \end_layout
 
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-end{subfigure}
 \end_layout
 
 \end_inset
@@ -13308,14 +8850,6 @@ src{
 \end_inset
 
 run_analytical_validation.m: J_exact=dTL/dtheta; J_FD=fdJacobian(); err=mean(abs(J_FD-J_exact)./abs(J_exact))
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -13347,17 +8881,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Caption Standard
@@ -13368,14 +8892,7 @@ centering
 \end_inset
 
  יחסית של שונות Delta לעומת שונות אנליטית (%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ).
 \end_layout
@@ -13571,19 +9088,6 @@ Normal 10%
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ─────────────────────────────────────────
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -13612,17 +9116,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Caption Standard
@@ -13842,33 +9336,19 @@ MC
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  לעומת 5–10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ). בסביבות שטוחות עם הפרעות קטנות, השדה האקוסטי הוא כמעט לינארי, ולכן קירוב דלתא הזול מספיק. כאשר ההפרעות גדלות, הלא-לינאריות של תבנית ההפרעה דורשת ייצוג מסדר גבוה יותר; 
 \lang english
 PCE
-\lang english
+\lang hebrew
  ממלא פער זה ללא הרצות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  חדשות. סביבות מדרון מכניסות אזורי צל המונעים על ידי שבירה שגבולותיהם אינם חלקים בכל שלושת הפרמטרים, ומציבים אותם מחוץ להישג של כל קירוב פולינומי מסדר קבוע ודורשים דגימה ישירה. מנקודת מבט של תכנון סונאר, הפלטים השימושיים ביותר מבחינה מבצעית אינם מפות שונות, אלא מפות 
 \begin_inset Formula $P_\mathrm{fail}$
 \end_inset
@@ -13881,27 +9361,6 @@ Bellhop
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  3.  עבודות קשורות והשוואת ספרות
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -13944,11 +9403,11 @@ name "sec:papers"
 
 \lang english
 Finette (2006/2009)
-\lang english
+\lang hebrew
  — 
 \lang english
 PCE
-\lang english
+\lang hebrew
  לאי-ודאות בהתפשטות אקוסטית.
 \end_layout
 
@@ -13956,7 +9415,7 @@ PCE
 מבסס את המסגרת הקנונית ליישום 
 \lang english
 PCE
-\lang english
+\lang hebrew
  לאמידת TL תת-ימית תוך שימוש בפולינומי הרמיט ההסתברותיים עבור הפרעות מהירות-קול גאוסיות. מדווח ש-
 \begin_inset Formula $K=3$
 \end_inset
@@ -13966,14 +9425,7 @@ PCE
 \end_inset
 
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ) ולידי גבולות אזורי צל.
 \end_layout
@@ -13990,11 +9442,11 @@ status collapsed
 
 \lang english
 JMSE
-\lang english
+\lang hebrew
  2022 (
 \lang english
 LN3
-\lang english
+\lang hebrew
  למים רדודים).
 \end_layout
 
@@ -14002,7 +9454,7 @@ LN3
 מדגים שמודל לוגנורמלי מוזז מספק התאמה טובה יותר מקירוב גאוסי לסטטיסטיקת TL במים רדודים, ומנחה את בחירת ה-
 \lang english
 LN3
-\lang english
+\lang hebrew
  שלנו.
 \end_layout
 
@@ -14010,7 +9462,7 @@ LN3
 
 \lang english
 Ocean Modelling
-\lang english
+\lang hebrew
  2022 (רגישות דלתא).
 \end_layout
 
@@ -14032,17 +9484,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Caption Standard
@@ -14471,17 +9913,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Caption Standard
@@ -14583,27 +10015,11 @@ Delta 1st
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14662,27 +10078,11 @@ Delta-LN3
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14745,27 +10145,11 @@ PCE-
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14778,15 +10162,7 @@ checkmark
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14832,27 +10208,11 @@ LN3 MLE
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14865,27 +10225,11 @@ checkmark
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14931,27 +10275,11 @@ KDE
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14964,27 +10292,11 @@ checkmark
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -14997,15 +10309,7 @@ checkmark
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -15038,27 +10342,11 @@ MC full
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -15071,27 +10359,11 @@ checkmark
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -15104,27 +10376,11 @@ checkmark
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-checkmark
-\end_layout
-
+\begin_inset Formula $\checkmark$
 \end_inset
 
  
@@ -15146,27 +10402,6 @@ checkmark
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  4.  שיפורים מבוססי ספרות
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -15194,7 +10429,7 @@ PCE והתאמת יתר — בדיקה צולבת
 התאמת יתר של 
 \lang english
 PCE
-\lang english
+\lang hebrew
  מתרחשת כאשר סדר הפולינום 
 \begin_inset Formula $K$
 \end_inset
@@ -15218,7 +10453,7 @@ PCE
 ; 
 \lang english
 OLS
-\lang english
+\lang hebrew
  ממזער 
 \begin_inset Formula $\|\Phi c - \mathbf{y}\|^2$
 \end_inset
@@ -15226,7 +10461,7 @@ OLS
 . שגיאת בדיקה צולבת השמט-אחד מספקת נוסחה אנליטית לשגיאת 
 \lang english
 LOO
-\lang english
+\lang hebrew
  ללא התאמה מחדש: 
 \begin_inset Formula $\varepsilon_{\rm LOO} = \frac{1}{N}\sum_{i=1}^N \left(\frac{y_i - \hat y_i}{1-h_{ii}}\right)^2$
 \end_inset
@@ -15238,7 +10473,7 @@ LOO
  הם האלכסוניים של מטריצת הכובע. שגיאת 
 \lang english
 LOO
-\lang english
+\lang hebrew
  זו היא קריטריון ההתכנסות המשמש לבחירת 
 \begin_inset Formula $K^*$
 \end_inset
@@ -15250,7 +10485,7 @@ LOO
 ממדדי ספרות (
 \lang english
 Finette
-\lang english
+\lang hebrew
  2006, 2009) מדווחים 
 \begin_inset Formula $K^*\leq 5$
 \end_inset
@@ -15266,7 +10501,7 @@ Finette
  שדווח בעבר בצינור הראשוני שלנו היו ארטיפקטים של באג מקדמים (כל מקדמי 
 \lang english
 PCE
-\lang english
+\lang hebrew
  היו אפס בגלל שגיאת סימן ברגרסיית וונדרמונד).
 \end_layout
 
@@ -15304,14 +10539,7 @@ PCE
 \end_inset
 
  — ה-TL במקרה הגרוע שעוברים רק 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  מהמימושים הסביבתיים. עבור התפלגות נורמלית: 
 \begin_inset Formula $P_{95} = \mu + 1.645\sigma$
@@ -15320,7 +10548,7 @@ status collapsed
 , ניתן לשחזור משונות דלתא או 
 \lang english
 PCE
-\lang english
+\lang hebrew
  ללא עלות נוספת. 
 \end_layout
 
@@ -15348,20 +10576,13 @@ PCE
 מדדי הרגישות של סובול מסדר ראשון ניתנים לחישוב אנליטי ממקדמי 
 \lang english
 PCE
-\lang english
+\lang hebrew
  החד-ממדיים לפי פרמטר: 
 \begin_inset Formula $S_k = \sum_{j>0} c_{j,k}^2 / \sum_{j>0} \sum_l c_{j,l}^2$
 \end_inset
 
 . עבור נורמלי 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  במים עמוקים: 
 \begin_inset Formula $S_\mathrm{SVP} \approx 0.65$
@@ -15379,27 +10600,6 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  5.  משמעות פיזיקלית ותפעולית
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -15425,24 +10625,10 @@ name "sec:deep_meaning"
 לגלידת האוקיינוס עצמה יש מבנה מרחבי של ניבוי
 \emph default
 . מפות השונות בנות 440
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 000 הפיקסלים המחושבות עבור כל אחד מ-36 צירופי פרמטר–תרחיש אינן רק אמידות שגיאה — הן אפיון פיזיקלי של היכן הגלידה מגבירה אי-ודאות והיכן היא מדכאת אותה.
 \end_layout
@@ -15476,24 +10662,10 @@ name "sec:variance_fingerprint"
 הטרוגני
 \emph default
  ביותר (0–10
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 000
 \begin_inset space ~
@@ -15522,24 +10694,10 @@ dB בפיקסלים סמוכים. מפת השונות של SVP מקודדת את
 הפרעת עומק מקור
 \series default
  מייצרת שונות בינונית, סלקטיבית-מודלים (0–4
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 000
 \begin_inset space ~
@@ -15557,7 +10715,7 @@ dB
  מסבירה מדוע 
 \lang english
 PCE
-\lang english
+\lang hebrew
  נכשל להתכנס לעומק מקור אפילו כאשר הוא מתכנס ל-SVP.
 \end_layout
 
@@ -15571,44 +10729,16 @@ PCE
 אחידה מרחבית
 \emph default
  בסביבות מדרון (3
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 500–3
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 540
 \begin_inset space ~
@@ -15620,34 +10750,13 @@ dB
 \end_inset
 
  על פני כל 440
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 000 הפיקסלים — פחות מ-1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  טווח דינמי מרחבי). שינוי תדר מזיז את כל פסי ההפרעה הרב-מסלולית בצורה קוהרנטית; כל פיקסל חווה את אותה וריאציה שברירית של TL. בניגוד ל-SVP, שמעצב מחדש פיזית את גיאומטריית הקרנות. 
 \end_layout
@@ -15684,7 +10793,7 @@ name "sec:pce_physics"
 
 \lang english
 PCE
-\lang english
+\lang hebrew
  מתכנסת באופן אקספוננציאלי עבור פונקציות 
 \emph on
 אנליטיות
@@ -15712,24 +10821,17 @@ PCE
 . האבחון האוטומטי של 
 \lang english
 LOO-CV
-\lang english
+\lang hebrew
  מסמן זאת: כל תרחיש עם שגיאת 
 \lang english
 LOO
-\lang english
+\lang hebrew
  
 \begin_inset Formula $>$
 \end_inset
 
 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  בכל הסדרים מאותת 
 \begin_inset Quotes eld
@@ -15750,7 +10852,7 @@ status collapsed
  של 
 \lang english
 PCE
-\lang english
+\lang hebrew
  פועלת כ
 \emph on
 אבחון סדירות גלידה
@@ -15766,7 +10868,7 @@ PCE
 –10: לא-לינאריות מתונה — 
 \lang english
 PCE
-\lang english
+\lang hebrew
  ניתנת לשימוש בזהירות. 
 \begin_inset Formula $K^*>10$
 \end_inset
@@ -15819,14 +10921,7 @@ name "sec:three_regimes"
 \end_inset
 
 –10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ): 
 \begin_inset Formula $K^*=4$
@@ -15902,14 +10997,7 @@ name "sec:operator_guidance"
 \end_inset
 
 ק
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 מ ורווח CZ יכול להשתנות ב-
 \begin_inset Formula $\pm$
@@ -15939,7 +11027,7 @@ dB תחת אי-ודאות SVP ריאליסטית.
  של 
 \lang english
 NATO
-\lang english
+\lang hebrew
 ), מפת TL של P95 
 \begin_inset Formula $\mathrm{TL}^{95}=\mathrm{Q}_{0.95}[\mathrm{TL}]$
 \end_inset
@@ -15951,11 +11039,11 @@ NATO
 , ניתן לשחזור מדלתא או 
 \lang english
 PCE
-\lang english
+\lang hebrew
  ללא עלות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  נוספת.
 \end_layout
 
@@ -15975,7 +11063,7 @@ Bellhop
 אי-ההתכנסות של 
 \lang english
 PCE
-\lang english
+\lang hebrew
  ל-
 \begin_inset Formula $z_S$
 \end_inset
@@ -16017,50 +11105,15 @@ name "sec:spatial_accuracy"
 
 \begin_layout Standard
 הדיוק המרחבי של אמידת שונות (הסכמה פיקסל-פיקסל בין שונות אנליטית ל-MC) מגלה שהשונות מנובאת במדויק ב-75%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  מהפיקסלים לתרחישי קרקעית שטוחה בכל רמות ההפרעה. 25%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  הנותרים נמצאים בגבולות CZ ובקצוות אזורי הצל, שבהם התפלגות TL הדו-מודלית מפרה את הנחות כל השיטות הפרמטריות.
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  6.  נספח: ארכיטקטורת צינור
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -16112,31 +11165,31 @@ nolink "false"
  מציג את גרף תלויות המודולים המלא של צינור UQ של 
 \lang english
 Stochastic Bellhop
-\lang english
+\lang hebrew
 . כל תיבה היא סקריפט 
 \lang english
 MATLAB
-\lang english
+\lang hebrew
 ; חיצים מציינים תלויות נתונים. הצינור מתוכנן כך שהערכות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  יקרות חישובית (תיבות מוצללות) מורצות פעם אחת ונשמרות; כל השיטות האנליטיות (דלתא, 
 \lang english
 PCE
-\lang english
+\lang hebrew
 , 
 \lang english
 LN3
-\lang english
+\lang hebrew
 , 
 \lang english
 KDE
-\lang english
+\lang hebrew
 ) קוראות מהמטמון ומוסיפות אפס עלות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 .
 \end_layout
 
@@ -16150,17 +11203,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset ERT
@@ -16175,59 +11218,12 @@ IfFileExists
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
-
 blockdiagram.pdf
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 
 \begin_inset Graphics 
 	filename block_diagram.pdf
 	width 100text%
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-{
-\end_layout
 
 \end_inset
 
@@ -16253,17 +11249,6 @@ status open
 
 \begin_layout Plain Layout
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
 
 \size small
 block_diagram.pdf — טרם נוצר
@@ -16272,15 +11257,6 @@ block_diagram.pdf — טרם נוצר
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
-
  
 \begin_inset Caption Standard
 
@@ -16288,7 +11264,7 @@ status collapsed
 ארכיטקטורת הצינור: תרשים תלויות מודול ל-
 \lang english
 Stochastic Bellhop UQ
-\lang english
+\lang hebrew
 . 
 \begin_inset ERT
 status collapsed
@@ -16302,14 +11278,6 @@ src{
 \end_inset
 
 block_diagram.tex: TikZ graph; boxes = MATLAB scripts; arrows = data flow
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -16333,27 +11301,6 @@ name "fig:block_diagram"
 
 \begin_layout Standard
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  7.  סיכום
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 
 \end_layout
 
@@ -16376,41 +11323,20 @@ name "sec:summary"
 פרויקט זה יישם וכימת אי-ודאות (
 \lang english
 UQ
-\lang english
+\lang hebrew
 ) בהפסד ההעברה האקוסטי התת-ימי תחת אי-ודאות בפרמטרים הפיזיקליים SVP, תדר ועומק מקור. חמש שיטות נבחנו עבור ארבעה תרחישי מורפולוגיה ושלוש רמות אי-ודאות, בסה
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-"
-\end_layout
-
-\end_inset
 
 כ 36 צירופים המניבים 72
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{
-\end_layout
-
-\end_inset
 
 ,
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-}
-\end_layout
-
-\end_inset
 
 000 הערכות 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
 .
 \end_layout
 
@@ -16438,34 +11364,13 @@ arabic*
 \end_inset
 
 1%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ) ומורפולוגיה שטוחה, אך תיקון ההסיאן מסדר 2 כבר עולה על 96%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  מהשונות ב-5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  אי-ודאות. 
 \end_layout
@@ -16482,7 +11387,7 @@ status collapsed
 PCE עם בחירה צולבת מספק מסלול שיטתי מקירוב דלתא אל ה-MC המלא: כל סדר נוסף דורש רק הרצת 
 \lang english
 Bellhop
-\lang english
+\lang hebrew
  אחת נוספת לפרמטר. 
 \end_layout
 
@@ -16492,14 +11397,7 @@ Bellhop
 \end_inset
 
 5%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  SVP), אין התפשטות פולינומית מסדר 
 \begin_inset Formula $\leq$
@@ -16510,32 +11408,18 @@ status collapsed
 \end_inset
 
 10%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
 ; 
 \lang english
 MC
-\lang english
+\lang hebrew
  מלא הכרחי. 
 \end_layout
 
 \begin_layout Enumerate
 האימות האנליטי מאשר שגיאת 8.47%
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-{}
-\end_layout
-
-\end_inset
 
  לג'קוביאן ה-FD. 
 \end_layout
@@ -16554,17 +11438,7 @@ status open
 
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-\backslash
-centering
-\end_layout
-
-\end_inset
+\align center
 
  
 \begin_inset Caption Standard
@@ -16822,27 +11696,6 @@ LN3+MC
 \end_layout
 
 \begin_layout Standard
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-%  רשימת מקורות
-\end_layout
-
-\begin_layout Plain Layout
-% ============================================================
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
 
 
 \end_layout
@@ -17328,7 +12181,7 @@ Computational Ocean Acoustics
 ed. New York: Springer, 2011. 
 \lang english
 DOI: 10.1007/978-1-4419-8678-8
-\lang english
+\lang hebrew
  
 \end_layout
 
