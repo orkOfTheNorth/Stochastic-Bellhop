@@ -419,7 +419,7 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 
 % ─────────────────────────────────────────
 \subsection{רגישות TL לפרמטרים פיזיקליים} #להוריד את כל החלק הזה תסתכל על "C:\Users\orind\Downloads\הרעשת הסימולציה.docx" הרעיון היה לראות איזה מפות מתקבלות מאיזה פרמרטרים#
-\label{sec:sensitivity}
+\label{sec:qualitative_sensitivity}
 
 לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL
 לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות ב-$\theta_0 - \delta$, $\theta_0$, ו-$\theta_0 + \delta$.
@@ -1138,11 +1138,45 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
 השונות משוחזרת ישירות מהמקדמים הלא-קבועים:
 \begin{equation}
   \Var[\TL] \approx \sum_{|\boldsymbol{\alpha}|>0} c_{\boldsymbol{\alpha}}^2.
+  \label{eq:pce_var}
 \end{equation}
+
+\paragraph{מדוע? — הגזירה דרך מכפלה פנימית.}
+הפולינומים $\Psi_n$ הם \emph{אורתונורמליים} תחת התוחלת הגאוסית —
+כלומר, מגדירים מכפלה פנימית
+$\langle f,g\rangle = \mathbb{E}[f(\xi)g(\xi)]$,
+ומתקיים
+$\langle \Psi_m, \Psi_n \rangle = \delta_{mn}$.
+לכן (עבור PCE חד-ממדית לפרמטר $k$):
+\begin{align}
+  \Var_k[\TL]
+  &= \mathbb{E}[\TL_k^2] - \bigl(\mathbb{E}[\TL_k]\bigr)^2
+   = \langle \TL_k,\TL_k \rangle - c_{0,k}^2 \notag\\
+  &= \Bigl\langle \sum_m c_{m,k}\Psi_m,\; \sum_n c_{n,k}\Psi_n \Bigr\rangle - c_{0,k}^2 \notag\\
+  &= \sum_{m,n} c_{m,k}\,c_{n,k}\,\underbrace{\langle\Psi_m,\Psi_n\rangle}_{=\,\delta_{mn}} - c_{0,k}^2
+   = \sum_{n>0} c_{n,k}^2.
+  \label{eq:pce_parseval}
+\end{align}
+זהו \emph{שוויון פרסבל} של פיתוח PCE:
+\textbf{השונות שווה לסכום ריבועי המקדמים הלא-קבועים} —
+ניתן לקרוא אותה ישירות מהמקדמים ללא הרצת \textenglish{Bellhop} נוספת.
+
 הסדר האופטימלי $K^*$ נבחר באמצעות \textenglish{LOO-CV} (בדיקה צולבת השמט-אחד)
-הממזערת את שגיאת L2 של השונות.
+הממזערת את שגיאת ה-L2 של השונות.
 \emph{עקומת רלוונטיות הסדר} מציגה את התרומה השולית של כל סדר פולינומי נוסף:
-רלוונטיות$_k = \max(e_{k-1} - e_k, 0)/e_{\mathrm{total}} \times 100\%$.
+\begin{equation}
+  \mathrm{Rel}(K) = \frac{\max\!\bigl(e_{K-1}-e_K,\,0\bigr)}{e_{\mathrm{total}}}\times 100\%,
+  \qquad
+  e_K = \text{שגיאת L2 של } \Var[\TL] \text{ בסדר } K.
+  \label{eq:relevance}
+\end{equation}
+$\mathrm{Rel}(K)$ עולה כל עוד כל סדר נוסף משפר משמעותית את שחזור השונות,
+ואז יורד כשהשיפור מוצה.
+קו 90\%{} בגרף הוא הסף שבו הסכום המצטבר $\sum_{k=1}^K \mathrm{Rel}(k)$ חוצה 90\%{} —
+כלומר הסדר המינימלי הנדרש לשחזור 90\%{} מהשיפור האפשרי בשונות.
+$K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה יותר מנקודת השיא של $\mathrm{Rel}(K)$,
+כיוון ש-\textenglish{LOO-CV} ממזערת שגיאת \emph{ניבוי} — הכוללת את זנב ה-CDF הרלוונטי
+לחישוב $P_\text{גילוי}$ — ולא רק שחזור שונות.
 
 \begin{figure}[H]
   \centering
@@ -1470,13 +1504,50 @@ $\varepsilon_{\rm LOO} = \frac{1}{N}\sum_{i=1}^N \left(\frac{y_i - \hat y_i}{1-h
         שמרני אך תקף לכל התפלגות.
 \end{enumerate}
 
-\subsection{מדדי סובול — רגישות מרחבית}
+\subsection{ניתוח רגישות מסדר ראשון: איזה פרמטר הכי משפיע?}
+\label{sec:sensitivity}
 
-מדדי הרגישות של סובול מסדר ראשון ניתנים לחישוב אנליטי ממקדמי \textenglish{PCE}
-החד-ממדיים לפי פרמטר:
-$S_k = \sum_{j>0} c_{j,k}^2 / \sum_{j>0} \sum_l c_{j,l}^2$.
-עבור נורמלי 5\%{} במים עמוקים: $S_\mathrm{SVP} \approx 0.65$, $S_{z_S} \approx 0.20$,
-$S_f \approx 0.15$, המאשרים ש-SVP הוא הגורם השולט בשונות ה-TL.
+\paragraph{השאלה.}
+אם יש שלושה מקורות אי-ודאות — תדר, עומק המקור $z_S$ ופרופיל המהירות SVP —
+\emph{כמה מאי-ודאות ה-TL מגיע מכל אחד}?
+
+\paragraph{הגישה — OAT עם הנחת אדיטיביות.}
+הפרמטרים הורעשו בנפרד (\textenglish{one-at-a-time, OAT}):
+שלוש PCE חד-ממדיות עצמאיות, אחת לכל פרמטר.
+תחת \emph{הנחת אדיטיביות} (אין אינטרקציות בין הפרמטרים),
+$\Var[\TL|\text{משותף}] \approx \sum_k \Var_k[\TL]$,
+ומ-\eqref{eq:pce_parseval} מיד מתקבל:
+\begin{equation}
+  S_k^{(1)}
+  \;=\; \frac{\Var_k[\TL]}{\displaystyle\sum_{k'} \Var_{k'}[\TL]}
+  \;=\; \frac{\displaystyle\sum_{n>0} c_{n,k}^2}{\displaystyle\sum_{k'}\sum_{n>0} c_{n,k'}^2}.
+  \label{eq:sobol_1st}
+\end{equation}
+ניתן לקרוא: \textbf{כמה מריבועי המקדמים של פרמטר $k$ מתוך סך כל ריבועי המקדמים}.
+לא נדרשת שום הרצה נוספת —
+הכל מחושב ממטריצת המקדמים \texttt{C\_all\{k\}(2:end,:)}
+(\textenglish{analyse\_results.m}, שורות 127--137).
+
+\paragraph{תוצאות (מים עמוקים, נורמלי 5\%{}).}
+$S_\mathrm{SVP}^{(1)} \approx 0.65$,\quad $S_{z_S}^{(1)} \approx 0.20$,\quad $S_f^{(1)} \approx 0.15$.
+
+\textbf{מסקנה:} SVP שולט — כ-65\%{} מאי-ודאות ה-TL נובע מאי-ידיעת פרופיל המהירות.
+מדידת SVP מדויקת יותר היא ההשקעה הכי כדאית לצמצום אי-ודאות במשימת סונאר.
+
+\paragraph{תוקף ההנחה.}
+הנחת האדיטיביות מוצדקת בתרחישי \emph{מים עמוקים} שטוחים:
+SVP משפיע על מיקום אזורי ההתכנסות (\textenglish{CZ}),
+$z_S$ על זווית הקרן,
+ו-$f$ על מרווח לויד-מירור —
+מנגנונים פיזיקליים עצמאיים במידה רבה.
+התכנסות ה-PCE בסדר $K^*\leq 6$ לכל פרמטר בנפרד תומכת בכך.
+לתרחישי מדרון, אינטרקציות בין הפרמטרים עשויות להיות משמעותיות — ראה סעיף~\ref{sec:pce_physics}.
+
+\paragraph{המלצה להמשך.}
+PCE משותפת תלת-ממדית על מדגמי ה-MC הקיימים ($N=1000$, LHS תלת-ממדי)
+תאפשר אינדקסי סובול מלאים כולל אינטרקציות,
+ללא הרצות \textenglish{Bellhop} נוספות:
+לסדר $K=5$, $M=3$ פרמטרים יש $\binom{8}{5}=56$ איברים בלבד $\ll N=1000$.
 
 % ============================================================
 %  5.  משמעות פיזיקלית ותפעולית

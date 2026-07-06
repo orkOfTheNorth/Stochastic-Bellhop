@@ -95,6 +95,15 @@ for ci = 1:numel(completed)
     pce_dir    = fullfile('Methods','PCE', sc_name, dist_name);
     if skipIfDone(fullfile(pce_dir,'results','pce_results.mat'), ...
                   sprintf('%s / %s', sc_name, dist_name))
+        % Still load L2_mat so the summary figure has data for all combos
+        try
+            r_skip = load(fullfile(pce_dir,'results','pce_results.mat'), 'L2_mat');
+            for pi = 1:3
+                sum_L2{pi}{ci} = r_skip.L2_mat(:, pi);
+            end
+            sum_label{ci} = sprintf('%s / %s', sc_name, dist_name);
+        catch
+        end
         continue;
     end
     fig_dir = fullfile(pce_dir, 'figures');
