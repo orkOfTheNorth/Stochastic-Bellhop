@@ -93,7 +93,7 @@
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children no
-\language english
+\language hebrew
 \language_package default
 \inputencoding utf8
 \fontencoding default
@@ -107,13 +107,9 @@
 \font_roman_osf false
 \font_sans_osf false
 \font_typewriter_osf false
-\font_roman_opts "
-  Script=Hebrew, 
-  Ligatures=TeX, 
-  BoldFont=davidbd.ttf
-"
+\font_roman_opts "Ligatures=TeX, BoldFont=davidbd.ttf"
 \font_sf_scale 100 100
-\font_sans_opts "Script=Hebrew"
+\font_sans_opts ""
 \font_tt_scale 100 100
 \use_microtype false
 \use_dash_ligatures true
