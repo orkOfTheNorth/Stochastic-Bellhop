@@ -39,7 +39,7 @@ for si = 1:numel(cfg.scenarios)
     fig_dir = fullfile('Methods','MC_convergence', sc.name, 'figures');
     if ~exist(fig_dir,'dir'), mkdir(fig_dir); end
 
-    if isfile(fullfile(fig_dir, sprintf('mc_conv_mean_%s.png', PARAMS{end})))
+    if isfile(fullfile(fig_dir, sprintf('mc_conv_rmse_%s.png', PARAMS{end})))
         fprintf('  SKIP MC convergence %s (already done)\n', sc.name);
         continue;
     end
@@ -55,6 +55,12 @@ for si = 1:numel(cfg.scenarios)
         % Storage across all distributions
         mean_EX_conv  = NaN(numel(N_VEC), n_dists);
         mean_Var_conv = NaN(numel(N_VEC), n_dists);
+        % RMSE(N) of the full spatial field vs the N=1000 reference field —
+        % this is the quantity the report text actually describes
+        % (RMSE(mean) = sigma/sqrt(N) etc.); the mean_*_conv arrays above
+        % only track the raw point-estimate trajectory, not its error.
+        rmse_EX_conv  = NaN(numel(N_VEC), n_dists);
+        rmse_Var_conv = NaN(numel(N_VEC), n_dists);
 
         Nz_ref = 0;  Nr_ref = 0;
 
@@ -73,6 +79,10 @@ for si = 1:numel(cfg.scenarios)
 
             fprintf('  [%s/%s] %d×%d×%d samples\n', dist_name, param, Nz, Nr, N_full);
 
+            % Full-N=1000 reference fields (ground truth for RMSE)
+            EX_ref  = mean(TL_all, 3);
+            Var_ref = var(TL_all, 0, 3);
+
             for ni = 1:numel(N_VEC)
                 Ni    = min(N_VEC(ni), N_full);
                 idx_s = sort(randperm(N_full, Ni));
@@ -83,6 +93,9 @@ for si = 1:numel(cfg.scenarios)
 
                 mean_EX_conv(ni, di)  = mean(EX_ni(:));
                 mean_Var_conv(ni, di) = mean(Var_ni(:));
+
+                rmse_EX_conv(ni, di)  = sqrt(mean((EX_ni(:)  - EX_ref(:)).^2));
+                rmse_Var_conv(ni, di) = sqrt(mean((Var_ni(:) - Var_ref(:)).^2));
             end
 
             %% Fig: Var scatter vs N (reference = full N from MC results)
@@ -155,6 +168,50 @@ for si = 1:numel(cfg.scenarios)
                 'Interpreter','none','FontSize',11);
         saveFigPNG(fig_mv, fullfile(fig_dir, sprintf('mc_conv_mean_%s', param)));
         drawnow; close(fig_mv);
+
+        %% Fig: RMSE(N) vs the N=1000 reference field — log-log, the
+        %% quantity the report text actually claims decays as sigma/sqrt(N)
+        %% (mean_*_conv above is only the raw point-estimate trajectory).
+        fig_rmse = figure('Position', [50 50 900 380]);
+        ax_rex  = subplot(1,2,1);
+        ax_rvar = subplot(1,2,2);
+        for di = 1:n_dists
+            if all(isnan(rmse_EX_conv(:,di))), continue; end
+            loglog(ax_rex,  N_VEC, max(rmse_EX_conv(:,di),1e-8),  '-o', ...
+                   'Color', colors(di,:), 'LineWidth',1.5,'MarkerSize',5, ...
+                   'DisplayName', strrep(dist_lbls{di},'_',' '));
+            hold(ax_rex,'on');
+            loglog(ax_rvar, N_VEC, max(rmse_Var_conv(:,di),1e-8), '-o', ...
+                   'Color', colors(di,:), 'LineWidth',1.5,'MarkerSize',5, ...
+                   'DisplayName', strrep(dist_lbls{di},'_',' '));
+            hold(ax_rvar,'on');
+        end
+        % "how many samples do we actually need?" — mark sufficient-N
+        % (10% tolerance vs the N=1000 value) for the widest distribution
+        [~, di_wide] = max(cellfun(@(s) str2double(regexp(s,'\d+','match','once')), dist_lbls));
+        Nsuff_ex  = findSufficientN(N_VEC, rmse_EX_conv(:,di_wide),  0.10);
+        Nsuff_var = findSufficientN(N_VEC, rmse_Var_conv(:,di_wide), 0.10);
+        if isfinite(Nsuff_ex)
+            xline(ax_rex, Nsuff_ex, 'k--', sprintf('N_{suff}=%d',Nsuff_ex), 'LineWidth',1.2);
+        end
+        if isfinite(Nsuff_var)
+            xline(ax_rvar, Nsuff_var, 'k--', sprintf('N_{suff}=%d',Nsuff_var), 'LineWidth',1.2);
+        end
+        fprintf('  [%s] sufficient N (10%% tol, widest dist): EX=%g, Var=%g\n', ...
+                param, Nsuff_ex, Nsuff_var);
+        xlabel(ax_rex,  'N samples'); ylabel(ax_rex,  'RMSE(E[TL]) vs N=1000 ref (dB)');
+        xlabel(ax_rvar, 'N samples'); ylabel(ax_rvar, 'RMSE(Var[TL]) vs N=1000 ref (dB²)');
+        title(ax_rex,  sprintf('RMSE E[TL] vs N | %s | %s', sc.name, PARAM_LBLS{pi}), ...
+              'FontSize',9,'Interpreter','none');
+        title(ax_rvar, sprintf('RMSE Var[TL] vs N | %s | %s', sc.name, PARAM_LBLS{pi}), ...
+              'FontSize',9,'Interpreter','none');
+        legend(ax_rex,  'Location','best','FontSize',7);
+        legend(ax_rvar, 'Location','best','FontSize',7);
+        grid(ax_rex,'on'); grid(ax_rvar,'on');
+        sgtitle(sprintf('MC Convergence — RMSE vs N=1000 reference | %s | %s', sc.name, param), ...
+                'Interpreter','none','FontSize',11);
+        saveFigPNG(fig_rmse, fullfile(fig_dir, sprintf('mc_conv_rmse_%s', param)));
+        drawnow; close(fig_rmse);
 
         %% Fig: Derivative d(mean)/dN
         fig_dv = figure('Position', [50 50 900 380]);

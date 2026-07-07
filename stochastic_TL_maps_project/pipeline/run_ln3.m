@@ -203,10 +203,23 @@ for si = 1:numel(cfg.scenarios)
             end
 
             RMSE_map = reshape(sqrt(mean((F_ln3 - F_emp).^2, 1)), Nz, Nr);
-            clear TL_mat F_emp F_ln3 sh_v lsh_v;
+            clear F_emp F_ln3;
 
-            save(rmse_file, 'RMSE_map','r_km','z_m','FOM','N_EVAL','eval_pts');
-            fprintf('  RMSE map saved → %s\n', rmse_file);
+            % NLL map: LN3-native fit-quality metric (mean negative
+            % log-likelihood of the samples under their own fitted LN3
+            % density) — the quantity MLE (lognfit) actually minimizes,
+            % unlike the CDF-RMSE above which is a generic distance proxy.
+            % Computed directly in the existing [N x Npix] orientation
+            % (no transpose of the large TL_mat needed):
+            %   log p(x) = -log(x-gam) - log(sig) - 0.5*log(2*pi)
+            %              - (log(x-gam)-mu)^2 / (2*sig^2)
+            logp_v = -lsh_v - log(sig_v) - 0.5*log(2*pi) - (lsh_v - mu_v).^2 ./ (2*sig_v.^2);
+            nll_v  = mean(-logp_v, 1);                   % [1 × Npix]
+            NLL_map = reshape(nll_v, Nz, Nr);
+            clear TL_mat sh_v lsh_v logp_v nll_v;
+
+            save(rmse_file, 'RMSE_map','NLL_map','r_km','z_m','FOM','N_EVAL','eval_pts');
+            fprintf('  RMSE + NLL map saved → %s\n', rmse_file);
 
             clear TL_all;  % free memory between params
         end
@@ -295,6 +308,74 @@ for si = 1:numel(cfg.scenarios)
     saveFigPNG(fig_rmse, strrep(rmse_all_fig, '.png', ''));
     drawnow; close(fig_rmse);
     fprintf('  LN3_RMSE_all.png saved → %s\n', sc_fig_dir);
+
+    %% ── Companion NLL summary figure (LN3-native fit-quality metric) ───────
+    % NLL = mean negative log-likelihood of the samples under their own
+    % fitted LN3 density — the quantity MLE actually minimizes, unlike the
+    % CDF-RMSE map above which is a generic distance proxy the fit was
+    % never asked to minimize.
+    nll_all_fig = fullfile(sc_fig_dir, 'LN3_NLL_all.png');
+    nll_maps = cell(n_dists, n_params);
+    have_nll = false;
+    for di = 1:n_dists
+        for ki = 1:n_params
+            rfile = fullfile('Methods','LN3', sc.name, ...
+                             cfg.distributions(di).name, 'results', ...
+                             sprintf('LN3_RMSE_%s.mat', PARAMS{ki}));
+            if isfile(rfile)
+                tmp = load(rfile, 'NLL_map');
+                if isfield(tmp, 'NLL_map')
+                    nll_maps{di,ki} = tmp.NLL_map;
+                    have_nll = true;
+                end
+            end
+        end
+    end
+
+    if have_nll
+        all_nll = cellfun(@(m) max(m(:)), nll_maps(~cellfun(@isempty, nll_maps)));
+        nll_max = max([all_nll; 0.01]);
+
+        fig_nll = figure('Position',[50 50 n_params*380 n_dists*280]);
+        for di = 1:n_dists
+            for ki = 1:n_params
+                ax = subplot(n_dists, n_params, (di-1)*n_params + ki);
+                if isempty(nll_maps{di,ki})
+                    axis(ax,'off');
+                    text(ax, 0.5, 0.5, 'N/A', 'HorizontalAlignment','center');
+                    continue;
+                end
+                pcolor(ax, r_km_ref, z_m_ref, nll_maps{di,ki});
+                shading(ax,'interp'); set(ax,'YDir','reverse');
+                colormap(ax, hot(256));
+                clim(ax, [0, nll_max]);
+                if ki == n_params
+                    cb = colorbar(ax,'eastoutside');
+                    cb.Label.String = 'mean NLL';
+                    cb.FontSize = 7;
+                end
+                overlayBathymetry(ax, bathy_m, sc.maxDepth_m);
+                if di == 1
+                    title(ax, param_lbls{ki}, 'FontSize',9,'Interpreter','none');
+                end
+                if ki == 1
+                    ylabel(ax, strrep(dist_names{di},'_',' '), 'FontSize',8,'Interpreter','none');
+                else
+                    set(ax,'YTickLabel',[]);
+                end
+                if di == n_dists
+                    xlabel(ax,'Range (km)','FontSize',8);
+                else
+                    set(ax,'XTickLabel',[]);
+                end
+            end
+        end
+        sgtitle(sprintf('LN3 mean NLL (fit quality, likelihood-native) | %s | rows=distribution, cols=param', ...
+                sc.name), 'Interpreter','none', 'FontSize',11);
+        saveFigPNG(fig_nll, strrep(nll_all_fig, '.png', ''));
+        drawnow; close(fig_nll);
+        fprintf('  LN3_NLL_all.png saved → %s\n', sc_fig_dir);
+    end
 end
 
 fprintf('\n=== run_LN3.m complete. ===\n');

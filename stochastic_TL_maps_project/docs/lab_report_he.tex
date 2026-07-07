@@ -96,7 +96,10 @@
 % \aiedit{text} marks content added/edited by Claude in response to
 % the # # / % review comments, so it's visually distinguishable (blue)
 % from Ory's original text. Search "\aiedit" to find every AI edit.
-\newcommand{\aiedit}[1]{\textcolor{blue}{#1}}
+% \DeclareRobustCommand (not \newcommand): \textcolor is fragile, and \aiedit is
+% used inside \caption{} calls (a "moving argument" re-expanded for \listoffigures)
+% — without robustness this breaks LOF processing with cascading brace/math errors.
+\DeclareRobustCommand{\aiedit}[1]{\textcolor{blue}{#1}}
 
 % ============================================================
 \begin{document}
@@ -777,6 +780,40 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
   \label{fig:mc_conv}
 \end{figure}
 
+\aiedit{\textbf{הבהרה חשובה:} האיור שלמעלה מציג את \emph{מסלול האומד עצמו} ($\hat\EX[\TL]$, $\hat\Var[\TL]$
+כפונקציה של $N$) — לא את שגיאת ה-RMSE שלו כפי שמשוואות~\ref{eq:var_of_var} טוענות שניתן
+לראות. כלומר עד כה לא היה איור שבאמת מציג את קצב ההתכנסות הנטען. איור~\ref{fig:mc_conv_rmse}
+הבא מתקן זאת: הוא מציג RMSE אמיתי של השדה המרחבי המלא (לא רק ממוצעו) ביחס לייחוס $N=1000$,
+בסולם לוג-לוג — כאן אמורה להיראות ירידה בקצב $O(N^{-1/2})$ הצפוי.}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/figures/mc_conv_rmse_freq.png}{%
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_rmse_freq.png}
+      \caption{תדר: RMSE של $\hat\EX[\TL]$ ו-$\hat\Var[\TL]$ מול $N=1000$.}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_rmse_svp.png}
+      \caption{SVP: RMSE של $\hat\EX[\TL]$ ו-$\hat\Var[\TL]$ מול $N=1000$.}
+    \end{subfigure}\\[8pt]
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_rmse_zS.png}
+      \caption{עומק מקור $z_S$: RMSE של $\hat\EX[\TL]$ ו-$\hat\Var[\TL]$ מול $N=1000$.}
+    \end{subfigure}
+  }{\fbox{\parbox[c][3cm][c]{\textwidth}{\centering\small
+    MC RMSE(N) --- run \texttt{run\_mc\_convergence('deep\_water')}}}}
+  \caption[RMSE(N) של MC ביחס ל-N=1000, מים עמוקים]{\aiedit{RMSE(N) אמיתי של השדה המרחבי המלא (לא ממוצעו) ביחס לייחוס $N=1000$, מים עמוקים,
+           נורמלי 1\%{}/5\%{}/10\%{}, סולם לוג-לוג.
+           \textbf{ממצא:} ב-10\%{} סבילות ביחס לערך ב-$N=1000$, ה-RMSE של $\hat\EX[\TL]$
+           וה-$\hat\Var[\TL]$ (עבור ההתפלגות הרחבה ביותר) \emph{ממשיך לרדת עד $N=1000$ עצמו,
+           ללא "ברך" מוקדמת} — כלומר לא נראתה נקודה שבה תוספת מדגמים מפסיקה לתרום דיוק
+           באופן משמעותי; זה עקבי עם הקצב התיאורטי $\sigma/\sqrt{N}$ שאינו מתמרד (plateau).
+           קו מקווקוו (כאשר מופיע): סף $N$ מספיק (10\%{} סבילות).}
+           \src{run\_mc\_convergence.m: RMSE=sqrt(mean((EX\_sub-EX\_ref).\string^2)); findSufficientN(N\_VEC,RMSE,0.10)}}
+  \label{fig:mc_conv_rmse}
+\end{figure}
+
 \subsubsection{LHS לעומת IID: היתרון בדגימה מפוזרת }
 \label{sec:lhs_iid}
 
@@ -856,24 +893,33 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
 הסטרטיפיקטיבי; ה-\textenglish{MLE} על \textenglish{IID} עשויה לגלות יתרון רנדומי בגדלי
 מדגם גדולים בשל עקביות המאמד הפרמטרי.
 
+\aiedit{\textbf{מדוע גם נראות-לוגריתמית (NLL)?} \textenglish{KS}/\textenglish{W1} הם מדדי
+מרחק בין CDFs — מדד כללי, לא זה ש-\textenglish{MLE} בפועל ממזער. \textenglish{MLE} מוגדר
+כאמידה הממזערת את הנראות השלילית הלוגריתמית (\textenglish{NLL}); לכן \textbf{NLL הוא המדד
+הטבעי} להשוואת איכות ההתאמה כאן — הוא ישירות מודד את מה ש-MLE אכן אופטימיזציה עבורו,
+ולכן צפוי להראות יתרון עקבי וחלק יותר ל-MLE מאשר KS/W1 (שהם סטטיסטיקות "worst-case" לא
+חלקות שעלולות להיראות רועשות/שטוחות גם כשההתאמה משתפרת בפועל). לכן הוספנו פאנל שלישי
+המציג את ה-NLL הממוצע של מדגם ה-$N=1000$ המלא תחת המודל המותאם מ-$N$ תת-מדגמים.}
+
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/Normal_5pct/figures/ln3_conv_vs_N.png}{%
-    \begin{subfigure}[t]{0.48\textwidth}
-      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/ln3_conv_vs_N.png}
-      \caption{מים עמוקים, נורמלי 5\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.48\textwidth}
-      \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/ln3_conv_vs_N.png}
-      \caption{מים עמוקים, נורמלי 10\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
-    \end{subfigure}
+    \includegraphics[width=\textwidth]{deep_water/Normal_5pct/figures/ln3_conv_vs_N.png}\\[6pt]
+    \includegraphics[width=\textwidth]{deep_water/Normal_10pct/figures/ln3_conv_vs_N.png}
   }{\fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
     \textenglish{LN3 convergence vs N --- run \texttt{scripts/ln3\_convergence\_vs\_N.m}}}}}
-  \caption{התכנסות \textenglish{LN3} כפונקציה של $N$ (מים עמוקים).
+  \caption[התכנסות LN3 כפונקציה של N, MOM מול MLE]{התכנסות \textenglish{LN3} כפונקציה של $N$ (מים עמוקים, נורמלי 5\%{} למעלה, 10\%{} למטה).
            קו מלא = \textenglish{MOM-LHS}, מקווקוו = \textenglish{MLE-IID}.
            ציר $x$: $N$ (סולם לוגריתמי, $N=10$ עד $1000$);
-           ציר $y$: חציון שדה של \textenglish{KS} ו-\textenglish{W1} (\textenglish{dB}).
-           \src{scripts/ln3\_convergence\_vs\_N.m: KS=max(abs(Fln3-Femp)); W1=trapz(x,abs(Fln3-Femp))}}
+           פאנלים 1--2: חציון שדה של \textenglish{KS} ו-\textenglish{W1};
+           פאנל 3 (\aiedit{חדש}): \aiedit{NLL ממוצע — המדד הטבעי (ר' לעיל), עם קו אנכי
+           מסמן $N$ מספיק (10\%{} סבילות ביחס לערך ב-$N=1000$)}.
+           \aiedit{\textbf{ממצא:} $N$ מספיק זעיר להפתיע — עבור נורמלי 5\%{}: MOM$\approx$10,
+           MLE$\approx$20 בלבד; עבור נורמלי 10\%{}: MOM$\approx$10, MLE$\approx$10.
+           כלומר התאמת ה-LN3 (בניגוד לסטטיסטיקות המרחביות כמו $\hat\Var[\TL]$) מתכנסת
+           מהר מאוד ב-NLL — רוב המידע הדרוש לקבוע את צורת ההתפלגות כבר קיים בעשרות בודדות
+           של מדגמים.}
+           \src{scripts/ln3\_convergence\_vs\_N.m: KS=max(abs(Fln3-Femp)); W1=trapz(x,abs(Fln3-Femp)); NLL=mean(-log(lognpdf(...)))}}
   \label{fig:ln3_conv_N}
 \end{figure}
 
@@ -887,24 +933,33 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
 גדלים ככל ש-$N$ קטן, עם עלייה חדה מתחת
 ל-$N \approx 2(K^*+1)$ (הסף המינימלי להיסוס-יתר בענף הרגרסיה).
 
+\aiedit{\textbf{מדוע גם שגיאת $L_2$ יחסית בשונות המשוחזרת?} בשונה מ-LN3, PCE אינה מתאימה
+נראות כלל — היא רגרסיית ריבועים-פחותים על בסיס פולינומי. המדד ה"טבעי" שלה הוא לכן שגיאת
+$L_2$ ברגרסיה, בדיוק מה ש-\textenglish{LOO-CV} (הקריטריון לבחירת $K^*$ בסעיף~\ref{sec:pce},
+משוואה~\ref{eq:pce_var}) ממזער ישירות. הוספנו לכן פאנל שלישי: שגיאת $L_2$ יחסית
+$\|\hat\Var_N[\TL]-\Var_{1000}[\TL]\|_2/\|\Var_{1000}[\TL]\|_2$ (השונות משוחזרת משוואת
+פרסבל, ולא ה-CDF) — זהו המדד ש-PCE בפועל בונה עליו, בניגוד ל-KS/W1 שהם מדד מרחק CDF
+כללי שה-PCE מעולם לא התבקשה למזער.}
+
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/Normal_5pct/figures/pce_conv_vs_N.png}{%
-    \begin{subfigure}[t]{0.48\textwidth}
-      \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/pce_conv_vs_N.png}
-      \caption{מים עמוקים, נורמלי 5\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.48\textwidth}
-      \includegraphics[width=\linewidth]{deep_water/Normal_10pct/figures/pce_conv_vs_N.png}
-      \caption{מים עמוקים, נורמלי 10\%{}: \textenglish{KS} ו-\textenglish{W1} מול $N$.}
-    \end{subfigure}
+    \includegraphics[width=\textwidth]{deep_water/Normal_5pct/figures/pce_conv_vs_N.png}\\[6pt]
+    \includegraphics[width=\textwidth]{deep_water/Normal_10pct/figures/pce_conv_vs_N.png}
   }{\fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
     \textenglish{PCE convergence vs N --- run \texttt{scripts/pce\_convergence\_vs\_N.m}}}}}
-  \caption{התכנסות \textenglish{PCE} כפונקציה של $N$ (מים עמוקים, $K=K^*$ קבוע).
-           ציר $x$: $N$ (סולם לוגריתמי, $N=50$ עד $1000$);
-           ציר $y$: חציון שדה של \textenglish{KS} ו-\textenglish{W1} (\textenglish{dB}).
-           קו אנכי מקווקוו: $N = 2(K^*+1)$ (סף מינימום).
-           \src{scripts/pce\_conv\_vs\_N.m: [Q,R]=qr(Phi\_n,0); C=R\textbackslash(Q'*TL); KS=max(abs(Fpce-Femp))}}
+  \caption[התכנסות PCE כפונקציה של N, K* קבוע]{התכנסות \textenglish{PCE} כפונקציה של $N$ (מים עמוקים, $K=K^*$ קבוע, נורמלי 5\%{}
+           למעלה, 10\%{} למטה).
+           ציר $x$: $N$ (סולם לוגריתמי, $N=20$ עד $1000$);
+           פאנלים 1--2: חציון שדה של \textenglish{KS} ו-\textenglish{W1};
+           פאנל 3 (\aiedit{חדש}): \aiedit{שגיאת $L_2$ יחסית בשונות המשוחזרת — המדד הטבעי
+           (ר' לעיל)}, עם קו ירוק מסמן $N$ מספיק (10\%{} סבילות).
+           קו אנכי מקווקוו שחור: $N = 2(K^*+1)$ (סף מינימום רגרסיה).
+           \aiedit{\textbf{ממצא:} $N_\text{מספיק}\approx 750$ (משתי ההתפלגויות) — כלומר
+           PCE זקוקה לרוב ה-$N=1000$ המקוריים כדי להגיע לשחזור שונות יציב תוך 10\%{}
+           מהערך הסופי; זה שונה מהתכנסות ה-LN3 המהירה בהרבה (איור~\ref{fig:ln3_conv_N}),
+           ותומך בהמלצה הקיימת (סעיף~\ref{sec:pce}) שלא לצמצם דגימות עבור PCE.}
+           \src{scripts/pce\_conv\_vs\_N.m: [Q,R]=qr(Phi\_n,0); C=R\textbackslash(Q'*TL); relL2=norm(VarN-VarRef)/norm(VarRef)}}
   \label{fig:pce_conv_N}
 \end{figure}
 
@@ -1119,7 +1174,7 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
 
 מקודד במפורש את הרצפה הפיזיקלית דרך פרמטר ההזזה $\gamma$.
 הפרמטרים $(\hat\mu, \hat\sigma)$ מוערכים ב-\textenglish{MLE} דרך \texttt{lognfit}
-(עדיף על \textenglish{MOM}, שבדרך כלל פחות יעיל ב-10--30\%{}):
+(עדיף על \textenglish{MOM} — ר' השוואת \textenglish{NLL} מדודה בסעיף~\ref{sec:mle_vs_mom} להלן):
 \begin{equation}
   \hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})
   = \Phi\!\left(\frac{\ln(\mathrm{FOM}-\hat\gamma)-\hat\mu}{\hat\sigma}\right).
@@ -1164,6 +1219,14 @@ $P_\mathrm{det}=1-\Pshadow$.}
   \label{fig:ln3_rmse}
 \end{figure}
 
+\aiedit{
+\textbf{מדד משלים — NLL (נראות-לוגריתמית שלילית):} מפת ה-RMSE שלמעלה מודדת מרחק CDF —
+מדד כללי, לא בהכרח זה ש-MLE בפועל ממזער. הוספנו מפת NLL ממוצע משלימה (מים עמוקים בלבד
+כרגע — \texttt{Methods/LN3/deep\_water/figures/LN3\_NLL\_all.png}, \texttt{pipeline/run\_ln3.m})
+שבה כל פיקסל מציג את הנראות השלילית הלוגריתמית הממוצעת של המדגם תחת ה-LN3 המותאם לו —
+המדד ש-MLE (lognfit) בפועל ממזער. המפה מראה ש-NLL עולה עם רוחב ההתפלגות (1\%{}$\to$5\%{}$\to$10\%{})
+ועוקב אחר אותם דפוסי CZ/התאבכות שנראים במפת ה-RMSE, תוצאה עקבית עם שתי הגישות.}
+
 \subsubsection{כשל דו-מודלי בגבולות CZ}
 
 באיזורים ליד גבולות אזורי ההתכנסות, התפלגות ה-TL הופכת דו-מודלית:
@@ -1197,9 +1260,23 @@ $P_\mathrm{det}=1-\Pshadow$.}
 $\times$ 12 צירופי תרחיש/התפלגות, גם אופטימיזציה מהירה של כמה עשרות מילישניות לפיקסל
 הופכת לבלתי-מעשית בסך הכל — זו הסיבה ל"קריסה" בממדיות: לא בעיה מתמטית אלא חישובית-פרקטית.}
 \subsubsection{MLE מול MOM}
+\label{sec:mle_vs_mom}
 
 התאמות \textenglish{MLE} הושוו מול  \textenglish{MOM} בכל התרחישים.
-\textenglish{MLE} יעיל יותר באופן שיטתי: הטיה נמוכה יותר ו-\textenglish{RMSE} נמוך ב-10--30\%{}
+% X SKIPPED (replaced): the original "MLE RMSE 10-30% lower" claim was never actually
+% computed anywhere in this codebase — it was written from general knowledge, not
+% measured here. Replaced below with the real NLL-based comparison (the metric MLE
+% is actually defined to minimize), computed by scripts/compare_ln3_mom_vs_mle.m.
+\aiedit{התאמות MLE ו-MOM הושוו ישירות באמצעות \textenglish{NLL} (הנראות השלילית
+הלוגריתמית של המדגם המלא תחת כל התאמה) — המדד ש-MLE מוגדרת כממזערת אותו, ולכן ההשוואה
+ה"הוגנת" מבחינה תיאורטית (ולא מדד עקיף כמו RMSE של פרמטרים משוחזרים, שלא נמדד כאן בפועל):
+ר' פאנל 4 באיור להלן. \textbf{תוצאה מדודה} (מים עמוקים, נורמלי 5\%{}, תדר):
+\textenglish{MLE} משיגה \textenglish{NLL} נמוך יותר (התאמה טובה יותר) ב-\textbf{99.8\%{}}
+מהפיקסלים — הבדל חד ומכריע. לשם השוואה, מדדים עקיפים על אותו מדגם היו נותנים תמונה
+הרבה פחות ברורה: RMSE של $P(\text{detect})$ היה כמעט זהה (\textenglish{MLE}$=0.0113$,
+\textenglish{MOM}$=0.0110$ — כלומר MOM אף נראית מעט טובה יותר לפי מדד זה!), ו-\textenglish{KS}$<0.10$
+היה 41.2\%{} (MLE) מול 33.7\%{} (MOM) — הבדל אמיתי אך פחות דרמטי. זו בדיוק הדגמה לכך
+שהמדד ה"טבעי" (NLL, שהוא מה ש-MLE בפועל ממזערת) חושף הבדל שמדדים עקיפים מטשטשים.}
 הן בשערוך $\hat\mu$ והן ב-$\hat\sigma$. שערוך \textenglish{MOM} יכול לעוד עם דגימות תלויות סטטיסטית וזה יתרונו היחיד.
 % V %צריך לרשום איפשהו את הגדרת MOM ואת MLE תעתיק מפה https://technion046195.netlify.app/tutorial08/
 %   את הגדרת בעיית MLE ואת ההסבר למה הם צריכים להיות IID
@@ -1218,12 +1295,14 @@ $p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפ�
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png}{%
-    \includegraphics[width=0.7\textwidth]%
+    \includegraphics[width=\textwidth]%
       {deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png}%
-  }{\fbox{\parbox[c][3cm][c]{0.7\textwidth}{\centering\small
+  }{\fbox{\parbox[c][3cm][c]{\textwidth}{\centering\small
     LN3 MOM vs MLE scatter — טרם נוצר}}}
   \caption{פיזור MOM מול MLE לפרמטר $\hat\mu$ (מים עמוקים, 5\%{}, תדר).
            מדגים כי MLE עקבי ויעיל יותר.
+           \aiedit{פאנל 4 (חדש): NLL ממוצע בפיקסל תחת MLE מול MOM — נקודות מתחת לקו
+           האלכסון = MLE נתן NLL נמוך יותר (התאמה טובה יותר) באותו פיקסל.}
            \src{run\_ln3.m: [mu\_MLE,sig\_MLE]=lognfit(TL\_pix-g); mu\_MOM=momentEstimate(TL\_pix); scatter()}}
   \label{fig:ln3_mom_mle}
 \end{figure}
@@ -1745,6 +1824,32 @@ PCE משותפת תלת-ממדית על מדגמי ה-MC הקיימים ($N=1000
 תאפשר אינדקסי סובול מלאים כולל אינטרקציות,
 ללא הרצות \textenglish{Bellhop} נוספות:
 לסדר $K=5$, $M=3$ פרמטרים יש $\binom{8}{5}=56$ איברים בלבד $\ll N=1000$.
+
+\aiedit{\paragraph{היכן PCE\texorpdfstring{$(K^*)$}{(K*)} באמת מדויקת מרחבית?}
+מכיוון ש-SVP שולט באי-הוודאות ובמיקום ה-CZ (לעיל), נבדקה שגיאת PCE$(K^*)$ היחסית
+בשונות ($|\Var_{\mathrm{PCE}}-\Var_{\mathrm{MC}}|/\Var_{\mathrm{MC}}$) \emph{מרחבית} —
+לא רק כערך סקלרי ממוצע — עבור הפרעת SVP בארבעת התרחישים.}
+
+\begin{figure}[H]
+  \centering
+  \IfFileExists{pce_spatial_error_Normal_5pct_svp.png}{%
+    \includegraphics[width=0.95\textwidth]{pce_spatial_error_Normal_5pct_svp.png}
+  }{\fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
+    PCE spatial error map --- run \texttt{scripts/pce\_spatial\_error\_map.m}}}}
+  \caption[שגיאת PCE יחסית בשונות מרחבית, ארבעת התרחישים]{\aiedit{שגיאת PCE$(K^*)$ יחסית בשונות מול MC, נורמלי 5\%{}, הפרעת SVP, ארבעת התרחישים
+           (קרקעית מוצללת בחום). \textbf{ממצא (לא צפוי מראש):} השגיאה \emph{אינה} נמוכה
+           באופן אחיד ליד ה-CZ — להיפך: היא \emph{גבוהה ביותר בדיוק על גבולות קשתות ה-CZ}
+           (הקווים הבהירים החדים במים עמוקים ובמדרונות), ונמוכה ברקע החלק שביניהן.
+           הסבר פיזיקלי: גבולות CZ הם אזורי שיפוע חד/קאוסטיקה בשדה ה-TL,
+           הקשים ביותר לקירוב על-ידי פולינום מסדר נמוך יחסית ($K^*\leq 8$) —
+           בדיוק הפוך מהאינטואיציה ש-PCE "מצליחה ליד CZ מכיוון ש-SVP שולט שם".
+           מים רדודים מציגה שגיאה גבוהה כמעט בכל מקום (חציון $\approx$88\%{}) — תבניות
+           ההתאבכות של מראת-לויד עדינות מדי לבסיס פולינומי מסדר $K^*=8$.
+           מדרון עולה מתון יחסית (חציון $\approx$10\%{}), מדרון יורד גרוע יותר
+           (חציון $\approx$31\%{}).}
+           \src{scripts/pce\_spatial\_error\_map.m: relerr = abs(VarK\_best\{svp\}-MC\_Var)./MC\_Var}}
+  \label{fig:pce_spatial_error}
+\end{figure}
 
 % ============================================================
 %  5.  משמעות פיזיקלית ותפעולית

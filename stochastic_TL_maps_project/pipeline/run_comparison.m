@@ -61,6 +61,10 @@ for si = 1:numel(cfg.scenarios)
 
         FOM = getFOM(cfg, sc.name);
         fprintf('\n=== Comparison | %s | %s | FOM=%ddB ===\n', sc.name, dist.name, FOM);
+        % Seafloor overlay — critical for slope scenarios (upslope/downslope):
+        % without it, TL variation below the sloped seafloor (unphysical,
+        % masked region) is easy to mistake for real water-column TL variation.
+        bathy = bathymetryMaker(sc.bathy_type, sc.maxR_m);
 
         for d = {fig_dir, res_dir}
             if ~exist(d{1},'dir'), mkdir(d{1}); end
@@ -159,11 +163,42 @@ for si = 1:numel(cfg.scenarios)
                 if mx == 0, mx = 1; end
 
                 fig = figure('Position',[50 50 800 520]);
-                pcolor(r_km, z_m, diff_map);
-                shading interp; set(gca,'YDir','reverse');
-                colormap(redblue(256)); colorbar; clim([-mx mx]);
-                xlabel('Range (km)'); ylabel('Depth (m)');
-                title(sprintf('%s | %s', ttl, tag), 'Interpreter','none');
+                ax  = axes(fig); %#ok<LAXES>
+                is_var = startsWith(fname, 'Var_diff');
+                if is_var
+                    % Symmetric-log color scale: Var differences span orders
+                    % of magnitude, so a linear scale hides all but the
+                    % single largest-magnitude pixel. lin_thresh sets the
+                    % small linear region near zero (avoids log(0)); using a
+                    % low percentile of the nonzero |diff| distribution
+                    % (not a fixed fraction of the single max outlier) keeps
+                    % it robust to one bad pixel dominating the whole scale.
+                    nz = abs(diff_map(diff_map ~= 0));
+                    if isempty(nz)
+                        lin_thresh = eps;
+                    else
+                        lin_thresh = max(prctile(nz, 20), eps);
+                    end
+                    Z = sign(diff_map) .* log10(1 + abs(diff_map)/lin_thresh);
+                    zmax = max(abs(Z(:)));
+                    if zmax == 0, zmax = 1; end
+                    pcolor(ax, r_km, z_m, Z);
+                    shading(ax,'interp'); set(ax,'YDir','reverse');
+                    colormap(ax, redblue(256)); clim(ax, [-zmax zmax]);
+                    cb = colorbar(ax);
+                    tick_z = linspace(-zmax, zmax, 7);
+                    tick_v = sign(tick_z) .* lin_thresh .* (10.^abs(tick_z) - 1);
+                    cb.Ticks = tick_z;
+                    cb.TickLabels = arrayfun(@(v) sprintf('%.2g', v), tick_v, 'UniformOutput', false);
+                    cb.Label.String = 'dB^2 (symlog)';
+                else
+                    pcolor(ax, r_km, z_m, diff_map);
+                    shading(ax,'interp'); set(ax,'YDir','reverse');
+                    colormap(ax, redblue(256)); colorbar(ax); clim(ax, [-mx mx]);
+                end
+                overlayBathymetry(ax, bathy, sc.maxDepth_m);
+                xlabel(ax, 'Range (km)'); ylabel(ax, 'Depth (m)');
+                title(ax, sprintf('%s | %s', ttl, tag), 'Interpreter','none');
                 saveFigPNG(fig, fullfile(fig_dir, fname));
                 drawnow; close(fig);
             end
@@ -207,10 +242,12 @@ for si = 1:numel(cfg.scenarios)
                     ax1 = subplot(1,2,1);
                     detectionCategoryMap(ax1, r_km, z_m, prob_A, ...
                         sprintf('%s — %d%%', lbl_A, thr_pct), THRESHOLDS);
+                    overlayBathymetry(ax1, bathy, sc.maxDepth_m);
 
                     ax2 = subplot(1,2,2);
                     detectionCategoryMap(ax2, r_km, z_m, prob_B, ...
                         sprintf('%s — %d%%', lbl_B, thr_pct), THRESHOLDS);
+                    overlayBathymetry(ax2, bathy, sc.maxDepth_m);
 
                     sgtitle(sprintf('P(detect) %d%% | %s | %s', thr_pct, tag, pair_name), ...
                             'Interpreter','none');

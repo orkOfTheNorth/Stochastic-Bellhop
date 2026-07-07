@@ -14,6 +14,15 @@ function ln3_convergence_vs_N(sc_target, dist_target)
 % where Femp is the FIXED empirical CDF of the full N=1000 MC samples
 % (LHS cube for the MOM curve, IID cube for the MLE curve).
 %
+% ALSO (3rd panel): mean NEGATIVE LOG-LIKELIHOOD (NLL, core/stats/ln3NLL.m)
+% of the FULL N=1000 sample under the LN3 model fit from N sub-samples.
+% This is the LN3-native fit metric: MLE is defined as the fit that
+% minimizes NLL, so an NLL-based comparison is the metric MLE actually
+% optimizes — unlike KS/W1 on the reconstructed CDF, which are a generic
+% distributional-distance proxy the fit was never asked to minimize, and
+% which (being non-smooth, worst-case-type statistics) can look noisy or
+% flat even when the fit is genuinely improving.
+%
 % Reported value per N = SPATIAL MEDIAN over pixels, POOLED across the
 % 3 physical parameters (freq, zS, svp).  All 3 params are used; the
 % median is taken over the concatenated pixel populations of all params
@@ -63,6 +72,7 @@ for dd = 1:numel(dist_list)
     % per-param cell arrays of [nv x P] metric matrices (pooled at the end)
     KS_mom = cell(1,3);  W1_mom = cell(1,3);
     KS_mle = cell(1,3);  W1_mle = cell(1,3);
+    NLL_mom = cell(1,3); NLL_mle = cell(1,3);
 
     for pi = 1:numel(PARAMS)
         param = PARAMS{pi};
@@ -99,6 +109,7 @@ for dd = 1:numel(dist_list)
 
         KS_mom{pi} = NaN(nv, P);  W1_mom{pi} = NaN(nv, P);
         KS_mle{pi} = NaN(nv, P);  W1_mle{pi} = NaN(nv, P);
+        NLL_mom{pi} = NaN(nv, P); NLL_mle{pi} = NaN(nv, P);
 
         rng(42);
         for ni = 1:nv
@@ -116,6 +127,8 @@ for dd = 1:numel(dist_list)
             D = abs(F - Femp_l);
             KS_mom{pi}(ni,:) = max(D, [], 1);
             W1_mom{pi}(ni,:) = trapzUniform(D, dx_l);
+            % NLL of the FULL N=1000 LHS sample under the fit from N sub-samples
+            NLL_mom{pi}(ni,:) = ln3NLL(TL_lhs, gam, mu, sig);
 
             % MLE fit on IID sub-sample (vectorised ln3Fit / lognfit equations)
             [gam, mu, sig] = fitMLEvec(TL_iid(:, idx_i));
@@ -123,6 +136,8 @@ for dd = 1:numel(dist_list)
             D = abs(F - Femp_i);
             KS_mle{pi}(ni,:) = max(D, [], 1);
             W1_mle{pi}(ni,:) = trapzUniform(D, dx_i);
+            % NLL of the FULL N=1000 IID sample under the fit from N sub-samples
+            NLL_mle{pi}(ni,:) = ln3NLL(TL_iid, gam, mu, sig);
         end
         fprintf('  [%s] done.\n', param);
         clear TL_lhs TL_iid x_l x_i Femp_l Femp_i;
@@ -133,29 +148,49 @@ for dd = 1:numel(dist_list)
     w1_mom = median(cat(2, W1_mom{:}), 2, 'omitnan');
     ks_mle = median(cat(2, KS_mle{:}), 2, 'omitnan');
     w1_mle = median(cat(2, W1_mle{:}), 2, 'omitnan');
+    nll_mom = median(cat(2, NLL_mom{:}), 2, 'omitnan');
+    nll_mle = median(cat(2, NLL_mle{:}), 2, 'omitnan');
+
+    % "how many samples do we actually need?" — sufficient N (10% tol) for
+    % the LN3-native NLL metric
+    Nsuff_mom = findSufficientN(N_VEC, nll_mom, 0.10);
+    Nsuff_mle = findSufficientN(N_VEC, nll_mle, 0.10);
+    fprintf('%s / %s : LN3 sufficient N (NLL, 10%% tol): MOM=%g, MLE=%g\n', ...
+        sc_target, dist_name, Nsuff_mom, Nsuff_mle);
 
     % ── figure (visual style follows run_lhs_iid_convergence.m) ─────────────
-    fig = figure('Position',[50 50 900 380]);
+    fig = figure('Position',[50 50 1300 380]);
     TITLES = {'median KS = max|F_{LN3} - F_{emp}|', ...
-              'median W_1 = \int|F_{LN3} - F_{emp}|dx  (dB)'};
-    mom_data = {ks_mom, w1_mom};
-    mle_data = {ks_mle, w1_mle};
+              'median W_1 = \int|F_{LN3} - F_{emp}|dx  (dB)', ...
+              'mean NLL of full sample under fit (LN3-native)'};
+    mom_data = {ks_mom, w1_mom, nll_mom};
+    mle_data = {ks_mle, w1_mle, nll_mle};
 
-    for p = 1:2
-        ax = subplot(1,2,p);
+    for p = 1:3
+        ax = subplot(1,3,p);
         loglog(ax, N_VEC, max(mom_data{p},1e-8), 'b-o', ...
                'LineWidth',1.8, 'MarkerSize',5, ...
                'DisplayName','MOM (LHS)'); hold(ax,'on');
         loglog(ax, N_VEC, max(mle_data{p},1e-8), 'r--s', ...
                'LineWidth',1.8, 'MarkerSize',5, ...
                'DisplayName','MLE (IID)');
+        if p == 3
+            if isfinite(Nsuff_mom)
+                xline(ax, Nsuff_mom, 'b:', sprintf('N_{suff}^{MOM}=%d',Nsuff_mom), ...
+                      'LineWidth',1.2, 'LabelVerticalAlignment','bottom');
+            end
+            if isfinite(Nsuff_mle)
+                xline(ax, Nsuff_mle, 'r:', sprintf('N_{suff}^{MLE}=%d',Nsuff_mle), ...
+                      'LineWidth',1.2, 'LabelVerticalAlignment','top');
+            end
+        end
         grid(ax,'on'); legend(ax,'Location','northeast','FontSize',8);
         xlabel(ax,'N (sample size)');
         ylabel(ax, TITLES{p});
         title(ax, TITLES{p}, 'Interpreter','tex');
         xlim(ax,[N_VEC(1) N_VEC(end)]);
     end
-    sgtitle(sprintf('LN3 fit convergence vs N | %s | %s | ref: empirical CDF (N=1000)', ...
+    sgtitle(sprintf('LN3 fit convergence vs N | %s | %s | ref: empirical CDF/full sample (N=1000)', ...
         sc_target, dist_name), 'Interpreter','none', 'FontSize',11);
 
     print(fig, out_png, '-dpng', '-r150');

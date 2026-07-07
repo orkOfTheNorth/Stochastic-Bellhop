@@ -134,6 +134,8 @@ for si = 1:numel(cfg.scenarios)
             p_mom_map = zeros(Nz,Nr);
             ks_mle_map = zeros(Nz,Nr);
             ks_mom_map = zeros(Nz,Nr);
+            nll_mle_map = zeros(Nz,Nr);
+            nll_mom_map = zeros(Nz,Nr);
 
             for ri = 1:Nr
                 for zi = 1:Nz
@@ -141,29 +143,31 @@ for si = 1:numel(cfg.scenarios)
                     [pm, gm, mu_m, sg_m] = ln3Fit(samps, FOM);
                     p_mle_map(zi,ri)  = pm;
                     ks_mle_map(zi,ri) = ksStatLN3(samps, gm, mu_m, sg_m);
+                    nll_mle_map(zi,ri) = ln3NLL(samps, gm, mu_m, sg_m);
                     [po, go, mu_o, sg_o] = ln3FitMOM(samps, FOM);
                     p_mom_map(zi,ri)  = po;
                     ks_mom_map(zi,ri) = ksStatLN3(samps, go, mu_o, sg_o);
+                    nll_mom_map(zi,ri) = ln3NLL(samps, go, mu_o, sg_o);
                 end
             end
 
             % Scatter plot: MLE vs MOM P(detect)
-            fig2 = figure('Position',[50 50 1200 450]);
-            subplot(1,3,1);
+            fig2 = figure('Position',[50 50 1600 450]);
+            subplot(1,4,1);
             scatter(MC_P(:), p_mle_map(:), 2, [0.2 0.4 0.8],'filled','MarkerFaceAlpha',0.2);
             hold on; plot([0 1],[0 1],'r-','LineWidth',1.2); hold off;
             xlabel('MC P(detect)'); ylabel('MLE P(detect)');
             title(sprintf('MLE vs MC\nRMSE=%.4f', rms(p_mle_map(:)-MC_P(:))));
             grid on;
 
-            subplot(1,3,2);
+            subplot(1,4,2);
             scatter(MC_P(:), p_mom_map(:), 2, [0.8 0.2 0.2],'filled','MarkerFaceAlpha',0.2);
             hold on; plot([0 1],[0 1],'r-','LineWidth',1.2); hold off;
             xlabel('MC P(detect)'); ylabel('MOM P(detect)');
             title(sprintf('MOM vs MC\nRMSE=%.4f', rms(p_mom_map(:)-MC_P(:))));
             grid on;
 
-            subplot(1,3,3);
+            subplot(1,4,3);
             scatter(ks_mle_map(:), ks_mom_map(:), 2, [0.2 0.7 0.2],'filled','MarkerFaceAlpha',0.2);
             hold on;
             mx = max([ks_mle_map(:); ks_mom_map(:)]);
@@ -174,6 +178,23 @@ for si = 1:numel(cfg.scenarios)
             title(sprintf('KS: MLE vs MOM\nMLE<0.10: %.1f%% | MOM<0.10: %.1f%%', ...
                           100*mean(ks_mle_map(:)<0.10), 100*mean(ks_mom_map(:)<0.10)));
             grid on;
+
+            % NLL comparison — the LN3-native metric: MLE is by
+            % construction the fit minimizing in-sample NLL, so this is
+            % the theoretically "fair" comparison (replaces the previous
+            % unverified "MLE 10-30% lower RMSE" claim with real numbers).
+            subplot(1,4,4);
+            scatter(nll_mle_map(:), nll_mom_map(:), 2, [0.6 0.3 0.7],'filled','MarkerFaceAlpha',0.2);
+            hold on;
+            mx = max([nll_mle_map(:); nll_mom_map(:)]);
+            mn = min([nll_mle_map(:); nll_mom_map(:)]);
+            plot([mn mx],[mn mx],'k--','LineWidth',1);
+            hold off;
+            xlabel('mean NLL (MLE)'); ylabel('mean NLL (MOM)');
+            pct_mle_better = 100*mean(nll_mle_map(:) < nll_mom_map(:));
+            title(sprintf('NLL: MLE vs MOM\nMLE lower-NLL in %.1f%% of pixels', pct_mle_better));
+            grid on;
+
             sgtitle(sprintf('MLE vs MOM | %s | %s | %s', sc_name, dist_name, sn), ...
                     'Interpreter','none','FontSize',11);
 

@@ -22,6 +22,15 @@ function pce_conv_vs_N(sc_target, dist_target)
 % where Femp = empirical CDF of the FULL N=1000 LHS MC samples (fixed ref).
 % Reported value per N = spatial median over pixels, POOLED across the 3
 % params (freq, zS, svp) — one combined KS line and one W1 line.
+%
+% ALSO (3rd panel): the PCE-NATIVE fit metric — relative L2 error in the
+% reconstructed variance, ||Var_N[TL] - Var_1000[TL]||_2 / ||Var_1000[TL]||_2,
+% pooled across the 3 params. This is the quantity PCE's own Parseval
+% identity (Var = sum of squared non-constant coefficients, eq:pce_parseval)
+% and the LOO-CV order-selection criterion both directly target — unlike
+% KS/W1 on the reconstructed CDF, which are a generic distributional-distance
+% proxy PCE was never fit to minimize. Var_1000[TL] is the true empirical
+% variance from the full N=1000 cache (not a PCE fit), used as ground truth.
 % Pixels are decimated with stride 10 in z and r (~4400 pixels) for runtime.
 %
 % N values below the per-param regression threshold N >= 2*(K*+1) are
@@ -88,6 +97,7 @@ for dd = 1:numel(dist_list)
 
     nv = numel(N_VEC);
     KS_all = cell(1,3);  W1_all = cell(1,3);
+    VarPCE_all = cell(1,3);  VarRef_all = cell(1,3);
 
     for pi = 1:numel(PARAMS)
         param = PARAMS{pi};
@@ -114,6 +124,10 @@ for dd = 1:numel(dist_list)
         % fixed reference: full-N=1000 empirical CDF on per-pixel grids
         [x, Femp, dx] = ecdfGrid(TL, N_GRID);
 
+        % PCE-native reference: true empirical variance from the full
+        % N=1000 sample (ground truth, not a PCE fit)
+        Var_ref = var(TL, 0, 2);                      % [P x 1]
+
         % fixed reconstruction draws (same for every N → smooth curves)
         rng(42);
         xi_new  = randn(M_EVAL, 1);
@@ -122,6 +136,8 @@ for dd = 1:numel(dist_list)
         xi = xi_all(:, pi);                           % [N_MAX x 1]
 
         KS_all{pi} = NaN(nv, P);  W1_all{pi} = NaN(nv, P);
+        VarPCE_all{pi} = NaN(nv, P);
+        VarRef_all{pi} = repmat(Var_ref', nv, 1);   % same ref row for every N
 
         rng(42);
         for ni = 1:nv
@@ -146,6 +162,12 @@ for dd = 1:numel(dist_list)
             D = abs(Fpce - Femp);
             KS_all{pi}(ni,:) = max(D, [], 1);
             W1_all{pi}(ni,:) = dx .* (sum(D,1) - 0.5*(D(1,:) + D(end,:)));
+
+            % PCE-native metric: reconstructed variance at this N (Parseval:
+            % Var = sum of squared non-constant coefficients, but computed
+            % here directly from the reconstruction draws for consistency
+            % with the CDF-based Fpce above)
+            VarPCE_all{pi}(ni,:) = var(y_pce, 0, 1);
         end
         fprintf('  [%s] done.\n', param);
         clear TL x Femp;
@@ -156,27 +178,52 @@ for dd = 1:numel(dist_list)
     w1_med = median(cat(2, W1_all{:}), 2, 'omitnan');
     N_thresh = 2 * (max(Kstar) + 1);   % strictest per-param threshold
 
-    % ── figure ────────────────────────────────────────────────────────────
-    fig = figure('Position',[50 50 900 380]);
-    TITLES = {'median KS = max|F_{PCE} - F_{emp}|', ...
-              'median W_1 = \int|F_{PCE} - F_{emp}|dx  (dB)'};
-    data = {ks_med, w1_med};
+    % PCE-native metric: pooled relative L2 error in reconstructed variance,
+    % ||Var_N - Var_ref||_2 / ||Var_ref||_2, over all pooled pixels (3 params)
+    varpce_pool = cat(2, VarPCE_all{:});   % [nv x P_total]
+    varref_pool = cat(2, VarRef_all{:});   % [nv x P_total]
+    relL2_var = NaN(nv,1);
+    for ni = 1:nv
+        d_ = varpce_pool(ni,:) - varref_pool(ni,:);
+        ok_ = isfinite(d_) & isfinite(varref_pool(ni,:));
+        if any(ok_)
+            relL2_var(ni) = norm(d_(ok_)) / norm(varref_pool(ni,ok_));
+        end
+    end
 
-    for p = 1:2
-        ax = subplot(1,2,p);
+    % "how many samples do we actually need?" — smallest N within 10% of
+    % the N=1000 asymptotic value, for the PCE-native rel-L2-Var metric
+    N_suff = findSufficientN(N_VEC, relL2_var, 0.10);
+    fprintf('%s / %s : PCE sufficient N (rel. L2 Var, 10%% tol) = %g\n', ...
+        sc_target, dist_name, N_suff);
+
+    % ── figure ────────────────────────────────────────────────────────────
+    fig = figure('Position',[50 50 1300 380]);
+    TITLES = {'median KS = max|F_{PCE} - F_{emp}|', ...
+              'median W_1 = \int|F_{PCE} - F_{emp}|dx  (dB)', ...
+              'rel. L_2 error in reconstructed Var[TL] (PCE-native)'};
+    data = {ks_med, w1_med, relL2_var};
+
+    for p = 1:3
+        ax = subplot(1,3,p);
         loglog(ax, N_VEC, max(data{p},1e-8), 'b-o', ...
                'LineWidth',1.8, 'MarkerSize',5, ...
                'DisplayName','PCE(K*) vs MC'); hold(ax,'on');
         xline(ax, N_thresh, 'k--', sprintf('N=2(K*+1)=%d', N_thresh), ...
               'LineWidth',1.2, 'LabelVerticalAlignment','bottom', ...
               'DisplayName','regression threshold');
+        if p == 3 && isfinite(N_suff)
+            xline(ax, N_suff, 'g-', sprintf('N_{suff}=%d', N_suff), ...
+                  'LineWidth',1.6, 'LabelVerticalAlignment','top', ...
+                  'DisplayName','sufficient N (10% tol)');
+        end
         grid(ax,'on'); legend(ax,'Location','northeast','FontSize',8);
         xlabel(ax,'N (training samples)');
         ylabel(ax, TITLES{p});
         title(ax, TITLES{p}, 'Interpreter','tex');
         xlim(ax,[min(N_VEC(1), 0.8*N_thresh) N_VEC(end)]);
     end
-    sgtitle(sprintf('PCE(K*) fit convergence vs N | %s | %s | ref: empirical CDF (N=1000)', ...
+    sgtitle(sprintf('PCE(K*) fit convergence vs N | %s | %s | ref: empirical CDF/Var (N=1000)', ...
         sc_target, dist_name), 'Interpreter','none', 'FontSize',11);
 
     print(fig, out_png, '-dpng', '-r150');

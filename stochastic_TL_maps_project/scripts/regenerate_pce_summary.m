@@ -45,18 +45,17 @@ for pi = 1:3
         hold(ax,'on');
     end
     yline(ax, 10, 'k--', 'LineWidth', 1.5, 'DisplayName', '10% threshold');
-    ylim(ax, [0, YLIM]);
-    set(ax, 'XTick', max(1, 1:2:MAX_ORDER));
+    set(ax, 'XTick', max(1, 1:2:MAX_ORDER), 'YScale', 'log');
     ylabel(ax, 'Relative L2 (%)');
-    title(ax, sprintf('param = %s  [y-axis clipped at %d%% — blow-up at K>17 omitted]', ...
-                      PARAMS{pi}, YLIM), 'FontSize', 9, 'Interpreter', 'none');
+    title(ax, sprintf('param = %s  [log y-axis]', PARAMS{pi}), ...
+          'FontSize', 9, 'Interpreter', 'none');
     if pi == 1
         legend(ax, 'Location', 'northeast', 'FontSize', 6, 'NumColumns', 2);
     end
     if pi == 3, xlabel(ax, 'PCE Order K'); end
     grid(ax, 'on');
 end
-sgtitle('PCE Convergence — All Scenarios × Distributions (y-axis clipped at 30%)', ...
+sgtitle('PCE Convergence — All Scenarios × Distributions (log y-axis)', ...
         'FontSize', 11);
 
 out_path = fullfile('Methods', 'PCE', 'pce_summary_all');
