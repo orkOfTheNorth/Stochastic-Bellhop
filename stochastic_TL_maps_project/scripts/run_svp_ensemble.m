@@ -54,7 +54,7 @@ for si = 1:numel(cfg.scenarios)
             plot(ax, svp_i(:,2), z_vec, '-', ...
                  'Color', [0.4 0.6 0.9 0.12], 'LineWidth', 0.8);
         end
-        plot(ax, svp_nom(:,2), z_vec, 'k-', 'LineWidth', 2.5, 'DisplayName', 'Nominal');
+        plot(ax, svp_nom(:,2), z_vec, 'k-', 'LineWidth', 0.5, 'DisplayName', 'Nominal');
         set(ax, 'YDir', 'reverse');
         xlabel(ax, 'Sound Speed (m/s)');
         ylabel(ax, 'Depth (m)');

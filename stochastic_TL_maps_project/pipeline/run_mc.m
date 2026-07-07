@@ -334,16 +334,28 @@ function plotMCFigures(all_stats, snames, slbls, ~, fig_dir, ...
     saveFigPNG(fig_ex, fullfile(fig_dir,'combined_EX'));  close(fig_ex);
 
     %% Combined Var[TL]
+    % Variance spans several orders of magnitude across the map — use a
+    % LOG-SCALE color axis so low-variance structure is visible.
+    % (EX/mean panels above stay linear; only Var panels are log-scaled.)
     fig_var = figure('Position',[50 50 fw 420]);
     v_max = max(cellfun(@(k) max(all_stats.(k).MC_Var(:)), avail));
     v_max = max(v_max, 1e-6);
+    v_min = inf;
+    for k = 1:n_avail
+        vv = all_stats.(avail{k}).MC_Var(:);
+        vv = vv(vv > 0);
+        if ~isempty(vv), v_min = min(v_min, min(vv)); end
+    end
+    v_min = max(v_min, v_max * 1e-6);      % cap dynamic range at 6 decades
+    if ~isfinite(v_min), v_min = v_max * 1e-6; end
     for k = 1:n_avail
         sn  = avail{k};
         idx = find(strcmp(snames, sn), 1);
         ax  = subplot(1, n_avail, k);
-        pcolor(r_km, z_m, all_stats.(sn).MC_Var);
+        pcolor(r_km, z_m, max(all_stats.(sn).MC_Var, v_min));
         shading interp; set(ax,'YDir','reverse');
-        colormap(ax, hot); colorbar(ax); clim([0 v_max]);
+        colormap(ax, hot); colorbar(ax);
+        set(ax, 'ColorScale', 'log'); clim([v_min v_max]);
         overlayBathymetry(ax, bathy_m, max_depth);
         xlabel(ax,'Range (km)'); if k==1, ylabel(ax,'Depth (m)'); end
         title(ax, slbls{idx}, 'FontSize',8,'Interpreter','none');
@@ -370,7 +382,7 @@ function plotSVPEnsemble(svp_samps, sc, dist, N, fig_dir, cfg)
         svp_i = makeSVPNoise(svp_samps(i), sc.maxDepth_m, cfg);
         plot(ax, svp_i(:,2), z_vec, '-', 'Color', [0.4 0.6 0.9 0.12], 'LineWidth', 0.8);
     end
-    plot(ax, svp_nom(:,2), z_vec, 'k-', 'LineWidth', 2.5, 'DisplayName', 'Nominal');
+    plot(ax, svp_nom(:,2), z_vec, 'k-', 'LineWidth', 0.5, 'DisplayName', 'Nominal');
     set(ax, 'YDir', 'reverse');
     xlabel(ax, 'Sound Speed (m/s)');
     ylabel(ax, 'Depth (m)');

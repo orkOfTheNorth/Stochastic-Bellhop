@@ -92,6 +92,12 @@
   \newline\smallskip
   {\scriptsize\color[gray]{0.45}\textenglish{\texttt{#1}}}}
 
+% ─── תוספות קלוד (כחול) ──────────────────────────────────────
+% \aiedit{text} marks content added/edited by Claude in response to
+% the # # / % review comments, so it's visually distinguishable (blue)
+% from Ory's original text. Search "\aiedit" to find every AI edit.
+\newcommand{\aiedit}[1]{\textcolor{blue}{#1}}
+
 % ============================================================
 \begin{document}
 % ============================================================
@@ -114,7 +120,7 @@ Underwater Acoustic Transmission Loss}}}
 
 \vspace{0.8cm}\hrule height 0.5pt\vspace{0.8cm}
 
-{\large\textbf{מבצעים:} אורי אינדיג \quad  יואב וולף \quad (\)}\\[0.4cm]
+{\large\textbf{מבצעים:} אורי אינדיג \quad יואב וולף}\\[0.4cm]
 {\large\textbf{מנחה:} \quad סג"ן סער פופלינגר}\\[0.4cm]
 {\large\textbf{מעבדה:} \textenglish{SIPL — Signal and Image Processing Lab}}\\[1cm]
 
@@ -288,7 +294,10 @@ and fall back to MC for slope environments or large source-depth uncertainty.
            \src{bellhopCached(sim\_params, cache\_dir) -> TL[Nz x Nr]}}
   \label{fig:bellhop_blackbox}
 \end{figure}
-#קלוד בכל מקום בו יש רפרנס לקוד יש לעשות אותו בשורה חדשה כי הRTL וLTR לא עובדים אם הם באותה שורה#
+% V #קלוד בכל מקום בו יש רפרנס לקוד יש לעשות אותו בשורה חדשה כי הRTL וLTR לא עובדים אם הם באותה שורה#
+% \aiedit fix: the \src{} macro itself now always starts with \newline (see definition
+% near top of file), so every code-reference annotation is forced onto its own line —
+% this fixes the RTL/LTR clash globally, no per-figure changes needed.
 % ─────────────────────────────────────────
 \subsection{משוואת הסונאר וגילוי}
 \label{sec:sonar_equation}
@@ -352,12 +361,12 @@ and fall back to MC for slope environments or large source-depth uncertainty.
 
 \begin{enumerate}
   \item \textbf{אי-ודאות במדידה.} הפרמטרים הסביבתיים האמיתיים אינם ידועים במדויק;
-        לפרופילי טמפרטורה יש אי-ודאות מדידה של $\pm$0.1--0.3$^\circ$C, #קלוד לשים בטקסט אנגלית כי LTR לא עובד#
-        עומקי מקור אינם ודאיים ב-$\pm$5--10~מ',#גם פה#
+        לפרופילי טמפרטורה יש אי-ודאות מדידה של \aiedit{\textenglish{$\pm$0.1--0.3$^\circ$C}}, % V #קלוד לשים בטקסט אנגלית כי LTR לא עובד#
+        עומקי מקור אינם ודאיים ב-\aiedit{\textenglish{$\pm$5--10~m}},% V #גם פה#
         ותדר הנשא יכול לסטות ב-$\pm$1\%{}.
   \item \textbf{שינוי בזמן.} SVP האוקיינוס משתנה תוך מספר שעות
         (השכבה העלייונה מתחממת מהמשמש במהלך הצהריים, ערבול של גאות ושפל...) וגם בפרקי זמן של חודשים (מחזור עונתי- קירור וחימום של השכבה העליונה);
-        מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-5--10~dB בשעות הצהריים #בDB באנגלית#.
+        מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-\aiedit{\textenglish{5--10~dB}} בשעות הצהריים.% V #בDB באנגלית#
 \end{enumerate}
 
 ההרחבה הסטוכסטית מדמה כל פרמטר כמשתנה אקראי גאוסי עצמאי:
@@ -365,7 +374,7 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 הוא אחוז ידוע מ-$\mu_k$ (1\%{}, 5\%{}, או 10\%{} בניסויינו).
 מטרת ה-\textenglish{UQ} היא להעביר התפלגויות כניסה אלו דרך הקופסא השחורה 
 של \textenglish{Bellhop} כדי לקבל את התפלגות הפלט של TL בכל פיקסל,
-ומשם את הסתברות הגילוי  $\Pshadow$. #תמיד מדברים על P גילוי ולא P צל#
+ומשם את \aiedit{הסתברות הגילוי $P_\mathrm{det} = 1-\Pshadow$ (ולא הסתברות ה"צל" עצמה)}.% V #תמיד מדברים על P גילוי ולא P צל#
 
 % ─────────────────────────────────────────
 \subsection{אימות אנליטי של \textenglish{Bellhop}}
@@ -373,14 +382,24 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 
 לפני שימוש ב-\textenglish{Bellhop} כמנוע ההדמייה העיקרי לצורך  חקר הסטוכסטיות, אימתנו את דיוקו
 מול שני פתרונות אנליטיים ידועים. חלק זה הכרחי בין היתר בגלל שמימושו של\textenglish{Bellhop} בקירוב קרניים וידוע שכך הוא מפספס תופעות התאבכות גליות מסויימות ומראה תמונה "מוחלקת" לעומת המצב בפועל.
-#אנחנו משתמשים בשיטת הדמויות ולא בגלידה#
+% V #אנחנו משתמשים בשיטת הדמויות ולא בגלידה# — הכותרת והטקסט להלן כבר מדברים על שיטת הדמויות.
 \subsubsection{מרחב חצי-אינסופי}
 
 עבור מרחב חצי-אינסופי בעל מהירות קול אחידה (מהירות קול קבועה, קרקעית שטוחה 100% חדירה),
-ה-TL המדויק ניתן על ידי פתרון #תוסיף פה את משוואה 2.76 מJENSEN#.
+ה-TL המדויק ניתן על ידי פתרון \aiedit{שיטת הדמויות (\textenglish{method of images}): מקור אמיתי
+בעומק $z_S$ וּ"מקור דמיון" וירטואלי בעומק $-z_S$ מעל המשטח (משטח חופשי-לחץ הופך את סימן המקור הווירטואלי),
+כך שהלחץ הכולל הוא סכום קוהרנטי של שני גלים כדוריים:
+\[
+  p(r,z) = \frac{e^{ik R_1}}{R_1} - \frac{e^{ik R_2}}{R_2}, \qquad
+  R_{1,2} = \sqrt{r^2 + (z \mp z_S)^2},
+\]
+זהו פתרון \textenglish{Lloyd mirror} הסטנדרטי למקור מעל משטח חופשי-לחץ (cf.~\cite{jensen2011coac}, פרק 1--2;
+מספר המשוואה המדויק בספר לא אומת מול עותק פיזי — \aiedit{TODO קלוד: לא הצלחתי לוודא את מספר המשוואה 2.76 המדויק ללא גישה לספר}).}
  במקרה כזה \textenglish{Bellhop} מסכים בתוך $<$0.5~dB על פני  טווח ההתפשטות לפתרון האנליטי.
-#גם בקוד זה נקרא פתרון שיטת הדמויות ולא גלידה#
-אחד מהפתרונות הידועים #תן פה את האזכור הנכון של JENSEEN# הוא פתרון של מקור בחצי המישור
+% V #גם בקוד זה נקרא פתרון שיטת הדמויות ולא גלידה# — שם הפונקציה pekerisHalfspace מתייחס לפתרון ההיסטורי
+% של פקריס למרחב חצי-אינסופי, שמבוסס בעצמו על שיטת הדמויות (לא גלידת מודים) — עקבי.
+אחד מהפתרונות הידועים \aiedit{(ר' \cite{jensen2011coac})}% V #תן פה את האזכור הנכון של JENSEEN#
+הוא פתרון של מקור בחצי המישור
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
@@ -396,7 +415,16 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
   \label{fig:val_halfspace}
 \end{figure}
 
-\subsubsection{הים כמוליך גלים} #בכל החלק הזה תוריד את התמונות האלה ותשים מה שיש מVALIDATION אבל שים לב שמשתמשים בתרון של מוליך גלים, תמונה ב היא בכלל צריכה להיות "סימולציה אנליטית של הים בתור מוליך גלים עם 50 מודים"#
+\subsubsection{הים כמוליך גלים}
+% V #בכל החלק הזה תוריד את התמונות האלה ותשים מה שיש מVALIDATION אבל שים לב שמשתמשים
+%   בתרון של מוליך גלים, תמונה ב היא בכלל צריכה להיות "סימולציה אנליטית של הים בתור
+%   מוליך גלים עם 50 מודים"#
+% \aiedit STATUS: a real 50-mode Pekeris-waveguide analytical validation script was
+% commissioned (validation/analytical/run_waveguide_validation.m) to replace the
+% pptx placeholder images below with a genuine Bellhop-vs-normal-modes comparison.
+% \aiedit TODO-PLACEHOLDER: swap these two \includegraphics lines for the real
+% output once validation/analytical/figures/waveguide_validation_50modes.png exists
+% and its companion Bellhop-field panel — see progress report for current status.
 
 עבור פתרון מוליך גלים, שדה הלחץ המדויק ניתן על ידי חיבור מודים עצמיים של המערכת.
 \textenglish{Bellhop} תואם את פתרון המודים הנורמליים עם שגיאה ממוצעת $<$1~dB
@@ -404,21 +432,35 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{pptx_figures/image19.png}
-    \caption{דיאגרמת גלידה מהדי (מודים)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{pptx_figures/image20.png}
-    \caption{\textenglish{Bellhop} vs.\ מודים נורמליים}
-  \end{subfigure}
-  \caption{אימות \textenglish{Bellhop}: גלידה מהדי — מודים נורמליים.
-           \src{run\_validation.m: TL\_modes = normalModes(freq,zS,D); mean\_err = mean(abs(TL-TL\_modes))}}
+  \IfFileExists{../validation/analytical/figures/waveguide_validation_50modes.png}{%
+    \includegraphics[width=0.80\textwidth]{../validation/analytical/figures/waveguide_validation_50modes.png}
+  }{%
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{pptx_figures/image19.png}
+      \caption{דיאגרמת גלידה מהדי (מודים) — placeholder, טרם הוחלף}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{pptx_figures/image20.png}
+      \caption{\textenglish{Bellhop} vs.\ מודים נורמליים — placeholder, טרם הוחלף}
+    \end{subfigure}
+  }
+  \caption{אימות \textenglish{Bellhop}: גלידת פקריס (\textenglish{Pekeris waveguide}) —
+           \aiedit{סימולציה אנליטית של הים בתור מוליך גלים עם 50 מודים עצמיים
+           (גלידת פקריס, $M=50$ מודים לכודים), מול Bellhop. הסכמה סבירה אך לא מושלמת:
+           שגיאה ממוצעת $\approx4.5$~dB, שגיאה חציונית $\approx3.0$~dB
+           (שגיאת מקסימום גדולה בהרבה, כצפוי ליד אפסים של שדה ההתאבכות).}
+           \src{validation/analytical/run\_waveguide\_validation.m: TL\_modes = pekerisModeSum(freq,zS,D,50); TL\_bellhop = bellhopCached(...)}}
   \label{fig:val_waveguide}
 \end{figure}
 
 % ─────────────────────────────────────────
-\subsection{רגישות TL לפרמטרים פיזיקליים} #להוריד את כל החלק הזה תסתכל על "C:\Users\orind\Downloads\הרעשת הסימולציה.docx" הרעיון היה לראות איזה מפות מתקבלות מאיזה פרמרטרים#
+\subsection{רגישות TL לפרמטרים פיזיקליים}
+% X SKIPPED #להוריד את כל החלק הזה תסתכל על "C:\Users\orind\Downloads\הרעשת הסימולציה.docx"
+%   הרעיון היה לראות איזה מפות מתקבלות מאיזה פרמרטרים#
+% \aiedit: could not open this path — it's under C:\Users\orind\... (a different Windows
+% user/machine than this one, ory.indig), so the referenced .docx is not reachable from
+% here. Left this section as-is rather than deleting it blind. Please share the file
+% content or re-save it somewhere on this machine/repo and I'll redo this section.
 \label{sec:qualitative_sensitivity}
 
 לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL
@@ -508,9 +550,11 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
     \caption{\textbf{ממוצע TL MC} תחת הפרעה ב-$z_S$ (נורמלי 5\%{}).
              כחול = TL נמוך (אות חזק); אדום = TL גבוה (אזור צל).
              קשת ה-CZ ב-$\sim$55~ק"מ נראית בברור.}
-	#פה צריך לשים את הVAR בסקאלה לוגריתמית תריץ מחדש#
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
+    % V #פה צריך לשים את הVAR בסקאלה לוגריתמית תריץ מחדש#
+    % \aiedit: combined_Var.png regenerated with a log10 color scale on the Var panels
+    % (pipeline/run_mc.m modified) — see progress report for regeneration status.
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/combined_Var.png}
     \caption{\textbf{מפות שונות MC} לשלושת הפרמטרים האי-ודאיים
              (\textenglish{freq, $z_S$, SVP}), בסקאלת צבע משותפת.
@@ -593,7 +637,11 @@ $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
         ו-\textenglish{LN3} ייחוסי מותאם ל-\textenglish{MOM}.
         שימוש בשיטת ה-\textenglish{LHS} מבטיח כיסוי מלא יותר של מרחב הפרמטר בשיטה זו ערכי הפרמטר המוגרלים מוגרלים ביחד כך שהם יכסו כמה שיותר ערכים,דגימה מסוג זה יעילה בעיקר בהרעשה של פרמרטים רבים ביחד אך גם בהרעשת פרמרטר יחיד תתן לנו התכנסות מהירה יותר של MC, 
 		אולם אנחנו משלמים בכך שהדגימות לא IID ולכן לא ניתן להשתמש בשיטות המניחות דגימות IID כגון MLE.
-		#להוסיף להמלצות שאנחנו ממצלילים לעשות הרעשות משותפות ולהשתשמ בLHS לחיסכון משמעותי#.
+% V #להוסיף להמלצות שאנחנו ממצלילים לעשות הרעשות משותפות ולהשתשמ בLHS לחיסכון משמעותי#
+\aiedit{\textbf{המלצה:} כאשר יש יותר מפרמטר אי-ודאי אחד, מומלץ לדגום את כל הפרמטרים
+\emph{במשותף} (הרעשה משותפת, לא OAT) ולהשתמש ב-\textenglish{LHS} לצורך כך —
+כיסוי המרחב הרב-ממדי המשותף חוסך משמעותית במספר הרצות Bellhop הנדרשות
+ביחס לדגימת IID רגילה, מבלי לפגוע בדיוק אמידת המומנטים.}
   \item \textbf{קבוצת \textenglish{IID}} ($N=1000$ מדגמים עצמאיים): משמשת אך ורק
         להתאמת \textenglish{LN3} מבוססת שיטת \textenglish{MLE},
         מכיוון ש-\textenglish{MLE} דורש את הנחת ה-\textenglish{IID}.
@@ -621,8 +669,6 @@ $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
     \caption{מדרון עולה (550→50~מ'): קרקעית עולה לוכדת אנרגיה.}
   \end{subfigure}
   \caption{ממוצע TL של MC $\EX[\TL]$ (dB) להפרעת $z_S$ נורמלי 5\%{} בארבעת התרחישים. ניתן לראות גם בערך הממוצע את הדוגמאות הברורות של איזורי התכנסות כלומר יש משמעות פזייקלית לערך הממוצע המתקבל.
-  
-  
            \src{run\_mc.m: EX=mean(TL\_save,3); [Nz,Nr,N]=size(TL\_save); imagesc(r\_km,z\_m,EX)}}
   \label{fig:mc_ex_var}
 \end{figure}
@@ -632,19 +678,32 @@ $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
 
 \paragraph{מוטיבציה פיזיקלית למודל הפרעת ה-SVP.}
 פרופיל מהירות הקול האוקיינוס אינו אחיד בעומק, ואי-הוודאות שלו גם אינה אחידה.
-שכבת הערבוב הקרובה לפני השטח (0--100~מ' בקיץ) מעורבת באופן פעיל על ידי הרוח וחימום השמש; #מספרים ואותיות לשים באנגלית הLTR לא נראה טוב#
+שכבת הערבוב הקרובה לפני השטח (\aiedit{\textenglish{0--100~m}} בקיץ) מעורבת באופן פעיל על ידי הרוח וחימום השמש.% V #מספרים ואותיות לשים באנגלית הLTR לא נראה טוב#
 
 היא כמעט איזותרמלית בתוך עומק הערבוב, אך הטמפרטורה שלה משתנה משמעותית לפי עונה ומזג אוויר.
 מתחת לתרמוקליין, טמפרטורת המים יורדת ל-$\approx 1$--$4\,^\circ$C
 ונשארת יציבה לאורך השנה כולה.
-אסימטריה זו מצדיקה את מודל הפרעת ה-SVP החד-ממדי: הזזה של מהירות הקול  $\Delta c$
- רק של שכבת הערבוב השטחית- השכבה העליונה, הפרעה זו מצומדת(באה ביחד) להפרעת עומק שכבת הערבוב
-$\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
-($k_{\mathrm{MLD}} = 5$~מ'~שנ'/מ', $\mathrm{MLD}_0 = 30$~מ').#תראה רק עומק משתנה, תרשום מה זה הרשי תיבות MLD ואל תדבר על K רק על מה הוא העומק שמשתנה#
+אסימטריה זו מצדיקה את מודל הפרעת ה-SVP החד-ממדי: הזזה של מהירות הקול $\Delta c$
+רק של שכבת הערבוב השטחית — השכבה העליונה.
+% V #תראה רק עומק משתנה, תרשום מה זה הרשי תיבות MLD ואל תדבר על K רק על מה הוא העומק שמשתנה#
+\aiedit{מה שבאמת משתנה בין המדגמים הוא \textbf{עומק שכבת הערבוב} (\textenglish{MLD} —
+\textit{Mixed Layer Depth}, עומק שכבת הערבוב העליונה של האוקיינוס, שם מהירות הקול כמעט
+קבועה): הפרעה בטמפרטורת הפני-שטח $\Delta c$ מזיזה גם את עומק ה-MLD עצמו,
+\[
+  \mathrm{MLD} = \mathrm{MLD}_0 + \Delta\mathrm{MLD}, \qquad
+  \Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c,
+\]
+כאשר $\mathrm{MLD}_0 = 30$~מ' הוא העומק הנומינלי, ו-$k_{\mathrm{MLD}} = 5$~מ'~שנ'/מ' הוא מקדם
+הצימוד שממיר הפרעת מהירות ($\Delta c$, שנ'/מ') לתזוזה בעומק ה-MLD (מ').
+כלומר: ככל שהפני-שטח מתחמם/מתקרר יותר, שכבת הערבוב האחידה מהירות מתעבה/מדללת בהתאם —
+זהו העומק המשתנה בפועל בין הדגימות, לא רק ערך מהירות הקול.}
 גרדיאנט ה-SVP העמוק ($z > 180$~מ') נשמר קבוע מפני שהשונות של טמפרטורת מים עמוקים
 קטנה בסדר גודל משונות שכבת הערבוב כאשר מדובר אפילו בפרקי זמן זמן עונתיים.
 
-\begin{figure}[H] #הייתי רוצה שהקווים השחרים יהיו נורא נורא דקים, צריך ליצור את הגרפים אלאה עם קווים שחורים דקים#
+% V #הייתי רוצה שהקווים השחרים יהיו נורא נורא דקים, צריך ליצור את הגרפים אלאה עם קווים שחורים דקים#
+% \aiedit: svp_ensemble.png regenerated with a much thinner nominal-profile line
+% (scripts/run_svp_ensemble.m modified, LineWidth reduced) — see progress report.
+\begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/svp_ensemble.png}
@@ -657,7 +716,7 @@ $\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
              רצועה כחולה רחבה יותר ליד המשטח; פרופיל עמוק לא משתנה.}
   \end{subfigure}
   \caption{אשכול SVP ($N=1000$) לתרחיש מים עמוקים כל פרופילי המהירות משורטטים אחד על השני.
-           עקבות כחולות: פרופילים שנדגמו ב-MC; שחור עבה: פרופיל נומינלי.
+           עקבות כחולות: פרופילים שנדגמו ב-MC; \aiedit{שחור דק}: פרופיל נומינלי.
            \src{run\_mc.m: svp\_i = makeSVPNoise(S.svp(i), depth, cfg); plot(svp\_i.c, svp\_i.z)}}
   \label{fig:svp_ensemble}
 \end{figure}
@@ -666,18 +725,33 @@ $\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
 \label{sec:mc_conv}
 
 עבור משתנה אקראי סקלרי $Y$ עם שונות סופית, הממוצע המדגמי
-$\bar Y_N$ מתכנס אל $\mu_Y$ בקצב \textenglish{CLT} הקלאסי
-$\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$. #הייתי כותב במפורש את RMSE#
-לעומתו השונות המדגמית $S_N^2$ מתכנסת באותו קצב אסימפטוטי, אך עם מקדם גדול יותר: # זה לא אותו קצב אסימפטוטי תגדיש שאחד הולך כמו אחד מעל שושרש N ושני כמו 1 מעל N #
+$\bar Y_N$ מתכנס אל $\mu_Y$ בקצב \textenglish{CLT} הקלאסי —
+\aiedit{שגיאת השורש-ריבועי-של-הממוצע (\textenglish{Root Mean Square Error, RMSE})}:% V #הייתי כותב במפורש את RMSE#
+\begin{equation}
+  \mathrm{RMSE}(\bar Y_N) \;=\; \sqrt{\EX\bigl[(\bar Y_N-\mu_Y)^2\bigr]} \;=\; \sigma_Y / \sqrt{N}.
+\end{equation}
+לעומתו, השונות המדגמית $S_N^2$ מקיימת:
 \begin{equation}
   \mathrm{Var}(S_N^2) \;=\; \frac{2\sigma_Y^4}{N-1},
   \label{eq:var_of_var}
 \end{equation}
-לכן השגיאה היחסית של $S_N^2$ היא $\sqrt{2/(N-1)}/C_V^2$
+% V # זה לא אותו קצב אסימפטוטי תגדיש שאחד הולך כמו אחד מעל שושרש N ושני כמו 1 מעל N #
+\aiedit{שימו לב להבדל: משוואה~\ref{eq:var_of_var} נותנת את \emph{השונות של האומד} $S_N^2$ עצמו
+(סדר גודל $O(1/N)$), ולא את שגיאת ה-RMSE שלו. שגיאת ה-RMSE המתאימה היא שורש הביטוי,
+$\mathrm{RMSE}(S_N^2)=\sqrt{\mathrm{Var}(S_N^2)}=\sigma_Y^2\sqrt{2/(N-1)}$, שהיא מסדר גודל
+$O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של הממוצע, רק עם מקדם גדול יותר
+($\sigma_Y^2\sqrt{2}$ לעומת $\sigma_Y$). כלומר שני האומדים (ממוצע ושונות) מתכנסים
+ב-RMSE באותו קצב $O(N^{-1/2})$; ה-$O(1/N)$ מופיע רק כאשר מדברים על \emph{שונות האומד}
+(ריבוע ה-RMSE), לא על ה-RMSE עצמו.}
+לכן השגיאה היחסית של $S_N^2$ היא
+\begin{equation}
+  \frac{\mathrm{RMSE}(S_N^2)}{\sigma_Y^2} \;=\; \sqrt{\frac{2}{N-1}}
+  \qquad\text{או, יחסית לריבוע מקדם השונות: } \quad \frac{\sqrt{2/(N-1)}}{C_V^2},
+\end{equation}
+% V #לרשום גם פה במפורש מתמטית מה הכוונה השגיאה היחסית של SN^2#
 כאשר $C_V=\sigma_Y/\mu_Y$ ונקרא מקדם הווריאציה.
 ב-$N=1000$ ועבור ההתפלגות הרחבה ביותר (נורמלי 10\%{}), שגיאת ה-RMSE היחסית
-של אותה אנחנו מעריכים כי יש בין השונות לבין השונות המדגמית היא $\approx 4.5\%$, בתוך יעד ה-$\lesssim 5\%$.
-#לרשום גם פה במפורש מתמטית מה הכוונה השגיאה היחסית של SN^2#	
+בין השונות האמיתית לבין השונות המדגמית היא $\approx 4.5\%$, בתוך יעד ה-$\lesssim 5\%$.
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
@@ -687,12 +761,18 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$. #הייתי כותב במפור
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_mean_svp.png}
     \caption{SVP: $\hat\EX[\TL]$ ו-$\hat\Var[\TL]$ מול $N$.}
-  \end{subfigure}
-  \caption{התכנסות  MC בדגימת IID בתרחיש מים עמוקים ($N=10$ עד $1000$).
-           ממוצע מתכנס מהר יותר משונות, בהתאם למשוואה~\ref{eq:var_of_var}. ונראה שאנחו מגיעים להתכנסות בN=1000 
-		   #חייב להוסיף מתחת לשניים האלו תרשים ג של Z_S בשביל שלמות
-		   
-		   
+  \end{subfigure}\\[8pt]
+  \aiedit{\begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{deep_water/figures/mc_conv_mean_zS.png}
+    \caption{עומק מקור $z_S$: $\hat\EX[\TL]$ ו-$\hat\Var[\TL]$ מול $N$.}
+  \end{subfigure}}
+  \caption{התכנסות MC בדגימת IID בתרחיש מים עמוקים ($N=10$ עד $1000$).
+           ממוצע מתכנס מהר יותר משונות, בהתאם למשוואה~\ref{eq:var_of_var}.
+           נראה שאנחנו מגיעים להתכנסות סביב $N=1000$.
+% V #חייב להוסיף מתחת לשניים האלו תרשים ג של Z_S בשביל שלמות#
+% \aiedit: added the third (z_S) panel above for completeness — figure already existed
+% on disk (Methods/MC_convergence/deep_water/figures/mc_conv_mean_zS.png), just wasn't
+% included in the report.
            \src{run\_mc\_convergence.m: for N in N\_VEC: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)}}
   \label{fig:mc_conv}
 \end{figure}
@@ -702,7 +782,7 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$. #הייתי כותב במפור
 
 השוואת התכנסות LHS (ריבוע לטיני, דגימה סטרטיפיקטיבית) לעומת IID (עצמאי)
 מראה שדגימת LHS מתכנסת מהר יותר ב-$\EX[\TL]$ ו-$\Var[\TL]$ בשל כיסוי מלא של מרחב הכניסה.
-#גם פה צריך את כל 3 המשתנים#
+% V #גם פה צריך את כל 3 המשתנים#
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/figures/lhs_vs_iid_freq.png}{%
@@ -713,7 +793,11 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$. #הייתי כותב במפור
     \begin{subfigure}[b]{0.48\textwidth}
       \includegraphics[width=\linewidth]{deep_water/figures/lhs_vs_iid_svp.png}
       \caption{פרמטר: SVP}
-    \end{subfigure}
+    \end{subfigure}\\[8pt]
+    \aiedit{\begin{subfigure}[b]{0.48\textwidth}
+      \includegraphics[width=\linewidth]{deep_water/figures/lhs_vs_iid_zS.png}
+      \caption{פרמטר: עומק מקור $z_S$}
+    \end{subfigure}}
   }{\fbox{\parbox[c][3cm][c]{\textwidth}{\centering\small
     LHS vs IID convergence --- run \texttt{run\_lhs\_iid\_convergence('deep\_water','Normal\_5pct')}}}}
   \caption{התכנסות LHS לעומת IID (מים עמוקים, נורמלי 5\%{}).
@@ -732,7 +816,17 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$. #הייתי כותב במפור
 האיור מראה ש-KDE מתכנסת מהר יותר מהאמידה האמפירית הישירה,
 ומציג אותה כבחירה חסכונית לאמידת $P_\text{shadow}$ בגדלי מדגם קטנים.
 
-#חייב להוסיף את המשוואה של KDE#
+% V #חייב להוסיף את המשוואה של KDE#
+\aiedit{
+\begin{equation}
+  \hat{P}_{\mathrm{shadow}}^{\mathrm{KDE}}(\mathbf{x})
+  = \frac{1}{N}\sum_{i=1}^N \Phi\!\left(\frac{\mathrm{FOM}-\TL^{(i)}(\mathbf{x})}{h}\right),
+  \qquad h = 1.06\,\hat\sigma\,N^{-1/5},
+  \label{eq:kde_shadow_early}
+\end{equation}
+כאשר $\Phi$ היא פונקציית ההתפלגות המצטברת הנורמלית הסטנדרטית (כלומר כל דגימה
+תורמת "גרעין" גאוסי מרוח סביבה במקום נקודת מסה בודדת), ו-$h$ הוא רוחב החלון
+לפי כלל האצבע של סילברמן.}
 
 
 \begin{figure}[H]
@@ -829,9 +923,10 @@ $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$. #הייתי כותב במפור
 \begin{equation}
   \Var_1[\TL] \;\approx\; \sum_{i} J_i^2 \,\sigma_i^2,
   \qquad J_i = \frac{\partial \TL}{\partial \theta_i}\bigg|_{\boldsymbol{\theta}_0},
+  \qquad \aiedit{\boldsymbol{\theta}=(\theta_1,\theta_2,\theta_3)=(f,z_S,\mathrm{SVP})\ \text{הוא וקטור הפרמטרים האי-ודאיים},}
   \label{eq:delta1}
 \end{equation}
-%להויסף שהטטא הוא הפרמטר 
+% V %להויסף שהטטא הוא הפרמטר
 כאשר היעקובאינים $J_i$ מחושבים באמצעות הפרשים סופיים(=גזירה נומרית) .
  נעיר גם שבמקרה שלנו של פונקצייה עם מוצא סקלרי היעקובאין הוא גרדיאנט בייצוג מטריצה
 ההרחבה מסדר 2 מוסיפה אברי תיקון הסיאן
@@ -839,38 +934,41 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
 הוא גבנוניות.
 
 * גבנוניות גבוהה מתבטאת בחריגות גדולות ונדירות מן הממוצע, בעוד שגבנוניות נמוכה פירושה שהחריגות שכיחות אך קטנות יותר בעוצמתן.
- 
+
  נעיר שבשיטת הדלתא בשונה מהשיטות האחרות אין אנחנו מסוגלים לתת מודל התפלגות של TL בנקודה אבל יכולים לתת הערכ הלמומנט השני של ההתפלגות בנקודה, זאת ביחד עם שימוש בערך הנומינמלי(=בלתי מורעש) נוכל לחשב חסם צבישב לסיכוי הגילוי, שכפי שאמרנו זו הבעייה החשובה ביתר בכל נושא הסימולציות הסטוכסטיות).
- 
- %חייב לרשום גם את VAR= לסדר שני
+
+% V %חייב לרשום גם את VAR= לסדר שני
+\aiedit{השונות מסדר שני (כולל תיקון ההסיאן):
+\begin{equation}
+  \Var_2[\TL] \;\approx\; \Var_1[\TL] \;+\; \sum_i \tfrac{1}{2} H_{ii}^2 \,\kappa_i,
+  \qquad H_{ii} = \frac{\partial^2 \TL}{\partial \theta_i^2}\bigg|_{\boldsymbol{\theta}_0}.
+  \label{eq:delta2}
+\end{equation}}
 \subsubsection{היכן שיטת דלתא מצליחה}
 
 עבור תרחישי \textbf{מים רדודים} ו\textbf{מים עמוקים} תחת הפרעות קטנות
 (אי-ודאות $\leq$1\%{}), שיטת דלתא משיגה שגיאות $L_1$ יחסיות מתחת ל-10\%{} במפות השונות.
 
-% לא, פה צריך להיות מפת הפרשים בין VAR של MC לבין זה של DELTA בשני מקרים בה היא מסכימה כמו גם את את השרטוט הצל הזה אבל רק DELTA VS MC בלי השאר
+% V % לא, פה צריך להיות מפת הפרשים בין VAR של MC לבין זה של DELTA בשני מקרים בה היא
+%   מסכימה כמו גם את את השרטוט הצל הזה אבל רק DELTA VS MC בלי השאר
 
 מפות הסתברות הצל המחושבות דרך ההיברידי דלתא--\textenglish{LN3} מסכימות בקרבה עם
 הסתברויות הצל האמפיריות של MC בתרחישים אלו.
- 
+
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png}
-    \caption{MC vs.\ Delta}
+  \aiedit{\begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/Var_diff_MC_Delta_zS.png}
+    \caption{מפת הפרשים $\Var_{\mathrm{MC}}-\Var_{\Delta}$}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3_zS.png}
-    \caption{MC vs.\ Delta--LN3}
-  \end{subfigure}\\[8pt]
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3_zS.png}
-    \caption{MC vs.\ LN3}
-  \end{subfigure}
-  \caption{השוואת Delta vs.\ MC vs.\ Delta--LN3 הסתברות צל ($P(\TL > 70$~dB$)$)
-           שבה השיטות האנליטיות \emph{מסכימות} עם MC
+    \includegraphics[width=\linewidth]{shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png}
+    \caption{MC vs.\ Delta — הסתברות צל}
+  \end{subfigure}}
+  \caption{\aiedit{שיטת דלתא כאשר היא \emph{מסכימה} עם MC}
            (מים רדודים, נורמלי 1\%{}, הפרעת $z_S$).
-           בכל פאנל: MC אמפירי — חצי שמאל; קירוב אנליטי — חצי ימין.
+           שמאל: מפת הפרשי שונות $\Var_{\mathrm{MC}}-\Var_{\Delta}$ (dB\textsuperscript{2}), קרובה ל-0 בכל מקום.
+           ימין: MC אמפירי (חצי שמאל) מול Delta (חצי ימין) להסתברות צל ($P(\TL > 70$~dB$)$).
            \src{run\_delta.m: J=fdJacobian(TL,theta,sig); Var1=sum(J.\string^2.*sig.\string^2,3)}}
   \label{fig:shadow_good}
 \end{figure}
@@ -883,25 +981,25 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
 ניתן להבין זאת מכיוון אבר תיקון ההסיאן $|\kappa H^2|/V_1$ עולה על 100\%{} עבור הפרעות SVP כלומר איבר הקירוב מסדר ראשון קטן מאיבר הקירוב מסדר שני 
 בשני תרחישי המדרון, מה שמציין שסידרת טיילור לא התכנסה בסדר 2. כלומר תופעה זו לא ניתנת לקירוב מסדר שני באופן הזה.
 
-% אז פה לראות שני מקומות שיש בהם VAR DIFFRANCE גדול הראות ממש את הVAR DIFFRANCE תרשים, וגם את המפה שיש פה MC VS DELTA  אבל אל את השאר.
+% V % אז פה לראות שני מקומות שיש בהם VAR DIFFRANCE גדול הראות ממש את הVAR DIFFRANCE
+%   תרשים, וגם את המפה שיש פה MC VS DELTA אבל אל את השאר.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
-    \caption{MC vs.\ Delta}
+  \aiedit{\begin{subfigure}[t]{0.48\textwidth}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/Var_diff_MC_Delta_svp.png}
+    \caption{מפת הפרשים $\Var_{\mathrm{MC}}-\Var_{\Delta}$}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png}
-    \caption{MC vs.\ Delta--LN3}
-  \end{subfigure}\\[8pt]
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_LN3_svp.png}
-    \caption{MC vs.\ LN3}
-  \end{subfigure}
-  \caption{השוואת הסתברות צל שבה Delta מסדר 1 \emph{נכשל}
+    \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png}
+    \caption{MC vs.\ Delta — הסתברות צל}
+  \end{subfigure}}
+  \caption{\aiedit{שיטת דלתא כאשר היא \emph{נכשלת}}
            (מדרון יורד, נורמלי 5\%{}, הפרעת SVP).
-           אי-הסכמה בולטת בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה.
+           שמאל: מפת הפרשי שונות $\Var_{\mathrm{MC}}-\Var_{\Delta}$ (dB\textsuperscript{2}),
+           גדולה משמעותית מ-0 בגבולות אזור הצל.
+           ימין: MC אמפירי (חצי שמאל) מול Delta (חצי ימין) — אי-הסכמה בולטת
+           בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה.
            \src{run\_delta.m: H=fdHessian(TL,theta,sig); correction=0.5*H.\string^2*kappa; frac>100\%}}
   \label{fig:shadow_bad}
 \end{figure}
@@ -928,8 +1026,41 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
   \end{tabular}
   \end{english}
 \end{table}
-% לא טוב בטבלה פה יש פעמיים 10% מעדיף טבלה של סטייה ממוצעת על כל נקודות המפה מהערך VAR של MC 
-%הייתי מוסיף גם טבלה של תיקון ממוצע מסדר שני אבל לכל סוג הרעשה לא רק SVP וכל האחוזים בכל במפות, טבלה אחת גדולה של כזה, תכתוב לזה סקריפט
+% V #לא טוב בטבלה פה יש פעמיים 10% מעדיף טבלה של סטייה ממוצעת על כל נקודות המפה מהערך VAR של MC#
+\aiedit{
+\begin{table}[H]
+  \centering
+  \caption{סטייה ממוצעת $\langle|\Var_{\mathrm{MC}}-\Var_{\Delta,1}|\rangle$ על כל פיקסלי המפה,
+           ממוצע על שלושת הפרמטרים [\textenglish{dB}\textsuperscript{2}].
+           נוצר ע"י \texttt{scripts/compute\_delta\_var\_tables.m}.}
+  \label{tab:var_deviation}
+  \begin{english}
+  \begin{tabular}{lccc}
+    \toprule
+    Scenario & Normal 1\% & Normal 5\% & Normal 10\% \\
+    \midrule
+    Deep water    & 0.44  & 15.2 & 67.6 \\
+    Shallow water & 0.057 & 0.24 & 0.98 \\
+    Upslope       & 131   & 626  & 2800 \\
+    Downslope     & 60.2  & 180  & 634  \\
+    \bottomrule
+  \end{tabular}
+  \end{english}
+\end{table}
+הסדר גודל בין תרחישים: מים רדודים הכי קטן (\textless1~dB\textsuperscript{2}), מדרונות (עולה/יורד)
+גדולים בסדרי גודל — עקבי עם הממצא שדלתא נכשלת בחדות בתרחישי מדרון.}
+
+% X SKIPPED #הייתי מוסיף גם טבלה של תיקון ממוצע מסדר שני אבל לכל סוג הרעשה לא רק SVP וכל האחוזים בכל במפות, טבלה אחת גדולה של כזה, תכתוב לזה סקריפט#
+% \aiedit: the commissioned script also computed a combined per-param/per-percentage
+% 2nd-order-correction table, but the returned values (hundreds to tens-of-thousands
+% of percent) are NOT physically plausible for a "correction relative to leading term"
+% metric and were NOT inserted — likely a units/normalization bug in how kappa*H^2 was
+% averaged relative to Var1 (needs debugging before it can be trusted). The existing
+% SVP-only table above (Table~\ref{tab:2nd_order_correction}) is left as-is; its
+% column headers read "Normal 5%, Normal 10%, Normal 10%" — the last two are
+% duplicated (one of them should almost certainly read "Normal 1%"), a real,
+% still-unresolved bug that needs the original source data re-checked (which data
+% column actually corresponds to 1% vs the duplicated 10%) before fixing blind.
 \subsubsection{סינתזת תוצאות שיטת דלתא}
 
 תוצאות שיטת דלתא חושפות מצב כשל דו-גורמי הנשלט על ידי
@@ -976,16 +1107,31 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
 \begin{equation}
   X - \gamma \sim \mathrm{LN2}, \quad \gamma = 0.95\,\min(\text{samples}),
 \end{equation}
-%לא ברור מה הכוונה פה עם מקדם ההזה לא יודע מה הקשר LN2....
+% V %לא ברור מה הכוונה פה עם מקדם ההזה לא יודע מה הקשר LN2....
+\aiedit{כאן $X=\TL$ הוא המדגם המקורי, ו-$\mathrm{LN2}$ מסמן את הלוגנורמלי הרגיל
+דו-הפרמטרי (2-parameter lognormal): אם $Y\sim\mathrm{LN2}(\mu,\sigma)$ אז $\ln Y\sim\mathcal{N}(\mu,\sigma^2)$.
+כלומר "$X-\gamma\sim\mathrm{LN2}$" אומר: אחרי שמזיזים את המדגם בכמות הקבועה $\gamma$
+(רצפת TL הפיזיקלית המשוערת), \emph{ההפרש} מתפלג לוגנורמלית רגילה (דו-פרמטרית).
+זה בדיוק מה שהופך את המודל לתלת-פרמטרי: שני פרמטרי ה-LN2 הרגילים ($\mu,\sigma$)
+ועוד פרמטר ההזזה השלישי $\gamma$. המקדם $0.95$ הוא היוריסטיקה בלבד (רצפה מעט
+מתחת למינימום המדגם, כדי ש-$X-\gamma>0$ בוודאות עבור כל המדגמים) — אינו נאמד
+סטטיסטית אלא נקבע קשיח מראש.}
 
 מקודד במפורש את הרצפה הפיזיקלית דרך פרמטר ההזזה $\gamma$.
 הפרמטרים $(\hat\mu, \hat\sigma)$ מוערכים ב-\textenglish{MLE} דרך \texttt{lognfit}
-(עדיף על \textenglish{MOM}, שבדרך כלל פחות יעיל {}):
+(עדיף על \textenglish{MOM}, שבדרך כלל פחות יעיל ב-10--30\%{}):
 \begin{equation}
   \hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})
   = \Phi\!\left(\frac{\ln(\mathrm{FOM}-\hat\gamma)-\hat\mu}{\hat\sigma}\right).
 \end{equation}
-%צריך פה הסבר רציני על למה זה הסתברות מריך אבל סיכוי גילוי
+% V %צריך פה הסבר רציני על למה זה הסתברות מריך אבל סיכוי גילוי
+\aiedit{הערת מינוח: $\hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})$ לעיל היא
+$P(\TL<\mathrm{FOM})$ — הסתברות ש-TL \emph{נמוך} מהסף, כלומר \textbf{הסתברות גילוי},
+לא הסתברות צל! (הסתברות צל $\Pshadow=P(\TL>\mathrm{FOM})=1-\hat{P}^{\mathrm{LN3}}_{\mathrm{shadow}}$
+כפי שהוגדר במשוואה~\ref{eq:delta1} למעלה). קראנו לה כאן "shadow" בשם המשתנה מטעמי עקביות
+עם קוד המקור (\texttt{run\_ln3.m}), אך כפי שהודגש בסעיף~\ref{sec:stochastic}, הגודל
+שמעניין אותנו בפועל להחלטות תפעוליות הוא תמיד \emph{הסתברות הגילוי}
+$P_\mathrm{det}=1-\Pshadow$.}
 \subsubsection{שגיאת RMSE של CDF בשלושה תרחישים}
 
 אף על פי שאנו מתאימים את פונקציית הLN3 להיסטוגרמה שמתקבלת מMC (N=1000) בעזרת MLE ולא בעזרת רגרסיה.
@@ -1041,13 +1187,34 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
 פרמטר ההזזה $\gamma = 0.95\min(\mathrm{samples})$ נשאר היוריסטיקה ---
 \textenglish{MLE} תלת-פרמטרי מלא ידרוש אופטימיזציה לא-לינארית לכל פיקסל
 (בלתי אפשרי חישובית ב-$\sim$440{,}000 פיקסלים $\times$ 12 צירופים).
-%זאת פסקה לא ברורה: עד עכשיו השתמשננו באופטימיזציה ליניארית? למה זה קורס ב3 מימד? חייב הסבר
+% V %זאת פסקה לא ברורה: עד עכשיו השתמשננו באופטימיזציה ליניארית? למה זה קורס ב3 מימד? חייב הסבר
+\aiedit{הבהרה: הצינור הנוכחי בכלל \emph{לא} מריץ אופטימיזציה בפיקסל — הוא קובע את $\gamma$
+בנוסחה סגורה (היוריסטיקה $0.95\min$), ואז מתאים רק את שני הפרמטרים הנותרים $(\mu,\sigma)$
+של ה-LN2 באמצעות \texttt{lognfit}, שהוא עצמו MLE בעל \emph{פתרון סגור} (לא איטרטיבי) לשני
+פרמטרים. "3 מימד" מתייחס למספר הפרמטרים החופשיים בבעיה המקורית $(\gamma,\mu,\sigma)$ —
+אם רוצים לאמוד את \emph{שלושתם} יחד ב-MLE (ולא לקבע את $\gamma$ מראש), אין נוסחה סגורה,
+ונדרש חיפוש נומרי לא-לינארי ב-3 משתנים \emph{לכל פיקסל בנפרד}. עם $\sim$440{,}000 פיקסלים
+$\times$ 12 צירופי תרחיש/התפלגות, גם אופטימיזציה מהירה של כמה עשרות מילישניות לפיקסל
+הופכת לבלתי-מעשית בסך הכל — זו הסיבה ל"קריסה" בממדיות: לא בעיה מתמטית אלא חישובית-פרקטית.}
 \subsubsection{MLE מול MOM}
 
 התאמות \textenglish{MLE} הושוו מול  \textenglish{MOM} בכל התרחישים.
 \textenglish{MLE} יעיל יותר באופן שיטתי: הטיה נמוכה יותר ו-\textenglish{RMSE} נמוך ב-10--30\%{}
 הן בשערוך $\hat\mu$ והן ב-$\hat\sigma$. שערוך \textenglish{MOM} יכול לעוד עם דגימות תלויות סטטיסטית וזה יתרונו היחיד.
-%צריך לרשום איפשהו את הגדרת MOM ואת MLE  תעתיק מפה https://technion046195.netlify.app/tutorial08/ את הגדרת בעיית MLE ואת ההסבר למה הם צריכים להיות IID
+% V %צריך לרשום איפשהו את הגדרת MOM ואת MLE תעתיק מפה https://technion046195.netlify.app/tutorial08/
+%   את הגדרת בעיית MLE ואת ההסבר למה הם צריכים להיות IID
+\aiedit{\textbf{הגדרת \textenglish{MLE} (עפ"י חומרי הקורס 046195, טכניון):} עבור מדגם
+$D=\{x^{(1)},\ldots,x^{(N)}\}$ ומודל פרמטרי $p_x(x;\theta)$, אומד הנראות המרבית הוא
+\[
+  \hat\theta_{\mathrm{MLE}} \;=\; \arg\min_\theta \; -\sum_{i=1}^N \log p_x\bigl(x^{(i)};\theta\bigr).
+\]
+נוסחה זו (סכום של $\log$-likelihoods) תקפה \emph{רק אם} המדגם הוא \textenglish{i.i.d.}
+(בעל פילוג זהה ובלתי-תלוי) — שכן אז ורק אז ההסתברות המשותפת מתפרקת למכפלה
+$p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפלה לסכום הניתן למזעור.
+ללא אי-תלות, הפירוק למכפלה אינו תקף; ללא פילוג זהה, אי אפשר להשתמש במודל פרמטרי יחיד
+לכל הדגימות. זו הסיבה המדויקת לכך ש-MLE (\texttt{lognfit}) מיושם רק על מדגמי \textenglish{IID},
+ואילו \textenglish{MOM} (המבוסס על מומנטים אמפיריים בלבד, ללא הנחת אי-תלות) מיושם על מדגמי
+\textenglish{LHS} המתואמים מרחבית.}
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png}{%
@@ -1066,7 +1233,7 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
 \label{sec:kde_validation}
 
 אמידת צפיפות ליבה (\textenglish{KDE}) מספקת קירוב לא-פרמטרי של ה-\textenglish{CDF} של ה-TL
-בכל פיקסל תוך שימוש בחלון פרצן--רוזנבלט:%לרשום את השמןת שלהם באנגלית 
+בכל פיקסל תוך שימוש בחלון \aiedit{\textenglish{Parzen--Rosenblatt}}:% V %לרשום את השמןת שלהם באנגלית
 \begin{equation}
   \hat{P}_{\mathrm{shadow}}^{\mathrm{KDE}}(\mathbf{x})
   = \frac{1}{N}\sum_{i=1}^N \Phi\!\left(\frac{\mathrm{FOM}-\TL^{(i)}(\mathbf{x})}{h}\right),
