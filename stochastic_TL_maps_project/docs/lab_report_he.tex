@@ -1792,6 +1792,59 @@ $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$.
   \end{english}
 \end{table}
 
+\paragraph{כמה הרצות באמת דרושות? טבלת $N$ מספיק לכל שיטה, תרחיש והתפלגות.}
+\aiedit{בעזרת ההגדרה של "$N$ מספיק" (סעיף~\ref{sec:ln3_conv_N}) הורץ הניתוח \emph{עבור כל 12
+צירופי תרחיש/התפלגות} (לא רק מים עמוקים כפי שהוצג לעיל) — הן ל-LN3 (NLL, MOM ו-MLE
+בנפרד) והן ל-PCE (שגיאת $L_2$ יחסית בשונות). התוצאה המלאה בטבלה~\ref{tab:sufficient_n_full}.}
+
+\begin{table}[H]
+  \centering
+  \caption{\aiedit{$N$ מספיק (סבילות 10\%{}) לכל שיטה, תרחיש והתפלגות. \textenglish{N/A} = המדד
+           לא התייצב בצורה מונוטונית עד $N=1000$ (רועש מדי בהפרעה הקטנה הזו כדי לקבוע סף נקי).}}
+  \label{tab:sufficient_n_full}
+  \begin{english}
+  \begin{tabular}{llccc}
+    \toprule
+    Scenario & Distribution & LN3 (MOM) & LN3 (MLE) & PCE (rel. $L_2$ Var) \\
+    \midrule
+    Deep water    & Normal 1\%  & 50  & 75  & 750 \\
+    Deep water    & Normal 5\%  & 10  & 20  & 750 \\
+    Deep water    & Normal 10\% & 10  & 10  & 750 \\
+    \midrule
+    Shallow water & Normal 1\%  & N/A & N/A & 1000 \\
+    Shallow water & Normal 5\%  & N/A & N/A & 750  \\
+    Shallow water & Normal 10\% & 30  & 75  & 750  \\
+    \midrule
+    Upslope       & Normal 1\%  & N/A & N/A & 750  \\
+    Upslope       & Normal 5\%  & 150 & 75  & 1000 \\
+    Upslope       & Normal 10\% & 20  & 30  & 1000 \\
+    \midrule
+    Downslope     & Normal 1\%  & N/A & N/A & 750  \\
+    Downslope     & Normal 5\%  & 20  & 30  & 1000 \\
+    Downslope     & Normal 10\% & 20  & 30  & 1000 \\
+    \bottomrule
+  \end{tabular}
+  \end{english}
+\end{table}
+
+\aiedit{\textbf{תבניות עיקריות:}}
+\begin{itemize}
+  \item \aiedit{\textbf{LN3 בהפרעת 1\%{} כמעט תמיד N/A} — בכל התרחישים מלבד מים עמוקים, ההפרעה
+        קטנה מכדי שה-NLL יתייצב מונוטונית עד $N=1000$: האות (הבדל בין דגימות) קטן ביחס
+        לרעש הסטטיסטי האינהרנטי. במים עמוקים בלבד (עם מבנה CZ חד וחזק) יש מספיק אות גם
+        ב-1\%{} כדי לקבל $N$ מספיק סופי (50--75).}
+  \item \aiedit{\textbf{כאשר LN3 כן מתכנס, היא עושה זאת מהר} — טווח 10--150 דגימות, לרוב עשרות
+        בודדות. פי 10--100 פחות מ-$N=1000$ המלא.}
+  \item \aiedit{\textbf{PCE תמיד איטית בהרבה} — 750--1000 בכל הצירופים ללא יוצא מן הכלל, כלומר
+        כמעט כל 1000 הדגימות המקוריות דרושות לשחזור שונות יציב; אין שום צירוף שבו PCE
+        "חסכה" הרצות Bellhop משמעותית ביחס למדגם המלא.}
+  \item \aiedit{\textbf{השלכה מעשית:} אם המטרה היחידה היא התאמת LN3 (לא PCE, לא MC מלא), ניתן
+        לכאורה לחסוך משמעותית בהרצות Bellhop (עשרות-מאות במקום 1000) — \emph{למעט}
+        בהפרעות קטנות (1\%{}) שם כנראה נדרש המדגם המלא בכל מקרה כדי לזהות אפילו את קיומו
+        של אפקט קטן דיו.}
+\end{itemize}
+\aiedit{{\scriptsize\color[gray]{0.45}\textenglish{\texttt{scripts/ln3\_convergence\_vs\_N.m + scripts/pce\_conv\_vs\_N.m (run for all 12 combos); core/math/findSufficientN.m}}}}
+
 יחד, התוצאות מראות היררכיה ברורה של ישימות שיטות
 הנקבעת על ידי שני גורמים פיזיקליים: \emph{מורכבות בתימטרית} (שטוח לעומת מדרון)
 ו\emph{גודל ההפרעה} ($\leq$1\%{} לעומת 5--10\%{}).
