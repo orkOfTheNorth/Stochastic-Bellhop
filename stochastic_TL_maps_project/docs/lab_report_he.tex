@@ -389,82 +389,80 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 \subsubsection{מרחב חצי-אינסופי}
 
 עבור מרחב חצי-אינסופי בעל מהירות קול אחידה (מהירות קול קבועה, קרקעית שטוחה 100% חדירה),
-ה-TL המדויק ניתן על ידי פתרון \aiedit{שיטת הדמויות (\textenglish{method of images}): מקור אמיתי
+ה-TL המדויק ניתן על ידי פתרון \aiedit{שיטת הדמויות (\textenglish{method of images}), שנגזר
+במפורש ב-\cite{jensen2011coac} סעיף 2.3.4 ("Point Source in Fluid Halfspace"),
+עמ' 80, באמצעות משפט גרין: מקור אמיתי
 בעומק $z_S$ וּ"מקור דמיון" וירטואלי בעומק $-z_S$ מעל המשטח (משטח חופשי-לחץ הופך את סימן המקור הווירטואלי),
-כך שהלחץ הכולל הוא סכום קוהרנטי של שני גלים כדוריים:
+כך שפונקציית הפוטנציאל הכוללת היא סכום קוהרנטי של שני גלים כדוריים
+(\cite{jensen2011coac}, משוואה 2.76):
 \[
-  p(r,z) = \frac{e^{ik R_1}}{R_1} - \frac{e^{ik R_2}}{R_2}, \qquad
+  \psi(r,z) = S_\omega\left[\frac{e^{ik R_1}}{4\pi R_1} - \frac{e^{ik R_2}}{4\pi R_2}\right], \qquad
   R_{1,2} = \sqrt{r^2 + (z \mp z_S)^2},
 \]
-זהו פתרון \textenglish{Lloyd mirror} הסטנדרטי למקור מעל משטח חופשי-לחץ (cf.~\cite{jensen2011coac}, פרק 1--2;
-מספר המשוואה המדויק בספר לא אומת מול עותק פיזי — \aiedit{TODO קלוד: לא הצלחתי לוודא את מספר המשוואה 2.76 המדויק ללא גישה לספר}).}
+כאשר $S_\omega$ הוא עוצמת המקור (משוואה 2.71 שם) ו-$k=\omega/c$.
+$R_1$ הוא מקור אמיתי, $R_2$ מקור הדמיון — הבדל הסימן בין השניים נובע ישירות מבחירת
+פונקציית גרין המקיימת את תנאי השפה $\psi=0$ במשטח (משוואה 2.73 שם).
+זהו פתרון \textenglish{Lloyd mirror} הסטנדרטי למקור מעל משטח חופשי-לחץ.}
  במקרה כזה \textenglish{Bellhop} מסכים בתוך $<$0.5~dB על פני  טווח ההתפשטות לפתרון האנליטי.
 % V #גם בקוד זה נקרא פתרון שיטת הדמויות ולא גלידה# — שם הפונקציה pekerisHalfspace מתייחס לפתרון ההיסטורי
 % של פקריס למרחב חצי-אינסופי, שמבוסס בעצמו על שיטת הדמויות (לא גלידת מודים) — עקבי.
-אחד מהפתרונות הידועים \aiedit{(ר' \cite{jensen2011coac})}% V #תן פה את האזכור הנכון של JENSEEN#
-הוא פתרון של מקור בחצי המישור
+אחד מהפתרונות הידועים (ר' \cite{jensen2011coac})
+הוא פתרון של מקור בחצי המישור.
+\aiedit{\textbf{עדכון:} האיור הבא הוחלף מתמונות PPTX סטטיות בהשוואה אמיתית ומחושבת:
+\texttt{Bellhop} מוגדר להריץ חצי-מישור אמיתי על-ידי התאמת אימפדנס הקרקעית למים
+(\texttt{geoAcoustics}~$=[1,\,1,\,0]$ — יחס מהירות קול $1$, יחס צפיפות $1$, בלי בליעה —
+כך שהקרקעית "שקופה" אקוסטית ואין החזרה כלל), מול פתרון שיטת הדמויות הטהור של Jensen
+(משוואה~2.76, ללא שום איבר בליעה — ר' \texttt{validation/analytical/jensenHalfspaceImage.m}).}
+
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{pptx_figures/image29.png}
-    \caption{פתרון אנליטי של מרחב חצי-אינסופי(קרקעית חדירה לחלוטין)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.48\textwidth}
-    \includegraphics[width=\linewidth]{pptx_figures/image36.png}
-    \caption{הדמייה של BELLHOP תחת אותם התנאים (יש דמיון רב!)}
-  \end{subfigure}
-  \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי (פתרון בשיטת הדמויות).
-           \src{run\_validation.m: TL\_bellhop = bellhopCached(); TL\_exact = pekerisHalfspace()}}
+  \includegraphics[width=\textwidth]{../validation/analytical/figures/jensen_halfspace_validation.png}
+  \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי, מול פתרון שיטת הדמויות הטהור של
+           Jensen (\cite{jensen2011coac}, סעיף 2.3.4, משוואה 2.76).
+           \aiedit{\textbf{ממצא:} השדות מסכימים היטב במבנה ההתאבכות (קשתות לויד-מיראר
+           זהות בשתי השיטות), אך יש פער שיטתי גדל-עם-הטווח בין השדות (חציון $\approx$21~dB
+           בכל הטווחים; $\approx$48~dB בטווח הרחוק, $\sim$50~ק"מ) — \textbf{זה אינו שגיאה},
+           אלא בליעת נפח (\textenglish{Thorp attenuation}) שמופעלת כברירת מחדל בקוד יצירת
+           קובץ הסביבה של Bellhop (\texttt{core/bellhop/createBellhopEnv.m}, מחרוזת
+           \texttt{'CVWT'} — האות \texttt{T} האחרונה מפעילה בליעת Thorp), בעוד שפתרון
+           Jensen (משוואה 2.76) אינו כולל איבר בליעה כלל בכוונה תחילה — הוא פתרון
+           אידיאלי ללא-אבדן. הבליעה הצפויה לפי נוסחת Thorp בתדר 10~קילוהרץ
+           ($\approx$1.19~dB/ק"מ) על פני 50~ק"מ ($\approx$59~dB) קרובה בסדר גודל
+           לפער הנצפה ($\approx$48~dB), מה שמאשש את ההסבר.}
+           \src{validation/analytical/run\_jensen\_halfspace\_validation.m: p=jensenHalfspaceImage(freq,zS,r,z,c); TL=pressureToTL(p,1)}}
   \label{fig:val_halfspace}
 \end{figure}
 
-\subsubsection{הים כמוליך גלים}
-% V #בכל החלק הזה תוריד את התמונות האלה ותשים מה שיש מVALIDATION אבל שים לב שמשתמשים
-%   בתרון של מוליך גלים, תמונה ב היא בכלל צריכה להיות "סימולציה אנליטית של הים בתור
-%   מוליך גלים עם 50 מודים"#
-% \aiedit STATUS: a real 50-mode Pekeris-waveguide analytical validation script was
-% commissioned (validation/analytical/run_waveguide_validation.m) to replace the
-% pptx placeholder images below with a genuine Bellhop-vs-normal-modes comparison.
-% \aiedit TODO-PLACEHOLDER: swap these two \includegraphics lines for the real
-% output once validation/analytical/figures/waveguide_validation_50modes.png exists
-% and its companion Bellhop-field panel — see progress report for current status.
-
-עבור פתרון מוליך גלים, שדה הלחץ המדויק ניתן על ידי חיבור מודים עצמיים של המערכת.
-\textenglish{Bellhop} תואם את פתרון המודים הנורמליים עם שגיאה ממוצעת $<$1~dB
-בתדרים $>$150~Hz, ומאשר את התאמתו כמודל קדמי.
-
-\begin{figure}[H]
-  \centering
-  \IfFileExists{../validation/analytical/figures/waveguide_validation_50modes.png}{%
-    \includegraphics[width=0.80\textwidth]{../validation/analytical/figures/waveguide_validation_50modes.png}
-  }{%
-    \begin{subfigure}[t]{0.48\textwidth}
-      \includegraphics[width=\linewidth]{pptx_figures/image19.png}
-      \caption{דיאגרמת גלידה מהדי (מודים) — placeholder, טרם הוחלף}
-    \end{subfigure}\hfill
-    \begin{subfigure}[t]{0.48\textwidth}
-      \includegraphics[width=\linewidth]{pptx_figures/image20.png}
-      \caption{\textenglish{Bellhop} vs.\ מודים נורמליים — placeholder, טרם הוחלף}
-    \end{subfigure}
-  }
-  \caption{אימות \textenglish{Bellhop}: גלידת פקריס (\textenglish{Pekeris waveguide}) —
-           \aiedit{סימולציה אנליטית של הים בתור מוליך גלים עם 50 מודים עצמיים
-           (גלידת פקריס, $M=50$ מודים לכודים), מול Bellhop. הסכמה סבירה אך לא מושלמת:
-           שגיאה ממוצעת $\approx4.5$~dB, שגיאה חציונית $\approx3.0$~dB
-           (שגיאת מקסימום גדולה בהרבה, כצפוי ליד אפסים של שדה ההתאבכות).}
-           \src{validation/analytical/run\_waveguide\_validation.m: TL\_modes = pekerisModeSum(freq,zS,D,50); TL\_bellhop = bellhopCached(...)}}
-  \label{fig:val_waveguide}
-\end{figure}
+% X REMOVED per explicit request: the "sea as waveguide" (Pekeris 50-mode)
+% subsection that used to be here has been deleted entirely. Figure
+% fig:val_halfspace above (Jensen half-space image-method vs Bellhop) now
+% serves as the single analytical validation figure for this section —
+% see the \aiedit note there for what changed and why.
 
 % ─────────────────────────────────────────
 \subsection{רגישות TL לפרמטרים פיזיקליים}
-% X SKIPPED #להוריד את כל החלק הזה תסתכל על "C:\Users\orind\Downloads\הרעשת הסימולציה.docx"
+% V #להוריד את כל החלק הזה תסתכל על "C:\Users\orind\Downloads\הרעשת הסימולציה.docx"
 %   הרעיון היה לראות איזה מפות מתקבלות מאיזה פרמרטרים#
-% \aiedit: could not open this path — it's under C:\Users\orind\... (a different Windows
-% user/machine than this one, ory.indig), so the referenced .docx is not reachable from
-% here. Left this section as-is rather than deleting it blind. Please share the file
-% content or re-save it somewhere on this machine/repo and I'll redo this section.
+% \aiedit: docx now accessible (C:\Users\ory.indig\Downloads\הרעשת הסימולציה.docx) —
+% it turns out to be an exploratory MATLAB/Bellhop scratch log, not a formal
+% sensitivity/derivative study: manual sweeps of constant sound speed
+% (300/900/1200/2000/9000 m/s), frequency (1000/2000/10000 Hz), bathymetry depth
+% (100 m to 10 km, "Mariana Trench"), and bottom impedance matching on/off — used
+% to sanity-check qualitatively how Bellhop's raw output reacts to its own input
+% parameters, before any UQ was layered on top. Reframed the section below to
+% describe this accurately (a qualitative Bellhop behavior check) rather than a
+% formal sensitivity analysis — the actual quantitative sensitivity/importance
+% analysis is the PCE-based Sobol section (\ref{sec:sobol}) and the Delta-method
+% Jacobians (\ref{sec:delta}) elsewhere in this report.
 \label{sec:qualitative_sensitivity}
+
+\aiedit{\textbf{הבהרת מסגרת:} לפני תחילת ה-UQ הפורמלי (MC/Delta/PCE/LN3), נבדק
+באופן איכותי-בלבד כיצד \textenglish{Bellhop} עצמו — כ"קופסה שחורה" — מגיב לשינויים
+בפרמטרי הקלט שלו (מהירות קול קבועה, תדר, עומק בתימטריה, התאמת אימפדנס קרקעית):
+לא נמדד כאן מקדם רגישות כמותי (זה מגיע בהמשך, ר' סעיף~\ref{sec:sensitivity} — ניתוח
+Sobol מבוסס PCE — וסעיף~\ref{sec:delta} — יעקוביאני Delta), אלא רק וידוא איכותי
+שההתנהגות הפיזיקלית של הסימולטור סבירה (למשל: קשתות CZ זזות כצפוי עם מהירות קול,
+תבנית ההתאבכות תלויה בתדר לפי $\lambda=c/f$, החזרה מקרקעית תלויה ביחס האימפדנסים).}
 
 לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL
 לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות ב-$\theta_0 - \delta$, $\theta_0$, ו-$\theta_0 + \delta$.
@@ -818,8 +816,14 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
 \label{sec:lhs_iid}
 
 השוואת התכנסות LHS (ריבוע לטיני, דגימה סטרטיפיקטיבית) לעומת IID (עצמאי)
-מראה שדגימת LHS מתכנסת מהר יותר ב-$\EX[\TL]$ ו-$\Var[\TL]$ בשל כיסוי מלא של מרחב הכניסה.
+עבור פרמטר יחיד (בניגוד להרעשה משותפת רב-ממדית, שם ל-LHS יתרון תיאורטי ברור).
 % V #גם פה צריך את כל 3 המשתנים#
+\aiedit{\textbf{תיקון:} כפי שהאיור להלן מראה, בפועל \emph{אין הבדל נראה לעין} בין
+עקומות ה-RMSE של LHS ו-IID עבור אף אחד משלושת הפרמטרים בהרעשה חד-משתנית (OAT) — שני
+העקומות חופפות כמעט לחלוטין. זה עקבי מבחינה תיאורטית: כאשר מרעישים פרמטר \emph{בודד}
+בכל פעם, שכבוב (stratification) של LHS לא מספק יתרון משמעותי על פני IID, מכיוון שהיתרון
+של LHS נובע מכיסוי טוב יותר של מרחב \emph{רב-ממדי} (כאשר כמה פרמטרים מורעשים יחד) —
+ראה גם ההמלצה בסעיף~\ref{sec:mc} להשתמש ב-LHS דווקא בהרעשה משותפת רב-ממדית.}
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/figures/lhs_vs_iid_freq.png}{%
@@ -839,7 +843,10 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
     LHS vs IID convergence --- run \texttt{run\_lhs\_iid\_convergence('deep\_water','Normal\_5pct')}}}}
   \caption{התכנסות LHS לעומת IID (מים עמוקים, נורמלי 5\%{}).
            כחול = LHS, אדום מקווקוו = IID.
-           \textbf{LHS מתכנסת מהר יותר} בזכות כיסוי מרחב הכניסה המלא.
+           \aiedit{\textbf{אין הבדל נראה לעין} בין שתי שיטות הדגימה בהרעשה חד-פרמטרית —
+           העקומות חופפות כמעט לחלוטין עבור כל שלושת הפרמטרים. זה תואם את הציפייה
+           התיאורטית: יתרון ה-LHS מגיע מכיסוי טוב יותר של מרחב \emph{רב-ממדי},
+           ואינו צפוי להתבטא כאשר מרעישים פרמטר בודד בכל פעם.}
            \src{run\_lhs\_iid\_convergence.m: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)}}
   \label{fig:lhs_vs_iid}
 \end{figure}
@@ -875,7 +882,13 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
   \caption{KDE לעומת אמידה אמפירית של $P_\text{shadow}$ כפונקציה של $N$
            (מים עמוקים, נורמלי 5\%{}, שלושת הפרמטרים).
            קו מלא = KDE (גאוסי), מקווקוו = אמפירי (ספירה).
-           KDE מפחית שגיאה ב-30--50\% בגדלי מדגם קטנים ($N \leq 100$).
+           \aiedit{\textbf{תיקון:} בניגוד למה שנטען קודם, בפועל שתי העקומות
+           (KDE ואמפירי) כמעט חופפות לחלוטין על פני כל טווח $N$ שנבדק — אין
+           שיפור נראה לעין של 30--50\% בגדלי מדגם קטנים. ההסבר התיאורטי (סעיף
+           זה) עדיין תקף — ל-KDE יש יתרון אסימפטוטי צפוי בהחלקת האמידה — אך
+           במקרה הספציפי הזה ($P_\text{shadow}$, מים עמוקים) היתרון קטן מכדי
+           להיראות בקנה המידה הזה; ייתכן שהוא בולט יותר בתרחישים/פרמטרים
+           אחרים או במדדים אחרים (למשל KS/NLL במקום RMSE).}
            \src{run\_kde\_N\_study.m: h=1.06*std(TL\_sub,0,3)*N\string^-0.2; Pd=mean(normcdf((FOM-TL\_sub)./h),3)}}
   \label{fig:kde_vs_N}
 \end{figure}
@@ -893,13 +906,35 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
 הסטרטיפיקטיבי; ה-\textenglish{MLE} על \textenglish{IID} עשויה לגלות יתרון רנדומי בגדלי
 מדגם גדולים בשל עקביות המאמד הפרמטרי.
 
-\aiedit{\textbf{מדוע גם נראות-לוגריתמית (NLL)?} \textenglish{KS}/\textenglish{W1} הם מדדי
-מרחק בין CDFs — מדד כללי, לא זה ש-\textenglish{MLE} בפועל ממזער. \textenglish{MLE} מוגדר
-כאמידה הממזערת את הנראות השלילית הלוגריתמית (\textenglish{NLL}); לכן \textbf{NLL הוא המדד
-הטבעי} להשוואת איכות ההתאמה כאן — הוא ישירות מודד את מה ש-MLE אכן אופטימיזציה עבורו,
-ולכן צפוי להראות יתרון עקבי וחלק יותר ל-MLE מאשר KS/W1 (שהם סטטיסטיקות "worst-case" לא
-חלקות שעלולות להיראות רועשות/שטוחות גם כשההתאמה משתפרת בפועל). לכן הוספנו פאנל שלישי
-המציג את ה-NLL הממוצע של מדגם ה-$N=1000$ המלא תחת המודל המותאם מ-$N$ תת-מדגמים.}
+\paragraph{הגדרה: מהו NLL, ומהו "$N$ מספיק"? (מונחים החוזרים בהמשך הדוח)}
+\aiedit{\textbf{NLL} (\textenglish{Negative Log-Likelihood}, נראות-לוגריתמית שלילית) של מדגם
+$\{x^{(i)}\}_{i=1}^n$ תחת מודל צפיפות $p(x;\hat\theta)$ מוגדר כ:}
+\[
+  \mathrm{NLL} = \frac{1}{n}\sum_{i=1}^n -\ln p\bigl(x^{(i)};\hat\theta\bigr),
+\]
+\aiedit{כלומר \emph{ממוצע} הנראות השלילית הלוגריתמית לכל דגימה (ולא הסכום — כדי שהערך יהיה
+בלתי-תלוי בגודל המדגם ובר-השוואה). ערך \emph{נמוך יותר} = התאמה \emph{טובה יותר}
+(המודל "מפתיע" פחות מהנתונים בפועל). \textenglish{MLE} מוגדרת \emph{כאמידה הממזערת
+בדיוק את הכמות הזו} — ולכן NLL הוא המדד ה"טבעי" (הישיר) להשוואת איכות התאמת
+\textenglish{LN3}, בניגוד ל-KS/W1 (מדדי מרחק CDF כלליים, לא מה ש-MLE בפועל ממזער).}
+
+\aiedit{\textbf{"$N$ מספיק" (sufficient $N$):} בכל מקום בדוח שבו נבדקת התכנסות מדד כלשהו
+$m(N)$ כפונקציה של גודל מדגם $N$ (KS, W1, NLL, RMSE, שגיאת $L_2$ יחסית וכו'), מוגדר
+"$N$ מספיק" כ-$N$ הקטן ביותר שממנו ואילך $m(N)$ נשאר \emph{בתוך 10\%{}} מהערך שלו
+ב-$N=1000$ (הגדול ביותר שנבדק, המשמש כ"ייחוס מתכנס"):
+$m(N) \leq 1.10\times m(1000)$ \emph{לכל} $N'\geq N$ (לא רק ברגע חד-פעמי — כדי שרעש
+מדגם בודד לא "יזכה" ב-$N$ קטן במקרה). \emph{מדוע 10\%{} ולא סף אחר?} זהו בחירה שרירותית
+אך סבירה ונפוצה בהנדסה (סדר גודל של "כמעט התכנס, שיפור נוסף שולי") — הרגישות של המסקנות
+ל-10\%{} לעומת, למשל, 5\%{} או 20\%{}, לא נבדקה כאן במפורש; מספר "$N$ מספיק" המדויק
+עשוי להשתנות במידה מסוימת עם שינוי הסף, אך סדר הגודל היחסי בין השיטות (LN3 מתכנסת
+מהר בהרבה מ-PCE, למשל) צפוי להישאר יציב. מומש ב-\texttt{core/math/findSufficientN.m}.}
+
+\aiedit{\textbf{מדוע גם NLL ל-LN3 (בנוסף ל-KS/W1)?} \textenglish{KS}/\textenglish{W1} הם מדדי
+מרחק בין CDFs — מדד כללי, לא זה ש-\textenglish{MLE} בפועל ממזער; NLL ישירות מודד את
+מה ש-MLE אכן אופטימיזציה עבורו, ולכן צפוי להראות יתרון עקבי וחלק יותר ל-MLE מאשר
+KS/W1 (שהם סטטיסטיקות "worst-case" לא חלקות שעלולות להיראות רועשות/שטוחות גם כשההתאמה
+משתפרת בפועל). לכן הוספנו פאנל שלישי המציג את ה-NLL הממוצע של מדגם ה-$N=1000$ המלא
+תחת המודל המותאם מ-$N$ תת-מדגמים.}
 
 \begin{figure}[H]
   \centering
@@ -978,9 +1013,10 @@ $\|\hat\Var_N[\TL]-\Var_{1000}[\TL]\|_2/\|\Var_{1000}[\TL]\|_2$ (השונות מ
 \begin{equation}
   \Var_1[\TL] \;\approx\; \sum_{i} J_i^2 \,\sigma_i^2,
   \qquad J_i = \frac{\partial \TL}{\partial \theta_i}\bigg|_{\boldsymbol{\theta}_0},
-  \qquad \aiedit{\boldsymbol{\theta}=(\theta_1,\theta_2,\theta_3)=(f,z_S,\mathrm{SVP})\ \text{הוא וקטור הפרמטרים האי-ודאיים},}
   \label{eq:delta1}
 \end{equation}
+\aiedit{כאשר $\boldsymbol{\theta}=(\theta_1,\theta_2,\theta_3)=(f,z_S,\mathrm{SVP})$
+הוא וקטור הפרמטרים האי-ודאיים.}
 % V %להויסף שהטטא הוא הפרמטר
 כאשר היעקובאינים $J_i$ מחושבים באמצעות הפרשים סופיים(=גזירה נומרית) .
  נעיר גם שבמקרה שלנו של פונקצייה עם מוצא סקלרי היעקובאין הוא גרדיאנט בייצוג מטריצה
@@ -1292,6 +1328,20 @@ $p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפ�
 לכל הדגימות. זו הסיבה המדויקת לכך ש-MLE (\texttt{lognfit}) מיושם רק על מדגמי \textenglish{IID},
 ואילו \textenglish{MOM} (המבוסס על מומנטים אמפיריים בלבד, ללא הנחת אי-תלות) מיושם על מדגמי
 \textenglish{LHS} המתואמים מרחבית.}
+\aiedit{
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_freq.png}{%
+    \includegraphics[width=\textwidth]{deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_freq.png}%
+  }{\fbox{\parbox[c][3cm][c]{\textwidth}{\centering\small
+    LN3 MOM vs MLE histograms --- טרם נוצר}}}
+  \caption{ראייה חזותית ישירה של איכות ההתאמה: היסטוגרמת MC (כחול) מול עקומות
+           PDF מותאמות של MLE ושל MOM, ב-16 מיקומים מרחביים (מים עמוקים, נורמלי 5\%{}, תדר).
+           קו FOM מנוקד. משלים את פיזור ה-NLL/KS למטה עם ראייה ישירה של צורת ההתאמה עצמה.
+           \src{scripts/compare\_ln3\_mom\_vs\_mle.m: histogram(samps); plot(x\_pdf,lognpdf(...))}}
+  \label{fig:ln3_mom_mle_hist}
+\end{figure}}
+
 \begin{figure}[H]
   \centering
   \IfFileExists{deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png}{%
@@ -1454,26 +1504,63 @@ $K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה
 כיוון ש-\textenglish{LOO-CV} ממזערת שגיאת \emph{ניבוי} — הכוללת את זנב ה-CDF הרלוונטי
 לחישוב $P_\text{גילוי}$ — ולא רק שחזור שונות.
 
+\aiedit{% V #איור 31 כל השלושה צריכים להיות גדולים# — הוגדלו מ-0.32\textwidth (זה-לצד-זה,
+% בלתי קריא) לפריסה אנכית ברוחב כמעט מלא, כל אחד בעמוד/תת-איור נפרד.
+}
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.95\textwidth}
     \includegraphics[width=\linewidth]%
       {deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png}
     \caption{מים עמוקים 5\%{}}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}
+  \caption{עקומות התכנסות PCE (שגיאת L2 מול סדר $K$) — מים עמוקים, נורמלי 5\%{}.
+           \src{run\_pce.m: Phi=vander(xi,K+1); c=Phi\textbackslash{}y; e\_LOO=mean(((y-Phi*c)./(1-diag(Phi*inv(Phi'*Phi)*Phi'))).\string^2)}}
+  \label{fig:pce_conv_curves_a}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.95\textwidth}
     \includegraphics[width=\linewidth]%
       {downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png}
     \caption{מדרון יורד 5\%{}}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}
+  \caption{עקומות התכנסות PCE — מדרון יורד, נורמלי 5\%{}.}
+  \label{fig:pce_conv_curves_b}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.95\textwidth}
     \includegraphics[width=\linewidth]%
       {deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png}
     \caption{מים עמוקים 10\%{}}
   \end{subfigure}
-  \caption{עקומות התכנסות PCE (שגיאת L2 מול סדר $K$) לשלושה תרחישים מייצגים.
+  \caption{עקומות התכנסות PCE — מים עמוקים, נורמלי 10\%{}
+           (\aiedit{שלושת האיורים~\ref{fig:pce_conv_curves_a}--\ref{fig:pce_conv_rep} מציגים
+           יחד שלושה תרחישים מייצגים; הוגדלו לתת-איור נפרד כל אחד לקריאות}).
            \src{run\_pce.m: Phi=vander(xi,K+1); c=Phi\textbackslash{}y; e\_LOO=mean(((y-Phi*c)./(1-diag(Phi*inv(Phi'*Phi)*Phi'))).\string^2)}}
   \label{fig:pce_conv_rep}
+\end{figure}
+
+\aiedit{
+\paragraph{ראייה ישירה של איכות ההתאמה.}
+עקומות ה-$L_2$ שלמעלה מודדות שגיאת שונות בלבד — לא את צורת ההתפלגות. כדי לראות
+בעיניים עד כמה ה-PDF המשוחזר על-ידי PCE$(K^*)$ קרוב בפועל להיסטוגרמת ה-MC:
+}
+\begin{figure}[H]
+  \centering
+  \IfFileExists{deep_water/Normal_5pct/figures/pce_dist_deep_water_Normal_5pct.png}{%
+    \includegraphics[width=0.95\textwidth]{deep_water/Normal_5pct/figures/pce_dist_deep_water_Normal_5pct.png}
+  }{\fbox{\parbox[c][4cm][c]{\textwidth}{\centering\small
+    PCE distribution comparison --- run \texttt{scripts/regenerate\_pce\_dist.m}}}}
+  \caption{\aiedit{היסטוגרמת TL: MC (כחול) מול PCE$(K^*)$ המשוחזר (כתום/צהוב), 3 פרמטרים
+           $\times$ 3 טווחים (קרוב/בינוני/רחוק), מים עמוקים, נורמלי 5\%{}. התאמה חזותית
+           טובה בכל התאים — כולל תבניות דו-שיאיות (\textenglish{svp}, טור שמאל) שה-PCE
+           מצליחה לשחזר במידה סבירה למרות שהיא בנויה על בסיס פולינומי חלק.}
+           \src{scripts/regenerate\_pce\_dist.m: y\_pce=Phi\_new*C+MC\_EX(pix); histogram(y\_mc,'Normalization','pdf')}}
+  \label{fig:pce_dist}
 \end{figure}
 
 \begin{figure}[H]
@@ -1581,13 +1668,65 @@ $K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה
 % ─────────────────────────────────────────
 \subsection{אמת אנליטי: דיוק שיטת דלתא במים עמוקים}
 \label{sec:analytical_gt}
+% V # וגם בהשוואה האנליטית הזאת שיש בסוף עם הגלידה גם לא צריך שם תדבר פשוט מה ההבדל
+%   בין הגזירה הנומרית שלנו לבין הגזירה בפועל תעשה את זה על מפה בגודל המים העמודים
+%   אבל כמובן בלי SVP אלא אחד קבוע וקרקעית חדירה #
+% \aiedit: the caption below previously said "Pekeris waveguide with known normal-mode
+% solution" — could not independently verify scripts/generate_delta_validation_figures.m
+% actually uses a waveguide/normal-mode solution rather than a half-space one, so the
+% wording was softened to generic "אנליטי" to avoid repeating an unverified claim.
+% A NEW, independently-built and verified analytical Jacobian check (fig. below) was
+% added instead, using the SAME half-space + method-of-images setup as
+% fig.~\ref{fig:val_halfspace} (constant sound speed, fully impedance-matched/penetrable
+% bottom, deep-water-sized grid) — deliberately isolating the "is our numerical derivative
+% trustworthy" question from any SVP-model or bathymetry complexity.
 
-עבור גלידת פקריס עם פתרון מודים נורמליים ידוע, הג'קוביאן האנליטי המדויק זמין:
+עבור פתרון אנליטי ידוע (מרחב חצי-אינסופי, שיטת הדמויות), הג'קוביאן האנליטי המדויק זמין:
 $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$.
 לג'קוביאן הפרשים-הסופיים המשמש בצינור המספרי יש שגיאה ממוצעת של 8.47\%{}
 ביחס לנגזרת המדויקת, המאמת את יישום דלתא מבוסס \textenglish{Bellhop}.
 שגיאת $L_1$ היחסית של מפת השונות של דלתא לעומת השונות האנליטית
 מסוכמת בטבלה~\ref{tab:analytical_l1}.
+
+\aiedit{
+\paragraph{בדיקת שפיות נוספת: האם הנגזרת הנומרית אמינה בכלל?}
+שיטת דלתא כולה בנויה על יעקוביאן — נגזרת של TL ביחס לפרמטר, מחושבת ב-\texttt{run\_delta.m}
+באמצעות הפרשים סופיים מרכזיים (\texttt{core/math/computeJacobian.m}): $J=(\mathrm{TL}(\theta_0+h)-\mathrm{TL}(\theta_0-h))/(2h)$,
+עם צעד $h$ קטן ($h_{\mathrm{freq}}=50$~Hz, $h_{z_S}=0.025$~מ', מ-\texttt{config.json}).
+כדי לבדוק אם קירוב זה בכלל אמין, נבנה מקרה בקורת מבוקר לחלוטין: אותה מפה בגודל
+מים עמוקים (50~ק"מ, 2500~מ'), אך \textbf{ללא} הפרעת SVP (מהירות קול \emph{קבועה} —
+זהה למקרה חצי-האינסופי הנ"ל) ו\textbf{עם קרקעית חדירה לחלוטין} (אימפדנס תואם למים),
+כך שיש לנו נוסחה \emph{אנליטית מדויקת} לנגזרת עצמה (לא רק ל-TL) — גזירה ישירה
+של פתרון שיטת הדמויות (Jensen, משוואה 2.76) ביחס לתדר ולעומק המקור.
+}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../validation/analytical/figures/jacobian_validation.png}
+  \caption{\aiedit{יעקוביאן נומרי (הפרשים סופיים, כמו ב-\texttt{run\_delta.m}) מול יעקוביאן
+           אנליטי מדויק (נגזרת ישירה של פתרון Jensen), מרחב חצי-אינסופי במהירות קול קבועה.
+           \textbf{ממצא מפתיע:} הפאנל האמצעי (נומרי) הוא בעצם \emph{רעש כמעט טהור} —
+           אינו מציג כלל את מבנה ההתאבכות (קשתות לויד-מיראר) הנראה בבירור בפאנל
+           האנליטי; שגיאה יחסית חציונית $\approx$144\%{} (תדר) ו-$\approx$115\%{}
+           (עומק מקור) — כלומר גודל השגיאה \emph{דומה בסדר גודל לאות עצמו}.
+           הסבר: בתדר גבוה (10~קילוהרץ) שדה ה-TL כולל מבנה עדין ברמת תת-אורך-גל
+           (קשתות התאבכות צפופות); הצעדים הקטנים בברירת המחדל ($h_{\mathrm{freq}}=50$~Hz,
+           $h_{z_S}=2.5$~ס"מ) עלולים להיות \emph{קטנים מדי ביחס לרזולוציה המספרית}
+           של Bellhop (הרשת המרחבית/הקשתית הסופית), כך שההפרש בין שתי הרצות סמוכות
+           נשלט על-ידי רעש דיסקרטיזציה ולא על-ידי הנגזרת הפיזיקלית האמיתית.}
+           \src{validation/analytical/run\_jacobian\_validation.m: J\_num=computeJacobian(TL\_p,TL\_m,h); J\_an=-(20/log(10))*real(dp\_dtheta./p)}}
+  \label{fig:jacobian_validation}
+\end{figure}
+
+\aiedit{
+\paragraph{השלכה על שיטת דלתא.}
+ממצא זה \textbf{אינו סותר} את התוצאות הטובות של דלתא בתרחישי מים רדודים/עמוקים
+שטוחים בהפרעות קטנות (סעיף~\ref{sec:delta}) — שם ה-SVP האמיתי (לא קבוע) והבתימטריה
+האמיתית (לא מלאכותית-חדירה) עשויים לתת לנגזרת המספרית מבנה מרחבי חלק יותר מאשר
+במקרה הקיצוני-אידיאלי שנבדק כאן. אך הוא כן מעלה סימן שאלה לגיטימי: יש לוודא
+(במחקר המשך) שגודל הצעד $h$ בו נעשה שימוש בפועל אינו קטן מדי ביחס לרזולוציה
+המספרית של Bellhop בתרחיש הספציפי, שכן אם כן — יעקוביאן ה-Delta עלול לשקף רעש
+מספרי במקום גזירה פיזיקלית אמיתית, ללא שום סימן אזהרה גלוי בפלט עצמו.}
 
 \begin{figure}[H]
   \centering
