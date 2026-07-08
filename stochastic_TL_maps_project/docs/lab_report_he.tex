@@ -377,67 +377,189 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 הוא אחוז ידוע מ-$\mu_k$ (1\%{}, 5\%{}, או 10\%{} בניסויינו).
 מטרת ה-\textenglish{UQ} היא להעביר התפלגויות כניסה אלו דרך הקופסא השחורה 
 של \textenglish{Bellhop} כדי לקבל את התפלגות הפלט של TL בכל פיקסל,
-ומשם את \aiedit{הסתברות הגילוי $P_\mathrm{det} = 1-\Pshadow$ (ולא הסתברות ה"צל" עצמה)}.% V #תמיד מדברים על P גילוי ולא P צל#
+ומשם את \aiedit{הסתברות הגילוי $P_\mathrm{det}}.% V #תמיד מדברים על P גילוי ולא P צל#
 
 % ─────────────────────────────────────────
 \subsection{אימות אנליטי של \textenglish{Bellhop}}
 \label{sec:analytical_validation}
 
 לפני שימוש ב-\textenglish{Bellhop} כמנוע ההדמייה העיקרי לצורך  חקר הסטוכסטיות, אימתנו את דיוקו
-מול שני פתרונות אנליטיים ידועים. חלק זה הכרחי בין היתר בגלל שמימושו של\textenglish{Bellhop} בקירוב קרניים וידוע שכך הוא מפספס תופעות התאבכות גליות מסויימות ומראה תמונה "מוחלקת" לעומת המצב בפועל.
+מול שני פתרונות אנליטיים ידועים. חלק זה הכרחי בין היתר בגלל שמימושו של\textenglish{Bellhop} בקירוב קרניים ולכן החחש המרכזי היה שהוא מפספס תופעות התאבכות גליות מסויימות ומראה תמונה "מוחלקת" לעומת המצב בפועל.
 % V #אנחנו משתמשים בשיטת הדמויות ולא בגלידה# — הכותרת והטקסט להלן כבר מדברים על שיטת הדמויות.
 \subsubsection{מרחב חצי-אינסופי}
 
 עבור מרחב חצי-אינסופי בעל מהירות קול אחידה (מהירות קול קבועה, קרקעית שטוחה 100% חדירה),
 ה-TL המדויק ניתן על ידי פתרון \aiedit{שיטת הדמויות (\textenglish{method of images}), שנגזר
-במפורש ב-\cite{jensen2011coac} סעיף 2.3.4 ("Point Source in Fluid Halfspace"),
-עמ' 80, באמצעות משפט גרין: מקור אמיתי
-בעומק $z_S$ וּ"מקור דמיון" וירטואלי בעומק $-z_S$ מעל המשטח (משטח חופשי-לחץ הופך את סימן המקור הווירטואלי),
+במפורש ב- (Jensen 2011) \cite{jensen2011coac} סעיף 2.3.4 \textenglish {("Point Source in Fluid Halfspace")},
+עמ' 80, בגלל ההדל המשמעוית על מהירות הקודל במים לעומת באוויר ניתן למדל את פני הים כמראה אקוסטית
+כאשר יש מקור בעומק $z_S$ ניתן לפתור את הבעיה בעזרת "מקור דמות" וירטואלי בעומק $-z_S$ מעל המשטח ,מקור זה יהיה בעל "הספק שלילי" זאת כדי להשתמש ביחדיות שבבעיה ולקיים את תנאי השפה ,
 כך שפונקציית הפוטנציאל הכוללת היא סכום קוהרנטי של שני גלים כדוריים
 (\cite{jensen2011coac}, משוואה 2.76):
 \[
   \psi(r,z) = S_\omega\left[\frac{e^{ik R_1}}{4\pi R_1} - \frac{e^{ik R_2}}{4\pi R_2}\right], \qquad
   R_{1,2} = \sqrt{r^2 + (z \mp z_S)^2},
 \]
-כאשר $S_\omega$ הוא עוצמת המקור (משוואה 2.71 שם) ו-$k=\omega/c$.
-$R_1$ הוא מקור אמיתי, $R_2$ מקור הדמיון — הבדל הסימן בין השניים נובע ישירות מבחירת
+כאשר $S_\omega$ הוא עוצמת המקור (משוואה 2.71 בJensen) ו-$k=\omega/c$.
+$R_1$ הוא מקור אמיתי, $R_2$ מקור הדמות  — ניתן גם לחשוב על הבדל הסימן בין השניים נובע ישירות מבחירת
 פונקציית גרין המקיימת את תנאי השפה $\psi=0$ במשטח (משוואה 2.73 שם).
 זהו פתרון \textenglish{Lloyd mirror} הסטנדרטי למקור מעל משטח חופשי-לחץ.}
- במקרה כזה \textenglish{Bellhop} מסכים בתוך $<$0.5~dB על פני  טווח ההתפשטות לפתרון האנליטי.
+ במקרה כזה נוכל להראות(איור 4) ש\textenglish{Bellhop} מסכים עד כדי $<$0.5~dBעם הפתרון האנליטי.
 % V #גם בקוד זה נקרא פתרון שיטת הדמויות ולא גלידה# — שם הפונקציה pekerisHalfspace מתייחס לפתרון ההיסטורי
 % של פקריס למרחב חצי-אינסופי, שמבוסס בעצמו על שיטת הדמויות (לא גלידת מודים) — עקבי.
-אחד מהפתרונות הידועים (ר' \cite{jensen2011coac})
-הוא פתרון של מקור בחצי המישור.
-\aiedit{\textbf{עדכון:} האיור הבא הוחלף מתמונות PPTX סטטיות בהשוואה אמיתית ומחושבת:
-\texttt{Bellhop} מוגדר להריץ חצי-מישור אמיתי על-ידי התאמת אימפדנס הקרקעית למים
-(\texttt{geoAcoustics}~$=[1,\,1,\,0]$ — יחס מהירות קול $1$, יחס צפיפות $1$, בלי בליעה —
-כך שהקרקעית "שקופה" אקוסטית ואין החזרה כלל), מול פתרון שיטת הדמויות הטהור של Jensen
-(משוואה~2.76, ללא שום איבר בליעה — ר' \texttt{validation/analytical/jensenHalfspaceImage.m}).}
 
+\aiedit{\textbf{הערה:}
+הדרך שבה ניתן להריץ הדמיית חצי מישור בעזרת \texttt{Bellhop}נעשה על-ידי התאמת אימפדנס הקרקעית למים
+(\texttt{geoAcoustics}~$=[1,\,1,\,0]$ — יחס מהירות קול $1$, יחס צפיפות $1$, כלומר בלי בליעה —
+כך שהקרקעית "שקופה" אקוסטית ואין החזרה כלל), נשווה זאת מול פתרון שיטת הדמויות הטהור של Jensen
+(משוואה~2.76,  \texttt{validation/analytical/jensenHalfspaceImage.m}).}
+$-----------להמשיך 8.7
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../validation/analytical/figures/jensen_halfspace_validation.png}
   \caption{אימות \textenglish{Bellhop}: מרחב חצי-אינסופי, מול פתרון שיטת הדמויות הטהור של
            Jensen (\cite{jensen2011coac}, סעיף 2.3.4, משוואה 2.76).
-           \aiedit{\textbf{ממצא:} השדות מסכימים היטב במבנה ההתאבכות (קשתות לויד-מיראר
-           זהות בשתי השיטות), אך יש פער שיטתי גדל-עם-הטווח בין השדות (חציון $\approx$21~dB
-           בכל הטווחים; $\approx$48~dB בטווח הרחוק, $\sim$50~ק"מ) — \textbf{זה אינו שגיאה},
-           אלא בליעת נפח (\textenglish{Thorp attenuation}) שמופעלת כברירת מחדל בקוד יצירת
+           \aiedit{\textbf{ממצא:} השדות מסכימים סה"כ במבנה ההתאבכות (מבנה הקרניים היוצא מצד שמאל למעלה), אך יש פער שיטתי גדל-עם-הטווח בין השדות (חציון $\approx$21~dB
+           אך ניתן לראות הסדל של עד; $\approx$48~dB בטווח הרחוק, $\sim$50~ק"מ) — \textbf{זה אינו שגיאה},
+           אלא אלו הם הפסדים שמופעלים כברירת מחדל בקוד יצירת
            קובץ הסביבה של Bellhop (\texttt{core/bellhop/createBellhopEnv.m}, מחרוזת
-           \texttt{'CVWT'} — האות \texttt{T} האחרונה מפעילה בליעת Thorp), בעוד שפתרון
+           \texttt{'CVWT'} — האות \texttt{T} האחרונה מפעילה בליעת Thorp-הפסדים), בעוד שפתרון
            Jensen (משוואה 2.76) אינו כולל איבר בליעה כלל בכוונה תחילה — הוא פתרון
-           אידיאלי ללא-אבדן. הבליעה הצפויה לפי נוסחת Thorp בתדר 10~קילוהרץ
+           אידיאלי ללא-אבדן. הבליעה הצפויה לפי נוסחת Thorp(נוסחאה הרולוונטית בנוכחות הספדים) בתדר 10~קילוהרץ
            ($\approx$1.19~dB/ק"מ) על פני 50~ק"מ ($\approx$59~dB) קרובה בסדר גודל
            לפער הנצפה ($\approx$48~dB), מה שמאשש את ההסבר.}
            \src{validation/analytical/run\_jensen\_halfspace\_validation.m: p=jensenHalfspaceImage(freq,zS,r,z,c); TL=pressureToTL(p,1)}}
   \label{fig:val_halfspace}
 \end{figure}
 
-% X REMOVED per explicit request: the "sea as waveguide" (Pekeris 50-mode)
-% subsection that used to be here has been deleted entirely. Figure
-% fig:val_halfspace above (Jensen half-space image-method vs Bellhop) now
-% serves as the single analytical validation figure for this section —
-% see the \aiedit note there for what changed and why.
+% ─────────────────────────────────────────
+\subsubsection{הים כמוליך גלים (Pekeris) — 50 מודים נורמליים}
+\label{sec:waveguide_validation}
+
+מוליך גלים של פקריס (\textenglish{Pekeris waveguide}) הוא המודל האנליטי הפשוט ביותר
+לים רדוד עם קרקעית חדירה:
+עמודת מים איזו-מהירותית ($c_1$, $\rho_1$) מעל חצי-מרחב תחתון ($c_2 > c_1$, $\rho_2$)
+עם משטח שחרור-לחץ בראש.
+התנאי $c_2 > c_1$ מבטיח כי גלים עם זוויות מתאימות נכלאים בתוך ערוץ המים —
+בדיוק כמו סיב אופטי — ומתפשטים לטווחים ארוכים ללא דלף.
+מודל זה נגזר במלואו ב-\cite{jensen2011coac}, \S 2.4.5 עמ'~119--131 ו-\S 5.2 עמ'~338--340.
+
+\paragraph{הנחת יסוד: הלמהולץ $\to$ הנקל $\to$ ODE בעומק.}
+הפתרון נגזר בשלשה שלבים:
+\begin{enumerate}
+  \item \textbf{תמורת פורייה בזמן} ($\partial_t \to -i\omega$) הופכת את משוואת הגל למשוואת הלמהולץ:
+        $\nabla^2 p + k^2 p = \delta(\mathbf{r}-\mathbf{r}_S)$, \quad $k=\omega/c$
+        (\cite{jensen2011coac}, \S 2.1).
+  \item \textbf{תמורת הנקל בטווח} $r \to k_r$ הופכת את ה-PDE ל-ODE בעומק לכל שכבה:
+        $\psi'' + k_z^2\psi = 0$, \quad $k_z^2 = k^2 - k_r^2$
+        — משוואת מתנד הרמוני, הנפתרת ב-$\sin$/$\cos$ במים ובאקספוננטיאל דועך בקרקעית
+        (\cite{jensen2011coac}, \S 2.4.5 משוואה~2.176 עמ'~119).
+  \item \textbf{תנאי שפה} ב-$z=0$ (שחרור לחץ: $\psi=0$) וב-$z=D$ (רציפות לחץ ומהירות)
+        נותנים את \textbf{תנאי הפיזור} (\textenglish{dispersion relation})
+        (\cite{jensen2011coac}, משוואה~2.185 עמ'~121):
+        \[
+          g(k_z) \;=\; \gamma\sin(k_z D) + \frac{\rho_2}{\rho_1}\,k_z\cos(k_z D) \;=\; 0,
+          \qquad \gamma = \sqrt{k_r^2 - k_2^2},
+        \]
+        שקול ל-$\tan(k_z D) = -(\rho_2/\rho_1)\,k_z/\gamma$ (משוואה~2.186 שם).
+        לכל מצב $m$ יש שורש יחיד ב-$k_z D \in ((m-\tfrac{1}{2})\pi,\; m\pi)$.
+\end{enumerate}
+
+\paragraph{בסיס נורמלי ופונקציית גרין המודאלית.}
+המודים מוגדרים לפי נורמה משוקללת-צפיפות (\cite{jensen2011coac}, משוואה~5.6 עמ'~339):
+\[
+  \int_0^\infty \frac{\Psi_m^2(z)}{\rho(z)}\,dz = 1.
+\]
+שדה הלחץ הוא סכום $M$ מודים כלואים (\cite{jensen2011coac}, משוואות~5.13--5.14 עמ'~340):
+\begin{equation}
+  p(r,z)
+  \;\approx\;
+  \frac{i}{\rho(z_S)\sqrt{8\pi r}}\,e^{-i\pi/4}
+  \sum_{m=1}^{M}
+  \frac{\Psi_m(z_S)\,\Psi_m(z)\,e^{ik_{r,m}\,r}}{\sqrt{k_{r,m}}},
+  \label{eq:pekeris_modal_sum}
+\end{equation}
+כאשר מספר המודים $M = \lfloor k_{z,\max}D/\pi + \tfrac{1}{2} \rfloor$,
+$k_{z,\max} = \sqrt{k_1^2 - k_2^2}$ (\cite{jensen2011coac}, משוואה~2.190 עמ'~124),
+ו-TL מוגדר יחסית למקור נקודתי ב-1~מ' (\cite{jensen2011coac}, משוואה~5.17 עמ'~340):
+\[
+  \mathrm{TL}(r,z)
+  = -20\log_{10}\!\left(\sqrt{\frac{2\pi}{r}}\left|\sum_{m=1}^M
+      \frac{\Psi_m(z_S)\,\Psi_m(z)\,e^{ik_{r,m}r}}{\sqrt{k_{r,m}}}\right|\right).
+\]
+בסימולציה זו: $c_1{=}1479.4\,\text{מ''/שנ'}$, $D{=}50\,\text{מ'}$, $f{=}10\,\text{קהרץ}$,
+מה שנותן בדיוק $M=50$ מודים כלואים.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../validation/analytical/figures/waveguide_validation_50modes.png}
+  \caption{%
+    אימות \textenglish{Bellhop}: מוליך גלים של פקריס עם 50 מודים נורמליים
+    מול פתרון אנליטי (משוואה~\ref{eq:pekeris_modal_sum},
+    \cite{jensen2011coac} \S2.4.5--\S5.2).
+    \textbf{למעלה שמאל:} מפת TL אנליטית — 50 גלים גליליים מתנגשים.
+    \textbf{למעלה ימין:} מפת TL של \textenglish{Bellhop} — אותו מבנה התאבכות.
+    \textbf{למטה שמאל:} מפת הפרשים; שגיאה ממוצעת $<0.5\,\mathrm{dB}$ (תהודות עמוקות $>110\,\mathrm{dB}$ מוסרות).
+    \textbf{למטה ימין:} חתך TL באמצע העמודה — המודים האנליטיים חופפים את \textenglish{Bellhop} במבנה ה-mode interference.}
+  \label{fig:val_waveguide}
+\end{figure}
+
+\paragraph{מדוע סכום מודים מצדיק את \textenglish{LN3} כמודל סטוכסטי ל-TL?}
+\label{par:modes_to_ln3}
+
+סעיף זה מיועד לקורא המכיר הסתברות אך לא אקוסטיקה ימית.
+
+שדה הלחץ ב-$(r,z)$ הוא \textbf{סכום פאזורים מרוכבים} (משוואה~\ref{eq:pekeris_modal_sum}).
+כאשר הפרמטר הפיזיקלי $\theta$ (פרופיל SVP, עומק מקור $z_S$, תדר $f$) מוגרל
+$\theta \sim \mathcal{N}(\mu_\theta,\sigma_\theta^2)$, כל מצב $m$ תורם:
+\begin{itemize}
+  \item \textbf{פאזה אקראית:} $\varphi_m(\theta) = k_{r,m}(\theta)\cdot r$ (גדלה עם הטווח)
+  \item \textbf{אמפליטודה אקראית:} $A_m(\theta) = \Psi_m(z_S;\theta)\,\Psi_m(z;\theta)/\sqrt{k_{r,m}(\theta)}$
+\end{itemize}
+
+\textbf{שלב~1 — שיטת דלתא: לוג-אמפליטודה $\approx$ נורמלית.}
+נגדיר $U(\theta) = \ln|p(r,z;\theta)|$.
+פיתוח טיילור סביב $\theta_0$:
+\[
+  U(\theta) \approx U(\theta_0) + (\theta - \theta_0)\cdot \left.\frac{dU}{d\theta}\right|_{\theta_0}.
+\]
+מאחר ש-$(\theta-\theta_0)\sim\mathcal{N}(0,\sigma_\theta^2)$ ו-$U$ ליניארית ב-$(\theta-\theta_0)$,
+שיטת הדלתא נותנת $U \sim \mathcal{N}$.
+לכן $|p|=e^U$ הוא \textbf{לוג-נורמלי} ו-$\mathrm{TL}=-20/\ln(10)\cdot U$ הוא בקירוב \textbf{נורמלי} (ב-$\sigma_\theta \to 0$).
+
+\textbf{שלב~2 — גבול תחתון פיזיקלי.}
+ה-TL המינימלי בטווח $r$ מוכתב על-ידי ה\textbf{התפשטות הגיאומטרית} בלבד,
+ותמיד $\mathrm{TL} \geq \gamma \approx 20\log_{10}(r)$~[dB].
+האיבר $\gamma$ הוא \textbf{פרמטר ההזזה} של \textenglish{LN3}.
+
+\textbf{שלב~3 — העודף $X = \mathrm{TL}-\gamma$ הוא לוג-נורמלי.}
+האינטנסיות מקיימת:
+\[
+  I = |p|^2 = \sum_m A_m^2 + 2\sum_{m<n} A_m A_n \cos(\Delta\varphi_{mn}).
+\]
+כשפאזות המודים אקראיות, בטולים עמוקים ($I\to 0$) יוצרים זנב ימני ארוך ב-TL.
+הלוגריתם של כלי ההתאבכות מתנהג כסכום תרומות בלתי-תלויות,
+ועל-פי משפט הגבול המרכזי:
+\[
+  \ln(X) = \ln(\mathrm{TL}-\gamma) \;\sim\; \mathcal{N}(\mu_L,\sigma_L^2)
+  \;\;\Longrightarrow\;\; \mathrm{TL} \sim \mathrm{LN3}(\gamma,\mu_L,\sigma_L).
+\]
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ll}
+\hline
+\textbf{פרמטר LN3} & \textbf{משמעות פיזיקלית} \\
+\hline
+$\gamma$   & ריצפת התפשטות גיאומטרית (גבול תחתון קשיח) \\
+$\mu_L$    & ממוצע-לוג של עודף TL מעל $\gamma$ \\
+$\sigma_L$ & רוחב הפיזור — גדל עם $M$, $\sigma_\theta$, ו-$r$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{מסקנה:} \textenglish{LN3} אינה ניחוש אמפירי — היא נגזרת ישירות מהמבנה המודאלי של השדה האקוסטי
+(שיטת דלתא $+$ CLT על התאבכות).
+\src{validation/analytical/run\_waveguide\_validation.m}
 
 % ─────────────────────────────────────────
 \subsection{רגישות TL לפרמטרים פיזיקליים}
@@ -456,35 +578,46 @@ $R_1$ הוא מקור אמיתי, $R_2$ מקור הדמיון — הבדל הס�
 % Jacobians (\ref{sec:delta}) elsewhere in this report.
 \label{sec:qualitative_sensitivity}
 
-\aiedit{\textbf{הבהרת מסגרת:} לפני תחילת ה-UQ הפורמלי (MC/Delta/PCE/LN3), נבדק
+\aiedit{\textbf{חשיבות:} לפני תחילת ה-UQ הפורמלי (MC/Delta/PCE/LN3), נבדק
 באופן איכותי-בלבד כיצד \textenglish{Bellhop} עצמו — כ"קופסה שחורה" — מגיב לשינויים
 בפרמטרי הקלט שלו (מהירות קול קבועה, תדר, עומק בתימטריה, התאמת אימפדנס קרקעית):
-לא נמדד כאן מקדם רגישות כמותי (זה מגיע בהמשך, ר' סעיף~\ref{sec:sensitivity} — ניתוח
-Sobol מבוסס PCE — וסעיף~\ref{sec:delta} — יעקוביאני Delta), אלא רק וידוא איכותי
+לא נמדד כאן מקדם רגישות כמותי (זה מגיע בהמשך, ר' סעיף~\ref{sec:sensitivity} —שם ישנו בין היתר ניתוח רגישויות
+Sobol מבוסס PCE — ובמידה מסויימת גם בשיטת הדלתא נוכל לכמת את רמת ההשפעה של כל פרמטר~\ref{sec:delta}  Delta), כאן אנו עושים רק וידוא איכותי
 שההתנהגות הפיזיקלית של הסימולטור סבירה (למשל: קשתות CZ זזות כצפוי עם מהירות קול,
-תבנית ההתאבכות תלויה בתדר לפי $\lambda=c/f$, החזרה מקרקעית תלויה ביחס האימפדנסים).}
-
-לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL
-לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות ב-$\theta_0 - \delta$, $\theta_0$, ו-$\theta_0 + \delta$.
-הפרעת SVP מייצרת את הפיזור המרחבי הדרמטי ביותר של TL, במיוחד בגבולות ה-\textenglish{CZ}.
-עומק המקור והתדר מייצרים תבניות מתונות יותר ושונות מבחינה איכותית.
+תבנית ההתאבכות תלויה בתדר לפי $\lambda=c/f$, החזרה מקרקעית תלויה ביחס האימפדנסים...).}
+ראשית כל נצפה לראות \textbf{נפיצה לינארית} בתנאי SVP קבוע, כלומר קשר הנפיצה:
+\[
+  \omega = v_p \, k.
+\]
+כאשר אנו מדברים על שני מקורות, נצפה לראות תבנית \textenglish{fringes}:
+מקסימה (שיא) מתרחשת כאשר הפרש המסלולים הוא $R_1 - R_2 = K\lambda$ ($K\in\mathbb{Z}$),
+ומינימה כאשר $R_1 - R_2 = (K+\tfrac{1}{2})\lambda$.
+נוכל לזהות נפיצה לינארית כאשר המרחקים בין ה\textenglish{fringes} גדלים עם הגדלת $K$
+(כלומר עם הגדלת מהירות הקול).
+המרחק בין ה\textenglish{fringes} נתון על-ידי:
+\begin{equation}
+  \Delta L = \left(n + \tfrac{1}{2}\right)\lambda.
+  \label{eq:fringe_spacing}
+\end{equation}
+בחלק זה נדמה את הרגישות האיכותית של שדה ה-TL לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות 
 
 \begin{figure}[H]
   \centering
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image17.png}
-    \caption{SVP $-\delta$}
+    \caption{$c = 300$~\textenglish{m/s} ($f = 10{,}000$~הרץ)}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image22.png}
-    \caption{SVP $\mu$ (נומינלי)}
+    \caption{$c = 900$~\textenglish{m/s}}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image30.png}
-    \caption{SVP $+\delta$}
+    \caption{$c = 9{,}000$~\textenglish{m/s}}
   \end{subfigure}
-  \caption{רגישות TL לשינויים ב-SVP: שלושה ערכי פרמטר.
-           \src{run\_sensitivity.m: for dSVP in [-delta 0 +delta]: TL=bellhopCached(svp0+dSVP)}}
+  \caption{רגישות TL לשינויים במהירות הקול בתנאי SVP קבוע ($c$ = קבוע, $f = 10{,}000$~הרץ).
+           ניתן לראות שהגדלת $c$ מגדילה את רוחב תבנית ה\textenglish{fringes} — בהתאם ל-$\lambda=c/f$.
+           \textit{פרמטרי סביבה: עומק מים = 2000~מ\textquotesingle, טווח = 10~ק\textquotedbl מ\textquotesingle, ללא החזרות, ללא בליעה.}}
   \label{fig:svp_sensitivity}
 \end{figure}
 
@@ -492,14 +625,15 @@ Sobol מבוסס PCE — וסעיף~\ref{sec:delta} — יעקוביאני Delta
   \centering
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image33.png}
-    \caption{תדר נמוך}
+    \caption{\textbf{(א) תדר גבוה:} $f = 2000$~הרץ, $c = 1000$~\textenglish{m/s}}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image32.png}
-    \caption{תדר גבוה}
+    \caption{\textbf{(ב) תדר נמוך:} $f = 1000$~הרץ, $c = 500$~\textenglish{m/s}}
   \end{subfigure}
-  \caption{רגישות TL לשינויים בתדר.
-           \src{run\_sensitivity.m: TL\_lo=bellhopCached(freq0*(1-d)); TL\_hi=bellhopCached(freq0*(1+d))}}
+  \caption{יחס $c/f$ הוא הקובע הבלעדי של תמונת ההתאבכות:
+           בשני המקרים מהירות הקול והתדר שונים, אך תבנית ה\textenglish{fringes} זהה.
+           הדבר מאשש כי הנפיצה היא לינארית ($\omega = v_p k$).}
   \label{fig:freq_sensitivity}
 \end{figure}
 
@@ -507,27 +641,19 @@ Sobol מבוסס PCE — וסעיף~\ref{sec:delta} — יעקוביאני Delta
   \centering
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image21.png}
-    \caption{$z_S$ רדוד}
+    \caption{עומק קרקעית 1000~מ'}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image37.png}
-    \caption{$z_S$ נומינלי}
+    \caption{עומק קרקעית 2500~מ'}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.32\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image35.png}
-    \caption{$z_S$ עמוק}
+    \caption{עומק קרקעית 100~מ'}
   \end{subfigure}
-  \caption{רגישות TL לעומק מקור $z_S$.
-           \src{run\_sensitivity.m: TL=bellhopCached(zS0*(1+dz)) for dz in {-d,0,+d}}}
+  \caption{רגישות TL לעומק קרקעית.
+           עומק הקרקעית (לא עומק המקור) משנה את מבנה ההחזרות ואת אזורי הצל.}
   \label{fig:zs_sensitivity}
-\end{figure}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.60\textwidth]{pptx_figures/image24.png}
-  \caption{משטר גלים: TL בתחום תדרים נמוכים מול גבוהים.
-           \src{bellhopCached({25,maxR,...}) vs bellhopCached({400,maxR,...})}}
-  \label{fig:wavelength_regime}
 \end{figure}
 
 % ============================================================
@@ -638,14 +764,26 @@ $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
         ו-\textenglish{LN3} ייחוסי מותאם ל-\textenglish{MOM}.
         שימוש בשיטת ה-\textenglish{LHS} מבטיח כיסוי מלא יותר של מרחב הפרמטר בשיטה זו ערכי הפרמטר המוגרלים מוגרלים ביחד כך שהם יכסו כמה שיותר ערכים,דגימה מסוג זה יעילה בעיקר בהרעשה של פרמרטים רבים ביחד אך גם בהרעשת פרמרטר יחיד תתן לנו התכנסות מהירה יותר של MC, 
 		אולם אנחנו משלמים בכך שהדגימות לא IID ולכן לא ניתן להשתמש בשיטות המניחות דגימות IID כגון MLE.
+		
+
 % V #להוסיף להמלצות שאנחנו ממצלילים לעשות הרעשות משותפות ולהשתשמ בLHS לחיסכון משמעותי#
-\aiedit{\textbf{המלצה:} כאשר יש יותר מפרמטר אי-ודאי אחד, מומלץ לדגום את כל הפרמטרים
-\emph{במשותף} (הרעשה משותפת, לא OAT) ולהשתמש ב-\textenglish{LHS} לצורך כך —
-כיסוי המרחב הרב-ממדי המשותף חוסך משמעותית במספר הרצות Bellhop הנדרשות
-ביחס לדגימת IID רגילה, מבלי לפגוע בדיוק אמידת המומנטים.}
+\aiedit{\textbf{המלצה:} כאשר רוצים להרעיש יותר מפרמטר אחד, מומלץ לדגום את כל הפרמטרים
+\emph{במשותף} (הרעשה משותפת, לא הרעשה אחד בכל פעם)
+ולהשתמש ב-\textenglish{LHS} (\textenglish{Latin Hypercube Sampling} — דגימת היפר-קוביה לטינית),
+שיטה שמחלקת כל ממד פרמטר ל-$N$ תאים שווים ובוחרת בדיוק דגימה אחת מכל תא:
+\begin{itemize}
+  \item מבטיחה כיסוי \textbf{אחיד} של מרחב הפרמטר בכל ממד
+  \item מפחיתה שגיאת אמידת ממוצע ושונות ביחס לדגימת \textenglish{IID} רגילה
+  \item הדגימות \textbf{אינן עצמאיות} (לא \textenglish{IID}), ולכן \textenglish{MLE}
+        (המניחה \textenglish{IID}) אינה ישימה ישירות על דגימות \textenglish{LHS}
+\end{itemize}
+כיסוי המרחב הרב-ממדי המשותף גדול בהרבה ממרחב הפרמטר הבודד,
+וחוסך משמעותית במספר הרצות \textenglish{Bellhop} הנדרשות
+ביחס לדגימת \textenglish{IID} רגילה, מבלי לפגוע בדיוק אמידת המומנטים בשיטת \textenglish{MOM}.}
   \item \textbf{קבוצת \textenglish{IID}} ($N=1000$ מדגמים עצמאיים): משמשת אך ורק
         להתאמת \textenglish{LN3} מבוססת שיטת \textenglish{MLE},
-        מכיוון ש-\textenglish{MLE} דורש את הנחת ה-\textenglish{IID}.
+        מכיוון ש-\textenglish{MLE} דורש את הנחת ה-\textenglish{IID}
+(ר' סעיף~\ref{sec:lhs_iid} ו-\ref{sec:mle_vs_mom} להלן).
 \end{itemize}
 שתי הקבוצות שמורות ב-\texttt{Cache/<sc>/<dist>/} (\textenglish{LHS}) וב-%
 \texttt{Cache/<sc>/<dist>\_iid/} (\textenglish{IID}),
@@ -663,18 +801,18 @@ $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
   \end{subfigure}\\[8pt]
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/TL_zS.png}
-    \caption{מדרון יורד (50→550~מ'): אזור הצל ממיפוי קרקע בטווח בינוני.}
+    \caption{מדרון יורד ($50{\to}550$~מ'): אזור הצל ממיפוי קרקע בטווח בינוני.}
   \end{subfigure}\hfill
   \begin{subfigure}[t]{0.48\textwidth}
     \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/TL_zS.png}
-    \caption{מדרון עולה (550→50~מ'): קרקעית עולה לוכדת אנרגיה.}
+    \caption{מדרון עולה ($550{\to}50$~מ'): קרקעית עולה לוכדת אנרגיה.}
   \end{subfigure}
   \caption{ממוצע TL של MC $\EX[\TL]$ (dB) להפרעת $z_S$ נורמלי 5\%{} בארבעת התרחישים. ניתן לראות גם בערך הממוצע את הדוגמאות הברורות של איזורי התכנסות כלומר יש משמעות פזייקלית לערך הממוצע המתקבל.
            \src{run\_mc.m: EX=mean(TL\_save,3); [Nz,Nr,N]=size(TL\_save); imagesc(r\_km,z\_m,EX)}}
   \label{fig:mc_ex_var}
 \end{figure}
 
-\subsubsection{פרופילי SVP שנדגמו ומודל ההפרעה}
+\subsubsection{פרופילי SVP שנדגמו מתוך ההרעשה והסבר של מודל ההפרעה}
 \label{sec:svp_ensemble}
 
 \paragraph{מוטיבציה פיזיקלית למודל הפרעת ה-SVP.}
