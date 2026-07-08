@@ -377,7 +377,7 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 הוא אחוז ידוע מ-$\mu_k$ (1\%{}, 5\%{}, או 10\%{} בניסויינו).
 מטרת ה-\textenglish{UQ} היא להעביר התפלגויות כניסה אלו דרך הקופסא השחורה 
 של \textenglish{Bellhop} כדי לקבל את התפלגות הפלט של TL בכל פיקסל,
-ומשם את \aiedit{הסתברות הגילוי $P_\mathrm{det}}.% V #תמיד מדברים על P גילוי ולא P צל#
+ומשם את \aiedit{הסתברות הגילוי $P_\mathrm{det} = 1-\Pshadow$ (ולא הסתברות ה"צל" עצמה)}.% V #תמיד מדברים על P גילוי ולא P צל#
 
 % ─────────────────────────────────────────
 \subsection{אימות אנליטי של \textenglish{Bellhop}}
@@ -412,7 +412,6 @@ $R_1$ הוא מקור אמיתי, $R_2$ מקור הדמות  — ניתן גם �
 (\texttt{geoAcoustics}~$=[1,\,1,\,0]$ — יחס מהירות קול $1$, יחס צפיפות $1$, כלומר בלי בליעה —
 כך שהקרקעית "שקופה" אקוסטית ואין החזרה כלל), נשווה זאת מול פתרון שיטת הדמויות הטהור של Jensen
 (משוואה~2.76,  \texttt{validation/analytical/jensenHalfspaceImage.m}).}
-$-----------להמשיך 8.7
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../validation/analytical/figures/jensen_halfspace_validation.png}
