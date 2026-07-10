@@ -757,6 +757,21 @@ Sobol מבוסס PCE — ובמידה מסויימת גם בשיטת הדלתא 
 
 סימולציות \textenglish{MC} משתמשות ב\textbf{שתי קבוצות מדגם משלימות}, כל אחת עם
 $N=1000$ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
+
+\aiedit{מכיוון שכל דגימת \textenglish{MC} בודדת $\TL^{(i)}$ היא מטריצה $N_z\times N_r$ (ולא
+מספר), כל האומדים להלן מחושבים \emph{בנפרד בכל פיקסל} $(z,r)$ — כלומר האומד עצמו הוא שדה
+$N_z\times N_r$, ולא ערך יחיד:}
+\begin{equation}
+  \hat\EX[\TL](z,r) \;=\; \frac{1}{N}\sum_{i=1}^{N} \TL^{(i)}(z,r),
+  \label{eq:mc_ex_est}
+\end{equation}
+\begin{equation}
+  \hat\Var[\TL](z,r) \;=\; \frac{1}{N-1}\sum_{i=1}^{N} \Bigl(\TL^{(i)}(z,r) - \hat\EX[\TL](z,r)\Bigr)^2.
+  \label{eq:mc_var_est}
+\end{equation}
+\aiedit{זו בדיוק הנוסחה המחושבת ב-\texttt{run\_mc.m}: \texttt{MC\_EX=mean(TL\_all,3); MC\_Var=var(TL\_all,0,3)}
+— שתיהן פועלות על הממד השלישי (מדגמי ה-\textenglish{MC}), פיקסל-פיקסל, ומחזירות מטריצת
+$N_z\times N_r$; \texttt{var(...,0,...)} משתמש בנרמול $N{-}1$ (תיקון בסל, אומד חסר-הטיה).}
 \begin{itemize}
   \item \textbf{קבוצת \textenglish{LHS}} ($N=1000$י): מספקת
         $\hat\EX[\TL]$, $\hat\Var[\TL]$, $\hat P_{\text{det}}$ אמפירי, \textenglish{KDE},
@@ -920,6 +935,38 @@ $O(1/\sqrt{N})$ — \emph{אותו} קצב אסימפטוטי כמו RMSE של �
 לראות. כלומר עד כה לא היה איור שבאמת מציג את קצב ההתכנסות הנטען. איור~\ref{fig:mc_conv_rmse}
 הבא מתקן זאת: הוא מציג RMSE אמיתי של השדה המרחבי המלא (לא רק ממוצעו) ביחס לייחוס $N=1000$,
 בסולם לוג-לוג — כאן אמורה להיראות ירידה בקצב $O(N^{-1/2})$ הצפוי.}
+
+\paragraph{אבל $Y$ אצלנו זו מפה, לא סקלר — אז מה בדיוק מייצג $\mu_Y,\sigma_Y$?}
+
+\aiedit{כל דגימת \textenglish{MC} בודדת אינה מספר בודד אלא מטריצה: $\mathrm{TL}(z,r)$ על רשת המקלטים
+הילידית של \textenglish{Bellhop} (\texttt{createBellhopEnv.m}), בגודל $N_z\times N_r=574\times766$
+— כלומר \textbf{439{,}484 פיקסלים} לכל דגימה. בהתאם, גם $\hat\EX[\TL]$ וגם $\hat\Var[\TL]$
+המחושבים ב-\texttt{run\_mc.m} (\texttt{mean(TL\_all,3)}, \texttt{var(TL\_all,0,3)}) הם שדות
+$N_z\times N_r$, לא מספרים. באופן פורמלי, משוואות ה-\textenglish{CLT} שלעיל (RMSE, $\mathrm{Var}(S_N^2)$,
+$C_V$) עדיין תקפות — אך \emph{בכל פיקסל בנפרד}: לכל $(z,r)$ יש $\mu_Y(z,r)=\EX[\TL(z,r)]$,
+$\sigma_Y(z,r)$ ו-$C_V(z,r)$ משלו, והתיאוריה הסקלרית היא פשוט התיאוריה הזו כפי שהיא חלה בכל
+פיקסל בנפרד, לא ממוצע כלשהו שלה.}
+
+\aiedit{מה, אם כן, בדיוק מוצג באיור~\ref{fig:mc_conv_rmse}? $\hat Y_N$ ו-$\hat Y_{1000}$ הם שני שדות
+$N_z\times N_r$ (אומד ב-$N$ מול הייחוס ב-$N=1000$), וה"$\mathrm{RMSE}$" המוצג הוא צירוף
+\emph{מרחבי} (לא צירוף על פני חזרות של הניסוי) שלהם לכדי מספר יחיד:}
+\begin{equation}
+  \mathrm{RMSE}_{\mathrm{spatial}}(N) \;=\; \sqrt{\frac{1}{N_zN_r}\sum_{z,r}\bigl(\hat Y_N(z,r)-\hat Y_{1000}(z,r)\bigr)^2},
+  \label{eq:rmse_spatial}
+\end{equation}
+\aiedit{כלומר שורש-ריבועי-ממוצע (\textenglish{RMS}, מסוג $L_2$/פרובניוס) על פני כל 439{,}484 הפיקסלים
+של הפרש בין הגשמה יחידה ($N$ נתון) לבין הייחוס — ולא, כפי שהנוסחה התיאורטית $\sigma_Y/\sqrt N$
+מניחה, ממוצע על פני חזרות רבות של האומד עצמו ב-$N$ קבוע. כל פיקסל מקבל משקל שווה, ללא תלות
+בטווח הדינמי המקומי שלו ב-dB. זו בדיוק הנוסחה ב-\texttt{run\_mc\_convergence.m}: \texttt{rmse\_EX\_conv
+= sqrt(mean((EX\_ni(:)-EX\_ref(:)).\string^2))}.}
+
+\aiedit{יצוין שבמקומות אחרים בצינור המשמש לדוח זה משתמשים בצמצום שדה$\to$סקלר \emph{שונה}: שגיאת
+$L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_delta\_var\_tables.m},
+\texttt{plot\_taylor\_order\_study.m}), יחס נורמות $L_2$ (\texttt{pce\_conv\_vs\_N.m}), ואף מפת
+שגיאה שנשארת מרחבית ואינה מצומצמת כלל (מפת \textenglish{RMSE} של \textenglish{CDF},
+\texttt{run\_ln3.m}, איור~\ref{fig:gallery_ln3_pce}) — כלומר "$\mathrm{RMSE}$"/"$L_1$"/"$L_2$" בדוח זה אינם תמיד אותה פעולה
+מתמטית; ההגדרה המדויקת בכל מקום ניתנת כעת בסעיף~\ref{sec:comparison_metrics} (ראו גם
+משוואה~\ref{eq:rmse_spatial} כאן).}
 
 \begin{figure}[H]
   \centering
@@ -1172,6 +1219,81 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
   \qquad H_{ii} = \frac{\partial^2 \TL}{\partial \theta_i^2}\bigg|_{\boldsymbol{\theta}_0}.
   \label{eq:delta2}
 \end{equation}}
+
+\subsubsection{\aiedit{ממטריצה למספר: מטריקות ההשוואה בין מפות שונות}}
+\label{sec:comparison_metrics}
+
+\aiedit{$\Var_{\mathrm{MC}}$, $\Var_\Delta$ (מסדר 1 או 2), ו-$\Var_K^{\mathrm{PCE}}$ הם כולם שדות
+$N_z\times N_r$ (אותה רשת מקלטים כמו בסעיף~\ref{sec:mc_conv}, $574\times766$ פיקסלים) —
+לכן "שגיאה בין שתי שיטות" פירושה תמיד \emph{מפת הפרשים}, ו"אחוז השגיאה" הבודד המדווח בטבלה
+או בטקסט הוא תמיד צמצום מסוים של אותה מפה למספר יחיד. להלן הצמצומים בהם משתמש דוח זה,
+עם הנוסחה המדויקת ומקור הקוד:}
+
+\paragraph{(א) שגיאת $L_1$ יחסית (\textenglish{relative MAE}).}
+\aiedit{משמשת לטבלה~\ref{tab:analytical_l1} ולטענת "$<10\%{}$" לעיל:}
+\begin{equation}
+  L_1^{\mathrm{rel}} \;=\; \frac{\dfrac{1}{|\mathcal M|}\sum\limits_{(z,r)\in\mathcal M}
+  \bigl|\Var_\Delta(z,r)-\Var_{\mathrm{MC}}(z,r)\bigr|}
+  {\dfrac{1}{|\mathcal M|}\sum\limits_{(z,r)\in\mathcal M}\Var_{\mathrm{MC}}(z,r)},
+  \label{eq:l1_rel}
+\end{equation}
+\aiedit{כאשר $\mathcal M=\{(z,r):\mathrm{TL}_{\mathrm{nom}}(z,r)\le120\text{ dB}\}$ הוא מסכת תקפות
+המוציאה פיקסלים סמוכים למקור (שם ה-\textenglish{geometric spreading} יוצר סינגולריות מלאכותית).
+מקור: \texttt{fill\_findings.m}: \texttt{null\_mask=TL\_nom(:)<=120; mean\_VM=mean(Var\_MC(null\_mask));
+l1\_anal=mean(abs(Var\_delta\_anal(null\_mask)-Var\_MC(null\_mask)))/mean\_VM} (וכן \texttt{mad\_A}
+ב-\texttt{compute\_delta\_var\_tables.m}).}
+
+\paragraph{(ב) שגיאת $L_2$/\textenglish{RMS} מנורמלת לסטיית-תקן הייחוס.}
+\aiedit{משמשת לשגיאת שונות ה-\textenglish{PCE} (\texttt{run\_pce.m}):}
+\begin{equation}
+  L_2^{\mathrm{rel}} \;=\; \frac{\sqrt{\dfrac{1}{N_{\mathrm{pix}}}\sum\limits_{(z,r)}
+  \bigl(\Var_K^{\mathrm{PCE}}(z,r)-\Var_{\mathrm{MC}}(z,r)\bigr)^2}}{\mathrm{std}\bigl(\Var_{\mathrm{MC}}\bigr)}.
+  \label{eq:l2_rel_std}
+\end{equation}
+\aiedit{מקור: \texttt{L2\_mat(K,pi) = sqrt(mean((Var\_K\_pix'-Var\_MC).\string^2)) / std\_VM}.}
+
+\paragraph{(ג) יחס נורמות $L_2$ (אוקלידית).}
+\aiedit{משמשת בהתכנסות ה-\textenglish{PCE} (\texttt{pce\_conv\_vs\_N.m}):}
+\begin{equation}
+  \|\cdot\|_2^{\mathrm{rel}} \;=\; \frac{\|\Var_N-\Var_{\mathrm{ref}}\|_2}{\|\Var_{\mathrm{ref}}\|_2}
+  \;=\; \sqrt{\frac{\sum_{(z,r)}\bigl(\Var_N(z,r)-\Var_{\mathrm{ref}}(z,r)\bigr)^2}
+  {\sum_{(z,r)}\Var_{\mathrm{ref}}(z,r)^2}},
+  \label{eq:l2_rel_norm}
+\end{equation}
+\aiedit{בעצם אותה משפחה כמו (ב), אך מנורמלת לפי גודל הייחוס עצמו (נורמה) ולא לפי פיזורו (סטיית-תקן) —
+עונה על "איזה חלק מ'העוצמה' הכוללת של שדה הייחוס הוא השגיאה", חסרת יחידות ותמיד ב-$[0,\infty)$.
+מקור: \texttt{relL2\_var(ni) = norm(d\_(ok\_)) / norm(varref\_pool(ni,ok\_))}.}
+
+\paragraph{(ד) \textenglish{RMS} מרחבי לא-מנורמל מול ייחוס $N=1000$.}
+\aiedit{זו בדיוק
+משוואה~\ref{eq:rmse_spatial} בסעיף~\ref{sec:mc_conv} — אותה צורה כמו (ב), אך ללא נרמול (יחידות
+$\text{dB}^2$/dB גולמיות, לא אחוז) וללא מסכת פיקסלים, כי שם משווים אומד לעצמו ב-$N$ שונה
+(לא שתי שיטות שונות).}
+
+\paragraph{האם המדדים מנורמלים, ולמה?}
+\aiedit{(א) ו-(ג) הם שגיאות יחסיות חסרות-יחידות (חלק/אחוז
+מגודל שדה הייחוס עצמו — ממוצע עבור (א), נורמה עבור (ג)), ולכן ניתן לדווח אותן כ"$\%{}$",
+להשוות בין תרחישים ורמות אי-ודאות שונות מאוד בגודלן המוחלט (1\%{} מול 10\%{}), ולהציב
+עליהן סף קבוע (10\%{}). (ב) מנורמל לפי סטיית-התקן של הייחוס ולא ממוצעו — קרוב יותר ל"כמה
+סטיות-תקן של שדה הייחוס משתרעת השגיאה הטיפוסית". (ד), המשמש רק להתכנסות $N$ של MC כלפי עצמו
+(לא השוואת שיטות), נשאר במתכוון לא מנורמל, כי הוא מושווה לערך יעד קבוע ($N=1000$) של \emph{אותו}
+גודל, לא של מודל אחר.}
+
+\paragraph{למה $L_1$ טוב כאן, ולמה $L_2$ טוב במקומות אחרים?}
+\aiedit{$L_1$/\textenglish{MAE} (א) \textbf{עמיד
+בפני מיעוט פיקסלים חריגים ומקומיים} — למשל סמוך לגבולות אזור-צל או קשתות התאבכות, שם קירוב
+הדלתא עלול להיכשל בחדות ברצועה מרחבית דקה בעוד שההסכמה טובה כמעט בכל מקום אחר. העלאה בריבוע
+(כפי ש-$L_2$ עושה) הייתה נותנת למספר קטן של פיקסלים גרועים לשלוט בממוצע ולגרום למפה טובה בסך-הכל
+להיראות גרועה. $L_1$ במקום זאת מדווח את חוסר-ההסכמה \emph{הטיפוסי} לפיקסל, ולכן הוא המדד שנבחר
+לטענת הכותרת "$\Var_\Delta$ מסכים עם $\Var_{\mathrm{MC}}$ ברמת $<10\%{}$". לעומת זאת $L_2$/\textenglish{RMS}
+((ב),(ג),(ד)) מועדף במקומות שהמטרה קרובה יותר להגדרה הסטטיסטית של שגיאת אומד (RMSE אמיתי,
+התואם לתיאוריית $\sigma/\sqrt N$, או אבחון שגיאת קיטום \textenglish{PCE} מסוג שארית הטלה
+$L^2$) — שם השגיאה בריבוע היא בדיוק העצם ה"נכון" מתמטית (שונות השגיאה), ורגישות למספר קטן של
+שגיאות מקומיות גדולות היא יתרון (מסמנת היכן קיטום ה-\textenglish{PCE} הכי גרוע), לא חיסרון.}
+
+\aiedit{לסיכום: זו אותה בעיה של מטריצה מול סקלר כמו בסעיף~\ref{sec:mc_conv}, רק שכאן משווים \emph{שתי
+שיטות שונות} זו לזו במקום להשוות אומד לעצמו כפונקציה של $N$.}
+
 \subsubsection{היכן שיטת דלתא מצליחה}
 
 עבור תרחישי \textbf{מים רדודים} ו\textbf{מים עמוקים} תחת הפרעות קטנות
