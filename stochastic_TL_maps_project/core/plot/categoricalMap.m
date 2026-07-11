@@ -85,6 +85,12 @@ ylabel(ax, 'Depth (m)');
 title(ax, label, 'Interpreter', 'none');
 
 hold(ax, 'on');
+% V white band (idx==1, P < thr(1)) previously had no legend entry at all —
+% add it explicitly so "< 50%" (or whatever the lowest threshold is) is
+% labeled, not just silently white.
+patch(ax, 'XData', NaN, 'YData', NaN, 'FaceColor', cmap(1,:), ...
+      'EdgeColor', [0.6 0.6 0.6], 'LineWidth', 0.5, ...
+      'DisplayName', sprintf('< %.0f%%', thr(1)*100));
 for k = 1:n_thr
     if k < n_thr
         lbl = sprintf('%.0f–%.0f%%', thr(k)*100, thr(k+1)*100);
@@ -94,6 +100,8 @@ for k = 1:n_thr
     patch(ax, 'XData', NaN, 'YData', NaN, ...
           'FaceColor', cmap(k+1,:), 'EdgeColor', 'none', 'DisplayName', lbl);
 end
-legend(ax, 'Location', 'best', 'FontSize', 6);
+% V legend used to sit inside the axes ('best'), which can cover map content;
+% moved outside the axes entirely (right of the panel).
+legend(ax, 'Location', 'eastoutside', 'FontSize', 6);
 hold(ax, 'off');
 end
