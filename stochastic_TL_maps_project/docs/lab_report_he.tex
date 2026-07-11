@@ -110,6 +110,17 @@
 \thispagestyle{empty}
 \begin{center}
 \vspace*{1cm}
+\aiedit{\noindent
+\begin{minipage}{0.32\textwidth}\centering
+  \includegraphics[width=0.95\linewidth,height=1.6cm,keepaspectratio]{../../images/logos/faculty_logo.png}
+\end{minipage}%
+\begin{minipage}{0.32\textwidth}\centering
+  \includegraphics[width=0.6\linewidth,height=1.6cm,keepaspectratio]{../../images/logos/sipl_logo.jpg}
+\end{minipage}%
+\begin{minipage}{0.32\textwidth}\centering
+  \includegraphics[width=0.6\linewidth,height=1.6cm,keepaspectratio]{../../images/logos/technion_logo.png}
+\end{minipage}
+\vspace{0.8cm}}
 {\Large\textbf{הטכניון — מכון טכנולוגי לישראל}}\\[0.3cm]
 {\large מעבדת עיבוד אותות ותמונות (\textenglish{SIPL})}\\[0.3cm]
 {\large הפקולטה להנדסת חשמל ומחשבים}
@@ -170,8 +181,8 @@ Underwater Acoustic Transmission Loss}}}
   \frac{\Var[\TL(\mathbf{x})]}{\Var[\TL(\mathbf{x})] + \bigl(\mathrm{FOM} - \EX[\TL(\mathbf{x})]\bigr)^2}.
   \label{eq:cantelli}
 \end{equation}
-הכניסות של ההדמייה אליהם נתייחס כמשתנים אקראיים גאוסיים הן תדר הנשא של האות הנפלט מהסונאר, עומק המקור ($z_S$) ופרופיל מהירות הקול המשתנה ביחס לעומק (\textenglish{SVP}),
-שכל אחת מן הכניסות הינה משתנה אקראי בלתי תלוי סטטיסטית באחרים.
+פרמטרי הכניסה של ההדמיה, אליהם נתייחס כמשתנים אקראיים גאוסיים, הם תדר הנשא של האות הנפלט מהסונאר, עומק המקור ($z_S$) ופרופיל מהירות הקול המשתנה ביחס לעומק (\textenglish{SVP}),
+כאשר כל אחד מהפרמטרים הינו משתנה אקראי בלתי תלוי סטטיסטית באחרים.
 שלוש השיטות המתקדמות אותן נציג — שיטת דלתא מסדר ראשון ושני, התפשטות כאוס פולינומי (\textenglish{PCE}),
 והתאמת לוגנורמלי תלת-פרמטרי (\textenglish{LN3})-אותן נשווה אל מול שיטת מונטה קרלו (\textenglish{MC}) היקרה חישובית.
  נדמה ארבעה תרחישי התפשטות (מים רדודים, מים עמוקים, מדרון עולה, מדרון יורד) ושלוש התפלגויות כניסה (נורמלי 1\%{}/5\%{}/10\%{}).
@@ -251,7 +262,7 @@ and fall back to MC for slope environments or large source-depth uncertainty.
 אף אחת מהשלוש אינה אחידה עם העומק.
 הטמפרטורה יורדת בחדות דרך ה\emph{תרמוקליין} לפני שהיא מתייצבת בשכבה האיזותרמלית העמוקה,
 בעוד שהלחץ ההידרוסטטי עולה מונוטונית.
-ההשפעות המתחרות שלהם מייצרות פרופיל מהירות קול (\textenglish{SVP}) אופייני עם
+ההשפעות המתחרות שלהן מייצרות פרופיל מהירות קול (\textenglish{SVP}) אופייני עם
 מינימום ליד בסיס התרמוקליין --- \emph{ציר ערוץ הקול} (\textenglish{SOFAR}) ---
 המשבר אנרגיה אקוסטית כלפי מטה מעל הציר וכלפי מעלה מתחתיו,
 ולוכד קול בתדר נמוך במוליך גלים טבעית.
@@ -305,7 +316,10 @@ and fall back to MC for slope environments or large source-depth uncertainty.
 \begin{equation}
   \mathrm{SNR} = \mathrm{SL} - \TL - (\mathrm{NL} - \mathrm{DI})
 \end{equation}
-גילוי מתרחש כאשר $\mathrm{SNR} > \mathrm{DT}$ (סף הגילוי).
+\aiedit{כאשר $\mathrm{SL}$ היא רמת המקור (\textenglish{Source Level}), $\mathrm{NL}$ היא רמת
+הרעש הסביבתי (\textenglish{Noise Level}), ו-$\mathrm{DI}$ הוא מדד הכיווניות של מערך הקליטה
+(\textenglish{Directivity Index}).}
+גילוי מתרחש כאשר $\mathrm{SNR} > \mathrm{DT}$ \aiedit{(\textenglish{Detection Threshold} - סף הגילוי)}.
 סידור מחדש נותן את \emph{מדד הציון} (\textenglish{FOM}):
 \begin{equation}
   \mathrm{FOM} = \mathrm{SL} - \mathrm{NL} + \mathrm{DI} - \mathrm{DT}.
@@ -322,18 +336,18 @@ and fall back to MC for slope environments or large source-depth uncertainty.
 % ─────────────────────────────────────────
 \subsection{תופעות התפשטות: אזורי התכנסות והחזרות קרקע}
 \label{sec:propagation_phenomena}
-סימולציות התפשטות הגלים רגישות מאוד לשינויים קטנים בכניסות והדבר מתבטא בשינוי במיקום אזורי ההתכנסות ואזורי הצל.(הספק אות גובה לעומת הספק נמוך בהתאמה) 
+סימולציות התפשטות הגלים רגישות מאוד לשינויים קטנים בכניסות והדבר מתבטא בשינוי במיקום אזורי ההתכנסות ואזורי הצל (הספק אות גבוה לעומת הספק נמוך בהתאמה).
 שתי תופעות התפשטות אקוסטית שולטות בטווח ארוך במים עמוקים:
 \begin{itemize}
   \item \textbf{אזורי התכנסות (\textenglish{CZ})}: מנגנון המיקוד של ערוץ הקול
         מייצר דוגמת קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) אורך קשותות אלה יהיה לדוגמה
-        $\sim$55~ק"מ עבור SVP טיפוסי במים עמוקים. ניתן לראות קשתות אלו באיור 10.
+        $\sim$55~ק"מ עבור SVP טיפוסי במים עמוקים. ניתן לראות קשתות אלו באיור~\ref{fig:gallery_mc}.
         מיקום ה-\textenglish{CZ} רגיש מאוד ל-SVP קרוב לפני המים: הפרעת SVP של 5\%{}
         יכולה להזיז את הקשתות בעלות ההספק הגבוה ה-\textenglish{CZ} ב-$\pm$5--10~ק"מ ולשנות את רווח ה-\textenglish{CZ}
         ב-\textenglish{$\pm$5--10~dB}.
   \item \textbf{החזרות מקרקעית הים}: במים רדודים ובסביבות מדרון,
-        הרבה מהאנרגיה אקוסטית קופצת בין המשטח לקרקעית, ויוצרת תבניות הפרעה של מראת לויד
-        שהמחזור המרחבי שלהן נמדד ב-$\lambda/2$ והן רגישות מאוד לעומק המקור $z_S$.
+        הרבה מהאנרגיה אקוסטית קופצת בין המשטח לקרקעית, ויוצרת \aiedit{תבניות התאבכות מראת לויד
+        (\textenglish{Lloyd's mirror effect})} שהמחזור המרחבי שלהן נמדד ב-$\lambda/2$ והן רגישות מאוד לעומק המקור $z_S$.
 \end{itemize}
 \begin{figure}[H]
   \centering
@@ -400,7 +414,7 @@ $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$ כאשר $\sigma_k$
 $R_1$ הוא מקור אמיתי, $R_2$ מקור הדמות  — ניתן גם לחשוב על הבדל הסימן בין השניים נובע ישירות מבחירת
 פונקציית גרין המקיימת את תנאי השפה $\psi=0$ במשטח (משוואה 2.73 שם).
 זהו פתרון \textenglish{Lloyd mirror} הסטנדרטי למקור מעל משטח חופשי-לחץ.}
- במקרה כזה נוכל להראות (איור 4) ש\textenglish{Bellhop} מסכים עד כדי $<$0.5~dBעם הפתרון האנליטי.
+במקרה כזה נוכל להראות (איור~\ref{fig:val_halfspace}) ש\textenglish{Bellhop} מסכים במבנה ההתאבכות עם הפתרון האנליטי, בכפוף לפער שיטתי מוסבר (ר' דיון בכיתוב האיור).
 % V #גם בקוד זה נקרא פתרון שיטת הדמויות ולא מוליך גלים# — שם הפונקציה pekerisHalfspace מתייחס לפתרון ההיסטורי
 % של פקריס למרחב חצי-אינסופי, שמבוסס בעצמו על שיטת הדמויות (לא מוליך גלים מודים) — עקבי.
 
@@ -439,7 +453,7 @@ $R_1$ הוא מקור אמיתי, $R_2$ מקור הדמות  — ניתן גם �
 בדיוק כמו סיב אופטי — ומתפשטים לטווחים ארוכים ללא דלף.
 מודל זה נגזר במלואו ב-\cite{jensen2011coac}, \S 2.4.5 עמ'~119--131 ו-\S 5.2 עמ'~338--340.
 
-\paragraph{הנחת יסוד: הלמהולץ $\to$ הנקל $\to$ ODE בעומק.}
+\paragraph{הנחת יסוד: הלמהולץ $\leftarrow$ הנקל $\leftarrow$ ODE בעומק.}
 הפתרון נגזר בשלשה שלבים:
 \begin{enumerate}
   \item \textbf{התמרת פורייה בזמן} ($\partial_t \to -i\omega$) הופכת את משוואת הגל למשוואת הלמהולץ:
@@ -494,10 +508,39 @@ $k_{z,\max} = \sqrt{k_1^2 - k_2^2}$ (\cite{jensen2011coac}, משוואה~2.190 �
     \cite{jensen2011coac} \S2.4.5--\S5.2).
     \textbf{למעלה שמאל:} מפת TL אנליטית — 50 גלים גליליים מתנגשים.
     \textbf{למעלה ימין:} מפת TL של \textenglish{Bellhop} — אותו מבנה התאבכות.
-    \textbf{למטה שמאל:} מפת הפרשים; שגיאה ממוצעת $<0.5\,\mathrm{dB}$ (תהודות עמוקות $>110\,\mathrm{dB}$ מוסרות).
-    \textbf{למטה ימין:} חתך TL באמצע העמודה — המודים האנליטיים חופפים את \textenglish{Bellhop} במבנה ה-mode interference.}
+    \textbf{למטה שמאל:} מפת הפרשים; \aiedit{שגיאה ממוצעת $\approx$4.49~dB, חציונית $\approx$3.01~dB,
+    הטיה שיטתית +2.54~dB (תהודות עמוקות $>110\,\mathrm{dB}$ מוסרות; $r\geq500$~מ') —
+    כלומר \textbf{הערכים הנומינליים אינם מסכימים בדיוק תת-dB}, אלא רק ברמת מספר dB בודדים.}
+    \textbf{למטה ימין:} חתך TL באמצע העמודה — המודים האנליטיים חופפים את \textenglish{Bellhop} במבנה ה-mode interference הכללי, אך לא בערכים המדויקים.}
   \label{fig:val_waveguide}
 \end{figure}
+
+\paragraph{למה לא בדיקת-שפיות לנגזרת דרך מוליך הגלים?}
+\aiedit{מכיוון שהערכים הנומינליים של TL עצמם בין \textenglish{Bellhop} לפתרון מוליך הגלים
+האנליטי (משוואה~\ref{eq:pekeris_modal_sum}) אינם מסכימים ברמת דיוק תת-dB (ר' לעיל —
+פער של מספר dB בודדים), אין טעם לבנות עליו בדיקת-שפיות לנגזרת: אם אפילו הפונקציה
+עצמה אינה מסכימה במדויק, השוואת הנגזרות שלה (הפרש קטן בין שני ערכים לא-מדויקים)
+תהיה חסרת משמעות. זו הסיבה שבדיקת-השפיות לנגזרת (סעיף~\ref{sec:analytical_gt} להלן)
+נבנתה במקום זאת על בסיס פתרון חצי-המרחב (שיטת הדמויות), שם יש הסכמה כמעט מושלמת
+בין \textenglish{Bellhop} לפתרון האנליטי.}
+
+\aiedit{\textbf{הערה לעתיד --- גם פתרון אנליטי מלא אינו "פתרון קסם".} אפילו אם בעתיד יוחלף
+\textenglish{Bellhop} בפתרון אנליטי מלא (למשל התאמת פונקציית גרין מודאלית לכל מפה
+בנפרד), וגם אם התפתחויות בחישוביות יהפכו סימולציות אנליטיות לאטרקטיביות יותר
+מבחינה חישובית --- כך שבעיית הנגזרת הנומרית והתבדרותה (כפי שנצפה בסעיף~\ref{sec:analytical_gt})
+תיעלם --- עדיין יהיה מדובר בפתרון \emph{מקורב עד למספר מודים סופי} $M$. כאשר בוחנים
+התנהגות סטוכסטית תחת פרמטרים אי-ודאיים באמצעות שיטות כגון דלתא ו-LN3, קיצוץ המודים
+עדיין משפיע: הנגזרת רגישה יותר משמעותית לשגיאות קיטוע (פיתוח עד לסדר מודים סופי) או
+לתופעות דמויות-גיבס המתעוררות כאשר מקרבים פתרון בעל פיתוח מודלי סופי, בהשוואה
+לרגישות של הערך הפונקציונלי עצמו (TL) לאותו קיצוץ.}
+
+\aiedit{עבור שיטת דלתא, ליניאריות היא תכונה רצויה מובנית (הקירוב מסדר ראשון מדויק ככל
+שהמערכת ליניארית יותר סביב הנקודה הנומינלית). גם עבור LN3 ליניאריות מועילה, מהסיבה
+שהוצגה לעיל (סעיף~\ref{par:modes_to_ln3}, "שלב~1"): מערכת ליניארית בלוג-אמפליטודה
+היא בדיוק מה שהופך משתנה קרוב-לנורמלי (בלוג) ללוגנורמלי --- כלומר ליניאריות היא
+בדיוק ההנחה שמצדיקה את מודל ה-LN3 מלכתחילה. לסיכום: גם עבור סימולציות אנליטיות
+עתידיות, יש לקחת בחשבון את התבדרות הנגזרת ו"אי-הליניאריות" הנובעת מקיצוץ מודלי,
+שכן שתיהן משפיעות ישירות על תקפות השימוש הן בשיטת דלתא והן ב-LN3.}
 
 \paragraph{מדוע סכום מודים מצדיק את \textenglish{LN3} כמודל סטוכסטי ל-TL?}
 \label{par:modes_to_ln3}
@@ -599,21 +642,23 @@ Sobol מבוסס PCE — ובמידה מסויימת גם בשיטת הדלתא 
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image17.png}
     \caption{$c = 300$~\textenglish{m/s} ($f = 10{,}000$~הרץ)}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image22.png}
     \caption{$c = 900$~\textenglish{m/s}}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image30.png}
     \caption{$c = 9{,}000$~\textenglish{m/s}}
   \end{subfigure}
   \caption{רגישות TL לשינויים במהירות הקול בתנאי SVP קבוע ($c$ = קבוע, $f = 10{,}000$~הרץ).
            ניתן לראות שהגדלת $c$ מגדילה את רוחב תבנית ה\textenglish{fringes} — בהתאם ל-$\lambda=c/f$.
-           \textit{פרמטרי סביבה: עומק מים = 2000~מ\textquotesingle, טווח = 10~ק\textquotedbl מ\textquotesingle, ללא החזרות, ללא בליעה.}}
+           \textit{פרמטרי סביבה: עומק מים = 2000~מ\textquotesingle, טווח = 10~ק\textquotedbl מ\textquotesingle, ללא החזרות, ללא בליעה.}
+           \aiedit{תרחיש אידיאלי זה (ללא גרדיאנט מהירות קול) נועד לבודד את השפעת
+           הבתימטריה הטהורה על תבניות ההתאבכות, כדי לפשט את ההבנה בשלבי הניתוח הראשוניים.}}
   \label{fig:svp_sensitivity}
 \end{figure}
 
@@ -635,15 +680,15 @@ Sobol מבוסס PCE — ובמידה מסויימת גם בשיטת הדלתא 
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[t]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image21.png}
     \caption{עומק קרקעית 1000~מ'}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image37.png}
     \caption{עומק קרקעית 2500~מ'}
-  \end{subfigure}\hfill
-  \begin{subfigure}[t]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{pptx_figures/image35.png}
     \caption{עומק קרקעית 100~מ'}
   \end{subfigure}
@@ -797,8 +842,22 @@ $N_z\times N_r$; \texttt{var(...,0,...)} משתמש בנרמול $N{-}1$ (תיק
 (ר' סעיף~\ref{sec:lhs_iid} ו-\ref{sec:mle_vs_mom} להלן).
 \end{itemize}
 שתי הקבוצות שמורות ב-\texttt{Cache/<sc>/<dist>/} (\textenglish{LHS}) וב-%
-\texttt{Cache/<sc>/<dist>\_iid/} (\textenglish{IID}),
-ומניבות $4\times3\times3\times2\times1000 = 72{,}000$ הערכות \textenglish{Bellhop} בסך הכל.
+\texttt{Cache/<sc>/<dist>\_iid/} (\textenglish{IID}).
+
+\aiedit{\textbf{בסך הכל, הצינור שלנו הריץ 72{,}000 הערכות \textenglish{Bellhop}}, המחושבות
+באופן הבא:
+\[
+  \underbrace{4}_{\substack{\text{תרחישי מורפולוגיה:}\\\text{עמוק, רדוד, עולה, יורד}}}
+  \times
+  \underbrace{3}_{\substack{\text{רמות אי-ודאות:}\\1\%{},\,5\%{},\,10\%{}}}
+  \times
+  \underbrace{3}_{\substack{\text{פרמטרים מורעשים:}\\\text{תדר, SVP, עומק מקור}}}
+  \times
+  \underbrace{2}_{\substack{\text{שיטות דגימה:}\\\text{IID, LHS}}}
+  \times
+  \underbrace{1000}_{\text{דגימות}}
+  \;=\; 72{,}000.
+\]}
 
 \begin{figure}[H]
   \centering
@@ -957,7 +1016,7 @@ $N_z\times N_r$ (אומד ב-$N$ מול הייחוס ב-$N=1000$), וה"$\mathrm
 בטווח הדינמי המקומי שלו ב-dB. זו בדיוק הנוסחה ב-\texttt{run\_mc\_convergence.m}: \texttt{rmse\_EX\_conv
 = sqrt(mean((EX\_ni(:)-EX\_ref(:)).\string^2))}.}
 
-\aiedit{יצוין שבמקומות אחרים בצינור המשמש לדוח זה משתמשים בצמצום שדה$\to$סקלר \emph{שונה}: שגיאת
+\aiedit{יצוין שבמקומות אחרים בצינור המשמש לדוח זה משתמשים בצמצום שדה$\leftarrow$סקלר \emph{שונה}: שגיאת
 $L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_delta\_var\_tables.m},
 \texttt{plot\_taylor\_order\_study.m}), יחס נורמות $L_2$ (\texttt{pce\_conv\_vs\_N.m}), ואף מפת
 שגיאה שנשארת מרחבית ואינה מצומצמת כלל (מפת \textenglish{RMSE} של \textenglish{CDF},
@@ -999,7 +1058,7 @@ $L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_
 השוואת התכנסות LHS (ריבוע לטיני, דגימה סטרטיפיקטיבית) לעומת IID (עצמאי)
 עבור פרמטר יחיד (בניגוד להרעשה משותפת רב-ממדית, שם ל-LHS יתרון תיאורטי ברור).
 % V #גם פה צריך את כל 3 המשתנים#
-\aiedit{\textbf{תיקון:} כפי שהאיור להלן מראה, בפועל \emph{אין הבדל נראה לעין} בין
+\aiedit{\textbf{ממצא:} כפי שהאיור להלן מראה, בפועל \emph{אין הבדל נראה לעין} בין
 עקומות ה-RMSE של LHS ו-IID עבור אף אחד משלושת הפרמטרים בהרעשה חד-משתנית (OAT) — שני
 העקומות חופפות כמעט לחלוטין. זה עקבי מבחינה תיאורטית: כאשר מרעישים פרמטר \emph{בודד}
 בכל פעם, שכבוב (stratification) של LHS לא מספק יתרון משמעותי על פני IID, מכיוון שהיתרון
@@ -1027,7 +1086,10 @@ $L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_
            \aiedit{\textbf{אין הבדל נראה לעין} בין שתי שיטות הדגימה בהרעשה חד-פרמטרית —
            העקומות חופפות כמעט לחלוטין עבור כל שלושת הפרמטרים. זה תואם את הציפייה
            התיאורטית: יתרון ה-LHS מגיע מכיסוי טוב יותר של מרחב \emph{רב-ממדי},
-           ואינו צפוי להתבטא כאשר מרעישים פרמטר בודד בכל פעם.}
+           ואינו צפוי להתבטא כאשר מרעישים פרמטר בודד בכל פעם. כאשר מרעישים פרמטר בודד
+           (\textenglish{OAT}), דגימת היפר-קוביה לטינית (LHS) מניבה תוצאות כמעט זהות לדגימה
+           אקראית עצמאית (IID) — היתרון המובהק של LHS בא לידי ביטוי רק בכיסוי יעיל של
+           מרחבים רב-ממדיים, ולכן אין לה ערך מוסף באנליזת רגישות חד-ממדית.}
            \src{run\_lhs\_iid\_convergence.m: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)}}
   \label{fig:lhs_vs_iid}
 \end{figure}
@@ -1037,7 +1099,7 @@ $L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_
 
 ה-KDE משתמש בחלון גאוסי (כלל סילברמן: $h = 1.06\hat\sigma N^{-1/5}$, זהו כלל אצבע שימושי בחירת החלון אבל אין בו חוכמה מעבר)
 כדי להחליק את $\hat{P}_\text{shadow}$ במקום ספירה בדליים.
-הרעיו ןהוא שכל דגימה הינה עדות לדגימה נוספת אשר לא נדגמה ויכולה להיות קרובה, שכן אנחנו מניחים שהדגימות צפופות (שונות סופית...).
+הרעיון הוא שכל דגימה הינה עדות לדגימה נוספת אשר לא נדגמה ויכולה להיות קרובה, שכן אנחנו מניחים שהדגימות צפופות (שונות סופית...).
 האיור מראה ש-KDE מתכנסת מהר יותר מהאמידה האמפירית הישירה,
 ומציג אותה כבחירה חסכונית לאמידת $P_\text{shadow}$ בגדלי מדגם קטנים.
 
@@ -1063,7 +1125,7 @@ $L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_
   \caption{KDE לעומת אמידה אמפירית של $P_\text{shadow}$ כפונקציה של $N$
            (מים עמוקים, נורמלי 5\%{}, שלושת הפרמטרים).
            קו מלא = KDE (גאוסי), מקווקוו = אמפירי (ספירה).
-           \aiedit{\textbf{תיקון:} בניגוד למה שנטען קודם, בפועל שתי העקומות
+           \aiedit{\textbf{ממצא:} בניגוד למה שנטען קודם, בפועל שתי העקומות
            (KDE ואמפירי) כמעט חופפות לחלוטין על פני כל טווח $N$ שנבדק — אין
            שיפור נראה לעין של 30--50\% בגדלי מדגם קטנים. ההסבר התיאורטי (סעיף
            זה) עדיין תקף — ל-KDE יש יתרון אסימפטוטי צפוי בהחלקת האמידה — אך
@@ -1080,7 +1142,7 @@ $L_1$/\textenglish{MAE} יחסית (\texttt{fill\_findings.m}, \texttt{compute\_
 שתי אסטרטגיות ההתאמה של \textenglish{LN3} נשענות על מדגמים שונים:
 \textenglish{MOM} (שיטת המומנטים) מוחלת על מדגמי \textenglish{LHS},
 ואילו \textenglish{MLE} (שיטת הנראות המרבית) על מדגמי \textenglish{IID}.
-האיור מציג כיצד סטטיסטיקת \textenglish{KS} ומרחק \textenglish{Wasserstein-1}
+איור~\ref{fig:ln3_conv_N} מציג כיצד סטטיסטיקת \textenglish{KS} ומרחק \textenglish{Wasserstein-1}
 בין ה-\textenglish{LN3} המותאמת לבין ה-\textenglish{CDF} האמפירית של \textenglish{MC}
 ($N=1000$, מקובע) יורדים עם גדילת גודל המדגם $N$.
 ה-\textenglish{MOM} על מדגמי \textenglish{LHS} צפויה להתכנס מהר יותר בזכות הכיסוי
@@ -1188,7 +1250,7 @@ $\|\hat\Var_N[\TL]-\Var_{1000}[\TL]\|_2/\|\Var_{1000}[\TL]\|_2$ (השונות מ
 (פיתוח טיילור מסדר ראשון של פלט המודל סביב וקטור הפרמטרים הנומינלי),
 הידועה גם כ-\textenglish{FOSM} 
 וכלינאריזציית \textenglish{GUM} במטרולוגיה.
-כמו גם שגיאת מדידה מדידה במעבדה אנחנו בעזרת הנגזרת  משליכים מאי הוודאות בפרמטר אל אי הוודאות של הגודל התלוי בו בעזרת נגזרות חלקיות. 
+כמו גם בשגיאת מדידה במעבדה, אנחנו בעזרת הנגזרת משליכים מאי-הוודאות בפרמטר אל אי-הוודאות של הגודל התלוי בו, בעזרת נגזרות חלקיות.
 
 שיטת דלתא מסדר 1 מקרבת את השונות כ:
 \begin{equation}
@@ -1207,7 +1269,7 @@ $\tfrac{1}{2} H_{ii}^2 \kappa_i$ כאשר $\kappa_i = \EX[\delta\theta_i^4]/\sig
 
 * גבנוניות גבוהה מתבטאת בחריגות גדולות ונדירות מן הממוצע, בעוד שגבנוניות נמוכה פירושה שהחריגות שכיחות אך קטנות יותר בעוצמתן.
 
- נעיר שבשיטת הדלתא בשונה מהשיטות האחרות אין אנחנו מסוגלים לתת מודל התפלגות של TL בנקודה אבל יכולים לתת הערכ הלמומנט השני של ההתפלגות בנקודה, זאת ביחד עם שימוש בערך הנומינלי (=בלתי מורעש) נוכל לחשב חסם צבישב לסיכוי הגילוי, שכפי שאמרנו זו הבעייה החשובה ביתר בכל נושא הסימולציות הסטוכסטיות).
+נעיר שבשיטת הדלתא, בשונה מהשיטות האחרות, איננו מסוגלים לתת מודל התפלגות של TL בנקודה, אבל יכולים לתת הערכה למומנט השני של ההתפלגות בנקודה. זאת ביחד עם שימוש בערך הנומינלי (=בלתי מורעש), נוכל לחשב חסם צ'בישב לסיכוי הגילוי — שכפי שאמרנו זו הבעיה החשובה ביותר בכל נושא הסימולציות הסטוכסטיות.
 
 % V %חייב לרשום גם את VAR= לסדר שני
 \aiedit{השונות מסדר שני (כולל תיקון ההסיאן):
@@ -1257,7 +1319,7 @@ l1\_anal=mean(abs(Var\_delta\_anal(null\_mask)-Var\_MC(null\_mask)))/mean\_VM} (
   {\sum_{(z,r)}\Var_{\mathrm{ref}}(z,r)^2}},
   \label{eq:l2_rel_norm}
 \end{equation}
-\aiedit{בעצם אותה משפחה כמו (ב), אך מנורמלת לפי גודל הייחוס עצמו (נורמה) ולא לפי פיזורו (סטיית-תקן) —
+\aiedit{למעשה אותה משפחה כמו (ב), אך מנורמלת לפי גודל הייחוס עצמו (נורמה) ולא לפי פיזורו (סטיית-תקן) —
 עונה על "איזה חלק מ'העוצמה' הכוללת של שדה הייחוס הוא השגיאה", חסרת יחידות ותמיד ב-$[0,\infty)$.
 מקור: \texttt{relL2\_var(ni) = norm(d\_(ok\_)) / norm(varref\_pool(ni,ok\_))}.}
 
@@ -1325,7 +1387,7 @@ $L^2$) — שם השגיאה בריבוע היא בדיוק העצם ה"נכון
 עבור \textbf{תרחישי מדרון} (עולה, יורד) \textbf{והפרעות גדולות}
 ($\geq$5\%{}), הקירוב מסדר 1 מתמוטט משמעותית.
 גם תיקון סדר 2 גם כן אינו מסוגל לשחזר את השונות:
-ניתן להבין זאת מכיוון שאיבר תיקון ההסיאן $|\kappa H^2|/V_1$ עולה על 100\%{} עבור הפרעות SVP כלומר איבר הקירוב מסדר ראשון קטן מאיבר הקירוב מסדר שני 
+ניתן להבין זאת מכיוון שאיבר תיקון ההסיאן $|\kappa H^2|/\Var_1[\TL]$ עולה על 100\%{} עבור הפרעות SVP כלומר איבר הקירוב מסדר ראשון קטן מאיבר הקירוב מסדר שני 
 בשני תרחישי המדרון, מה שמציין שסידרת טיילור לא התכנסה בסדר 2. כלומר תופעה זו לא ניתנת לקירוב מסדר שני באופן הזה.
 
 % V % אז פה לראות שני מקומות שיש בהם VAR DIFFRANCE גדול הראות ממש את הVAR DIFFRANCE
@@ -1360,7 +1422,7 @@ $L^2$) — שם השגיאה בריבוע היא בדיוק העצם ה"נכון
   \begin{english}
   \begin{tabular}{lcccccc}
     \toprule
-    & \multicolumn{2}{c}{Normal 5\%} & \multicolumn{2}{c}{Normal 10\%}
+    & \multicolumn{2}{c}{Normal 1\%} & \multicolumn{2}{c}{Normal 5\%}
     & \multicolumn{2}{c}{Normal 10\%} \\
     \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
     Scenario & Total & SVP & Total & SVP & Total & SVP \\
@@ -1438,18 +1500,42 @@ $L^2$) — שם השגיאה בריבוע היא בדיוק העצם ה"נכון
 \subsection{רגרסיית LN3, ניסיון למידול פרמטרי של הTL בנקודה}
 \label{sec:ln3}
 
-\paragraph{מוטיבציה לבחירת מודל LN3.}
-הבחירה בהתפלגות לוגנורמלית תלת-פרמטרית ל-TL מונעת על ידי טיעונים פיזיקליים:
+\paragraph{מוטיבציה לבחירת מודל LN3: מדוע השדה האקוסטי מצדיק מודל התפלגות בעל זנב (מ-Rayleigh ל-LN3)?}
+\aiedit{סעיף זה מיועד לקורא המכיר הסתברות אך לא אקוסטיקה ימית.}
 
-ראשית, TL מבוטא כבר בסקאלה לוגריתמית (dB):
-$\mathrm{TL} = -20\log_{10}(|p|/p_0)$.
-כל מבנה כפלי בשדה הלחץ ממופה לכן למבנה חיבורי ב-TL,
-ומעדיף התפלגויות ממשפחת הלוגנורמלי.
+\aiedit{בסביבה מרובת-מסלולים (\textenglish{Multipath}) כמו מוליך גלים אוקייני, הלחץ האקוסטי
+המרוכב בנקודת הקליטה מורכב מסכום של תרומות רבות (קרניים או מודים) בעלות פאזות אקראיות.}
 
+\aiedit{\textbf{שלב~1 --- שדה הלחץ ומשפט הגבול המרכזי (\textenglish{CLT}):}
+נרשום את הלחץ המרוכב כ-$p = X + iY$. כאשר האות מורכב מהתאבכות של מספר רב של גלים
+בלתי-תלויים, משפט הגבול המרכזי קובע כי החלק הממשי $X$ והחלק המדומה $Y$ יתפלגו נורמלית
+באופן בלתי תלוי, עם תוחלת אפס ושונות זהה: $X, Y \sim \mathcal{N}(0, \sigma^2)$.}
 
+\aiedit{\textbf{שלב~2 --- התפלגות ריילי (\textenglish{Rayleigh}) של האמפליטודה:}
+האמפליטודה של השדה האקוסטי $R = |p| = \sqrt{X^2 + Y^2}$ היא שורש ריבועי של סכום
+ריבועים של שני משתנים נורמליים בעלי תוחלת אפס ושונות זהה. הגדרה זו מניבה במדויק את
+התפלגות ריילי. התפלגות זו מתארת את תנודות האמפליטודה (\textenglish{Fading}) הנוצרות
+מהתאבכות בונה והורסת של הגלים.}
 
-שנית, ל-TL יש תחתון פיזיקלי: התפשטות גיאומטרית מטילה הפסד מינימלי בנקודה
-$\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
+\aiedit{\textbf{שלב~3 --- המעבר להפסד העברה (\textenglish{TL}):}
+הפסד ההעברה מוגדר בסקאלה לוגריתמית: $\TL = -20\log_{10}(R/p_{\text{ref}})$. הפעלת
+פעולה לוגריתמית על משתנה מפולג ריילי יוצרת התפלגות א-סימטרית בעלת זנב ימני ארוך.
+זנב זה מייצג פיזיקלית את ה"ביטולים העמוקים" (\textenglish{Deep fades}) --- אזורים
+שבהם התאבכות הורסת מאפסת כמעט את הלחץ האקוסטי ($R \to 0$), וה-$\TL$ מזנק לערכים גבוהים.}
+
+\aiedit{\textbf{שלב~4 --- מודל ה-\textenglish{LN3}:}
+מודל ה-\textenglish{LN3} נבחר לתיאור ה-$\TL$ משתי סיבות עיקריות:}
+\begin{itemize}
+  \item \aiedit{\textbf{גבול תחתון קשיח ($\gamma$):} מבחינה פיזיקלית, ה-$\TL$ אינו יכול לרדת
+        מתחת לסף ההתבדרות הגיאומטרית. פרמטר ההזזה $\gamma$ במודל ה-\textenglish{LN3}
+        מתפקד כרצפה קשיחה זו ($\TL \geq \gamma$).}
+  \item \aiedit{\textbf{התאמה לזנב ההתאבכות:} המודל הלוג-נורמלי לוכד היטב את הא-סימטריה
+        והזנב הימני הנוצרים מהתאבכות המודים (זנב הלוג-ריילי).}
+\end{itemize}
+\aiedit{לכן, \textenglish{LN3} מקודד במפורש את המגבלה הפיזיקלית של התפשטות האנרגיה דרך פרמטר
+ה-$\gamma$, בעוד הפרמטרים $\mu_L, \sigma_L$ ממדלים את הפיזור הנובע מהתאבכות הגלים,
+ומספקים מעטפת סטטיסטית אמינה לניבוי גילוי.}
+
 הלוגנורמלי התלת-פרמטרי
 \begin{equation}
   X - \gamma \sim \mathrm{LN2}, \quad \gamma = 0.95\,\min(\text{samples}),
@@ -1464,21 +1550,35 @@ $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$.
 מתחת למינימום המדגם, כדי ש-$X-\gamma>0$ בוודאות עבור כל המדגמים) — אינו נאמד
 סטטיסטית אלא נקבע קשיח מראש.}
 
+\aiedit{\textbf{הפתרון האנליטי הסגור להתאמת לוג-נורמלית (2 פרמטרים).}
+לאחר קיבוע $\gamma$ באופן היוריסטי, נותרנו עם המשתנה $X=\mathrm{TL}-\gamma$
+המתפלג לוג-נורמלית, $X\sim\mathrm{LN2}(\mu,\sigma)$ — כלומר $Y=\ln(X)\sim\mathcal{N}(\mu,\sigma^2)$.
+לבעיה זו קיים פתרון אנליטי מיידי וסגור: אומדי הנראות המרבית (MLE) של הפרמטרים
+מתלכדים עם המומנטים המדגמיים של הנתונים לאחר התמרת הלוגריתם,
+\begin{equation}
+  \hat\mu = \frac{1}{N}\sum_{i=1}^N \ln(X_i), \qquad
+  \hat\sigma = \sqrt{\frac{1}{N-1}\sum_{i=1}^N\bigl(\ln(X_i)-\hat\mu\bigr)^2}.
+  \label{eq:ln2_closed_form}
+\end{equation}
+מכיוון שמדובר בפעולות בסיסיות (לוגריתם, ממוצע וסטיית תקן), החישוב מבוצע באופן
+וקטורי וישיר על פני כל 440{,}000 הפיקסלים במפה, ואינו דורש אלגוריתם אופטימיזציה
+איטרטיבי כלשהו — לא עבור שני הפרמטרים הללו, ולא ביחס לשלושת הפרמטרים
+$(\gamma,\mu,\sigma)$ יחד (ר' דיון בסעיף~\ref{sec:mle_vs_mom} על ההבדל
+המעשי בין MOM ל-MLE, שאינו הבדל במהירות אלא בהנחת אי-התלות של המדגם).}
+
 מקודד במפורש את הרצפה הפיזיקלית דרך פרמטר ההזזה $\gamma$.
 הפרמטרים $(\hat\mu, \hat\sigma)$ מוערכים ב-\textenglish{MLE} דרך \texttt{lognfit}
 (עדיף על \textenglish{MOM} — ר' השוואת \textenglish{NLL} מדודה בסעיף~\ref{sec:mle_vs_mom} להלן):
 \begin{equation}
-  \hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})
+  \hat{P}_{\mathrm{det}}^{\mathrm{LN3}}(\mathbf{x})
   = \Phi\!\left(\frac{\ln(\mathrm{FOM}-\hat\gamma)-\hat\mu}{\hat\sigma}\right).
 \end{equation}
-% V %צריך פה הסבר רציני על למה זה הסתברות מריך אבל סיכוי גילוי
-\aiedit{הערת מינוח: $\hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})$ לעיל היא
-$P(\TL<\mathrm{FOM})$ — הסתברות ש-TL \emph{נמוך} מהסף, כלומר \textbf{הסתברות גילוי},
-לא הסתברות צל! (הסתברות צל $\Pshadow=P(\TL>\mathrm{FOM})=1-\hat{P}^{\mathrm{LN3}}_{\mathrm{shadow}}$
-כפי שהוגדר במשוואה~\ref{eq:delta1} למעלה). קראנו לה כאן "shadow" בשם המשתנה מטעמי עקביות
-עם קוד המקור (\texttt{run\_ln3.m}), אך כפי שהודגש בסעיף~\ref{sec:stochastic}, הגודל
-שמעניין אותנו בפועל להחלטות תפעוליות הוא תמיד \emph{הסתברות הגילוי}
-$P_\mathrm{det}=1-\Pshadow$.}
+\aiedit{הערת מינוח: $\hat{P}_{\mathrm{det}}^{\mathrm{LN3}}(\mathbf{x}) = P(\TL<\mathrm{FOM})$ —
+הסתברות ש-TL \emph{נמוך} מהסף, כלומר \textbf{הסתברות גילוי} (ולא הסתברות צל: הסתברות צל
+$\Pshadow=P(\TL>\mathrm{FOM})=1-\hat{P}_{\mathrm{det}}^{\mathrm{LN3}}$, כפי שהוגדר
+במשוואה~\ref{eq:delta1} למעלה). בקוד המקור (\texttt{run\_ln3.m}) המשתנה נקרא עדיין
+\texttt{shadow} משיקולי עקביות היסטוריים, אך בדוח זה תוקן שם המשתנה המתמטי כדי לשקף
+נכונה שמדובר בהסתברות גילוי.}
 \subsubsection{שגיאת RMSE של CDF בשלושה תרחישים}
 
 אף על פי שאנו מתאימים את פונקציית הLN3 להיסטוגרמה שמתקבלת מMC (N=1000) בעזרת MLE ולא בעזרת רגרסיה.
@@ -1529,10 +1629,12 @@ $P_\mathrm{det}=1-\Pshadow$.}
   \centering
   \includegraphics[width=0.85\textwidth]%
     {deep_water/Normal_5pct/figures/bimodal_histogram_svp.png}
-  \caption{היסטוגרמה דו-מודלית של TL בפיקסל בעל השונות המרבית
-           (מים עמוקים 5\%{}, SVP).
-           כחול: מדגמי MC; כתום: LN3 המותאם; קו אדום: רמת FOM.
-           LN3 חד-שיאי לא מצליח לתאר את שני השיאים.
+  \caption{\aiedit{היסטוגרמה דו-מודלית של TL בפיקסל בעל השונות המרבית (מים עמוקים 5\%{},
+           הפרעת SVP). כחול: מדגמי MC; כתום: מודל LN3 המותאם; קו אדום מקווקו: רמת FOM.
+           \textbf{כשל ההתאמה:} התפלגות חד-שיאית (LN3) שמנסה לתאר נתונים דו-שיאיים
+           נכפית להתמקם ב"עמק" הריק שבין שני השיאים. כתוצאה מכך, המודל מפספס לחלוטין
+           את הפיזיקה האמיתית של הפיקסל (שהוא או מואר מאוד או חשוך מאוד), ומשערך
+           בחסר את זנבות ההתפלגות הרלוונטיים להסתברות הגילוי.}
            \src{run\_ln3.m: [iz,ir]=find(Var==max(Var,[],'all')); histogram(TL(iz,ir,:))}}
   \label{fig:bimodal}
 \end{figure}
@@ -1629,15 +1731,15 @@ $p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפ�
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_freq.png}
     \caption{תדר — מים עמוקים}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_zS.png}
     \caption{$z_S$ — מים עמוקים}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{deep_water/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מים עמוקים}
   \end{subfigure}
@@ -1648,15 +1750,15 @@ $p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפ�
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_freq.png}
     \caption{תדר — מדרון יורד}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_zS.png}
     \caption{$z_S$ — מדרון יורד}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{downslope/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מדרון יורד}
   \end{subfigure}
@@ -1667,15 +1769,15 @@ $p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפ�
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_freq.png}
     \caption{תדר — מים רדודים}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_zS.png}
     \caption{$z_S$ — מים רדודים}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{shallow_water/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מים רדודים}
   \end{subfigure}
@@ -1686,15 +1788,15 @@ $p_D(D;\theta)=\prod_i p_x(x^{(i)};\theta)$, וה-$\log$ הופך את המכפ�
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_freq.png}
     \caption{תדר — מדרון עולה}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_zS.png}
     \caption{$z_S$ — מדרון עולה}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]{upslope/Normal_5pct/figures/kde_validation_svp.png}
     \caption{SVP — מדרון עולה}
   \end{subfigure}
@@ -1724,6 +1826,46 @@ $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$:
 \end{equation}
 
 המשמעות המעשית היא שניתן לחלץ את השונות המרחבית המלאה של שדה ה-\textenglish{TL} אך ורק מתוך מקדמי הפולינום, ללא צורך בהרצות \textenglish{Bellhop} נוספות או אינטגרציה נומרית כבדה.
+
+\aiedit{\textbf{ניסוח מטריצי.} עבור $N=1000$ דגימות MC $\{\xi_i\}_{i=1}^N$, הקירוב מוערך על פני
+כל נקודות הדגימה ומנוסח כמערכת ליניארית $\mathbf{y}\approx\boldsymbol{\Phi}\mathbf{c}$:
+\[
+  \begin{bmatrix} \TL(\xi_1) \\ \TL(\xi_2) \\ \vdots \\ \TL(\xi_N) \end{bmatrix}
+  =
+  \begin{bmatrix}
+    \Psi_0(\xi_1) & \Psi_1(\xi_1) & \cdots & \Psi_K(\xi_1) \\
+    \Psi_0(\xi_2) & \Psi_1(\xi_2) & \cdots & \Psi_K(\xi_2) \\
+    \vdots        & \vdots        & \ddots & \vdots        \\
+    \Psi_0(\xi_N) & \Psi_1(\xi_N) & \cdots & \Psi_K(\xi_N)
+  \end{bmatrix}
+  \begin{bmatrix} c_0 \\ c_1 \\ \vdots \\ c_K \end{bmatrix},
+\]
+כאשר $\mathbf{y}$ הוא וקטור ערכי ה-TL בפיקסל נתון, ו-$\boldsymbol{\Phi}$ היא מטריצת העיצוב
+(מטריצה דמוית-ונדרמונד). מכיוון ש-$\boldsymbol{\Phi}$ תלויה רק בדגימות הקלט $\xi_i$ ולא ב-TL,
+ניתן לבצע עבורה פירוק $\boldsymbol{\Phi}=\mathbf{Q}\mathbf{R}$ \emph{פעם אחת בלבד} ולעשות בו
+שימוש חוזר עבור כל 440{,}000 הפיקסלים במפה — זה בדיוק מה שהופך את ההתאמה למעשית מבחינה
+חישובית על פני מפה שלמה.}
+
+\aiedit{\textbf{רגרסיה ליניארית, רגולריזציה וחישוב מקדמי ה-PCE.}
+מציאת מקדמי ה-PCE מבוצעת על ידי פתרון בעיית מינימום ריבועים (OLS):
+אנו מחפשים את וקטור המקדמים $c$ הממזער את $\|\mathbf{y}-\boldsymbol{\Phi}c\|_2^2$,
+כאשר $\boldsymbol{\Phi}$ היא מטריצת ונדרמונד של פולינומי הרמיט (\texttt{pce\_basis.m}).
+הפתרון הנורמלי $c=(\boldsymbol{\Phi}^T\boldsymbol{\Phi})^{-1}\boldsymbol{\Phi}^T\mathbf{y}$
+נהיה בלתי-יציב נומרית כאשר סדר הפולינום $K$ גדל: $\boldsymbol{\Phi}^T\boldsymbol{\Phi}$
+הופכת סינגולרית (Ill-conditioned) בגלל טווח הערכים העצום של פולינומי הרמיט מסדר גבוה
+($\mathrm{He}_{20}(3)\!\sim\!3.5\times10^9$), והופכת את ההיפוך למכשול נומרי.
+בקוד בפועל (\texttt{pipeline/run\_pce.m}, שורות 174--200) זה נפתר \emph{לא} על-ידי
+רגולריזציית \emph{Ridge}, אלא על-ידי פירוק QR יציב נומרית: \texttt{[Q,R]=qr($\Phi$,0)},
+ואז שחזור המקדמים לכל סדר $K$ באמצעות \texttt{R(1:K+1,1:K+1)\textbackslash{}(Q'*y)}.
+בפועל נוסתה גם גישת Ridge עם $\lambda=10^{-10}\!\cdot\!\mathrm{trace}(\Phi^T\Phi)$,
+אך היא נכשלה: הזהב הזה נשלט על-ידי $\mathrm{He}_{20}$ (נורם${}^2\!\sim\! N\cdot 20!\!\sim\!2.4\times10^{21}$),
+מה שהפך את $\lambda$ בפועל ל-$\sim\!2.4\times10^{11}$ ואיפס את כל המקדמים — ולכן ננטש
+לטובת פירוק ה-QR, שאינו דורש רגולריזציה כלל ונשאר יציב לכל סדר.}
+
+\aiedit{\textbf{הערה על מהירות החישוב:} אמנם התאמת מודל ה-PCE לפיקסל בודד (או לפיקסל החציוני)
+היא פעולה מהירה מאוד של אלגברה ליניארית, אך ביצוע התאמה זו — כולל חישוב שגיאת
+ה-LOO-CV עבור כל סדר — עבור כל 440{,}000 הפיקסלים במפה בו-זמנית (וקטורית, לא בלולאה
+לכל פיקסל) הופך לפעולה כבדה ואיטית יחסית על פני המפה כולה, אף שכל פעולה בודדת זריזה.}
 
 \paragraph{מדוע? — הגזירה דרך מכפלה פנימית.}
 הפולינומים $\Psi_n$ הם \emph{אורתונורמליים} תחת התוחלת הגאוסית —
@@ -1761,6 +1903,44 @@ $\mathrm{Rel}(K)$ עולה כל עוד כל סדר נוסף משפר משמעו�
 $K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה יותר מנקודת השיא של $\mathrm{Rel}(K)$,
 כיוון ש-\textenglish{LOO-CV} ממזערת שגיאת \emph{ניבוי} — הכוללת את זנב ה-CDF הרלוונטי
 לחישוב $P_\text{גילוי}$ — ולא רק שחזור שונות.
+
+\aiedit{\textbf{הבנת עקומת רלוונטיות הסדר.} העקומה מתארת את התרומה השולית של כל סדר
+פולינומי נוסף: \textbf{עלייה} בעקומה משמעה שהוספת סדר גבוה יותר מצליחה "ללכוד" התנהגות
+פיזיקלית לא-ליניארית חדשה ומשמעותית שלא תוארה על-ידי סדרים נמוכים יותר; \textbf{ירידה}
+בעקומה משמעה שהפולינומים הקודמים כבר "מיצו" את רוב המידע הפיזיקלי, והסדרים החדשים
+תורמים תרומה שולית הולכת ופוחתת. קו ה-90\%{} מסמן את סף ההתכנסות הפרקטי.}
+
+\aiedit{
+\begin{table}[H]
+  \centering
+  \caption{סדר PCE אופטימלי $K^*$ שנבחר על-ידי מינימום \textenglish{LOO-CV} ($K_{\max}=20$).
+           הערכים מדגימים כי מים עמוקים ורדודים מתכנסים בדרך-כלל בסדרים נמוכים ($K^*\leq 9$),
+           בעוד שסביבות מדרון דורשות סדרים גבוהים משמעותית או אינן מתכנסות כלל.}
+  \label{tab:pce_k_star}
+  \begin{english}
+  \begin{tabular}{llccc}
+    \toprule
+    Scenario & Distribution & freq & $z_S$ & SVP \\
+    \midrule
+    Deep water & Normal 1\% & 7 & 6 & 6 \\
+    Deep water & Normal 5\% & 7 & 5 & 6 \\
+    Deep water & Normal 10\% & 7 & 5 & 6 \\
+    \midrule
+    Shallow water & Normal 1\% & 8 & 9 & 7 \\
+    Shallow water & Normal 5\% & 7 & 5 & 8 \\
+    Shallow water & Normal 10\% & 7 & 5 & 6 \\
+    \midrule
+    Upslope & Normal 1\% & 8 & 5 & 5 \\
+    Upslope & Normal 5\% & 10 & 5 & 7 \\
+    Upslope & Normal 10\% & 12 & 6 & 7 \\
+    \midrule
+    Downslope & Normal 1\% & 7 & 6 & 5 \\
+    Downslope & Normal 5\% & 8 & 6 & 7 \\
+    Downslope & Normal 10\% & 11 & 6 & 7 \\
+    \bottomrule
+  \end{tabular}
+  \end{english}
+\end{table}}
 
 \aiedit{% V #איור 31 כל השלושה צריכים להיות גדולים# — הוגדלו מ-0.32\textwidth (זה-לצד-זה,
 % בלתי קריא) לפריסה אנכית ברוחב כמעט מלא, כל אחד בעמוד/תת-איור נפרד.
@@ -1824,9 +2004,14 @@ $K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{pce_summary_all.png}
-  \caption{סיכום התכנסות PCE — שגיאת L2 מול $K$ לכל 12 צירופי תרחיש/אי-ודאות.
-           סדר אופטימלי $K^*$ מצוין לכל פרמטר.
-           \src{run\_pce.m: tiledlayout(4,3); for each combo: plot(1:K\_max, e\_LOO)}}
+  \caption{סיכום התכנסות PCE — שגיאת L2 מול $K$ לכל 12 צירופי תרחיש/אי-ודאות
+           (שלושה פאנלים, אחד לכל פרמטר; 12 קווים צבעוניים בכל פאנל, אחד לכל צירוף תרחיש/התפלגות).
+           \aiedit{ניתן להבחין בבירור בפיצול בהתנהגות ההתכנסות בין קבוצות הקווים: קווי
+           התרחישים בעלי הבתימטריה השטוחה (מים עמוקים ומים רדודים) מציגים ירידה חדה ומהירה
+           בשגיאה עם עליית הסדר, בעוד קווי תרחישי המדרון (עולה ויורד) מתייצבים (\textenglish{plateau})
+           על ערכי שגיאה גבוהים ואינם חוצים את סף ה-10\%{}. ממצא זה מאשש כי קריסת הבסיס
+           הפולינומי מתרכזת בסביבות מרובות-קאוסטיקות (מדרונות).}
+           \src{run\_pce.m: subplot(3,1,pi); for each combo: plot(1:K\_max, L2\_mat(:,pi)*100)}}
   \label{fig:pce_summary}
 \end{figure}
 
@@ -1875,6 +2060,40 @@ $K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה
   \label{fig:pce_relevance2}
 \end{figure}
 
+\subsubsection{התכנסות מקומית לעומת התכנסות מרחבית גלובלית}
+\label{sec:local_vs_global_conv}
+
+\aiedit{אחת התובנות המרכזיות בפרויקט היא הפער העצום בין התכנסות בפיקסל טיפוסי לבין
+התכנסות המפה כולה (הנשלטת על-ידי אזורי קאוסטיקות --- קָאוּסְטִיקָה
+(\textenglish{Caustic}, וברבים: קאוסטיקות) היא תופעה פיזיקלית באופטיקה ובאקוסטיקה
+שבה גלים (אור או קול) שעוברים דרך מדיום משתנה או משתקפים ממשטח עקום, מתרכזים
+ומצטלבים זה עם זה כך שנוצרת רצועה או מעטפת של עוצמה אנרגטית גבוהה במיוחד,
+וגבולות CZ). בעוד שפיקסל
+חציוני מתכנס במהירות למודלים פולינומיים (PCE) או לכמות קטנה של דגימות (MC),
+המפה כולה נכשלת בהתכנסות עקב אי-הרציפויות הפיזיקליות.}
+
+\aiedit{
+\begin{table}[H]
+  \centering
+  \small
+  \begin{english}
+  \caption{Convergence Comparison: Median Pixel vs. Whole Map (Worst-Case/Caustics)}
+  \label{tab:median_vs_global}
+  \begin{tabular}{lccp{4.2cm}}
+    \toprule
+    \textbf{Method} & \textbf{Typical Convergence} & \textbf{Global Convergence} & \textbf{Primary Failure Mode} \\
+     & \textbf{(Median Pixel)} & \textbf{(Whole Map / Caustics)} & \\
+    \midrule
+    Monte Carlo (MC)          & $N \approx 50$--$100$        & $N > 1000$                          & High variance at shadow boundaries requires massive sampling. \\
+    PCE (Polynomial Chaos)    & Order $K = 3$--$5$          & Order $K > 10$ (often non-convergent) & Gibbs phenomenon at caustic boundaries; polynomials cannot fit spatial steps. \\
+    Delta Method (1st Order)  & Highly accurate for small $\sigma$ & Fails globally at $\sigma \geq 5\%$ & Taylor series divergence at high non-linearity. \\
+    LN3 Fit (MLE)             & $N \approx 10$--$20$         & Fails at specific boundaries         & Bimodal distributions at CZ edges cannot be captured by a unimodal LN3. \\
+    \bottomrule
+  \end{tabular}
+  \end{english}
+\end{table}
+}
+
 % ─────────────────────────────────────────
 \subsection{אמידת הסתברות גילוי עם סונאר}
 \label{sec:pdetect}
@@ -1884,24 +2103,49 @@ $K^*$ (הנבחר על-ידי \textenglish{LOO-CV}) עשוי להיות גבוה
 (2) \textbf{\textenglish{MC} אמפירי}: חלק ישיר של מדגמים עם $\TL < \mathrm{FOM}$;
 (3) \textbf{חסם צ'ביצ'ב}: חסם חופשי-התפלגות המשתמש רק ב-$\hat\mu$ וב-$\hat\sigma$.
 
+\aiedit{\paragraph{כיצד מחושבת הסתברות הגילוי ($P_\text{det}$) בכל שיטה?}
+קיימים הבדלים מהותיים באופן שבו אנו גוזרים את הסתברות הגילוי מכל מודל, הנובעים
+מסוג המידע שהמודל מספק:
+\begin{itemize}
+  \item \textbf{שיטת דלתא (Delta):} שיטה זו מספקת אך ורק את המומנטים הראשונים
+        (תוחלת ושונות), ללא הנחה על צורת ההתפלגות. לכן אנו נאלצים להשתמש בחסם
+        צ'בישב החד-צדדי (אי-שוויון קנטלי) — חסם תחתון שמרני אך חופשי-התפלגות
+        (\textenglish{distribution-free}), המבטיח גבול בטוח להסתברות הגילוי.
+  \item \textbf{המודל ההיברידי $\Delta$-LN3:} כדי להתגבר על השמרנות של חסם צ'בישב,
+        לוקחים את התוחלת והשונות שחושבו אנליטית משיטת דלתא, ומזינים אותן כפרמטרים
+        לתוך מודל לוג-נורמלי (LN3). גישה זו מעניקה פונקציית התפלגות (CDF) מלאה
+        בעלות חישובית אפסית, תחת ההנחה שהמבנה הלוג-נורמלי אכן נשמר:
+        $P_\text{det} = \mathrm{CDF}_\text{LN3}(\mathrm{FOM})$.
+  \item \textbf{PCE ו-LN3 (MLE):} מודלים אלו משחזרים פונקציית צפיפות (PDF) והתפלגות
+        (CDF) מלאה ואנליטית לכל פיקסל. הסתברות הגילוי מחושבת ישירות על ידי הצבת
+        סף ה-FOM ב-CDF: $P_\text{det} = \mathrm{CDF}(\mathrm{FOM})$.
+  \item \textbf{MC ו-KDE:} מספקים התפלגות אמפירית (או מוחלקת על ידי גרעין גאוסי).
+        הסתברות הגילוי מחושבת על ידי אינטגרציה ישירה או ספירת הדגימות שבהן
+        $\mathrm{TL} < \mathrm{FOM}$.
+\end{itemize}}
+
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]%
       {deep_water/Normal_5pct/figures/detect_mle_freq.png}
     \caption{MLE}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]%
       {deep_water/Normal_5pct/figures/detect_empirical_freq.png}
     \caption{אמפירי MC}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \includegraphics[width=\linewidth]%
       {deep_water/Normal_5pct/figures/detect_cheb_freq.png}
     \caption{Chebyshev}
   \end{subfigure}
   \caption{הסתברות גילוי (מים עמוקים 5\%{}, תדר): שלוש שיטות אמידה.
+           \aiedit{שימו לב לאופי השמרני של חסם צ'בישב (תחתון): אזור המעבר
+           (\textenglish{transition zone}) בין הסתברות גילוי גבוהה לנמוכה מרוח, הדרגתי ורחב
+           הרבה יותר, בהשוואה לגבול החד, המדויק והברור שמפיק מודל ה-MC האמפירי (אמצעי) —
+           זהו המחיר שאנו משלמים על שימוש בחסם חופשי-התפלגות.}
            \src{Pd\_MLE=normcdf((log(FOM-g)-mu)./sig); Pd\_emp=mean(TL<FOM,3); Pd\_cheb=1./(1+(FOM-EX).\string^2./Var)}}
   \label{fig:detect}
 \end{figure}
@@ -1963,7 +2207,7 @@ $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$.
   \includegraphics[width=\textwidth]{../validation/analytical/figures/jacobian_validation.png}
   \caption{\aiedit{יעקוביאן נומרי (הפרשים סופיים, כמו ב-\texttt{run\_delta.m}) מול יעקוביאן
            אנליטי מדויק (נגזרת ישירה של פתרון Jensen), מרחב חצי-אינסופי במהירות קול קבועה.
-           \textbf{ממצא מפתיע:} הפאנל האמצעי (נומרי) הוא בעצם \emph{רעש כמעט טהור} —
+           \textbf{ממצא מפתיע:} הפאנל האמצעי (נומרי) הוא למעשה \emph{רעש כמעט טהור} —
            אינו מציג כלל את מבנה ההתאבכות (קשתות לויד-מיראר) הנראה בבירור בפאנל
            האנליטי; שגיאה יחסית חציונית $\approx$144\%{} (תדר) ו-$\approx$115\%{}
            (עומק מקור) — כלומר גודל השגיאה \emph{דומה בסדר גודל לאות עצמו}.
@@ -1988,19 +2232,19 @@ $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$.
 
 \begin{figure}[H]
   \centering
-  \begin{subfigure}[b]{0.32\textwidth}
+  \begin{subfigure}[b]{0.85\textwidth}
     \IfFileExists{delta_validation_Normal_1pct.png}{%
       \includegraphics[width=\linewidth]{delta_validation_Normal_1pct.png}}{%
       \fbox{\parbox[c][3cm][c]{\linewidth}{\centering\small 1\%{} — אין קובץ}}}
     \caption{1\%{} אי-ודאות}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \IfFileExists{delta_validation_Normal_5pct.png}{%
       \includegraphics[width=\linewidth]{delta_validation_Normal_5pct.png}}{%
       \fbox{\parbox[c][3cm][c]{\linewidth}{\centering\small 5\%{} — אין קובץ}}}
     \caption{5\%{} אי-ודאות}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.32\textwidth}
+  \end{subfigure}\vspace{1em}
+  \begin{subfigure}[b]{0.85\textwidth}
     \IfFileExists{delta_validation_Normal_10pct.png}{%
       \includegraphics[width=\linewidth]{delta_validation_Normal_10pct.png}}{%
       \fbox{\parbox[c][3cm][c]{\linewidth}{\centering\small 10\%{} — אין קובץ}}}
@@ -2257,7 +2501,22 @@ $\Var[\TL|\text{משותף}] \approx \sum_k \Var_k[\TL]$,
 (\textenglish{analyse\_results.m}, שורות 127--137).
 
 \paragraph{תוצאות (מים עמוקים, נורמלי 5\%{}).}
-$S_\mathrm{SVP}^{(1)} \approx 0.65$,\quad $S_{z_S}^{(1)} \approx 0.20$,\quad $S_f^{(1)} \approx 0.15$.
+\aiedit{
+\begin{table}[H]
+  \centering
+  \caption{מדדי רגישות סובול מסדר ראשון $S_k^{(1)}$ (מים עמוקים, נורמלי 5\%{}) —
+           חלק היחסי של כל פרמטר אי-ודאי מתוך סך אי-הוודאות של ה-TL.}
+  \label{tab:sobol_1st}
+  \begin{tabular}{lc}
+    \toprule
+    \textbf{פרמטר אי-ודאי} & $S_k^{(1)}$ \\
+    \midrule
+    פרופיל מהירות קול (SVP) & $\mathbf{0.65}$ \\
+    עומק מקור ($z_S$)        & $0.20$ \\
+    תדר ($f$)                & $0.15$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}}
 
 \textbf{מסקנה:} SVP שולט — כ-65\%{} מאי-ודאות ה-TL נובע מאי-ידיעת פרופיל המהירות.
 מדידת SVP מדויקת יותר היא ההשקעה הכי כדאית לצמצום אי-ודאות במשימת סונאר.
@@ -2295,6 +2554,11 @@ PCE משותפת תלת-ממדית על מדגמי ה-MC הקיימים ($N=1000
            הסבר פיזיקלי: גבולות CZ הם אזורי שיפוע חד/קאוסטיקה בשדה ה-TL,
            הקשים ביותר לקירוב על-ידי פולינום מסדר נמוך יחסית ($K^*\leq 8$) —
            בדיוק הפוך מהאינטואיציה ש-PCE "מצליחה ליד CZ מכיוון ש-SVP שולט שם".
+           מבחינה מתמטית, המעבר החד בערכי ה-TL בגבולות אזורי ההתכנסות (קאוסטיקות)
+           מדמה מדרגה (אי-רציפות במרחב ההסתברות). בסיס של פולינומים רציפים וחלקים
+           (PCE) מתקשה לקרב מעברים חדים כאלו ללא הופעת אוסצילציות סביב המעבר, תופעה
+           המזכירה את תופעת גיבס (Gibbs phenomenon), מה שמוביל לשגיאות נקודתיות של
+           עשרות אחוזים.
            מים רדודים מציגה שגיאה גבוהה כמעט בכל מקום (חציון $\approx$88\%{}) — תבניות
            ההתאבכות של מראת-לויד עדינות מדי לבסיס פולינומי מסדר $K^*=8$.
            מדרון עולה מתון יחסית (חציון $\approx$10\%{}), מדרון יורד גרוע יותר
@@ -2310,7 +2574,7 @@ PCE משותפת תלת-ממדית על מדגמי ה-MC הקיימים ($N=1000
 \label{sec:deep_meaning}
 
 מעבר להשוואת חמש שיטות UQ, מחקר זה חושף משהו עמוק יותר:
-\emph{למוליך הגלים האוקיינוס עצמה יש מבנה מרחבי של ניבוי}.
+\emph{למוליך הגלים האוקיינוס עצמה יש מבנה מרחבי של יכולת חיזוי}.
 מפות השונות בנות 440{,}000 הפיקסלים המחושבות עבור כל אחד מ-36 צירופי פרמטר--תרחיש
 אינן רק אמידות שגיאה --- הן אפיון פיזיקלי של היכן מוליך הגלים מגבירה אי-ודאות
 והיכן היא מדכאת אותה.
