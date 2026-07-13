@@ -1,9 +1,9 @@
-#LyX file created by tex2lyx 2.4
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
 \lyxformat 620
 \begin_document
 \begin_header
 \save_transient_properties true
-\origin C:/Users/orind/Stochastic-Bellhop/stochastic_TL_maps_project/docs/
+\origin unavailable
 \textclass article
 \begin_preamble
 %!TEX program = xelatex
@@ -85,7 +85,6 @@
   {\scriptsize\color[gray]{0.45}\textenglish{\texttt{#1}}}}
 
 % ============================================================
-
 \end_preamble
 \use_default_options false
 \maintain_unincluded_children no
@@ -105,7 +104,6 @@
 \font_typewriter_osf false
 \font_roman_opts "Ligatures=TeX, BoldFont=davidbd.ttf"
 \font_sf_scale 100 100
-\font_sans_opts ""
 \font_tt_scale 100 100
 \use_microtype false
 \use_dash_ligatures true
@@ -117,15 +115,15 @@
 \paperfontsize 12
 \spacing other 1.2
 \use_hyperref true
-\pdf_bookmarks 0
-\pdf_bookmarksnumbered 0
-\pdf_bookmarksopen 0
+\pdf_bookmarks false
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
 \pdf_bookmarksopenlevel 1
-\pdf_breaklinks 0
-\pdf_pdfborder 0
-\pdf_colorlinks 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
 \pdf_backref section
-\pdf_pdfusetitle 0
+\pdf_pdfusetitle false
 \pdf_quoted_options "linkcolor=blue!60!black,citecolor=blue!60!black,urlcolor=blue"
 \papersize a4
 \use_geometry true
@@ -148,8 +146,9 @@
 \suppress_date false
 \justification true
 \use_refstyle 0
+\use_formatted_ref 0
 \use_minted 0
-\use_lineno false
+\use_lineno 0
 \index Index
 \shortcut idx
 \color #008000
@@ -165,9 +164,11 @@
 \papercolumns 1
 \papersides 1
 \paperpagestyle fancy
+\tablestyle default
 \tracking_changes false
 \output_changes false
 \change_bars false
+\postpone_fragile_content true
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
@@ -178,17 +179,11 @@
 \begin_body
 
 \begin_layout Standard
-
-
-\end_layout
-
-\begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 begin{titlepage}
@@ -196,25 +191,20 @@ begin{titlepage}
 
 \end_inset
 
- 
-
-
- 
+  
 \end_layout
 
 \begin_layout Standard
 \align center
-
 \begin_inset VSpace 1cm*
 \end_inset
 
  
-\size larger
-
 \series bold
-הטכניון — מכון טכנולוגי לישראל
+\size larger
+הטכניון —
+ מכון טכנולוגי לישראל
 \series default
-
 \size default
 
 \begin_inset Newline newline
@@ -240,7 +230,6 @@ SIPL
 \begin_inset VSpace 0.5cm
 \end_inset
 
-
  height 1pt
 \begin_inset VSpace 0.5cm
 \end_inset
@@ -251,15 +240,10 @@ SIPL
 \begin_layout Standard
 \align center
 
-\size largest
-
 \series bold
-דו
-
-
-ח סיכום פרויקט
+\size largest
+דוח סיכום פרויקט
 \series default
-
 \size default
 
 \begin_inset Newline newline
@@ -271,9 +255,8 @@ SIPL
 \begin_layout Standard
 \align center
 
-\size huge
-
 \series bold
+\size huge
 אמידת אי-ודאות ב הפסד
 \begin_inset Newline newline
 \end_inset
@@ -284,37 +267,26 @@ SIPL
 \lang hebrew
  תת-ימי
 \series default
-
 \size default
 
 \begin_inset Newline newline
 \end_inset
 
  
-\size larger
-
 \series bold
-
+\size larger
 \lang english
 Uncertainty Quantification in
 \begin_inset Newline newline
 \end_inset
 
  Underwater Acoustic Transmission Loss
-\lang hebrew
-
-\series default
-
-\size default
-
 \end_layout
 
 \begin_layout Standard
 \align center
-
 \begin_inset VSpace 0.8cm
 \end_inset
-
 
  height 0.5pt
 \begin_inset VSpace 0.8cm
@@ -326,19 +298,17 @@ Uncertainty Quantification in
 \begin_layout Standard
 \align center
 
-\size large
-
 \series bold
+\size large
 מבצעים:
+
 \series default
  אורי אינדיג 
 \begin_inset space \quad{}
-
 \end_inset
 
 יואב וולף 
 \begin_inset space \quad{}
-
 \end_inset
 
 (
@@ -346,6 +316,7 @@ Uncertainty Quantification in
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 )
@@ -360,37 +331,33 @@ status collapsed
 \end_inset
 
  
-\size large
-
 \series bold
+\size large
 מנחה:
+
 \series default
  
 \begin_inset space \quad{}
-
 \end_inset
 
-סג
-
-
-ן סער פופלינגר
+סגן סער פופלינגר
 \size default
 
 \begin_inset Newline newline
 \end_inset
 
  
-\size large
-
 \series bold
+\size large
 מעבדה:
+
 \series default
  
 \lang english
-SIPL — Signal and Image Processing Lab
-\lang hebrew
-
+SIPL —
+ Signal and Image Processing Lab
 \size default
+\lang hebrew
 
 \begin_inset Newline newline
 \end_inset
@@ -400,32 +367,27 @@ SIPL — Signal and Image Processing Lab
 
 \begin_layout Standard
 \align center
-
-
  height 0.5pt
 \begin_inset VSpace 0.8cm
 \end_inset
 
  
-\size large
-
 \series bold
+\size large
 סמסטר:
+
 \series default
- אביב תשפ
-
-
-ו
+ אביב תשפו
 \size default
 
 \begin_inset Newline newline
 \end_inset
 
  
-\size large
-
 \series bold
+\size large
 תאריך הגשה:
+
 \series default
  יולי 2026
 \size default
@@ -435,21 +397,21 @@ SIPL — Signal and Image Processing Lab
 
 
 \size small
-מספר ארכיון: 
+מספר ארכיון:
+ 
 \lang english
 P XXXX-2-26
-\lang hebrew
-
 \size default
+\lang hebrew
  
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 end{titlepage}
@@ -461,8 +423,6 @@ end{titlepage}
 \end_layout
 
 \begin_layout Standard
-
-
  
 \begin_inset VSpace 5cm*
 \end_inset
@@ -475,12 +435,9 @@ end{titlepage}
 
 \shape italic
 מוקדש למשפחתי האהובה.
-\shape default
-
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Newpage newpage
 \end_inset
 
@@ -488,8 +445,6 @@ end{titlepage}
 \end_layout
 
 \begin_layout Standard
-
-
  
 \end_layout
 
@@ -498,11 +453,11 @@ end{titlepage}
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 addcontentsline{toc}{section}{תודות}
@@ -518,7 +473,8 @@ addcontentsline{toc}{section}{תודות}
 \lang english
 SIPL
 \lang hebrew
- על ההדרכה והתמיכה לאורך כל שלבי הפרויקט. תודה מיוחדת למפתחי תוכנת 
+ על ההדרכה והתמיכה לאורך כל שלבי הפרויקט.
+ תודה מיוחדת למפתחי תוכנת 
 \lang english
 Bellhop
 \lang hebrew
@@ -526,11 +482,13 @@ Bellhop
 \lang english
 Michael Porter
 \lang hebrew
-) אשר הפכה את הסימולציה האקוסטית הנדרשת לנגישה למחקר אקדמי. אנו מודים גם לאוסף הנתונים הפתוח של 
+) אשר הפכה את הסימולציה האקוסטית הנדרשת לנגישה למחקר אקדמי.
+ אנו מודים גם לאוסף הנתונים הפתוח של 
 \lang english
 JMSE
 \lang hebrew
- על נתוני הסביבה הימית ששימשו לאימות. 
+ על נתוני הסביבה הימית ששימשו לאימות.
+ 
 \begin_inset Newpage newpage
 \end_inset
 
@@ -538,9 +496,6 @@ JMSE
 \end_layout
 
 \begin_layout Standard
-
-
- 
 \begin_inset CommandInset toc
 LatexCommand tableofcontents
 
@@ -556,6 +511,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
+
 \backslash
 catcode
 \end_layout
@@ -567,6 +523,7 @@ catcode
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 ^{=}
@@ -580,6 +537,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
+
 \backslash
 relax
 \end_layout
@@ -591,7 +549,6 @@ relax
 
 \end_inset
 
-
  
 \begin_inset Newpage newpage
 \end_inset
@@ -601,7 +558,6 @@ relax
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Section*
@@ -609,11 +565,11 @@ relax
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 addcontentsline{toc}{section}{תקציר}
@@ -625,10 +581,7 @@ addcontentsline{toc}{section}{תקציר}
 \end_layout
 
 \begin_layout Standard
-דו
-
-
-ח זה מעריך ארבע שיטות לכימות אי-ודאות (
+דוח זה מעריך ארבע שיטות לכימות אי-ודאות (
 \lang english
 UQ
 \lang hebrew
@@ -636,36 +589,46 @@ UQ
 \lang english
 TL
 \lang hebrew
-) התת-ימי, המחושב על ידי מודל הקרנים 
+) התת-ימי,
+ המחושב על ידי מודל הקרנים 
 \lang english
 Bellhop
 \lang hebrew
-. לכל הפחות נרצה לשערך את המומנטים הראשונים של התפלגות ה-
+.
+ לכל הפחות נרצה לשערך את המומנטים הראשונים של התפלגות ה-
 \lang english
 TL
 \lang hebrew
- בנקודה — השונות והתוחלת — בעזרתן ניתן להשתמש בחסם צ'בישב חד-צדדי (אי-שוויון קנטלי): 
-\begin_inset Formula \begin{equation}
-  P\!\bigl(\TL(\mathbf{x}) > \mathrm{FOM}\bigr)
-  \;\leq\;
-  \frac{\Var[\TL(\mathbf{x})]}{\Var[\TL(\mathbf{x})] + \bigl(\mathrm{FOM} - \EX[\TL(\mathbf{x})]\bigr)^2}.
-  \label{eq:cantelli}
+ בנקודה —
+ השונות והתוחלת —
+ בעזרתן ניתן להשתמש בחסם צ'בישב חד-צדדי (אי-שוויון קנטלי):
+ 
+\begin_inset Formula 
+\begin{equation}
+P\!\bigl(\TL(\mathbf{x})>\mathrm{FOM}\bigr)\;\leq\;\frac{\Var[\TL(\mathbf{x})]}{\Var[\TL(\mathbf{x})]+\bigl(\mathrm{FOM}-\EX[\TL(\mathbf{x})]\bigr)^{2}}.\label{eq:cantelli}
 \end{equation}
+
 \end_inset
 
-הכניסות של ההדמייה אליהם נתייחס כמשתנים אחקראיים גאוסיים הן תדר הנשא של האות הנפלט מהסונאר, עומק המקור (
-\begin_inset Formula $z_S$
+הכניסות של ההדמייה אליהם נתייחס כמשתנים אחקראיים גאוסיים הן תדר הנשא של האות הנפלט מהסונאר,
+ עומק המקור (
+\begin_inset Formula $z_{S}$
 \end_inset
 
 ) ופרופיל מהירות הקול המשתנה ביחס לעומק (
 \lang english
 SVP
 \lang hebrew
-), שכל אחת מן הכניסות הינה מתשנה אקראי בלתי תלוי סטטיסטית באחרים. שלוש השיטות המתקדמות אותן נציג — שיטת דלתא מסדר ראשון ושני, התפשטות כאוס פולינומי (
+),
+ שכל אחת מן הכניסות הינה מתשנה אקראי בלתי תלוי סטטיסטית באחרים.
+ שלוש השיטות המתקדמות אותן נציג —
+ שיטת דלתא מסדר ראשון ושני,
+ התפשטות כאוס פולינומי (
 \lang english
 PCE
 \lang hebrew
-), והתאמת לוגנורמלי תלת-פרמטרי (
+),
+ והתאמת לוגנורמלי תלת-פרמטרי (
 \lang english
 LN3
 \lang hebrew
@@ -673,22 +636,18 @@ LN3
 \lang english
 MC
 \lang hebrew
-) היקרה חישובית. נדמה ארבעה תרחישי התפשטות (מים רדודים, מים עמוקים, מדרון עולה, מדרון יורד) ושלוש התפלגויות כניסה (נורמלי 1%
-
-
-/5%
-
-
-/10%
-
-
-).
+) היקרה חישובית.
+ נדמה ארבעה תרחישי התפשטות (מים רדודים,
+ מים עמוקים,
+ מדרון עולה,
+ מדרון יורד) ושלוש התפלגויות כניסה (נורמלי 1%/5%/10%).
 \end_layout
 
 \begin_layout Standard
 
 \series bold
 מסקנות עיקריות:
+
 \series default
  
 \end_layout
@@ -698,23 +657,14 @@ MC
 \series bold
 שיטת דלתא
 \series default
- (טיילור מסדר ראשון) אמינה עבור מורפולוגיה שטוחה ואי וודאות קטנה (1
-
-
- (
+ (טיילור מסדר ראשון) אמינה עבור מורפולוגיה שטוחה ואי וודאות קטנה (1 (
 \begin_inset Formula $\leq$
 \end_inset
 
-1%
-
-
-), אך תיקון ההסיאן (טיילור מסדר שני) כבר עולה על 96%
-
-
- מהשונות הכוללת עבור 5%
-
-
- אי-ודאות ומעלה, כלומר התופעה הסטוכסטית לא ניתנת לקירוב ליניארי באי וודות גדולה. 
+1%),
+ אך תיקון ההסיאן (טיילור מסדר שני) כבר עולה על 96% מהשונות הכוללת עבור 5% אי-ודאות ומעלה,
+ כלומר התופעה הסטוכסטית לא ניתנת לקירוב ליניארי באי וודות גדולה.
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -723,7 +673,7 @@ MC
 PCE
 \series default
  (המותאם למדגמי MC הקיימים) דורש סדר 
-\begin_inset Formula $K^*=5$
+\begin_inset Formula $K^{*}=5$
 \end_inset
 
 –
@@ -742,30 +692,29 @@ MC מלא
 \begin_inset Formula $\geq$
 \end_inset
 
-5%
-
-
- הפרעה) ועבור 
-\begin_inset Formula $z_S$
+5% הפרעה) ועבור 
+\begin_inset Formula $z_{S}$
 \end_inset
 
- במים עמוקים עם התפלגויות נורמליות. 
+ במים עמוקים עם התפלגויות נורמליות.
+ 
 \end_layout
 
 \begin_layout Standard
 
 \series bold
 המלצה מעשית:
+
 \series default
- לתכנון משימת סונאר, יש להשתמש ב-PCE-
-\begin_inset Formula $K^*$
+ לתכנון משימת סונאר,
+ יש להשתמש ב-PCE-
+\begin_inset Formula $K^{*}$
 \end_inset
 
  (סדר 5–9) בתרחישים עם קרקעית שטוחה ולחזור ל-MC לסביבות מדרון או אי-ודאות גדולה בעומק המקור.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Newpage newpage
 \end_inset
 
@@ -776,16 +725,14 @@ MC מלא
 
 \lang english
 Abstract
-\lang hebrew
-
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 addcontentsline{toc}{section}{
@@ -799,11 +746,17 @@ textenglish{Abstract}}
 \end_layout
 
 \begin_layout Standard
- This report evaluates four uncertainty quantification (UQ) methods for underwater acoustic Transmission Loss (TL) computed by the Bellhop ray-tracing model. The uncertain simulation inputs modelled as independent Gaussian random variables are the sonar carrier frequency, source depth (
-\begin_inset Formula $z_S$
+ This report evaluates four uncertainty quantification (UQ) methods for underwater acoustic Transmission Loss (TL) computed by the Bellhop ray-tracing model.
+ The uncertain simulation inputs modelled as independent Gaussian random variables are the sonar carrier frequency,
+ source depth (
+\begin_inset Formula $z_{S}$
 \end_inset
 
-), and the sound velocity profile (SVP). At minimum, we estimate the first moments of the TL distribution at each pixel — the mean 
+),
+ and the sound velocity profile (SVP).
+ At minimum,
+ we estimate the first moments of the TL distribution at each pixel —
+ the mean 
 \begin_inset Formula $\mathbb{E}[\mathrm{TL}]$
 \end_inset
 
@@ -811,9 +764,9 @@ textenglish{Abstract}}
 \begin_inset Formula $\mathrm{Var}[\mathrm{TL}]$
 \end_inset
 
- — which together bound the detection probability via the one-sided Chebyshev (Cantelli) inequality (Eq.
+ —
+ which together bound the detection probability via the one-sided Chebyshev (Cantelli) inequality (Eq.
 \begin_inset space ~
-
 \end_inset
 
 
@@ -827,9 +780,16 @@ nolink "false"
 
 \end_inset
 
-). Three advanced methods — 1st- and 2nd-order Delta, Polynomial Chaos Expansion (PCE), and a 3-parameter lognormal (LN3) fit — are compared against Monte Carlo (MC) ground truth across four propagation scenarios (shallow water, deep water, upslope, downslope) and three input distributions (Normal
+).
+ Three advanced methods —
+ 1st- and 2nd-order Delta,
+ Polynomial Chaos Expansion (PCE),
+ and a 3-parameter lognormal (LN3) fit —
+ are compared against Monte Carlo (MC) ground truth across four propagation scenarios (shallow water,
+ deep water,
+ upslope,
+ downslope) and three input distributions (Normal
 \begin_inset space \thinspace{}
-
 \end_inset
 
 1%/5%/10%).
@@ -839,6 +799,7 @@ nolink "false"
 
 \series bold
 Key conclusions:
+
 \series default
  
 \end_layout
@@ -852,7 +813,10 @@ Delta method
 \begin_inset Formula $\leq$
 \end_inset
 
-1% of nominal value), but the Hessian (2nd-order Taylor) correction already exceeds 96% of total variance at 5% uncertainty, indicating the stochastic field is not amenable to linear approximation at large perturbations. 
+1% of nominal value),
+ but the Hessian (2nd-order Taylor) correction already exceeds 96% of total variance at 5% uncertainty,
+ indicating the stochastic field is not amenable to linear approximation at large perturbations.
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -861,14 +825,15 @@ Delta method
 PCE
 \series default
  (fitted to existing MC samples) requires order 
-\begin_inset Formula $K^*=5$
+\begin_inset Formula $K^{*}=5$
 \end_inset
 
 –
 \begin_inset Formula $12$
 \end_inset
 
- and shows moderate to strong convergence across all scenario/distribution combinations. 
+ and shows moderate to strong convergence across all scenario/distribution combinations.
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -881,26 +846,29 @@ Full MC
 \end_inset
 
 5% perturbation) and for 
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- uncertainty in deep water with Normal distributions. 
+ uncertainty in deep water with Normal distributions.
+ 
 \end_layout
 
 \begin_layout Standard
 
 \series bold
 Practical recommendation:
+
 \series default
- For sonar mission planning, use PCE-
-\begin_inset Formula $K^*$
+ For sonar mission planning,
+ use PCE-
+\begin_inset Formula $K^{*}$
 \end_inset
 
- (order 5–9) in flat-bottom scenarios and fall back to MC for slope environments or large source-depth uncertainty. 
+ (order 5–9) in flat-bottom scenarios and fall back to MC for slope environments or large source-depth uncertainty.
+ 
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Newpage newpage
 \end_inset
 
@@ -909,7 +877,6 @@ Practical recommendation:
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Section
@@ -917,7 +884,6 @@ Practical recommendation:
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:understanding"
@@ -932,7 +898,8 @@ name "sec:understanding"
 \lang english
 TL
 \lang hebrew
- הסטוכסטי. המטרה היא להסביר את חשיבות סימולציות ה
+ הסטוכסטי.
+ המטרה היא להסביר את חשיבות סימולציות ה
 \lang english
 TL
 \lang hebrew
@@ -944,7 +911,8 @@ TL
 \lang english
 Bellhop
 \lang hebrew
- אינה מספיקה להבנת פעולת הסונאר לבדה, ולספק את הרקע התיאורטי לשיטות ה-
+ אינה מספיקה להבנת פעולת הסונאר לבדה,
+ ולספק את הרקע התיאורטי לשיטות ה-
 \lang english
 UQ
 \lang hebrew
@@ -953,7 +921,6 @@ UQ
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -961,7 +928,6 @@ UQ
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:ocean_layers"
@@ -974,18 +940,24 @@ name "sec:ocean_layers"
 \begin_layout Standard
 קול עובר במי-ים במהירות של כ-1400–1550
 \begin_inset space ~
-
 \end_inset
 
-מ'/שנ', מהירות הנשלטת על ידי טמפרטורה, לחץ ומליחות. אף אחת מהשלוש אינה אחידה עם העומק. הטמפרטורה יורדת בחדות דרך ה
+מ'/שנ',
+ מהירות הנשלטת על ידי טמפרטורה,
+ לחץ ומליחות.
+ אף אחת מהשלוש אינה אחידה עם העומק.
+ הטמפרטורה יורדת בחדות דרך ה
 \emph on
 תרמוקליין
 \emph default
- לפני שהיא מתייצבת בשכבה האיזותרמלית העמוקה, בעוד שהלחץ ההידרוסטטי עולה מונוטונית. ההשפעות המתחרות שלהם מייצרות פרופיל מהירות קול (
+ לפני שהיא מתייצבת בשכבה האיזותרמלית העמוקה,
+ בעוד שהלחץ ההידרוסטטי עולה מונוטונית.
+ ההשפעות המתחרות שלהם מייצרות פרופיל מהירות קול (
 \lang english
 SVP
 \lang hebrew
-) אופייני עם מינימום ליד בסיס התרמוקליין — 
+) אופייני עם מינימום ליד בסיס התרמוקליין —
+ 
 \emph on
 ציר ערוץ הקול
 \emph default
@@ -993,23 +965,23 @@ SVP
 \lang english
 SOFAR
 \lang hebrew
-) — המשבר אנרגיה אקוסטית כלפי מטה מעל הציר וכלפי מעלה מתחתיו, ולוכד קול בתדר נמוך בגלידה טבעית.
+) —
+ המשבר אנרגיה אקוסטית כלפי מטה מעל הציר וכלפי מעלה מתחתיו,
+ ולוכד קול בתדר נמוך בגלידה טבעית.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename ../../images/Bookman_2015_SVP.png
 	width 55text%
 
@@ -1023,16 +995,17 @@ status open
 \lang english
 SVP
 \lang hebrew
- טיפוסי (קיץ): ציר ערוץ הקול (
+ טיפוסי (קיץ):
+ ציר ערוץ הקול (
 \lang english
 SOFAR
 \lang hebrew
 ) כנקודת מינימום סביב 1000
 \begin_inset space ~
-
 \end_inset
 
-מ' — לוכד גלים אקוסטיים בגלידה טבעית.
+מ' —
+ לוכד גלים אקוסטיים בגלידה טבעית.
 \begin_inset Newline newline
 \end_inset
 
@@ -1044,6 +1017,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
+
 \backslash
 color[gray]{0.45}
 \end_layout
@@ -1052,15 +1026,17 @@ color[gray]{0.45}
 
 
 \lang english
-Source: Bookman, Todd. 2015. 
+Source:
+ Bookman,
+ Todd.
+ 2015.
+ 
 \shape italic
 Eavesdropping On The Ocean
 \shape default
-. Wilbur. Retrieved.
-\lang hebrew
-
-\size default
-
+.
+ Wilbur.
+ Retrieved.
 \end_layout
 
 \end_inset
@@ -1082,19 +1058,15 @@ name "fig:ocean_layers"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
 התפשטות גלים אקוסטיים ומודל 
 \lang english
 Bellhop
-\lang hebrew
-
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:bellhop"
@@ -1113,32 +1085,42 @@ name "sec:bellhop"
 \begin_inset Formula $z$
 \end_inset
 
-) (גיאומטריה זו היא המופיעה בסימולציית BELLHOP כתמונת חתך ): 
-\begin_inset Formula \begin{equation}
-  \nabla^2 p + k^2(r,z)\,p = -S(r,z), \quad k = \frac{2\pi f}{c(r,z)},
+) (גיאומטריה זו היא המופיעה בסימולציית BELLHOP כתמונת חתך ):
+ 
+\begin_inset Formula 
+\begin{equation}
+\nabla^{2}p+k^{2}(r,z)\,p=-S(r,z),\quad k=\frac{2\pi f}{c(r,z)},
 \end{equation}
+
 \end_inset
 
 כאשר 
 \begin_inset Formula $p$
 \end_inset
 
- הוא האמפליטודה המרוכבת של הלחץ, 
+ הוא האמפליטודה המרוכבת של הלחץ,
+ 
 \begin_inset Formula $f$
 \end_inset
 
- הוא התדר, 
+ הוא התדר,
+ 
 \begin_inset Formula $c(r,z)$
 \end_inset
 
- הוא מהירות הקול המקומית, ו-
+ הוא מהירות הקול המקומית,
+ ו-
 \begin_inset Formula $S$
 \end_inset
 
- הוא אבר התלוי בעוצמת המקור. הפסד ההעברה מוגדר כ: 
-\begin_inset Formula \begin{equation}
-  \TL(r,z) = -20\log_{10}\!\left(\frac{|p(r,z)|}{|p_{\mathrm{ref}}|}\right) \quad [\text{dB}].
+ הוא אבר התלוי בעוצמת המקור.
+ הפסד ההעברה מוגדר כ:
+ 
+\begin_inset Formula 
+\begin{equation}
+\TL(r,z)=-20\log_{10}\!\left(\frac{|p(r,z)|}{|p_{\mathrm{ref}}|}\right)\quad[\text{dB}].
 \end{equation}
+
 \end_inset
 
 
@@ -1147,31 +1129,34 @@ Bellhop
 \lang hebrew
 
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "porter1987bellhop"
 literal "false"
 
 \end_inset
 
- פותר משוואה זו בעזרת קירוב קרניים: האנרגיה אקוסטית מתפשטת לאורך הקרניים, כאשר כל קרן נושאת מעטפת גאוסיאנית המדמה תרחיש עקיפה. המודל מטפל אוטומטית בהחזרות מקרקעית הים, החזרות מהמשטח ושבירה דרך גרדיאנט מהירות הקול. בפרויקיט זה התחייסנו אל ההדמייה כקופסא שחורה ללא התעמקות במימושה. 
+ פותר משוואה זו בעזרת קירוב קרניים:
+ האנרגיה אקוסטית מתפשטת לאורך הקרניים,
+ כאשר כל קרן נושאת מעטפת גאוסיאנית המדמה תרחיש עקיפה.
+ המודל מטפל אוטומטית בהחזרות מקרקעית הים,
+ החזרות מהמשטח ושבירה דרך גרדיאנט מהירות הקול.
+ בפרויקיט זה התחייסנו אל ההדמייה כקופסא שחורה ללא התעמקות במימושה.
+ 
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image7.png
 	width 80text%
 
@@ -1185,11 +1170,20 @@ status open
 \lang english
 Bellhop
 \lang hebrew
- כקופסה שחורה: כניסות (SVP, גיאומטריה, תדר, מאפייני קרקע) ויציאות (שדה TL, תרשים קרנים). הקרנים מדמות החזרות, שבירות ועדשות אקוסטיות. 
+ כקופסה שחורה:
+ כניסות (SVP,
+ גיאומטריה,
+ תדר,
+ מאפייני קרקע) ויציאות (שדה TL,
+ תרשים קרנים).
+ הקרנים מדמות החזרות,
+ שבירות ועדשות אקוסטיות.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -1197,9 +1191,8 @@ src{
 
 \end_inset
 
-bellhopCached(sim_params, cache_dir) -> TL[Nz x Nr]
-
-
+bellhopCached(sim_params,
+ cache_dir) -> TL[Nz x Nr]
 \end_layout
 
 \end_inset
@@ -1221,8 +1214,6 @@ name "fig:bellhop_blackbox"
 
 \begin_layout Standard
 #קלוד בכל מקום בו יש רפרנס לקוד יש לעשות אותו בשורה חדשה כי הRTL וLTR לא עובדים אם הם באותה שורה# 
-
-
 \end_layout
 
 \begin_layout Subsection
@@ -1230,7 +1221,6 @@ name "fig:bellhop_blackbox"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:sonar_equation"
@@ -1241,17 +1231,22 @@ name "sec:sonar_equation"
 \end_layout
 
 \begin_layout Standard
-משוואת הסונאר הפסיבית קושרת בין המשדר, המדיום והמקלט: 
-\begin_inset Formula \begin{equation}
-  \mathrm{SNR} = \mathrm{SL} - \TL - (\mathrm{NL} - \mathrm{DI})
+משוואת הסונאר הפסיבית קושרת בין המשדר,
+ המדיום והמקלט:
+ 
+\begin_inset Formula 
+\begin{equation}
+\mathrm{SNR}=\mathrm{SL}-\TL-(\mathrm{NL}-\mathrm{DI})
 \end{equation}
+
 \end_inset
 
 גילוי מתרחש כאשר 
-\begin_inset Formula $\mathrm{SNR} > \mathrm{DT}$
+\begin_inset Formula $\mathrm{SNR}>\mathrm{DT}$
 \end_inset
 
- (סף הגילוי). סידור מחדש נותן את 
+ (סף הגילוי).
+ סידור מחדש נותן את 
 \emph on
 מדד הציון
 \emph default
@@ -1259,10 +1254,13 @@ name "sec:sonar_equation"
 \lang english
 FOM
 \lang hebrew
-): 
-\begin_inset Formula \begin{equation}
-  \mathrm{FOM} = \mathrm{SL} - \mathrm{NL} + \mathrm{DI} - \mathrm{DT}.
+):
+ 
+\begin_inset Formula 
+\begin{equation}
+\mathrm{FOM}=\mathrm{SL}-\mathrm{NL}+\mathrm{DI}-\mathrm{DT}.
 \end{equation}
+
 \end_inset
 
 גילוי אפשרי בפיקסל 
@@ -1270,58 +1268,63 @@ FOM
 \end_inset
 
  נתון אם ורק אם 
-\begin_inset Formula $\TL(r,z) < \mathrm{FOM}$
+\begin_inset Formula $\TL(r,z)<\mathrm{FOM}$
 \end_inset
 
-. בסביבה סטוכסטית בה הכניסות אקראיות, זה הופך להסתברות: 
-\begin_inset Formula \begin{equation}
-  \Pshadow(\mathbf{x}) = P\!\bigl(\TL(\mathbf{x};\boldsymbol{\theta}) > \mathrm{FOM}\bigr).
+.
+ בסביבה סטוכסטית בה הכניסות אקראיות,
+ זה הופך להסתברות:
+ 
+\begin_inset Formula 
+\begin{equation}
+\Pshadow(\mathbf{x})=P\!\bigl(\TL(\mathbf{x};\boldsymbol{\theta})>\mathrm{FOM}\bigr).
 \end{equation}
+
 \end_inset
 
 הסתברות הגילוי 
-\begin_inset Formula $P_\mathrm{det}(\mathbf{x}) = 1 - \Pshadow(\mathbf{x})$
+\begin_inset Formula $P_{\mathrm{det}}(\mathbf{x})=1-\Pshadow(\mathbf{x})$
 \end_inset
 
  היא פלט ה-
 \lang english
 UQ
 \lang hebrew
- העיקרי שמעניין אותנו. נעיר שמשוואות הסונאר הפאסיבית והאקטיבית מוצגות בפירוט בספר הייחוס
+ העיקרי שמעניין אותנו.
+ נעיר שמשוואות הסונאר הפאסיבית והאקטיבית מוצגות בפירוט בספר הייחוס
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "jensen2011coac"
 literal "false"
 
 \end_inset
 
-, פרקים 1–2.
+,
+ פרקים 1–2.
 \end_layout
 
 \begin_layout Standard
-
 
 \end_layout
 
 \begin_layout Subsection
-תופעות התפשטות: אזורי התכנסות והחזרות קרקע
+תופעות התפשטות:
+ אזורי התכנסות והחזרות קרקע
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:propagation_phenomena"
 
 \end_inset
 
- סימולציות התפשוטות הגלים רגישות מאוד לשינויים קטנים בכניסות והדבר מתבטא בשינוי במיקום איזורי ההתכנסות ואיזורי הצל.(הספק אות גובה לעומת הספק נמוך בהתאמה) שתי תופעות התפשטות אקוסטית שולטות בטווח ארוך במים עמוקים: 
+ סימולציות התפשוטות הגלים רגישות מאוד לשינויים קטנים בכניסות והדבר מתבטא בשינוי במיקום איזורי ההתכנסות ואיזורי הצל.(הספק אות גובה לעומת הספק נמוך בהתאמה) שתי תופעות התפשטות אקוסטית שולטות בטווח ארוך במים עמוקים:
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -1333,26 +1336,23 @@ CZ
 \lang hebrew
 )
 \series default
-: מנגנון המיקוד של ערוץ הקול מייצר דוגמת קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) אורך קשותות אלה יהיה לדוגמה 
+:
+ מנגנון המיקוד של ערוץ הקול מייצר דוגמת קשתות מחזוריות של TL נמוך (אנרגיה גבוהה) אורך קשותות אלה יהיה לדוגמה 
 \begin_inset Formula $\sim$
 \end_inset
 
 55
 \begin_inset space ~
-
 \end_inset
 
-ק
-
-
-מ עבור SVP טיפוסי במים עמוקים. ניתן לראות קשתות אלו באיור 10. מיקום ה-
+קמ עבור SVP טיפוסי במים עמוקים.
+ ניתן לראות קשתות אלו באיור 10.
+ מיקום ה-
 \lang english
 CZ
 \lang hebrew
- רגיש מאוד ל-SVP קרוב לפני המים: הפרעת SVP של 5%
-
-
- יכולה להזיז את הקשתות בעלות ההספק הגבוה ה-
+ רגיש מאוד ל-SVP קרוב לפני המים:
+ הפרעת SVP של 5% יכולה להזיז את הקשתות בעלות ההספק הגבוה ה-
 \lang english
 CZ
 \lang hebrew
@@ -1362,13 +1362,9 @@ CZ
 
 5–10
 \begin_inset space ~
-
 \end_inset
 
-ק
-
-
-מ ולשנות את רווח ה-
+קמ ולשנות את רווח ה-
 \lang english
 CZ
 \lang hebrew
@@ -1380,12 +1376,12 @@ CZ
 
 5–10
 \begin_inset space ~
-
 \end_inset
 
 dB
 \lang hebrew
-. 
+.
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -1393,29 +1389,31 @@ dB
 \series bold
 החזרות מקרקעית הים
 \series default
-: במים רדודים ובסביבות מדרון, הרבה מהאנרגיה אקוסטית קופצת בין המשטח לקרקעית, ויוצרת תבניות הפרעה של מראת לויד שהמחזור המרחבי שלהן נמדד ב-
+:
+ במים רדודים ובסביבות מדרון,
+ הרבה מהאנרגיה אקוסטית קופצת בין המשטח לקרקעית,
+ ויוצרת תבניות הפרעה של מראת לויד שהמחזור המרחבי שלהן נמדד ב-
 \begin_inset Formula $\lambda/2$
 \end_inset
 
  והן רגישות מאוד לעומק המקור 
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
-. 
+.
+ 
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -1437,8 +1435,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image7.png
 	width 100line%
 
@@ -1447,7 +1444,12 @@ status open
  
 \begin_inset Caption Standard
 
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
+
 
 \end_layout
 
@@ -1455,7 +1457,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -1479,8 +1480,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image26.png
 	width 100line%
 
@@ -1495,6 +1495,7 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
@@ -1503,11 +1504,15 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תופעות התפשטות אקוסטית בטווח ארוך: CZ והחזרות. אלו סימולציות בSVP קבוע , איזורי ההתכנסות הן בצורות מעויינים לעומת הקשתות שיש בפועל( זהו מצב לא פיזיקלי אך מהווה דוגמה פשוטה בה השתמשנו בשבל הכרת הסימולציה) 
+תופעות התפשטות אקוסטית בטווח ארוך:
+ CZ והחזרות.
+ אלו סימולציות בSVP קבוע ,
+ איזורי ההתכנסות הן בצורות מעויינים לעומת הקשתות שיש בפועל( זהו מצב לא פיזיקלי אך מהווה דוגמה פשוטה בה השתמשנו בשבל הכרת הסימולציה) 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -1515,15 +1520,8 @@ src{
 
 \end_inset
 
-bellhopCached(
-
-
-freq0,maxR,zS0,...
-
-
-) -> TL map; imagesc(r_km,z_m,TL)
-
-
+bellhopCached(freq0,maxR,zS0,...) -> TL map;
+ imagesc(r_km,z_m,TL)
 \end_layout
 
 \end_inset
@@ -1545,15 +1543,14 @@ name "fig:propagation"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
-ההרחבה הסטוכסטית: מדוע אי-ודאות חשובה
+ההרחבה הסטוכסטית:
+ מדוע אי-ודאות חשובה
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:stochastic"
@@ -1565,11 +1562,11 @@ name "sec:stochastic"
 
 \begin_layout Standard
 מפת TL דטרמיניסטית בודדת 
-\begin_inset Formula $\TL(\mathbf{x};\boldsymbol{\theta}_0)$
+\begin_inset Formula $\TL(\mathbf{x};\boldsymbol{\theta}_{0})$
 \end_inset
 
  המחושבת עבור וקטור הפרמטרים הנומינלי 
-\begin_inset Formula $\boldsymbol{\theta}_0 = (\bar{f},\bar{z}_S, \overline{\mathrm{SVP}})$
+\begin_inset Formula $\boldsymbol{\theta}_{0}=(\bar{f},\bar{z}_{S},\overline{\mathrm{SVP}})$
 \end_inset
 
  אינה מספיקה לתכנון פעולת סונאר משתי סיבות:
@@ -1579,70 +1576,68 @@ name "sec:stochastic"
 
 \series bold
 אי-ודאות במדידה.
+
 \series default
- הפרמטרים הסביבתיים האמיתיים אינם ידועים במדויק; לפרופילי טמפרטורה יש אי-ודאות מדידה של 
+ הפרמטרים הסביבתיים האמיתיים אינם ידועים במדויק;
+ לפרופילי טמפרטורה יש אי-ודאות מדידה של 
 \begin_inset Formula $\pm$
 \end_inset
 
 0.1–0.3
-\begin_inset Formula $^\circ$
+\begin_inset Formula $^{\circ}$
 \end_inset
 
-C, עומקי מקור אינם ודאיים ב-
+C,
+ עומקי מקור אינם ודאיים ב-
 \begin_inset Formula $\pm$
 \end_inset
 
 5–10
 \begin_inset space ~
-
 \end_inset
 
-מ', ותדר הנשא יכול לסטות ב-
+מ',
+ ותדר הנשא יכול לסטות ב-
 \begin_inset Formula $\pm$
 \end_inset
 
-1%
-
-
-. 
+1%.
+ 
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 שינוי בזמן.
-\series default
- SVP האוקיינוס משתנה בסולמות זמן ממספר שעות (ערבול גאות) עד חודשים (מחזור עונתי); מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-5–10
-\begin_inset space ~
 
+\series default
+ SVP האוקיינוס משתנה בסולמות זמן ממספר שעות (ערבול גאות) עד חודשים (מחזור עונתי);
+ מפת TL שחושבה מנתוני בוקר עשויה להיות שגויה ב-5–10
+\begin_inset space ~
 \end_inset
 
-dB בשעות הצהריים. 
+dB בשעות הצהריים.
+ 
 \end_layout
 
 \begin_layout Standard
-ההרחבה הסטוכסטית מדמה כל פרמטר אי-ודאי כמשתנה אקראי גאוסי עצמאי: 
-\begin_inset Formula $\theta_k \sim \mathcal{N}(\mu_k, \sigma_k^2)$
+ההרחבה הסטוכסטית מדמה כל פרמטר אי-ודאי כמשתנה אקראי גאוסי עצמאי:
+ 
+\begin_inset Formula $\theta_{k}\sim\mathcal{N}(\mu_{k},\sigma_{k}^{2})$
 \end_inset
 
  כאשר 
-\begin_inset Formula $\sigma_k$
+\begin_inset Formula $\sigma_{k}$
 \end_inset
 
  הוא אחוז ידוע מ-
-\begin_inset Formula $\mu_k$
+\begin_inset Formula $\mu_{k}$
 \end_inset
 
- (1%
-
-
-, 5%
-
-
-, או 10%
-
-
- בניסויינו). מטרת ה-
+ (1%,
+ 5%,
+ או 10% בניסויינו).
+ מטרת ה-
 \lang english
 UQ
 \lang hebrew
@@ -1650,7 +1645,8 @@ UQ
 \lang english
 Bellhop
 \lang hebrew
- כדי לקבל את התפלגות הפלט של TL בכל פיקסל, ומשם את הסתברות הצל 
+ כדי לקבל את התפלגות הפלט של TL בכל פיקסל,
+ ומשם את הסתברות הצל 
 \begin_inset Formula $\Pshadow$
 \end_inset
 
@@ -1659,19 +1655,15 @@ Bellhop
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
 אימות אנליטי של 
 \lang english
 Bellhop
-\lang hebrew
-
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:analytical_validation"
@@ -1686,7 +1678,8 @@ name "sec:analytical_validation"
 \lang english
 Bellhop
 \lang hebrew
- כמודל הקדמי הסטוכסטי, אימתנו את דיוקו מול שני פתרונות אנליטיים.
+ כמודל הקדמי הסטוכסטי,
+ אימתנו את דיוקו מול שני פתרונות אנליטיים.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1694,7 +1687,11 @@ Bellhop
 \end_layout
 
 \begin_layout Standard
-עבור מרחב חצי-אינסופי איזו-מהירות (מהירות קול קבועה, משטח שחרור לחץ, קרקעית שטוחה חדירה), ה-TL המדויק ניתן על ידי פתרון גלידת פקריס. 
+עבור מרחב חצי-אינסופי איזו-מהירות (מהירות קול קבועה,
+ משטח שחרור לחץ,
+ קרקעית שטוחה חדירה),
+ ה-TL המדויק ניתן על ידי פתרון גלידת פקריס.
+ 
 \lang english
 Bellhop
 \lang hebrew
@@ -1704,24 +1701,21 @@ Bellhop
 
 0.5
 \begin_inset space ~
-
 \end_inset
 
 dB על פני כל טווח ההתפשטות.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -1743,8 +1737,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image29.png
 	width 100line%
 
@@ -1759,13 +1752,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -1789,8 +1782,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image36.png
 	width 100line%
 
@@ -1805,6 +1797,7 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
@@ -1817,15 +1810,18 @@ status open
 \lang english
 Bellhop
 \lang hebrew
-: מרחב חצי-אינסופי (פתרון 
+:
+ מרחב חצי-אינסופי (פתרון 
 \lang english
 Pekeris
 \lang hebrew
-). 
+).
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -1833,9 +1829,9 @@ src{
 
 \end_inset
 
-run_validation.m: TL_bellhop = bellhopCached(); TL_exact = pekerisHalfspace()
-
-
+run_validation.m:
+ TL_bellhop = bellhopCached();
+ TL_exact = pekerisHalfspace()
 \end_layout
 
 \end_inset
@@ -1856,11 +1852,14 @@ name "fig:val_halfspace"
 \end_layout
 
 \begin_layout Subsubsection
-גלידה מהדי — מודים נורמליים
+גלידה מהדי —
+ מודים נורמליים
 \end_layout
 
 \begin_layout Standard
-עבור גלידת פקריס עם גבול קרקעית קשיח, שדה הלחץ המדויק ניתן על ידי סידרת המודים הנורמליים. 
+עבור גלידת פקריס עם גבול קרקעית קשיח,
+ שדה הלחץ המדויק ניתן על ידי סידרת המודים הנורמליים.
+ 
 \lang english
 Bellhop
 \lang hebrew
@@ -1870,7 +1869,6 @@ Bellhop
 
 1
 \begin_inset space ~
-
 \end_inset
 
 dB בתדרים 
@@ -1879,24 +1877,22 @@ dB בתדרים
 
 150
 \begin_inset space ~
-
 \end_inset
 
-Hz, ומאשר את התאמתו כמודל קדמי.
+Hz,
+ ומאשר את התאמתו כמודל קדמי.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -1918,8 +1914,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image19.png
 	width 100line%
 
@@ -1934,13 +1929,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -1964,8 +1959,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image20.png
 	width 100line%
 
@@ -1981,13 +1975,13 @@ Bellhop
 \lang hebrew
  vs.
 \begin_inset space \space{}
-
 \end_inset
 
 מודים נורמליים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -2001,11 +1995,15 @@ Bellhop
 \lang english
 Bellhop
 \lang hebrew
-: גלידה מהדי — מודים נורמליים. 
+:
+ גלידה מהדי —
+ מודים נורמליים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -2013,9 +2011,9 @@ src{
 
 \end_inset
 
-run_validation.m: TL_modes = normalModes(freq,zS,D); mean_err = mean(abs(TL-TL_modes))
-
-
+run_validation.m:
+ TL_modes = normalModes(freq,zS,D);
+ mean_err = mean(abs(TL-TL_modes))
 \end_layout
 
 \end_inset
@@ -2037,7 +2035,6 @@ name "fig:val_waveguide"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -2045,7 +2042,6 @@ name "fig:val_waveguide"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:sensitivity"
@@ -2056,37 +2052,41 @@ name "sec:sensitivity"
 \end_layout
 
 \begin_layout Standard
-לפני ביצוע ניתוח סטוכסטי מלא, אנו מדמים את הרגישות האיכותית של שדה ה-TL לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות ב-
-\begin_inset Formula $\theta_0 - \delta$
+לפני ביצוע ניתוח סטוכסטי מלא,
+ אנו מדמים את הרגישות האיכותית של שדה ה-TL לכל פרמטר אי-ודאי על ידי השוואת מפות TL המחושבות ב-
+\begin_inset Formula $\theta_{0}-\delta$
 \end_inset
 
-, 
-\begin_inset Formula $\theta_0$
+,
+ 
+\begin_inset Formula $\theta_{0}$
 \end_inset
 
-, ו-
-\begin_inset Formula $\theta_0 + \delta$
+,
+ ו-
+\begin_inset Formula $\theta_{0}+\delta$
 \end_inset
 
-. הפרעת SVP מייצרת את הפיזור המרחבי הדרמטי ביותר של TL, במיוחד בגבולות ה-
+.
+ הפרעת SVP מייצרת את הפיזור המרחבי הדרמטי ביותר של TL,
+ במיוחד בגבולות ה-
 \lang english
 CZ
 \lang hebrew
-. עומק המקור והתדר מייצרים תבניות מתונות יותר ושונות מבחינה איכותית.
+.
+ עומק המקור והתדר מייצרים תבניות מתונות יותר ושונות מבחינה איכותית.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -2108,8 +2108,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image17.png
 	width 100line%
 
@@ -2128,13 +2127,13 @@ SVP
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2158,8 +2157,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image22.png
 	width 100line%
 
@@ -2178,13 +2176,13 @@ SVP
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2208,8 +2206,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image30.png
 	width 100line%
 
@@ -2228,6 +2225,7 @@ SVP
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
@@ -2236,11 +2234,14 @@ SVP
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-רגישות TL לשינויים ב-SVP: שלושה ערכי פרמטר. 
+רגישות TL לשינויים ב-SVP:
+ שלושה ערכי פרמטר.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -2248,9 +2249,9 @@ src{
 
 \end_inset
 
-run_sensitivity.m: for dSVP in [-delta 0 +delta]: TL=bellhopCached(svp0+dSVP)
-
-
+run_sensitivity.m:
+ for dSVP in [-delta 0 +delta]:
+ TL=bellhopCached(svp0+dSVP)
 \end_layout
 
 \end_inset
@@ -2271,17 +2272,15 @@ name "fig:svp_sensitivity"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -2303,8 +2302,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image33.png
 	width 100line%
 
@@ -2319,13 +2317,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2349,8 +2347,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image32.png
 	width 100line%
 
@@ -2365,6 +2362,7 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
@@ -2373,11 +2371,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-רגישות TL לשינויים בתדר. 
+רגישות TL לשינויים בתדר.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -2385,9 +2385,9 @@ src{
 
 \end_inset
 
-run_sensitivity.m: TL_lo=bellhopCached(freq0*(1-d)); TL_hi=bellhopCached(freq0*(1+d))
-
-
+run_sensitivity.m:
+ TL_lo=bellhopCached(freq0*(1-d));
+ TL_hi=bellhopCached(freq0*(1+d))
 \end_layout
 
 \end_inset
@@ -2408,17 +2408,15 @@ name "fig:freq_sensitivity"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -2440,8 +2438,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image21.png
 	width 100line%
 
@@ -2451,8 +2448,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
  רדוד
@@ -2460,13 +2456,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2490,8 +2486,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image37.png
 	width 100line%
 
@@ -2501,8 +2496,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
  נומינלי
@@ -2510,13 +2504,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2540,8 +2534,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image35.png
 	width 100line%
 
@@ -2551,14 +2544,14 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
  עמוק
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -2569,14 +2562,16 @@ status open
 
 \begin_layout Plain Layout
 רגישות TL לעומק מקור 
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
-. 
+.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -2584,12 +2579,8 @@ src{
 
 \end_inset
 
-run_sensitivity.m: TL=bellhopCached(zS0*(1+dz)) for dz in 
-
-
--d,0,+d
-
-
+run_sensitivity.m:
+ TL=bellhopCached(zS0*(1+dz)) for dz in -d,0,+d
 \end_layout
 
 \end_inset
@@ -2610,19 +2601,17 @@ name "fig:zs_sensitivity"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pptx_figures/image24.png
 	width 60text%
 
@@ -2632,11 +2621,14 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-משטר גלים: TL בתחום תדרים נמוכים מול גבוהים. 
+משטר גלים:
+ TL בתחום תדרים נמוכים מול גבוהים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -2644,21 +2636,7 @@ src{
 
 \end_inset
 
-bellhopCached(
-
-
-25,maxR,...
-
-
-) vs bellhopCached(
-
-
-400,maxR,...
-
-
-)
-
-
+bellhopCached(25,maxR,...) vs bellhopCached(400,maxR,...)
 \end_layout
 
 \end_inset
@@ -2680,7 +2658,6 @@ name "fig:wavelength_regime"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Section
@@ -2688,7 +2665,6 @@ name "fig:wavelength_regime"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:results"
@@ -2700,7 +2676,6 @@ name "sec:results"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -2708,7 +2683,6 @@ name "sec:results"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:gallery"
@@ -2723,24 +2697,21 @@ name "sec:gallery"
 \lang english
 UQ
 \lang hebrew
- עבור תרחיש מים עמוקים / נורמלי 5%
-
-
-. כל איור נדון בפירוט בתת-הסעיף המתאים; הגלריה בנויה כך שכל זוג מפות ניתן להשוואה זה לצד זה ברזולוציה מלאה.
+ עבור תרחיש מים עמוקים / נורמלי 5%.
+ כל איור נדון בפירוט בתת-הסעיף המתאים;
+ הגלריה בנויה כך שכל זוג מפות ניתן להשוואה זה לצד זה ברזולוציה מלאה.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -2762,8 +2733,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/TL_zS.png
 	width 100line%
 
@@ -2778,28 +2748,25 @@ status open
 ממוצע TL MC
 \series default
  תחת הפרעה ב-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- (נורמלי 5%
-
-
-). כחול = TL נמוך (אות חזק); אדום = TL גבוה (אזור צל). קשת ה-CZ ב-
+ (נורמלי 5%).
+ כחול = TL נמוך (אות חזק);
+ אדום = TL גבוה (אזור צל).
+ קשת ה-CZ ב-
 \begin_inset Formula $\sim$
 \end_inset
 
 55
 \begin_inset space ~
-
 \end_inset
 
-ק
-
-
-מ נראית בברור.
+קמ נראית בברור.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -2807,7 +2774,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2831,8 +2797,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/combined_Var.png
 	width 100line%
 
@@ -2848,16 +2813,21 @@ status open
 \series default
  לשלושת הפרמטרים האי-ודאיים (
 \lang english
-freq, 
-\begin_inset Formula $z_S$
+freq,
+ 
+\begin_inset Formula $z_{S}$
 \end_inset
 
-, SVP
+,
+ SVP
 \lang hebrew
-), בסקאלת צבע משותפת. SVP מייצר שונות מרחבית הטרוגנית ביותר.
+),
+ בסקאלת צבע משותפת.
+ SVP מייצר שונות מרחבית הטרוגנית ביותר.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -2867,22 +2837,25 @@ freq,
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-מפות ייחוס MC למים עמוקים / נורמלי 5%
-
-
-. שמאל: ממוצע 
+מפות ייחוס MC למים עמוקים / נורמלי 5%.
+ שמאל:
+ ממוצע 
 \begin_inset Formula $\EX[\TL]$
 \end_inset
 
- תחת הפרעת עומק מקור. ימין: שונות 
+ תחת הפרעת עומק מקור.
+ ימין:
+ שונות 
 \begin_inset Formula $\Var[\TL]$
 \end_inset
 
- לכל הפרמטרים. 
+ לכל הפרמטרים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -2890,9 +2863,10 @@ src{
 
 \end_inset
 
-run_mc.m: EX=mean(TL_save,3); Var=var(TL_save,0,3); imagesc()
-
-
+run_mc.m:
+ EX=mean(TL_save,3);
+ Var=var(TL_save,0,3);
+ imagesc()
 \end_layout
 
 \end_inset
@@ -2913,17 +2887,15 @@ name "fig:gallery_mc"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -2945,8 +2917,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/detect_mle_freq.png
 	width 100line%
 
@@ -2960,14 +2931,17 @@ status open
 \series bold
 הסתברות צל מ-LN3 MLE
 \series default
- (הפרעת תדר). 
-\begin_inset Formula $P(\TL > \mathrm{FOM})$
+ (הפרעת תדר).
+ 
+\begin_inset Formula $P(\TL>\mathrm{FOM})$
 \end_inset
 
- בכל פיקסל, עוקפת את הצורך במדגם MC גדול.
+ בכל פיקסל,
+ עוקפת את הצורך במדגם MC גדול.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -2975,7 +2949,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -2999,8 +2972,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/shadow_70_MC_vs_Delta_freq.png
 	width 100line%
 
@@ -3014,16 +2986,20 @@ status open
 \series bold
 השוואת MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 Delta
 \series default
- להסתברות צל (הפרעת תדר). חצי שמאל: MC אמפירי; חצי ימין: קירוב 
+ להסתברות צל (הפרעת תדר).
+ חצי שמאל:
+ MC אמפירי;
+ חצי ימין:
+ קירוב 
 \begin_inset Formula $\Delta$
 \end_inset
 
--LN3. הסכמה קרובה מאשרת את 
+-LN3.
+ הסכמה קרובה מאשרת את 
 \begin_inset Formula $\Delta$
 \end_inset
 
@@ -3031,6 +3007,7 @@ Delta
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3040,19 +3017,21 @@ Delta
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-מפות הסתברות גילוי עבור מים עמוקים / נורמלי 5%
-
-
- / תדר. שמאל: הסתברות צל LN3-MLE. ימין: השוואת MC vs.
+מפות הסתברות גילוי עבור מים עמוקים / נורמלי 5% / תדר.
+ שמאל:
+ הסתברות צל LN3-MLE.
+ ימין:
+ השוואת MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
-Delta. 
+Delta.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -3060,9 +3039,10 @@ src{
 
 \end_inset
 
-run_ln3.m: Pd=normcdf((log(FOM-g)-mu)./sig); run_delta.m: shadowCompare()
-
-
+run_ln3.m:
+ Pd=normcdf((log(FOM-g)-mu)./sig);
+ run_delta.m:
+ shadowCompare()
 \end_layout
 
 \end_inset
@@ -3083,17 +3063,15 @@ name "fig:gallery_shadow"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -3115,8 +3093,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/LN3_RMSE_all.png
 	width 100line%
 
@@ -3130,27 +3107,27 @@ status open
 \series bold
 מפת RMSE של CDF ב-LN3
 \series default
- לכל ההתפלגויות והפרמטרים. שורות: נורמלי 1%
-
-
-/5%
-
-
-/10%
-
-
-. עמודות: 
+ לכל ההתפלגויות והפרמטרים.
+ שורות:
+ נורמלי 1%/5%/10%.
+ עמודות:
+ 
 \lang english
-freq, 
-\begin_inset Formula $z_S$
+freq,
+ 
+\begin_inset Formula $z_{S}$
 \end_inset
 
-, SVP
+,
+ SVP
 \lang hebrew
-. כהה = התאמה טובה; בהיר = התאמה גרועה.
+.
+ כהה = התאמה טובה;
+ בהיר = התאמה גרועה.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3158,7 +3135,6 @@ freq,
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -3182,8 +3158,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -3197,23 +3172,17 @@ status open
 \series bold
 עקומת רלוונטיות סדר PCE
 \series default
- למים עמוקים / נורמלי 5%
-
-
-. כל עקומה עולה מ-0%
-
-
- ל-100%
-
-
- בסדר האופטימלי 
-\begin_inset Formula $K^*$
+ למים עמוקים / נורמלי 5%.
+ כל עקומה עולה מ-0% ל-100% בסדר האופטימלי 
+\begin_inset Formula $K^{*}$
 \end_inset
 
-. שלושת הפרמטרים דורשים התפשטויות מסדר בינוני.
+.
+ שלושת הפרמטרים דורשים התפשטויות מסדר בינוני.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3223,14 +3192,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-איכות התאמת LN3 ובחירת סדר PCE למים עמוקים / נורמלי 5%
-
-
-. 
+איכות התאמת LN3 ובחירת סדר PCE למים עמוקים / נורמלי 5%.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -3238,11 +3206,13 @@ src{
 
 \end_inset
 
-run_ln3.m: RMSE=sqrt(mean((lognCDF-empirCDF).
+run_ln3.m:
+ RMSE=sqrt(mean((lognCDF-empirCDF).
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -3250,9 +3220,9 @@ string
 
 \end_inset
 
-2)); run_pce.m: relevance_k
-
-
+2));
+ run_pce.m:
+ relevance_k
 \end_layout
 
 \end_inset
@@ -3273,17 +3243,15 @@ name "fig:gallery_ln3_pce"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -3305,8 +3273,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png
 	width 100line%
 
@@ -3320,16 +3287,14 @@ status open
 \series bold
 התכנסות שגיאת L2 PCE
 \series default
- (מים עמוקים / נורמלי 5%
-
-
-). כל קו הוא פרמטר אי-ודאי אחד. קו מקווקוו: סף 10%
-
-
-.
+ (מים עמוקים / נורמלי 5%).
+ כל קו הוא פרמטר אי-ודאי אחד.
+ קו מקווקוו:
+ סף 10%.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3337,7 +3302,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -3361,8 +3325,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/shadow_70_LN3_vs_KDE_freq.png
 	width 100line%
 
@@ -3376,15 +3339,16 @@ status open
 \series bold
 LN3 vs.
 \begin_inset space \space{}
-
 \end_inset
 
 KDE הסתברות צל
 \series default
- (הפרעת תדר). KDE עוקב מקרוב יותר אחרי ה-MC האמפירי בגבולות CZ שבהם LN3 מזלזל בתרומת הזנב הדו-מודלי.
+ (הפרעת תדר).
+ KDE עוקב מקרוב יותר אחרי ה-MC האמפירי בגבולות CZ שבהם LN3 מזלזל בתרומת הזנב הדו-מודלי.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3394,14 +3358,13 @@ KDE הסתברות צל
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-התכנסות PCE והשוואת מפות גילוי למים עמוקים / נורמלי 5%
-
-
-. 
+התכנסות PCE והשוואת מפות גילוי למים עמוקים / נורמלי 5%.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -3409,11 +3372,13 @@ src{
 
 \end_inset
 
-run_pce.m: e_LOO=mean(((y-yhat)./(1-hii)).
+run_pce.m:
+ e_LOO=mean(((y-yhat)./(1-hii)).
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -3421,9 +3386,9 @@ string
 
 \end_inset
 
-2); run_kde.m: shadowCompareKDE()
-
-
+2);
+ run_kde.m:
+ shadowCompareKDE()
 \end_layout
 
 \end_inset
@@ -3445,7 +3410,6 @@ name "fig:gallery_pce_kde"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -3453,7 +3417,6 @@ name "fig:gallery_pce_kde"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:mc"
@@ -3472,11 +3435,13 @@ MC
 \series bold
 שתי קבוצות מדגם משלימות
 \series default
-, כל אחת עם 
+,
+ כל אחת עם 
 \begin_inset Formula $N=1000$
 \end_inset
 
- מדגמים לכל צירוף תרחיש/התפלגות/פרמטר: 
+ מדגמים לכל צירוף תרחיש/התפלגות/פרמטר:
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -3485,30 +3450,34 @@ MC
 קבוצת 
 \lang english
 LHS
-\lang hebrew
-
 \series default
+\lang hebrew
  (
 \begin_inset Formula $N=1000$
 \end_inset
 
- מדגמי ריבוע לטיני): מספקת 
-\begin_inset Formula $\hat\EX[\TL]$
+ מדגמי ריבוע לטיני):
+ מספקת 
+\begin_inset Formula $\hat{\EX}[\TL]$
 \end_inset
 
-, 
-\begin_inset Formula $\hat\Var[\TL]$
+,
+ 
+\begin_inset Formula $\hat{\Var}[\TL]$
 \end_inset
 
-, 
-\begin_inset Formula $\hat P_{\text{det}}$
+,
+ 
+\begin_inset Formula $\hat{P}_{\text{det}}$
 \end_inset
 
- אמפירי, 
+ אמפירי,
+ 
 \lang english
 KDE
 \lang hebrew
-, ו-
+,
+ ו-
 \lang english
 LN3
 \lang hebrew
@@ -3516,11 +3485,13 @@ LN3
 \lang english
 MOM
 \lang hebrew
-. שיכוב ה-
+.
+ שיכוב ה-
 \lang english
 LHS
 \lang hebrew
- מבטיח כיסוי מלא של מרחב הכניסה. 
+ מבטיח כיסוי מלא של מרחב הכניסה.
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -3529,14 +3500,14 @@ LHS
 קבוצת 
 \lang english
 IID
-\lang hebrew
-
 \series default
+\lang hebrew
  (
 \begin_inset Formula $N=1000$
 \end_inset
 
- מדגמים עצמאיים): משמשת אך ורק להתאמת 
+ מדגמים עצמאיים):
+ משמשת אך ורק להתאמת 
 \lang english
 LN3
 \lang hebrew
@@ -3544,7 +3515,8 @@ LN3
 \lang english
 MLE
 \lang hebrew
-, מכיוון ש-
+,
+ מכיוון ש-
 \lang english
 MLE
 \lang hebrew
@@ -3552,7 +3524,8 @@ MLE
 \lang english
 IID
 \lang hebrew
-. 
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -3572,8 +3545,9 @@ Cache/<sc>/<dist>_iid/
 \lang english
 IID
 \lang hebrew
-), ומניבות 
-\begin_inset Formula $4\times3\times3\times2\times1000 = 72{,}000$
+),
+ ומניבות 
+\begin_inset Formula $4\times3\times3\times2\times1000=72{,}000$
 \end_inset
 
  הערכות 
@@ -3584,17 +3558,15 @@ Bellhop
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -3616,8 +3588,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_5pct/figures/TL_zS.png
 	width 100line%
 
@@ -3627,9 +3598,9 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-מים רדודים (שטוח, 50
+מים רדודים (שטוח,
+ 50
 \begin_inset space ~
-
 \end_inset
 
 מ')
@@ -3637,13 +3608,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -3667,8 +3638,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/TL_zS.png
 	width 100line%
 
@@ -3678,15 +3648,16 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-מים עמוקים (שטוח, 2500
+מים עמוקים (שטוח,
+ 2500
 \begin_inset space ~
-
 \end_inset
 
 מ')
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3717,8 +3688,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/TL_zS.png
 	width 100line%
 
@@ -3730,13 +3700,14 @@ status open
 \begin_layout Plain Layout
 מדרון יורד (50→550
 \begin_inset space ~
-
 \end_inset
 
-מ'): אזור הצל ממיפוי קרקע בטווח בינוני.
+מ'):
+ אזור הצל ממיפוי קרקע בטווח בינוני.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3744,7 +3715,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -3768,8 +3738,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename upslope/Normal_5pct/figures/TL_zS.png
 	width 100line%
 
@@ -3781,13 +3750,14 @@ status open
 \begin_layout Plain Layout
 מדרון עולה (550→50
 \begin_inset space ~
-
 \end_inset
 
-מ'): קרקעית עולה לוכדת אנרגיה.
+מ'):
+ קרקעית עולה לוכדת אנרגיה.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -3802,17 +3772,16 @@ status open
 \end_inset
 
  (dB) להפרעת 
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- נורמלי 5%
-
-
- בארבעת התרחישים. 
+ נורמלי 5% בארבעת התרחישים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -3820,9 +3789,10 @@ src{
 
 \end_inset
 
-run_mc.m: EX=mean(TL_save,3); [Nz,Nr,N]=size(TL_save); imagesc(r_km,z_m,EX)
-
-
+run_mc.m:
+ EX=mean(TL_save,3);
+ [Nz,Nr,N]=size(TL_save);
+ imagesc(r_km,z_m,EX)
 \end_layout
 
 \end_inset
@@ -3847,7 +3817,6 @@ name "fig:mc_ex_var"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:svp_ensemble"
@@ -3862,74 +3831,78 @@ name "sec:svp_ensemble"
 \end_layout
 
 \begin_layout Standard
-פרופיל מהירות הקול האוקיינוס אינו אחיד בעומק, ואי-הוודאות שלו גם אינה אחידה. שכבת הערבוב הקרובה לפני השטח (0–100
+פרופיל מהירות הקול האוקיינוס אינו אחיד בעומק,
+ ואי-הוודאות שלו גם אינה אחידה.
+ שכבת הערבוב הקרובה לפני השטח (0–100
 \begin_inset space ~
-
 \end_inset
 
-מ' בקיץ) מעורבת באופן פעיל על ידי הרוח וחימום השמש; היא כמעט איזותרמלית בתוך עומק הערבוב, אך הטמפרטורה שלה משתנה משמעותית לפי עונה ומזג אוויר. מתחת לתרמוקליין, טמפרטורת המים יורדת ל-
-\begin_inset Formula $\approx 1$
+מ' בקיץ) מעורבת באופן פעיל על ידי הרוח וחימום השמש;
+ היא כמעט איזותרמלית בתוך עומק הערבוב,
+ אך הטמפרטורה שלה משתנה משמעותית לפי עונה ומזג אוויר.
+ מתחת לתרמוקליין,
+ טמפרטורת המים יורדת ל-
+\begin_inset Formula $\approx1$
 \end_inset
 
 –
-\begin_inset Formula $4\,^\circ$
+\begin_inset Formula $4\,^{\circ}$
 \end_inset
 
-C ונשארת יציבה לאורך השנה כולה. אסימטריה זו מצדיקה את מודל הפרעת ה-SVP החד-ממדי: הזזה סקלרית 
+C ונשארת יציבה לאורך השנה כולה.
+ אסימטריה זו מצדיקה את מודל הפרעת ה-SVP החד-ממדי:
+ הזזה סקלרית 
 \begin_inset Formula $\Delta c$
 \end_inset
 
- המוחלת רק על שכבת הערבוב השטחית, מצומדת להפרעת עומק שכבת הערבוב 
-\begin_inset Formula $\Delta\mathrm{MLD} = k_{\mathrm{MLD}}\,\Delta c$
+ המוחלת רק על שכבת הערבוב השטחית,
+ מצומדת להפרעת עומק שכבת הערבוב 
+\begin_inset Formula $\Delta\mathrm{MLD}=k_{\mathrm{MLD}}\,\Delta c$
 \end_inset
 
  (
-\begin_inset Formula $k_{\mathrm{MLD}} = 5$
+\begin_inset Formula $k_{\mathrm{MLD}}=5$
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 מ'
 \begin_inset space ~
-
 \end_inset
 
-שנ'/מ', 
-\begin_inset Formula $\mathrm{MLD}_0 = 30$
-\end_inset
-
-
-\begin_inset space ~
-
-\end_inset
-
-מ'). גרדיאנט ה-SVP העמוק (
-\begin_inset Formula $z > 180$
+שנ'/מ',
+ 
+\begin_inset Formula $\mathrm{MLD}_{0}=30$
 \end_inset
 
 
 \begin_inset space ~
+\end_inset
 
+מ').
+ גרדיאנט ה-SVP העמוק (
+\begin_inset Formula $z>180$
+\end_inset
+
+
+\begin_inset space ~
 \end_inset
 
 מ') נשמר קבוע מפני שהשונות של טמפרטורת מים עמוקים קטנה בסדר גודל משונות שכבת הערבוב בסולמות זמן עונתיים.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -3951,8 +3924,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/svp_ensemble.png
 	width 100line%
 
@@ -3962,29 +3934,27 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-נורמלי 5%
-
-
-: 
-\begin_inset Formula $\sigma_{\Delta T}=0.15\,^\circ$
+נורמלי 5%:
+ 
+\begin_inset Formula $\sigma_{\Delta T}=0.15\,^{\circ}$
 \end_inset
 
-C, 
-\begin_inset Formula $\sigma_\mathrm{MLD}=0.75$
+C,
+ 
+\begin_inset Formula $\sigma_{\mathrm{MLD}}=0.75$
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
-מ'. ההפרעה מוגבלת לשכבה השטחית מעל 
+מ'.
+ ההפרעה מוגבלת לשכבה השטחית מעל 
 \begin_inset Formula $\sim$
 \end_inset
 
 180
 \begin_inset space ~
-
 \end_inset
 
 מ'.
@@ -3992,13 +3962,13 @@ C,
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -4022,8 +3992,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_10pct/figures/svp_ensemble.png
 	width 100line%
 
@@ -4033,26 +4002,27 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-נורמלי 10%
-
-
-: 
-\begin_inset Formula $\sigma_{\Delta T}=0.30\,^\circ$
+נורמלי 10%:
+ 
+\begin_inset Formula $\sigma_{\Delta T}=0.30\,^{\circ}$
 \end_inset
 
-C, 
-\begin_inset Formula $\sigma_\mathrm{MLD}=1.5$
+C,
+ 
+\begin_inset Formula $\sigma_{\mathrm{MLD}}=1.5$
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
-מ'. רצועה כחולה רחבה יותר ליד המשטח; פרופיל עמוק לא משתנה.
+מ'.
+ רצועה כחולה רחבה יותר ליד המשטח;
+ פרופיל עמוק לא משתנה.
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -4066,11 +4036,17 @@ C,
 \begin_inset Formula $N=1000$
 \end_inset
 
-) לתרחיש מים עמוקים. עקבות כחולות: פרופילים שנדגמו ב-MC; שחור עבה: פרופיל נומינלי. 
+) לתרחיש מים עמוקים.
+ עקבות כחולות:
+ פרופילים שנדגמו ב-MC;
+ שחור עבה:
+ פרופיל נומינלי.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -4078,9 +4054,12 @@ src{
 
 \end_inset
 
-run_mc.m: svp_i = makeSVPNoise(S.svp(i), depth, cfg); plot(svp_i.c, svp_i.z)
-
-
+run_mc.m:
+ svp_i = makeSVPNoise(S.svp(i),
+ depth,
+ cfg);
+ plot(svp_i.c,
+ svp_i.z)
 \end_layout
 
 \end_inset
@@ -4105,7 +4084,6 @@ name "fig:svp_ensemble"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:mc_conv"
@@ -4120,12 +4098,13 @@ name "sec:mc_conv"
 \begin_inset Formula $Y$
 \end_inset
 
- עם שונות סופית, הממוצע המדגמי 
-\begin_inset Formula $\bar Y_N$
+ עם שונות סופית,
+ הממוצע המדגמי 
+\begin_inset Formula $\bar{Y}_{N}$
 \end_inset
 
  מתכנס אל 
-\begin_inset Formula $\mu_Y$
+\begin_inset Formula $\mu_{Y}$
 \end_inset
 
  בקצב 
@@ -4133,62 +4112,64 @@ name "sec:mc_conv"
 CLT
 \lang hebrew
  הקלאסי 
-\begin_inset Formula $\mathrm{RMSE}(\bar Y_N) = \sigma_Y / \sqrt{N}$
+\begin_inset Formula $\mathrm{RMSE}(\bar{Y}_{N})=\sigma_{Y}/\sqrt{N}$
 \end_inset
 
-. השונות המדגמית 
-\begin_inset Formula $S_N^2$
+.
+ השונות המדגמית 
+\begin_inset Formula $S_{N}^{2}$
 \end_inset
 
- מתכנסת באותו קצב אסימפטוטי, אך עם מקדם גדול יותר: 
-\begin_inset Formula \begin{equation}
-  \mathrm{Var}(S_N^2) \;=\; \frac{2\sigma_Y^4}{N-1},
-  \label{eq:var_of_var}
+ מתכנסת באותו קצב אסימפטוטי,
+ אך עם מקדם גדול יותר:
+ 
+\begin_inset Formula 
+\begin{equation}
+\mathrm{Var}(S_{N}^{2})\;=\;\frac{2\sigma_{Y}^{4}}{N-1},\label{eq:var_of_var}
 \end{equation}
+
 \end_inset
 
 לכן השגיאה היחסית של 
-\begin_inset Formula $S_N^2$
+\begin_inset Formula $S_{N}^{2}$
 \end_inset
 
  היא 
-\begin_inset Formula $\sqrt{2/(N-1)}/C_V^2$
+\begin_inset Formula $\sqrt{2/(N-1)}/C_{V}^{2}$
 \end_inset
 
  כאשר 
-\begin_inset Formula $C_V=\sigma_Y/\mu_Y$
+\begin_inset Formula $C_{V}=\sigma_{Y}/\mu_{Y}$
 \end_inset
 
- הוא מקדם הווריאציה. ב-
+ הוא מקדם הווריאציה.
+ ב-
 \begin_inset Formula $N=1000$
 \end_inset
 
- ועבור ההתפלגות הרחבה ביותר (נורמלי 10%
-
-
-), שגיאת ה-RMSE היחסית של מאמד השונות המדגמית היא 
-\begin_inset Formula $\approx 4.5\%$
+ ועבור ההתפלגות הרחבה ביותר (נורמלי 10%),
+ שגיאת ה-RMSE היחסית של מאמד השונות המדגמית היא 
+\begin_inset Formula $\approx4.5\%$
 \end_inset
 
-, בתוך יעד ה-
-\begin_inset Formula $\lesssim 5\%$
+,
+ בתוך יעד ה-
+\begin_inset Formula $\lesssim5\%$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -4210,8 +4191,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/mc_conv_mean_freq.png
 	width 100line%
 
@@ -4221,12 +4201,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תדר: 
-\begin_inset Formula $\hat\EX[\TL]$
+תדר:
+ 
+\begin_inset Formula $\hat{\EX}[\TL]$
 \end_inset
 
  ו-
-\begin_inset Formula $\hat\Var[\TL]$
+\begin_inset Formula $\hat{\Var}[\TL]$
 \end_inset
 
  מול 
@@ -4238,13 +4219,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -4268,8 +4249,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/mc_conv_mean_svp.png
 	width 100line%
 
@@ -4279,12 +4259,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SVP: 
-\begin_inset Formula $\hat\EX[\TL]$
+SVP:
+ 
+\begin_inset Formula $\hat{\EX}[\TL]$
 \end_inset
 
  ו-
-\begin_inset Formula $\hat\Var[\TL]$
+\begin_inset Formula $\hat{\Var}[\TL]$
 \end_inset
 
  מול 
@@ -4295,6 +4276,7 @@ SVP:
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -4312,9 +4294,10 @@ SVP:
 \begin_inset Formula $1000$
 \end_inset
 
-). ממוצע מתכנס מהר יותר משונות, בהתאם למשוואה
+).
+ ממוצע מתכנס מהר יותר משונות,
+ בהתאם למשוואה
 \begin_inset space ~
-
 \end_inset
 
 
@@ -4328,11 +4311,13 @@ nolink "false"
 
 \end_inset
 
-. 
+.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -4340,9 +4325,10 @@ src{
 
 \end_inset
 
-run_mc_convergence.m: for N in N_VEC: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)
-
-
+run_mc_convergence.m:
+ for N in N_VEC:
+ idx=randperm(1000,N);
+ RMSE(mean(TL(:,:,idx),3),ref)
 \end_layout
 
 \end_inset
@@ -4363,11 +4349,11 @@ name "fig:mc_conv"
 \end_layout
 
 \begin_layout Subsubsection
-LHS לעומת IID: יתרון הדגימה הסטרטיפיקטיבית
+LHS לעומת IID:
+ יתרון הדגימה הסטרטיפיקטיבית
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:lhs_iid"
@@ -4378,7 +4364,8 @@ name "sec:lhs_iid"
 \end_layout
 
 \begin_layout Standard
-השוואת התכנסות LHS (ריבוע לטיני, דגימה סטרטיפיקטיבית) לעומת IID (עצמאי) מראה שדגימת LHS מתכנסת מהר יותר ב-
+השוואת התכנסות LHS (ריבוע לטיני,
+ דגימה סטרטיפיקטיבית) לעומת IID (עצמאי) מראה שדגימת LHS מתכנסת מהר יותר ב-
 \begin_inset Formula $\EX[\TL]$
 \end_inset
 
@@ -4390,22 +4377,21 @@ name "sec:lhs_iid"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -4413,10 +4399,7 @@ IfFileExists
 
 \end_inset
 
-
 deepwater/figures/lhsvsiidfreq.png
-
-
 \begin_inset Box Frameless
 position "b"
 hor_pos "c"
@@ -4437,8 +4420,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/lhs_vs_iid_freq.png
 	width 100line%
 
@@ -4448,10 +4430,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-פרמטר: תדר
+פרמטר:
+ תדר
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -4459,7 +4443,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -4483,8 +4466,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/lhs_vs_iid_svp.png
 	width 100line%
 
@@ -4494,18 +4476,18 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-פרמטר: SVP
+פרמטר:
+ SVP
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
 \end_inset
 
  
-
-
 \begin_inset Box Boxed
 position "c"
 hor_pos "l"
@@ -4524,37 +4506,36 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
 
-
 \size small
-LHS vs IID convergence — run 
+LHS vs IID convergence —
+ run 
 \family typewriter
 run_lhs_iid_convergence('deep_water','Normal_5pct')
-\family default
-
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-התכנסות LHS לעומת IID (מים עמוקים, נורמלי 5%
-
-
-). כחול = LHS, אדום מקווקוו = IID. 
+התכנסות LHS לעומת IID (מים עמוקים,
+ נורמלי 5%).
+ כחול = LHS,
+ אדום מקווקוו = IID.
+ 
 \series bold
 LHS מתכנסת מהר יותר
 \series default
- בזכות כיסוי מרחב הכניסה המלא. 
+ בזכות כיסוי מרחב הכניסה המלא.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -4562,9 +4543,9 @@ src{
 
 \end_inset
 
-run_lhs_iid_convergence.m: idx=randperm(1000,N); RMSE(mean(TL(:,:,idx),3),ref)
-
-
+run_lhs_iid_convergence.m:
+ idx=randperm(1000,N);
+ RMSE(mean(TL(:,:,idx),3),ref)
 \end_layout
 
 \end_inset
@@ -4589,7 +4570,6 @@ KDE כשיטת אינטרפולציה חסכונית
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:kde_vs_N"
@@ -4600,38 +4580,40 @@ name "sec:kde_vs_N"
 \end_layout
 
 \begin_layout Standard
-ה-KDE משתמש בחלון גאוסי (כלל סילברמן: 
-\begin_inset Formula $h = 1.06\hat\sigma N^{-1/5}$
+ה-KDE משתמש בחלון גאוסי (כלל סילברמן:
+ 
+\begin_inset Formula $h=1.06\hat{\sigma}N^{-1/5}$
 \end_inset
 
 ) כדי להחליק את 
-\begin_inset Formula $\hat{P}_\text{shadow}$
+\begin_inset Formula $\hat{P}_{\text{shadow}}$
 \end_inset
 
- במקום ספירה בינארית. האיור מראה ש-KDE מתכנסת מהר יותר מהאמידה האמפירית הישירה, ומציג אותה כבחירה חסכונית לאמידת 
-\begin_inset Formula $P_\text{shadow}$
+ במקום ספירה בינארית.
+ האיור מראה ש-KDE מתכנסת מהר יותר מהאמידה האמפירית הישירה,
+ ומציג אותה כבחירה חסכונית לאמידת 
+\begin_inset Formula $P_{\text{shadow}}$
 \end_inset
 
  בגדלי מדגם קטנים.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -4639,19 +4621,14 @@ IfFileExists
 
 \end_inset
 
-
 deepwater/figures/kdevsN.png
-
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/kde_vs_N.png
 	width 100text%
 
 \end_inset
 
  
-
-
 \begin_inset Box Boxed
 position "c"
 hor_pos "l"
@@ -4670,45 +4647,45 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
 
-
 \size small
-KDE vs N study — run 
+KDE vs N study —
+ run 
 \family typewriter
 run_kde_N_study('deep_water','Normal_5pct')
-\family default
-
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 KDE לעומת אמידה אמפירית של 
-\begin_inset Formula $P_\text{shadow}$
+\begin_inset Formula $P_{\text{shadow}}$
 \end_inset
 
  כפונקציה של 
 \begin_inset Formula $N$
 \end_inset
 
- (מים עמוקים, נורמלי 5%
-
-
-, שלושת הפרמטרים). קו מלא = KDE (גאוסי), מקווקוו = אמפירי (ספירה). KDE מפחית שגיאה ב-30–50% בגדלי מדגם קטנים (
-\begin_inset Formula $N \leq 100$
+ (מים עמוקים,
+ נורמלי 5%,
+ שלושת הפרמטרים).
+ קו מלא = KDE (גאוסי),
+ מקווקוו = אמפירי (ספירה).
+ KDE מפחית שגיאה ב-30–50% בגדלי מדגם קטנים (
+\begin_inset Formula $N\leq100$
 \end_inset
 
-). 
+).
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -4716,11 +4693,13 @@ src{
 
 \end_inset
 
-run_kde_N_study.m: h=1.06*std(TL_sub,0,3)*N
+run_kde_N_study.m:
+ h=1.06*std(TL_sub,0,3)*N
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -4728,9 +4707,8 @@ string
 
 \end_inset
 
--0.2; Pd=mean(normcdf((FOM-TL_sub)./h),3)
-
-
+-0.2;
+ Pd=mean(normcdf((FOM-TL_sub)./h),3)
 \end_layout
 
 \end_inset
@@ -4752,15 +4730,14 @@ name "fig:kde_vs_N"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
-שיטת דלתא מסדר ראשון: דיוק ומצבי כשל
+שיטת דלתא מסדר ראשון:
+ דיוק ומצבי כשל
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:delta"
@@ -4779,7 +4756,8 @@ name "sec:delta"
 \emph on
 שיטת דלתא
 \emph default
- כאן מתייחס ללינאריזציה באמצעות חשבון הפרעות (פיתוח טיילור מסדר ראשון של פלט המודל סביב וקטור הפרמטרים הנומינלי), הידועה גם כ-
+ כאן מתייחס ללינאריזציה באמצעות חשבון הפרעות (פיתוח טיילור מסדר ראשון של פלט המודל סביב וקטור הפרמטרים הנומינלי),
+ הידועה גם כ-
 \lang english
 FOSM
 \lang hebrew
@@ -4791,24 +4769,26 @@ GUM
 \end_layout
 
 \begin_layout Standard
-שיטת דלתא מסדר 1 מקרבת את השונות כ: 
-\begin_inset Formula \begin{equation}
-  \Var_1[\TL] \;\approx\; \sum_{i} J_i^2 \,\sigma_i^2,
-  \qquad J_i = \frac{\partial \TL}{\partial \theta_i}\bigg|_{\boldsymbol{\theta}_0},
-  \label{eq:delta1}
+שיטת דלתא מסדר 1 מקרבת את השונות כ:
+ 
+\begin_inset Formula 
+\begin{equation}
+\Var_{1}[\TL]\;\approx\;\sum_{i}J_{i}^{2}\,\sigma_{i}^{2},\qquad J_{i}=\frac{\partial\TL}{\partial\theta_{i}}\bigg|_{\boldsymbol{\theta}_{0}},\label{eq:delta1}
 \end{equation}
+
 \end_inset
 
 כאשר הג'קוביאנים 
-\begin_inset Formula $J_i$
+\begin_inset Formula $J_{i}$
 \end_inset
 
- מחושבים באמצעות הפרשים סופיים מרכזיים. ההרחבה מסדר 2 מוסיפה אברי תיקון הסיאן 
-\begin_inset Formula $\tfrac{1}{2} H_{ii}^2 \kappa_i$
+ מחושבים באמצעות הפרשים סופיים מרכזיים.
+ ההרחבה מסדר 2 מוסיפה אברי תיקון הסיאן 
+\begin_inset Formula $\tfrac{1}{2}H_{ii}^{2}\kappa_{i}$
 \end_inset
 
  כאשר 
-\begin_inset Formula $\kappa_i = \EX[\delta\theta_i^4]/\sigma_i^4 - 1$
+\begin_inset Formula $\kappa_{i}=\EX[\delta\theta_{i}^{4}]/\sigma_{i}^{4}-1$
 \end_inset
 
  הוא הקורטוזיס העודף.
@@ -4831,17 +4811,13 @@ GUM
 \begin_inset Formula $\leq$
 \end_inset
 
-1%
-
-
-), שיטת דלתא משיגה שגיאות 
-\begin_inset Formula $L_1$
+1%),
+ שיטת דלתא משיגה שגיאות 
+\begin_inset Formula $L_{1}$
 \end_inset
 
- יחסיות מתחת ל-10%
-
-
- במפות השונות. מפות הסתברות הצל המחושבות דרך ההיברידי דלתא–
+ יחסיות מתחת ל-10% במפות השונות.
+ מפות הסתברות הצל המחושבות דרך ההיברידי דלתא–
 \lang english
 LN3
 \lang hebrew
@@ -4849,17 +4825,15 @@ LN3
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -4881,8 +4855,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_1pct/figures/shadow_70_MC_vs_Delta_zS.png
 	width 100line%
 
@@ -4894,7 +4867,6 @@ status open
 \begin_layout Plain Layout
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 Delta
@@ -4902,13 +4874,13 @@ Delta
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -4932,8 +4904,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_1pct/figures/shadow_70_MC_vs_DeltaLN3_zS.png
 	width 100line%
 
@@ -4945,13 +4916,13 @@ status open
 \begin_layout Plain Layout
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 Delta–LN3
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -4982,8 +4953,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_1pct/figures/shadow_70_MC_vs_LN3_zS.png
 	width 100line%
 
@@ -4995,13 +4965,13 @@ status open
 \begin_layout Plain Layout
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 LN3
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -5013,21 +4983,18 @@ LN3
 \begin_layout Plain Layout
 השוואת Delta vs.
 \begin_inset space \space{}
-
 \end_inset
 
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 Delta–LN3 הסתברות צל (
-\begin_inset Formula $P(\TL > 70$
+\begin_inset Formula $P(\TL>70$
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 dB
@@ -5038,18 +5005,24 @@ dB
 \emph on
 מסכימות
 \emph default
- עם MC (מים רדודים, נורמלי 1%
-
-
-, הפרעת 
-\begin_inset Formula $z_S$
+ עם MC (מים רדודים,
+ נורמלי 1%,
+ הפרעת 
+\begin_inset Formula $z_{S}$
 \end_inset
 
-). בכל פאנל: MC אמפירי — חצי שמאל; קירוב אנליטי — חצי ימין. 
+).
+ בכל פאנל:
+ MC אמפירי —
+ חצי שמאל;
+ קירוב אנליטי —
+ חצי ימין.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -5057,11 +5030,14 @@ src{
 
 \end_inset
 
-run_delta.m: J=fdJacobian(TL,theta,sig); Var1=sum(J.
+run_delta.m:
+ J=fdJacobian(TL,theta,sig);
+ Var1=sum(J.
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -5075,6 +5051,7 @@ status collapsed
 
 \begin_layout Plain Layout
 
+
 \backslash
 string
 \end_layout
@@ -5082,8 +5059,6 @@ string
 \end_inset
 
 2,3)
-
-
 \end_layout
 
 \end_inset
@@ -5112,35 +5087,32 @@ name "fig:shadow_good"
 \series bold
 תרחישי מדרון
 \series default
- (עולה, יורד) והפרעות גדולות (
+ (עולה,
+ יורד) והפרעות גדולות (
 \begin_inset Formula $\geq$
 \end_inset
 
-5%
-
-
-), הקירוב מסדר 1 מתמוטט משמעותית. תיקון סדר 2 גם כן אינו מסוגל לשחזר את השונות: אבר תיקון ההסיאן 
-\begin_inset Formula $|\kappa H^2|/V_1$
+5%),
+ הקירוב מסדר 1 מתמוטט משמעותית.
+ תיקון סדר 2 גם כן אינו מסוגל לשחזר את השונות:
+ אבר תיקון ההסיאן 
+\begin_inset Formula $|\kappa H^{2}|/V_{1}$
 \end_inset
 
- עולה על 100%
-
-
- עבור הפרעות SVP בשני תרחישי המדרון, מה שמציין שסידרת טיילור לא התכנסה בסדר 2.
+ עולה על 100% עבור הפרעות SVP בשני תרחישי המדרון,
+ מה שמציין שסידרת טיילור לא התכנסה בסדר 2.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "t"
@@ -5162,8 +5134,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/shadow_70_MC_vs_Delta_svp.png
 	width 100line%
 
@@ -5175,7 +5146,6 @@ status open
 \begin_layout Plain Layout
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 Delta
@@ -5183,13 +5153,13 @@ Delta
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -5213,8 +5183,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/shadow_70_MC_vs_DeltaLN3_svp.png
 	width 100line%
 
@@ -5226,13 +5195,13 @@ status open
 \begin_layout Plain Layout
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 Delta–LN3
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -5263,8 +5232,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/shadow_70_MC_vs_LN3_svp.png
 	width 100line%
 
@@ -5276,13 +5244,13 @@ status open
 \begin_layout Plain Layout
 MC vs.
 \begin_inset space \space{}
-
 \end_inset
 
 LN3
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -5296,14 +5264,16 @@ LN3
 \emph on
 נכשל
 \emph default
- (מדרון יורד, נורמלי 5%
-
-
-, הפרעת SVP). אי-הסכמה בולטת בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה. 
+ (מדרון יורד,
+ נורמלי 5%,
+ הפרעת SVP).
+ אי-הסכמה בולטת בגבול אזור ההצל מאשרת כי סדרת טיילור לא התכנסה.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -5311,11 +5281,14 @@ src{
 
 \end_inset
 
-run_delta.m: H=fdHessian(TL,theta,sig); correction=0.5*H.
+run_delta.m:
+ H=fdHessian(TL,theta,sig);
+ correction=0.5*H.
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -5323,9 +5296,8 @@ string
 
 \end_inset
 
-2*kappa; frac>100%
-
-
+2*kappa;
+ frac>100%
 \end_layout
 
 \end_inset
@@ -5346,33 +5318,30 @@ name "fig:shadow_bad"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תיקון ממוצע מסדר 2: 
-\begin_inset Formula $\langle|\kappa H^2|/(J^2\sigma^2 + |\kappa H^2|)\rangle$
+תיקון ממוצע מסדר 2:
+ 
+\begin_inset Formula $\langle|\kappa H^{2}|/(J^{2}\sigma^{2}+|\kappa H^{2}|)\rangle$
 \end_inset
 
- [%]. ערכים 
+ [%].
+ ערכים 
 \begin_inset Formula $>$
 \end_inset
 
-50%
-
-
- מצביעים על כך שהקירוב מסדר 1 אינו מספיק.
+50% מצביעים על כך שהקירוב מסדר 1 אינו מספיק.
 \end_layout
 
 \end_inset
@@ -5387,11 +5356,11 @@ name "tab:2nd_order_correction"
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
  
-\begin_inset Tabular 
+\begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="7">
-<features booktabs="true" tabularvalignment="middle" tabularwidth="0pt">
+<features booktabs="true" tabularvalignment="middle">
 <column alignment="left" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -5403,12 +5372,16 @@ name "tab:2nd_order_correction"
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 </cell>
 <cell multicolumn="1" alignment="none" valignment="top" topline="true" usebox="none" special="c">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Normal 5%
 \end_layout
 
@@ -5417,12 +5390,16 @@ Normal 5%
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 </cell>
 <cell multicolumn="1" alignment="none" valignment="top" topline="true" usebox="none" special="c">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Normal 10%
 \end_layout
 
@@ -5431,12 +5408,16 @@ Normal 10%
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 </cell>
 <cell multicolumn="1" alignment="none" valignment="top" topline="true" usebox="none" special="c">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Normal 10%
 \end_layout
 
@@ -5444,6 +5425,10 @@ Normal 10%
 </cell>
 <cell multicolumn="2" alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 </cell>
@@ -5452,7 +5437,7 @@ Normal 10%
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Scenario 
 \end_layout
 
@@ -5461,7 +5446,7 @@ Scenario
 <cell alignment="center" valignment="top" topline="true" toplineltrim="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Total 
 \end_layout
 
@@ -5470,7 +5455,7 @@ Total
 <cell alignment="center" valignment="top" topline="true" toplinertrim="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 SVP 
 \end_layout
 
@@ -5479,7 +5464,7 @@ SVP
 <cell alignment="center" valignment="top" topline="true" toplineltrim="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Total 
 \end_layout
 
@@ -5488,7 +5473,7 @@ Total
 <cell alignment="center" valignment="top" topline="true" toplinertrim="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 SVP 
 \end_layout
 
@@ -5497,7 +5482,7 @@ SVP
 <cell alignment="center" valignment="top" topline="true" toplineltrim="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Total 
 \end_layout
 
@@ -5506,7 +5491,7 @@ Total
 <cell alignment="center" valignment="top" topline="true" toplinertrim="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 SVP 
 \end_layout
 
@@ -5517,7 +5502,7 @@ SVP
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Shallow water 
 \end_layout
 
@@ -5526,7 +5511,7 @@ Shallow water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 96.6 
 \end_layout
 
@@ -5535,7 +5520,7 @@ Shallow water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 98.2 
 \end_layout
 
@@ -5544,7 +5529,7 @@ Shallow water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.1 
 \end_layout
 
@@ -5553,7 +5538,7 @@ Shallow water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.5 
 \end_layout
 
@@ -5562,7 +5547,7 @@ Shallow water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.5 
 \end_layout
 
@@ -5571,7 +5556,7 @@ Shallow water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.8 
 \end_layout
 
@@ -5582,7 +5567,7 @@ Shallow water
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Deep water 
 \end_layout
 
@@ -5591,7 +5576,7 @@ Deep water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 97.0 
 \end_layout
 
@@ -5600,7 +5585,7 @@ Deep water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 51.7 
 \end_layout
 
@@ -5609,7 +5594,7 @@ Deep water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.2 
 \end_layout
 
@@ -5618,7 +5603,7 @@ Deep water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 81.1 
 \end_layout
 
@@ -5627,7 +5612,7 @@ Deep water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.6 
 \end_layout
 
@@ -5636,7 +5621,7 @@ Deep water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 88.9 
 \end_layout
 
@@ -5647,7 +5632,7 @@ Deep water
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Upslope 
 \end_layout
 
@@ -5656,7 +5641,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 97.5 
 \end_layout
 
@@ -5665,7 +5650,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 73.0 
 \end_layout
 
@@ -5674,7 +5659,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.4 
 \end_layout
 
@@ -5683,7 +5668,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 91.5 
 \end_layout
 
@@ -5692,7 +5677,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.7 
 \end_layout
 
@@ -5701,7 +5686,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 95.3 
 \end_layout
 
@@ -5712,7 +5697,7 @@ Upslope
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Downslope 
 \end_layout
 
@@ -5721,7 +5706,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 96.1 
 \end_layout
 
@@ -5730,7 +5715,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 81.1 
 \end_layout
 
@@ -5739,7 +5724,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.0 
 \end_layout
 
@@ -5748,7 +5733,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 94.5 
 \end_layout
 
@@ -5757,7 +5742,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 99.5 
 \end_layout
 
@@ -5766,7 +5751,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 97.0 
 \end_layout
 
@@ -5808,12 +5793,12 @@ Downslope
 \begin_inset Formula $\sigma\leq$
 \end_inset
 
-1%
+1%),
+ בתימטריה שטוחה.
 
-
-), בתימטריה שטוחה.
 \series default
- לינאריזציית טיילור מסדר 1 תקפה; מפות הסתברות הצל של ההיברידי דלתא–
+ לינאריזציית טיילור מסדר 1 תקפה;
+ מפות הסתברות הצל של ההיברידי דלתא–
 \lang english
 LN3
 \lang hebrew
@@ -5827,15 +5812,12 @@ LN3
 \begin_inset Formula $\sigma\geq$
 \end_inset
 
-5%
+5%),
+ בתימטריה שטוחה.
 
-
-), בתימטריה שטוחה.
 \series default
- אבר תיקון ההסיאן מסדר 2 כבר עולה על אבר סדר 1 בכל התרחישים מלבד SVP מים עמוקים ב-5%
-
-
-. סידרת טיילור 
+ אבר תיקון ההסיאן מסדר 2 כבר עולה על אבר סדר 1 בכל התרחישים מלבד SVP מים עמוקים ב-5%.
+ סידרת טיילור 
 \emph on
 לא התכנסה
 \emph default
@@ -5845,35 +5827,38 @@ LN3
 \begin_layout Itemize
 
 \series bold
-סביבות מדרון (עולה, יורד), כל הפרעה.
+סביבות מדרון (עולה,
+ יורד),
+ כל הפרעה.
+
 \series default
- גרדיאנט הבתימטריה מכניס אזורי צל המונעים על ידי שבירה שמיקומם המרחבי תלוי בצורה רגישה בפרמטרים האי-ודאיים. אפילו ב-
+ גרדיאנט הבתימטריה מכניס אזורי צל המונעים על ידי שבירה שמיקומם המרחבי תלוי בצורה רגישה בפרמטרים האי-ודאיים.
+ אפילו ב-
 \begin_inset Formula $\sigma=1\%$
 \end_inset
 
-, מפות הצל של דלתא–
+,
+ מפות הצל של דלתא–
 \lang english
 LN3
 \lang hebrew
- מציגות אי-התאמה מרחבית משמעותית ביחס ל-MC. 
+ מציגות אי-התאמה מרחבית משמעותית ביחס ל-MC.
+ 
 \end_layout
 
 \begin_layout Standard
 
 \series bold
 השלכה מעשית.
+
 \series default
  שיטת דלתא אמינה בלבד לתכנון סונאר בסביבות קרקעית שטוחה עם אי-ודאות של 
 \begin_inset Formula $\leq$
 \end_inset
 
-1%
-
-
- בכל פרמטר. עבור אי-ודאות 5–10%
-
-
- או כל סביבת מדרון, דרושה 
+1% בכל פרמטר.
+ עבור אי-ודאות 5–10% או כל סביבת מדרון,
+ דרושה 
 \lang english
 PCE
 \lang hebrew
@@ -5882,15 +5867,14 @@ PCE
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
-אמידת הסתברות הצל — LN3
+אמידת הסתברות הצל —
+ LN3
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:ln3"
@@ -5909,23 +5893,31 @@ name "sec:ln3"
 \end_layout
 
 \begin_layout Standard
-ראשית, TL מבוטא כבר בסקאלה לוגריתמית (dB): 
-\begin_inset Formula $\mathrm{TL} = -20\log_{10}(|p|/p_0)$
+ראשית,
+ TL מבוטא כבר בסקאלה לוגריתמית (dB):
+ 
+\begin_inset Formula $\mathrm{TL}=-20\log_{10}(|p|/p_{0})$
 \end_inset
 
-. כל מבנה כפלי בשדה הלחץ ממופה לכן למבנה חיבורי ב-TL, ומעדיף התפלגויות ממשפחת הלוגנורמלי.
+.
+ כל מבנה כפלי בשדה הלחץ ממופה לכן למבנה חיבורי ב-TL,
+ ומעדיף התפלגויות ממשפחת הלוגנורמלי.
 \end_layout
 
 \begin_layout Standard
-שנית, בגלידה רב-מודלית, הלחץ המקובל הוא סכום קוהרנטי של 
+שנית,
+ בגלידה רב-מודלית,
+ הלחץ המקובל הוא סכום קוהרנטי של 
 \begin_inset Formula $M$
 \end_inset
 
- תרומות מודים נורמליים; עבור 
+ תרומות מודים נורמליים;
+ עבור 
 \begin_inset Formula $M$
 \end_inset
 
- גדול, ה-
+ גדול,
+ ה-
 \lang english
 CLT
 \lang hebrew
@@ -5933,26 +5925,33 @@ CLT
 \begin_inset Formula $|p|$
 \end_inset
 
- מתפלג בערך כרייליי, שממיר ל-TL לוגנורמלי בערך.
+ מתפלג בערך כרייליי,
+ שממיר ל-TL לוגנורמלי בערך.
 \end_layout
 
 \begin_layout Standard
-שלישית, ל-TL יש תחתון פיזיקלי: התפשטות גיאומטרית מטילה הפסד מינימלי 
-\begin_inset Formula $\mathrm{TL}_{\min} > 0\,\mathrm{dB}$
+שלישית,
+ ל-TL יש תחתון פיזיקלי:
+ התפשטות גיאומטרית מטילה הפסד מינימלי 
+\begin_inset Formula $\mathrm{TL}_{\min}>0\,\mathrm{dB}$
 \end_inset
 
-. הלוגנורמלי התלת-פרמטרי 
-\begin_inset Formula \begin{equation}
-  X - \gamma \sim \mathrm{LN2}, \quad \gamma = 0.95\,\min(\text{samples}),
+.
+ הלוגנורמלי התלת-פרמטרי 
+\begin_inset Formula 
+\begin{equation}
+X-\gamma\sim\mathrm{LN2},\quad\gamma=0.95\,\min(\text{samples}),
 \end{equation}
+
 \end_inset
 
 מקודד במפורש את הרצפה הפיזיקלית דרך פרמטר ההזזה 
 \begin_inset Formula $\gamma$
 \end_inset
 
-. הפרמטרים 
-\begin_inset Formula $(\hat\mu, \hat\sigma)$
+.
+ הפרמטרים 
+\begin_inset Formula $(\hat{\mu},\hat{\sigma})$
 \end_inset
 
  מוערכים ב-
@@ -5967,14 +5966,14 @@ lognfit
 \lang english
 MOM
 \lang hebrew
-, שבדרך כלל פחות יעיל ב-10–30%
-
-
-): 
-\begin_inset Formula \begin{equation}
-  \hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})
-  = \Phi\!\left(\frac{\ln(\mathrm{FOM}-\hat\gamma)-\hat\mu}{\hat\sigma}\right).
+,
+ שבדרך כלל פחות יעיל ב-10–30%):
+ 
+\begin_inset Formula 
+\begin{equation}
+\hat{P}_{\mathrm{shadow}}^{\mathrm{LN3}}(\mathbf{x})=\Phi\!\left(\frac{\ln(\mathrm{FOM}-\hat{\gamma})-\hat{\mu}}{\hat{\sigma}}\right).
 \end{equation}
+
 \end_inset
 
 
@@ -5985,17 +5984,15 @@ MOM
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -6017,8 +6014,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/figures/LN3_RMSE_all.png
 	width 100line%
 
@@ -6033,13 +6029,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -6063,8 +6059,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/figures/LN3_RMSE_all.png
 	width 100line%
 
@@ -6078,6 +6073,7 @@ status open
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6108,8 +6104,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename upslope/figures/LN3_RMSE_all.png
 	width 100line%
 
@@ -6124,13 +6119,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -6154,8 +6149,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/figures/LN3_RMSE_all.png
 	width 100line%
 
@@ -6170,6 +6164,7 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
@@ -6178,28 +6173,29 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-שגיאת RMSE של CDF LN3 (בין LN3 ל-MC) בארבעת התרחישים ושלוש רמות האי-ודאות. שורות: נורמלי 1%
-
-
-/5%
-
-
-/10%
-
-
-. עמודות: 
+שגיאת RMSE של CDF LN3 (בין LN3 ל-MC) בארבעת התרחישים ושלוש רמות האי-ודאות.
+ שורות:
+ נורמלי 1%/5%/10%.
+ עמודות:
+ 
 \lang english
-freq, 
-\begin_inset Formula $z_S$
+freq,
+ 
+\begin_inset Formula $z_{S}$
 \end_inset
 
-, SVP
+,
+ SVP
 \lang hebrew
-. כהה = התאמה טובה; בהיר = כשל ב-CZ. 
+.
+ כהה = התאמה טובה;
+ בהיר = כשל ב-CZ.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -6207,11 +6203,14 @@ src{
 
 \end_inset
 
-run_ln3.m: [mu,sig,g]=ln3MLE(TL_pix); RMSE=sqrt(mean((normcdf(...)-empirCDF).
+run_ln3.m:
+ [mu,sig,g]=ln3MLE(TL_pix);
+ RMSE=sqrt(mean((normcdf(...)-empirCDF).
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -6220,8 +6219,6 @@ string
 \end_inset
 
 2))
-
-
 \end_layout
 
 \end_inset
@@ -6246,23 +6243,24 @@ name "fig:ln3_rmse"
 \end_layout
 
 \begin_layout Standard
-בפיקסלים ליד גבולות אזורי ההתכנסות, התפלגות ה-TL הופכת דו-מודלית: השדה האקוסטי עובר בין מצב ממוקד (TL נמוך) לבין מצב לא-ממוקד (TL גבוה) כאשר SVP משתנה, ולא ניתן ללכוד שני השיאים בו-זמנית עם לוגנורמלי חד-שיאי.
+בפיקסלים ליד גבולות אזורי ההתכנסות,
+ התפלגות ה-TL הופכת דו-מודלית:
+ השדה האקוסטי עובר בין מצב ממוקד (TL נמוך) לבין מצב לא-ממוקד (TL גבוה) כאשר SVP משתנה,
+ ולא ניתן ללכוד שני השיאים בו-זמנית עם לוגנורמלי חד-שיאי.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/bimodal_histogram_svp.png
 	width 85text%
 
@@ -6272,14 +6270,21 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-היסטוגרמה דו-מודלית של TL בפיקסל בעל השונות המרבית (מים עמוקים 5%
-
-
-, SVP). כחול: מדגמי MC; כתום: LN3 המותאם; קו אדום: רמת FOM. LN3 חד-שיאי לא מצליח לתאר את שני השיאים. 
+היסטוגרמה דו-מודלית של TL בפיקסל בעל השונות המרבית (מים עמוקים 5%,
+ SVP).
+ כחול:
+ מדגמי MC;
+ כתום:
+ LN3 המותאם;
+ קו אדום:
+ רמת FOM.
+ LN3 חד-שיאי לא מצליח לתאר את שני השיאים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -6287,9 +6292,9 @@ src{
 
 \end_inset
 
-run_ln3.m: [iz,ir]=find(Var==max(Var,[],'all')); histogram(TL(iz,ir,:))
-
-
+run_ln3.m:
+ [iz,ir]=find(Var==max(Var,[],'all'));
+ histogram(TL(iz,ir,:))
 \end_layout
 
 \end_inset
@@ -6313,8 +6318,10 @@ name "fig:bimodal"
 
 \series bold
 הערה מעשית.
+
 \series default
- במשטרים דו-מודליים (CZ, גבולות צל) אין לא 
+ במשטרים דו-מודליים (CZ,
+ גבולות צל) אין לא 
 \lang english
 MLE
 \lang hebrew
@@ -6322,11 +6329,14 @@ MLE
 \lang english
 MOM
 \lang hebrew
- שפותרים את כשל ההתאמה; יידרש מודל תערובת-לוגנורמלים ללא תלות במאמד. פרמטר ההזזה 
-\begin_inset Formula $\gamma = 0.95\min(\mathrm{samples})$
+ שפותרים את כשל ההתאמה;
+ יידרש מודל תערובת-לוגנורמלים ללא תלות במאמד.
+ פרמטר ההזזה 
+\begin_inset Formula $\gamma=0.95\min(\mathrm{samples})$
 \end_inset
 
- נשאר היוריסטיקה — 
+ נשאר היוריסטיקה —
+ 
 \lang english
 MLE
 \lang hebrew
@@ -6334,13 +6344,7 @@ MLE
 \begin_inset Formula $\sim$
 \end_inset
 
-440
-
-
-,
-
-
-000 פיקסלים 
+440,000 פיקסלים 
 \begin_inset Formula $\times$
 \end_inset
 
@@ -6348,7 +6352,8 @@ MLE
 \end_layout
 
 \begin_layout Subsubsection
-MLE מול MOM — השוואת גרזן
+MLE מול MOM —
+ השוואת גרזן
 \end_layout
 
 \begin_layout Standard
@@ -6360,26 +6365,26 @@ MLE
 \lang english
 MOM
 \lang hebrew
- בכל התרחישים. 
+ בכל התרחישים.
+ 
 \lang english
 MLE
 \lang hebrew
- יעיל יותר באופן שיטתי: הטיה נמוכה יותר ו-
+ יעיל יותר באופן שיטתי:
+ הטיה נמוכה יותר ו-
 \lang english
 RMSE
 \lang hebrew
- נמוך ב-10–30%
-
-
- הן באמידות 
-\begin_inset Formula $\hat\mu$
+ נמוך ב-10–30% הן באמידות 
+\begin_inset Formula $\hat{\mu}$
 \end_inset
 
  והן ב-
-\begin_inset Formula $\hat\sigma$
+\begin_inset Formula $\hat{\sigma}$
 \end_inset
 
-. מאמדי 
+.
+ מאמדי 
 \lang english
 MOM
 \lang hebrew
@@ -6387,22 +6392,21 @@ MOM
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -6410,11 +6414,8 @@ IfFileExists
 
 \end_inset
 
-
 deepwater/Normal5pct/figures/LN3MOMvsMLEscatterfreq.png
-
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/LN3_MOM_vs_MLE_scatter_freq.png
 	width 70text%
 
@@ -6439,33 +6440,33 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
 
-
 \size small
-LN3 MOM vs MLE scatter — טרם נוצר
+LN3 MOM vs MLE scatter —
+ טרם נוצר
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 פיזור MOM מול MLE לפרמטר 
-\begin_inset Formula $\hat\mu$
+\begin_inset Formula $\hat{\mu}$
 \end_inset
 
- (מים עמוקים, 5%
-
-
-, תדר). מדגים כי MLE עקבי ויעיל יותר. 
+ (מים עמוקים,
+ 5%,
+ תדר).
+ מדגים כי MLE עקבי ויעיל יותר.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -6473,9 +6474,10 @@ src{
 
 \end_inset
 
-run_ln3.m: [mu_MLE,sig_MLE]=lognfit(TL_pix-g); mu_MOM=momentEstimate(TL_pix); scatter()
-
-
+run_ln3.m:
+ [mu_MLE,sig_MLE]=lognfit(TL_pix-g);
+ mu_MOM=momentEstimate(TL_pix);
+ scatter()
 \end_layout
 
 \end_inset
@@ -6497,7 +6499,6 @@ name "fig:ln3_mom_mle"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -6505,7 +6506,6 @@ name "fig:ln3_mom_mle"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:kde_validation"
@@ -6524,48 +6524,53 @@ KDE
 \lang english
 CDF
 \lang hebrew
- של ה-TL בכל פיקסל תוך שימוש בחלון פרצן–רוזנבלט: 
-\begin_inset Formula \begin{equation}
-  \hat{P}_{\mathrm{shadow}}^{\mathrm{KDE}}(\mathbf{x})
-  = \frac{1}{N}\sum_{i=1}^N \Phi\!\left(\frac{\mathrm{FOM}-\TL^{(i)}(\mathbf{x})}{h}\right),
+ של ה-TL בכל פיקסל תוך שימוש בחלון פרצן–רוזנבלט:
+ 
+\begin_inset Formula 
+\begin{equation}
+\hat{P}_{\mathrm{shadow}}^{\mathrm{KDE}}(\mathbf{x})=\frac{1}{N}\sum_{i=1}^{N}\Phi\!\left(\frac{\mathrm{FOM}-\TL^{(i)}(\mathbf{x})}{h}\right),
 \end{equation}
+
 \end_inset
 
 כאשר רוחב הסרט 
 \begin_inset Formula $h$
 \end_inset
 
- נקבע על פי כלל סילברמן: 
-\begin_inset Formula $h = 1.06\,\hat\sigma_{\TL}\,N^{-1/5}$
+ נקבע על פי כלל סילברמן:
+ 
+\begin_inset Formula $h=1.06\,\hat{\sigma}_{\TL}\,N^{-1/5}$
 \end_inset
 
-. איורי האימות של 
+.
+ איורי האימות של 
 \lang english
 KDE
 \lang hebrew
- עם שלושה עמודות מציגים: (i) 
+ עם שלושה עמודות מציגים:
+ (i) 
 \begin_inset Formula $\Pshadow$
 \end_inset
 
- אמפירי של MC, (ii) מאמד 
+ אמפירי של MC,
+ (ii) מאמד 
 \lang english
 KDE
 \lang hebrew
-, ו-(iii) מפת הפרשים פיקסל-פיקסל.
+,
+ ו-(iii) מפת הפרשים פיקסל-פיקסל.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -6587,8 +6592,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
 
@@ -6598,10 +6602,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תדר — מים עמוקים
+תדר —
+ מים עמוקים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6609,7 +6615,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -6633,8 +6638,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
 
@@ -6644,14 +6648,15 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- — מים עמוקים
+ —
+ מים עמוקים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6659,7 +6664,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -6683,8 +6687,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
 
@@ -6694,10 +6697,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SVP — מים עמוקים
+SVP —
+ מים עמוקים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6707,14 +6712,17 @@ SVP — מים עמוקים
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-אימות KDE — מים עמוקים 5%
-
-
-: שמאל MC אמפירי, אמצע KDE, ימין הפרש. 
+אימות KDE —
+ מים עמוקים 5%:
+ שמאל MC אמפירי,
+ אמצע KDE,
+ ימין הפרש.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -6722,11 +6730,13 @@ src{
 
 \end_inset
 
-run_kde.m: h=1.06*std(TL,0,3)*N
+run_kde.m:
+ h=1.06*std(TL,0,3)*N
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -6734,9 +6744,8 @@ string
 
 \end_inset
 
--0.2; Pd=mean(normcdf((FOM-TL)./h),3)
-
-
+-0.2;
+ Pd=mean(normcdf((FOM-TL)./h),3)
 \end_layout
 
 \end_inset
@@ -6757,17 +6766,15 @@ name "fig:kde_deep"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -6789,8 +6796,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
 
@@ -6800,10 +6806,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תדר — מדרון יורד
+תדר —
+ מדרון יורד
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6811,7 +6819,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -6835,8 +6842,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
 
@@ -6846,14 +6852,15 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- — מדרון יורד
+ —
+ מדרון יורד
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6861,7 +6868,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -6885,8 +6891,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
 
@@ -6896,10 +6901,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SVP — מדרון יורד
+SVP —
+ מדרון יורד
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -6909,14 +6916,14 @@ SVP — מדרון יורד
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-אימות KDE — מדרון יורד 5%
-
-
-. 
+אימות KDE —
+ מדרון יורד 5%.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -6924,9 +6931,9 @@ src{
 
 \end_inset
 
-run_kde.m: Pd_kde vs Pd_emp; diff = Pd_kde - Pd_emp
-
-
+run_kde.m:
+ Pd_kde vs Pd_emp;
+ diff = Pd_kde - Pd_emp
 \end_layout
 
 \end_inset
@@ -6947,17 +6954,15 @@ name "fig:kde_downslope"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -6979,8 +6984,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
 
@@ -6990,10 +6994,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תדר — מים רדודים
+תדר —
+ מים רדודים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7001,7 +7007,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7025,8 +7030,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
 
@@ -7036,14 +7040,15 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- — מים רדודים
+ —
+ מים רדודים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7051,7 +7056,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7075,8 +7079,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
 
@@ -7086,10 +7089,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SVP — מים רדודים
+SVP —
+ מים רדודים
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7099,14 +7104,14 @@ SVP — מים רדודים
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-אימות KDE — מים רדודים 5%
-
-
-. 
+אימות KDE —
+ מים רדודים 5%.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -7114,9 +7119,9 @@ src{
 
 \end_inset
 
-run_kde.m: same pipeline; shallow water has stronger Lloyd's mirror fringes
-
-
+run_kde.m:
+ same pipeline;
+ shallow water has stronger Lloyd's mirror fringes
 \end_layout
 
 \end_inset
@@ -7137,17 +7142,15 @@ name "fig:kde_shallow"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -7169,8 +7172,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename upslope/Normal_5pct/figures/kde_validation_freq.png
 	width 100line%
 
@@ -7180,10 +7182,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-תדר — מדרון עולה
+תדר —
+ מדרון עולה
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7191,7 +7195,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7215,8 +7218,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename upslope/Normal_5pct/figures/kde_validation_zS.png
 	width 100line%
 
@@ -7226,14 +7228,15 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
- — מדרון עולה
+ —
+ מדרון עולה
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7241,7 +7244,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7265,8 +7267,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename upslope/Normal_5pct/figures/kde_validation_svp.png
 	width 100line%
 
@@ -7276,10 +7277,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-SVP — מדרון עולה
+SVP —
+ מדרון עולה
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7289,14 +7292,14 @@ SVP — מדרון עולה
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-אימות KDE — מדרון עולה 5%
-
-
-. 
+אימות KDE —
+ מדרון עולה 5%.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -7304,9 +7307,8 @@ src{
 
 \end_inset
 
-run_kde.m: KDE fails at slope shadow boundaries (large diff panel)
-
-
+run_kde.m:
+ KDE fails at slope shadow boundaries (large diff panel)
 \end_layout
 
 \end_inset
@@ -7328,15 +7330,14 @@ name "fig:kde_upslope"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
-PCE — שחזור שונות מסדר גבוה
+PCE —
+ שחזור שונות מסדר גבוה
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:pce"
@@ -7352,15 +7353,16 @@ name "sec:pce"
 PCE
 \lang hebrew
  מייצג את שדה ה-TL כסידרה פולינומית בפרמטרים האי-ודאיים המנורמלים 
-\begin_inset Formula $\boldsymbol{\xi} \sim \mathcal{N}(0,1)^M$
+\begin_inset Formula $\boldsymbol{\xi}\sim\mathcal{N}(0,1)^{M}$
 \end_inset
 
-: 
-\begin_inset Formula \begin{equation}
-  \TL(\mathbf{x};\boldsymbol{\xi})
-  \approx \sum_{|\boldsymbol{\alpha}|\leq K} c_{\boldsymbol{\alpha}}(\mathbf{x})\,
-  \Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi}),
+:
+ 
+\begin_inset Formula 
+\begin{equation}
+\TL(\mathbf{x};\boldsymbol{\xi})\approx\sum_{|\boldsymbol{\alpha}|\leq K}c_{\boldsymbol{\alpha}}(\mathbf{x})\,\Psi_{\boldsymbol{\alpha}}(\boldsymbol{\xi}),
 \end{equation}
+
 \end_inset
 
 כאשר 
@@ -7383,43 +7385,47 @@ OLS
 \lang english
 Bellhop
 \lang hebrew
- נוספת. השונות משוחזרת ישירות מהמקדמים הלא-קבועים: 
-\begin_inset Formula \begin{equation}
-  \Var[\TL] \approx \sum_{|\boldsymbol{\alpha}|>0} c_{\boldsymbol{\alpha}}^2.
+ נוספת.
+ השונות משוחזרת ישירות מהמקדמים הלא-קבועים:
+ 
+\begin_inset Formula 
+\begin{equation}
+\Var[\TL]\approx\sum_{|\boldsymbol{\alpha}|>0}c_{\boldsymbol{\alpha}}^{2}.
 \end{equation}
+
 \end_inset
 
 הסדר האופטימלי 
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
  נבחר באמצעות 
 \lang english
 LOO-CV
 \lang hebrew
- (בדיקה צולבת השמט-אחד) הממזערת את שגיאת L2 של השונות. 
+ (בדיקה צולבת השמט-אחד) הממזערת את שגיאת L2 של השונות.
+ 
 \emph on
 עקומת רלוונטיות הסדר
 \emph default
- מציגה את התרומה השולית של כל סדר פולינומי נוסף: רלוונטיות
-\begin_inset Formula $_k = \max(e_{k-1} - e_k, 0)/e_{\mathrm{total}} \times 100\%$
+ מציגה את התרומה השולית של כל סדר פולינומי נוסף:
+ רלוונטיות
+\begin_inset Formula $_{k}=\max(e_{k-1}-e_{k},0)/e_{\mathrm{total}}\times100\%$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -7441,8 +7447,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/pce_convergence_deep_water_Normal_5pct.png
 	width 100line%
 
@@ -7453,11 +7458,10 @@ status open
 
 \begin_layout Plain Layout
 מים עמוקים 5%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7465,7 +7469,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7489,8 +7492,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/pce_convergence_downslope_Normal_5pct.png
 	width 100line%
 
@@ -7501,11 +7503,10 @@ status open
 
 \begin_layout Plain Layout
 מדרון יורד 5%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7513,7 +7514,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7537,8 +7537,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_10pct/figures/pce_convergence_deep_water_Normal_10pct.png
 	width 100line%
 
@@ -7549,11 +7548,10 @@ status open
 
 \begin_layout Plain Layout
 מים עמוקים 10%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7567,11 +7565,13 @@ status open
 \begin_inset Formula $K$
 \end_inset
 
-) לשלושה תרחישים מייצגים. 
+) לשלושה תרחישים מייצגים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -7579,13 +7579,17 @@ src{
 
 \end_inset
 
-run_pce.m: Phi=vander(xi,K+1); c=Phi
+run_pce.m:
+ Phi=vander(xi,K+1);
+ c=Phi
 \backslash
-y; e_LOO=mean(((y-Phi*c)./(1-diag(Phi*inv(Phi'*Phi)*Phi'))).
+y;
+ e_LOO=mean(((y-Phi*c)./(1-diag(Phi*inv(Phi'*Phi)*Phi'))).
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -7594,8 +7598,6 @@ string
 \end_inset
 
 2)
-
-
 \end_layout
 
 \end_inset
@@ -7616,19 +7618,17 @@ name "fig:pce_conv_rep"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename pce_summary_all.png
 	width 100text%
 
@@ -7638,19 +7638,23 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-סיכום התכנסות PCE — שגיאת L2 מול 
+סיכום התכנסות PCE —
+ שגיאת L2 מול 
 \begin_inset Formula $K$
 \end_inset
 
- לכל 12 צירופי תרחיש/אי-ודאות. סדר אופטימלי 
-\begin_inset Formula $K^*$
+ לכל 12 צירופי תרחיש/אי-ודאות.
+ סדר אופטימלי 
+\begin_inset Formula $K^{*}$
 \end_inset
 
- מצוין לכל פרמטר. 
+ מצוין לכל פרמטר.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -7658,9 +7662,11 @@ src{
 
 \end_inset
 
-run_pce.m: tiledlayout(4,3); for each combo: plot(1:K_max, e_LOO)
-
-
+run_pce.m:
+ tiledlayout(4,3);
+ for each combo:
+ plot(1:K_max,
+ e_LOO)
 \end_layout
 
 \end_inset
@@ -7681,17 +7687,15 @@ name "fig:pce_summary"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -7713,8 +7717,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -7725,11 +7728,10 @@ status open
 
 \begin_layout Plain Layout
 מים עמוקים 5%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7737,7 +7739,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7761,8 +7762,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_10pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -7773,11 +7773,10 @@ status open
 
 \begin_layout Plain Layout
 מים עמוקים 10%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7808,8 +7807,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -7820,11 +7818,10 @@ status open
 
 \begin_layout Plain Layout
 מים רדודים 5%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7832,7 +7829,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -7856,8 +7852,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename downslope/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -7868,11 +7863,10 @@ status open
 
 \begin_layout Plain Layout
 מדרון יורד 5%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7882,18 +7876,19 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-עקומת רלוונטיות סדר PCE: אחוז תרומה לשונות ה-TL. 
-\begin_inset Formula $K^*$
+עקומת רלוונטיות סדר PCE:
+ אחוז תרומה לשונות ה-TL.
+ 
+\begin_inset Formula $K^{*}$
 \end_inset
 
- הוא הסדר בו מושגת 100%
-
-
- מהשיפור הניתן לשחזור. 
+ הוא הסדר בו מושגת 100% מהשיפור הניתן לשחזור.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -7901,9 +7896,9 @@ src{
 
 \end_inset
 
-run_pce.m: rel(k)=max(e(k-1)-e(k),0)/e(1)*100; K*=find(cumsum(rel)>=100,1)
-
-
+run_pce.m:
+ rel(k)=max(e(k-1)-e(k),0)/e(1)*100;
+ K*=find(cumsum(rel)>=100,1)
 \end_layout
 
 \end_inset
@@ -7924,17 +7919,15 @@ name "fig:pce_relevance"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -7956,8 +7949,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename shallow_water/Normal_10pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -7968,11 +7960,10 @@ status open
 
 \begin_layout Plain Layout
 מים רדודים 10%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -7980,7 +7971,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -8004,8 +7994,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename upslope/Normal_5pct/figures/pce_order_relevance.png
 	width 100line%
 
@@ -8016,11 +8005,10 @@ status open
 
 \begin_layout Plain Layout
 מדרון עולה 5%
-
-
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -8030,11 +8018,14 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-רלוונטיות סדר PCE — תרחישים נוספים. 
+רלוונטיות סדר PCE —
+ תרחישים נוספים.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -8042,9 +8033,9 @@ src{
 
 \end_inset
 
-run_pce.m: same relevance curve; slope scenarios show non-convergence (K*>10)
-
-
+run_pce.m:
+ same relevance curve;
+ slope scenarios show non-convergence (K*>10)
 \end_layout
 
 \end_inset
@@ -8066,7 +8057,6 @@ name "fig:pce_relevance2"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -8074,7 +8064,6 @@ name "fig:pce_relevance2"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:pdetect"
@@ -8086,60 +8075,61 @@ name "sec:pdetect"
 
 \begin_layout Standard
 שלוש שיטות משמשות לאמידת הסתברות הגילוי 
-\begin_inset Formula $P_{\rm det}(r,z)$
+\begin_inset Formula $P_{{\rm det}}(r,z)$
 \end_inset
 
-: (1) 
+:
+ (1) 
 \series bold
-
 \lang english
 MLE
-\lang hebrew
-
 \series default
-: הסתברות זנב של 
+\lang hebrew
+:
+ הסתברות זנב של 
 \lang english
 LN3
 \lang hebrew
- פרמטרי; (2) 
+ פרמטרי;
+ (2) 
 \series bold
-
 \lang english
 MC
 \lang hebrew
  אמפירי
 \series default
-: חלק ישיר של מדגמים עם 
-\begin_inset Formula $\TL < \mathrm{FOM}$
+:
+ חלק ישיר של מדגמים עם 
+\begin_inset Formula $\TL<\mathrm{FOM}$
 \end_inset
 
-; (3) 
+;
+ (3) 
 \series bold
 חסם צ'ביצ'ב
 \series default
-: חסם חופשי-התפלגות המשתמש רק ב-
-\begin_inset Formula $\hat\mu$
+:
+ חסם חופשי-התפלגות המשתמש רק ב-
+\begin_inset Formula $\hat{\mu}$
 \end_inset
 
  וב-
-\begin_inset Formula $\hat\sigma$
+\begin_inset Formula $\hat{\sigma}$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -8161,8 +8151,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/detect_mle_freq.png
 	width 100line%
 
@@ -8177,13 +8166,13 @@ MLE
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -8207,8 +8196,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/detect_empirical_freq.png
 	width 100line%
 
@@ -8223,13 +8211,13 @@ status open
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -8253,8 +8241,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_5pct/figures/detect_cheb_freq.png
 	width 100line%
 
@@ -8269,6 +8256,7 @@ Chebyshev
 
 \end_inset
 
+
 \end_layout
 
 \end_inset
@@ -8277,14 +8265,15 @@ Chebyshev
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-הסתברות גילוי (מים עמוקים 5%
-
-
-, תדר): שלוש שיטות אמידה. 
+הסתברות גילוי (מים עמוקים 5%,
+ תדר):
+ שלוש שיטות אמידה.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -8292,11 +8281,14 @@ src{
 
 \end_inset
 
-Pd_MLE=normcdf((log(FOM-g)-mu)./sig); Pd_emp=mean(TL<FOM,3); Pd_cheb=1./(1+(FOM-EX).
+Pd_MLE=normcdf((log(FOM-g)-mu)./sig);
+ Pd_emp=mean(TL<FOM,3);
+ Pd_cheb=1./(1+(FOM-EX).
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 string
@@ -8305,8 +8297,6 @@ string
 \end_inset
 
 2./Var)
-
-
 \end_layout
 
 \end_inset
@@ -8327,17 +8317,15 @@ name "fig:detect"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -8359,8 +8347,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_10pct/figures/detect_empirical_freq.png
 	width 100line%
 
@@ -8370,13 +8357,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-מים עמוקים 10%
-
-
-, תדר
+מים עמוקים 10%,
+ תדר
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -8384,7 +8370,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -8408,8 +8393,7 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename deep_water/Normal_10pct/figures/detect_empirical_zS.png
 	width 100line%
 
@@ -8419,17 +8403,16 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-מים עמוקים 10%
-
-
-, 
-\begin_inset Formula $z_S$
+מים עמוקים 10%,
+ 
+\begin_inset Formula $z_{S}$
 \end_inset
 
 
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -8439,14 +8422,13 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-הסתברות גילוי אמפירית עבור אי-ודאות גבוהה (10%
-
-
-). 
+הסתברות גילוי אמפירית עבור אי-ודאות גבוהה (10%).
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -8454,9 +8436,9 @@ src{
 
 \end_inset
 
-run_mc.m: Pd_emp=mean(TL_save<FOM,3); larger spread than 5% case
-
-
+run_mc.m:
+ Pd_emp=mean(TL_save<FOM,3);
+ larger spread than 5% case
 \end_layout
 
 \end_inset
@@ -8478,15 +8460,14 @@ name "fig:detect_10pct"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
-אמת אנליטי: דיוק שיטת דלתא במים עמוקים
+אמת אנליטי:
+ דיוק שיטת דלתא במים עמוקים
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:analytical_gt"
@@ -8497,24 +8478,25 @@ name "sec:analytical_gt"
 \end_layout
 
 \begin_layout Standard
-עבור גלידת פקריס עם פתרון מודים נורמליים ידוע, הג'קוביאן האנליטי המדויק זמין: 
-\begin_inset Formula $J_k^{\rm exact} = \partial \mathrm{TL} / \partial \theta_k$
+עבור גלידת פקריס עם פתרון מודים נורמליים ידוע,
+ הג'קוביאן האנליטי המדויק זמין:
+ 
+\begin_inset Formula $J_{k}^{{\rm exact}}=\partial\mathrm{TL}/\partial\theta_{k}$
 \end_inset
 
-. לג'קוביאן הפרשים-הסופיים המשמש בצינור המספרי יש שגיאה ממוצעת של 8.47%
-
-
- ביחס לנגזרת המדויקת, המאמת את יישום דלתא מבוסס 
+.
+ לג'קוביאן הפרשים-הסופיים המשמש בצינור המספרי יש שגיאה ממוצעת של 8.47% ביחס לנגזרת המדויקת,
+ המאמת את יישום דלתא מבוסס 
 \lang english
 Bellhop
 \lang hebrew
-. שגיאת 
-\begin_inset Formula $L_1$
+.
+ שגיאת 
+\begin_inset Formula $L_{1}$
 \end_inset
 
  היחסית של מפת השונות של דלתא לעומת השונות האנליטית מסוכמת בטבלה
 \begin_inset space ~
-
 \end_inset
 
 
@@ -8532,17 +8514,15 @@ nolink "false"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Box Frameless
 position "b"
@@ -8564,11 +8544,11 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -8576,11 +8556,8 @@ IfFileExists
 
 \end_inset
 
-
 deltavalidationNormal1pct.png
-
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename delta_validation_Normal_1pct.png
 	width 100line%
 
@@ -8605,31 +8582,24 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
 
-
 \size small
-1%
-
-
- — אין קובץ
+1% —
+ אין קובץ
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-1%
-
-
- אי-ודאות
+1% אי-ודאות
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -8637,7 +8607,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -8661,11 +8630,11 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -8673,11 +8642,8 @@ IfFileExists
 
 \end_inset
 
-
 deltavalidationNormal5pct.png
-
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename delta_validation_Normal_5pct.png
 	width 100line%
 
@@ -8702,31 +8668,24 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
 
-
 \size small
-5%
-
-
- — אין קובץ
+5% —
+ אין קובץ
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-5%
-
-
- אי-ודאות
+5% אי-ודאות
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -8734,7 +8693,6 @@ status open
 
 
 \begin_inset space \hfill{}
-
 \end_inset
 
 
@@ -8758,11 +8716,11 @@ status open
 
 \begin_layout Plain Layout
 \align center
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -8770,11 +8728,8 @@ IfFileExists
 
 \end_inset
 
-
 deltavalidationNormal10pct.png
-
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename delta_validation_Normal_10pct.png
 	width 100line%
 
@@ -8799,31 +8754,24 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
-
 
 \size small
-10%
-
-
- — אין קובץ
+10% —
+ אין קובץ
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-10%
-
-
- אי-ודאות
+10% אי-ודאות
 \end_layout
 
 \end_inset
+
 
 \end_layout
 
@@ -8833,15 +8781,20 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-אימות שיטת דלתא מול אנליטי בגלידה מהדי. MC (שחור), 
+אימות שיטת דלתא מול אנליטי בגלידה מהדי.
+ MC (שחור),
+ 
 \begin_inset Formula $\Delta$
 \end_inset
 
- (אדום), אנליטי (כחול). 
+ (אדום),
+ אנליטי (כחול).
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -8849,9 +8802,10 @@ src{
 
 \end_inset
 
-run_analytical_validation.m: J_exact=dTL/dtheta; J_FD=fdJacobian(); err=mean(abs(J_FD-J_exact)./abs(J_exact))
-
-
+run_analytical_validation.m:
+ J_exact=dTL/dtheta;
+ J_FD=fdJacobian();
+ err=mean(abs(J_FD-J_exact)./abs(J_exact))
 \end_layout
 
 \end_inset
@@ -8872,29 +8826,24 @@ name "fig:delta_validation"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
 שגיאת 
-\begin_inset Formula $L_1$
+\begin_inset Formula $L_{1}$
 \end_inset
 
- יחסית של שונות Delta לעומת שונות אנליטית (%
-
-
-).
+ יחסית של שונות Delta לעומת שונות אנליטית (%).
 \end_layout
 
 \end_inset
@@ -8909,11 +8858,11 @@ name "tab:analytical_l1"
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
  
-\begin_inset Tabular 
+\begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="4">
-<features booktabs="true" tabularvalignment="middle" tabularwidth="0pt">
+<features booktabs="true" tabularvalignment="middle">
 <column alignment="left" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -8922,7 +8871,7 @@ name "tab:analytical_l1"
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Distribution 
 \end_layout
 
@@ -8931,7 +8880,7 @@ Distribution
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 freq 
 \end_layout
 
@@ -8940,9 +8889,8 @@ freq
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
-\begin_inset Formula $z_S$
+\begin_layout Plain Layout
+\begin_inset Formula $z_{S}$
 \end_inset
 
  
@@ -8953,7 +8901,7 @@ freq
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 SVP 
 \end_layout
 
@@ -8964,7 +8912,7 @@ SVP
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Normal 1% 
 \end_layout
 
@@ -8973,7 +8921,7 @@ Normal 1%
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 4.2 
 \end_layout
 
@@ -8982,7 +8930,7 @@ Normal 1%
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 6.1 
 \end_layout
 
@@ -8991,7 +8939,7 @@ Normal 1%
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 5.7 
 \end_layout
 
@@ -9002,7 +8950,7 @@ Normal 1%
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Normal 5% 
 \end_layout
 
@@ -9011,7 +8959,7 @@ Normal 5%
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 18.4 
 \end_layout
 
@@ -9020,7 +8968,7 @@ Normal 5%
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 27.3 
 \end_layout
 
@@ -9029,7 +8977,7 @@ Normal 5%
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 22.1 
 \end_layout
 
@@ -9040,7 +8988,7 @@ Normal 5%
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Normal 10% 
 \end_layout
 
@@ -9049,7 +8997,7 @@ Normal 10%
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 41.7 
 \end_layout
 
@@ -9058,7 +9006,7 @@ Normal 10%
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 58.2 
 \end_layout
 
@@ -9067,7 +9015,7 @@ Normal 10%
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 49.3 
 \end_layout
 
@@ -9088,7 +9036,6 @@ Normal 10%
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Subsection
@@ -9096,7 +9043,6 @@ Normal 10%
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:findings_summary"
@@ -9107,17 +9053,15 @@ name "sec:findings_summary"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Caption Standard
 
@@ -9137,11 +9081,11 @@ name "tab:recommendation"
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
  
-\begin_inset Tabular 
+\begin_inset Tabular
 <lyxtabular version="3" rows="4" columns="4">
-<features booktabs="true" tabularvalignment="middle" tabularwidth="0pt">
+<features booktabs="true" tabularvalignment="middle">
 <column alignment="left" valignment="top">
 <column alignment="left" valignment="top">
 <column alignment="left" valignment="top">
@@ -9150,7 +9094,7 @@ name "tab:recommendation"
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Scenario 
 \end_layout
 
@@ -9159,7 +9103,7 @@ Scenario
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Small (
 \begin_inset Formula $\leq$
 \end_inset
@@ -9172,7 +9116,7 @@ Small (
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Medium (5%) 
 \end_layout
 
@@ -9181,7 +9125,7 @@ Medium (5%)
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Large (10%) 
 \end_layout
 
@@ -9192,7 +9136,7 @@ Large (10%)
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Shallow water (flat) 
 \end_layout
 
@@ -9201,7 +9145,7 @@ Shallow water (flat)
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta 1st 
 \end_layout
 
@@ -9210,7 +9154,7 @@ Delta 1st
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta 2nd / PCE-2 
 \end_layout
 
@@ -9219,9 +9163,9 @@ Delta 2nd / PCE-2
 <cell alignment="left" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE-
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
  
@@ -9234,7 +9178,7 @@ PCE-
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Deep water (flat) 
 \end_layout
 
@@ -9243,7 +9187,7 @@ Deep water (flat)
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta 1st 
 \end_layout
 
@@ -9252,7 +9196,7 @@ Delta 1st
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE-3 
 \end_layout
 
@@ -9261,9 +9205,9 @@ PCE-3
 <cell alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE-
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
  or MC 
@@ -9276,7 +9220,7 @@ PCE-
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Upslope / Downslope 
 \end_layout
 
@@ -9285,7 +9229,7 @@ Upslope / Downslope
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta 2nd 
 \end_layout
 
@@ -9294,7 +9238,7 @@ Delta 2nd
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE-5+ 
 \end_layout
 
@@ -9303,7 +9247,7 @@ PCE-5+
 <cell alignment="left" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 MC 
 \end_layout
 
@@ -9323,7 +9267,9 @@ MC
 \end_layout
 
 \begin_layout Standard
-יחד, התוצאות מראות היררכיה ברורה של ישימות שיטות הנקבעת על ידי שני גורמים פיזיקליים: 
+יחד,
+ התוצאות מראות היררכיה ברורה של ישימות שיטות הנקבעת על ידי שני גורמים פיזיקליים:
+ 
 \emph on
 מורכבות בתימטרית
 \emph default
@@ -9335,13 +9281,13 @@ MC
 \begin_inset Formula $\leq$
 \end_inset
 
-1%
-
-
- לעומת 5–10%
-
-
-). בסביבות שטוחות עם הפרעות קטנות, השדה האקוסטי הוא כמעט לינארי, ולכן קירוב דלתא הזול מספיק. כאשר ההפרעות גדלות, הלא-לינאריות של תבנית ההפרעה דורשת ייצוג מסדר גבוה יותר; 
+1% לעומת 5–10%).
+ בסביבות שטוחות עם הפרעות קטנות,
+ השדה האקוסטי הוא כמעט לינארי,
+ ולכן קירוב דלתא הזול מספיק.
+ כאשר ההפרעות גדלות,
+ הלא-לינאריות של תבנית ההפרעה דורשת ייצוג מסדר גבוה יותר;
+ 
 \lang english
 PCE
 \lang hebrew
@@ -9349,11 +9295,17 @@ PCE
 \lang english
 Bellhop
 \lang hebrew
- חדשות. סביבות מדרון מכניסות אזורי צל המונעים על ידי שבירה שגבולותיהם אינם חלקים בכל שלושת הפרמטרים, ומציבים אותם מחוץ להישג של כל קירוב פולינומי מסדר קבוע ודורשים דגימה ישירה. מנקודת מבט של תכנון סונאר, הפלטים השימושיים ביותר מבחינה מבצעית אינם מפות שונות, אלא מפות 
-\begin_inset Formula $P_\mathrm{fail}$
+ חדשות.
+ סביבות מדרון מכניסות אזורי צל המונעים על ידי שבירה שגבולותיהם אינם חלקים בכל שלושת הפרמטרים,
+ ומציבים אותם מחוץ להישג של כל קירוב פולינומי מסדר קבוע ודורשים דגימה ישירה.
+ מנקודת מבט של תכנון סונאר,
+ הפלטים השימושיים ביותר מבחינה מבצעית אינם מפות שונות,
+ אלא מפות 
+\begin_inset Formula $P_{\mathrm{fail}}$
 \end_inset
 
- ומעטפות TL של P95, המגלות את 
+ ומעטפות TL של P95,
+ המגלות את 
 \emph on
 כיוון
 \emph default
@@ -9362,7 +9314,6 @@ Bellhop
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Section
@@ -9370,7 +9321,6 @@ Bellhop
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:related"
@@ -9385,7 +9335,6 @@ name "sec:related"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:papers"
@@ -9404,7 +9353,8 @@ name "sec:papers"
 \lang english
 Finette (2006/2009)
 \lang hebrew
- — 
+ —
+ 
 \lang english
 PCE
 \lang hebrew
@@ -9416,18 +9366,17 @@ PCE
 \lang english
 PCE
 \lang hebrew
- לאמידת TL תת-ימית תוך שימוש בפולינומי הרמיט ההסתברותיים עבור הפרעות מהירות-קול גאוסיות. מדווח ש-
+ לאמידת TL תת-ימית תוך שימוש בפולינומי הרמיט ההסתברותיים עבור הפרעות מהירות-קול גאוסיות.
+ מדווח ש-
 \begin_inset Formula $K=3$
 \end_inset
 
-–5 מספיק לגלידת מי-עמוקים איזו-מהירות; ההתכנסות מדרדרת להפרעות גדולות יותר (
+–5 מספיק לגלידת מי-עמוקים איזו-מהירות;
+ ההתכנסות מדרדרת להפרעות גדולות יותר (
 \begin_inset Formula $>$
 \end_inset
 
-5%
-
-
-) ולידי גבולות אזורי צל.
+5%) ולידי גבולות אזורי צל.
 \end_layout
 
 \begin_layout Paragraph
@@ -9435,7 +9384,9 @@ PCE
 \end_layout
 
 \begin_layout Standard
-מיישם שיטות MC-אנסמבל לאי-ודאות סביבתית ריאליסטית בסביבת מדף/שבר-מדף. ממצא מפתח: אזור המעבר של שבר המדף מייצר אי-ודאות אקוסטית גבוהה בהרבה מאלה של המדף לבד או של אזור המים העמוקים.
+מיישם שיטות MC-אנסמבל לאי-ודאות סביבתית ריאליסטית בסביבת מדף/שבר-מדף.
+ ממצא מפתח:
+ אזור המעבר של שבר המדף מייצר אי-ודאות אקוסטית גבוהה בהרבה מאלה של המדף לבד או של אזור המים העמוקים.
 \end_layout
 
 \begin_layout Paragraph
@@ -9451,7 +9402,8 @@ LN3
 \end_layout
 
 \begin_layout Standard
-מדגים שמודל לוגנורמלי מוזז מספק התאמה טובה יותר מקירוב גאוסי לסטטיסטיקת TL במים רדודים, ומנחה את בחירת ה-
+מדגים שמודל לוגנורמלי מוזז מספק התאמה טובה יותר מקירוב גאוסי לסטטיסטיקת TL במים רדודים,
+ ומנחה את בחירת ה-
 \lang english
 LN3
 \lang hebrew
@@ -9467,30 +9419,31 @@ Ocean Modelling
 \end_layout
 
 \begin_layout Standard
-מספק ניתוח רגישות דלתא שיטתי לסביבה אוקיאנוגרפית ריאליסטית, ומאשר שתדר הוא הפרמטר הפחות רגיש ו-SVP הוא הרגיש ביותר.
+מספק ניתוח רגישות דלתא שיטתי לסביבה אוקיאנוגרפית ריאליסטית,
+ ומאשר שתדר הוא הפרמטר הפחות רגיש ו-SVP הוא הרגיש ביותר.
 \end_layout
 
 \begin_layout Subsection
-השוואה ישירה: תוצאותיהם לעומת שלנו
+השוואה ישירה:
+ תוצאותיהם לעומת שלנו
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-השוואת שיטות UQ אקוסטיות — פרויקט זה מול ספרות.
+השוואת שיטות UQ אקוסטיות —
+ פרויקט זה מול ספרות.
 \end_layout
 
 \end_inset
@@ -9505,11 +9458,11 @@ name "tab:methods_compare"
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
  
-\begin_inset Tabular 
+\begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="6">
-<features booktabs="true" tabularvalignment="middle" tabularwidth="0pt">
+<features booktabs="true" tabularvalignment="middle">
 <column alignment="none" valignment="top" special="@{}l">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -9520,7 +9473,7 @@ name "tab:methods_compare"
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Method 
 \end_layout
 
@@ -9529,7 +9482,7 @@ Method
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Bellhop 
 \end_layout
 
@@ -9538,9 +9491,8 @@ Bellhop
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
-\begin_inset Formula $P_\mathrm{shadow}$
+\begin_layout Plain Layout
+\begin_inset Formula $P_{\mathrm{shadow}}$
 \end_inset
 
  
@@ -9551,7 +9503,7 @@ Bellhop
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Non-Gaussian 
 \end_layout
 
@@ -9560,7 +9512,7 @@ Non-Gaussian
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Spatial map 
 \end_layout
 
@@ -9569,7 +9521,7 @@ Spatial map
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Ref.
 \end_layout
 
@@ -9580,7 +9532,7 @@ Ref.
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Monte Carlo (ours) 
 \end_layout
 
@@ -9589,7 +9541,7 @@ Monte Carlo (ours)
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 1000 
 \end_layout
 
@@ -9598,7 +9550,7 @@ Monte Carlo (ours)
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Exact 
 \end_layout
 
@@ -9607,7 +9559,7 @@ Exact
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9616,7 +9568,7 @@ Yes
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9625,8 +9577,9 @@ Yes
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 —
+
 \end_layout
 
 \end_inset
@@ -9636,7 +9589,7 @@ Yes
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta 1st order 
 \end_layout
 
@@ -9645,7 +9598,7 @@ Delta 1st order
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 4 
 \end_layout
 
@@ -9654,7 +9607,7 @@ Delta 1st order
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Gaussian approx 
 \end_layout
 
@@ -9663,7 +9616,7 @@ Gaussian approx
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 No 
 \end_layout
 
@@ -9672,7 +9625,7 @@ No
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9681,11 +9634,9 @@ Yes
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "delta_ocemod2022"
 literal "false"
 
@@ -9701,7 +9652,7 @@ literal "false"
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3 MLE 
 \end_layout
 
@@ -9710,7 +9661,7 @@ LN3 MLE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 0 (+MC) 
 \end_layout
 
@@ -9719,7 +9670,7 @@ LN3 MLE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9728,7 +9679,7 @@ Yes
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9737,7 +9688,7 @@ Yes
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9746,11 +9697,9 @@ Yes
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "jmse2022ln3"
 literal "false"
 
@@ -9766,9 +9715,9 @@ literal "false"
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE 
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
  
@@ -9779,7 +9728,7 @@ PCE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 0 (+MC) 
 \end_layout
 
@@ -9788,7 +9737,7 @@ PCE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Via samples 
 \end_layout
 
@@ -9797,7 +9746,7 @@ Via samples
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Partial 
 \end_layout
 
@@ -9806,7 +9755,7 @@ Partial
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9815,11 +9764,9 @@ Yes
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Finette2006pce"
 literal "false"
 
@@ -9835,7 +9782,7 @@ literal "false"
 <cell alignment="none" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 KDE 
 \end_layout
 
@@ -9844,7 +9791,7 @@ KDE
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 0 (+MC) 
 \end_layout
 
@@ -9853,7 +9800,7 @@ KDE
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9862,7 +9809,7 @@ Yes
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9871,7 +9818,7 @@ Yes
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Yes 
 \end_layout
 
@@ -9880,8 +9827,9 @@ Yes
 <cell alignment="none" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 —
+
 \end_layout
 
 \end_inset
@@ -9904,17 +9852,15 @@ Yes
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Caption Standard
 
@@ -9934,11 +9880,11 @@ name "tab:method_tradeoff"
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
  
-\begin_inset Tabular 
+\begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="5">
-<features booktabs="true" tabularvalignment="middle" tabularwidth="0pt">
+<features booktabs="true" tabularvalignment="middle">
 <column alignment="none" valignment="top" special="@{}l">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -9948,7 +9894,7 @@ name "tab:method_tradeoff"
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Method 
 \end_layout
 
@@ -9957,7 +9903,7 @@ Method
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Cost (runs) 
 \end_layout
 
@@ -9966,7 +9912,7 @@ Cost (runs)
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Flat+low 
 \end_layout
 
@@ -9975,7 +9921,7 @@ Flat+low
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Flat+high 
 \end_layout
 
@@ -9984,7 +9930,7 @@ Flat+high
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Slope 
 \end_layout
 
@@ -9995,7 +9941,7 @@ Slope
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta 1st 
 \end_layout
 
@@ -10004,7 +9950,7 @@ Delta 1st
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 4 
 \end_layout
 
@@ -10013,8 +9959,7 @@ Delta 1st
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10030,8 +9975,7 @@ Delta 1st
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\times$
 \end_inset
 
@@ -10043,8 +9987,7 @@ Delta 1st
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\times$
 \end_inset
 
@@ -10058,7 +10001,7 @@ Delta 1st
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Delta-LN3 
 \end_layout
 
@@ -10067,7 +10010,7 @@ Delta-LN3
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 4 
 \end_layout
 
@@ -10076,8 +10019,7 @@ Delta-LN3
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10093,8 +10035,7 @@ Delta-LN3
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\sim$
 \end_inset
 
@@ -10106,8 +10047,7 @@ Delta-LN3
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\times$
 \end_inset
 
@@ -10121,9 +10061,9 @@ Delta-LN3
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE-
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
  
@@ -10134,7 +10074,7 @@ PCE-
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 0 (reuse MC) 
 \end_layout
 
@@ -10143,8 +10083,7 @@ PCE-
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10160,8 +10099,7 @@ PCE-
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10173,8 +10111,7 @@ PCE-
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\times$
 \end_inset
 
@@ -10188,7 +10125,7 @@ PCE-
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3 MLE 
 \end_layout
 
@@ -10197,7 +10134,7 @@ LN3 MLE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 0 (reuse MC) 
 \end_layout
 
@@ -10206,8 +10143,7 @@ LN3 MLE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10223,8 +10159,7 @@ LN3 MLE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10240,8 +10175,7 @@ LN3 MLE
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\sim$
 \end_inset
 
@@ -10255,7 +10189,7 @@ LN3 MLE
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 KDE 
 \end_layout
 
@@ -10264,7 +10198,7 @@ KDE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 0 (reuse MC) 
 \end_layout
 
@@ -10273,8 +10207,7 @@ KDE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10290,8 +10223,7 @@ KDE
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10307,8 +10239,7 @@ KDE
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10322,7 +10253,7 @@ KDE
 <cell alignment="none" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 MC full 
 \end_layout
 
@@ -10331,7 +10262,7 @@ MC full
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 1000 
 \end_layout
 
@@ -10340,8 +10271,7 @@ MC full
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10357,8 +10287,7 @@ MC full
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10374,8 +10303,7 @@ MC full
 <cell alignment="none" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\checkmark$
 \end_inset
 
@@ -10403,7 +10331,6 @@ MC full
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Section
@@ -10411,7 +10338,6 @@ MC full
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:literature_improvements"
@@ -10422,7 +10348,8 @@ name "sec:literature_improvements"
 \end_layout
 
 \begin_layout Subsection
-PCE והתאמת יתר — בדיקה צולבת
+PCE והתאמת יתר —
+ בדיקה צולבת
 \end_layout
 
 \begin_layout Standard
@@ -10438,7 +10365,8 @@ PCE
 \begin_inset Formula $N=1000$
 \end_inset
 
- מדגמי האימון. עבור 
+ מדגמי האימון.
+ עבור 
 \begin_inset Formula $M=1$
 \end_inset
 
@@ -10446,36 +10374,42 @@ PCE
 \begin_inset Formula $K$
 \end_inset
 
- אברי פולינום, מטריצת העיצוב היא 
-\begin_inset Formula $\Phi \in \mathbb{R}^{N \times (K+1)}$
+ אברי פולינום,
+ מטריצת העיצוב היא 
+\begin_inset Formula $\Phi\in\mathbb{R}^{N\times(K+1)}$
 \end_inset
 
-; 
+;
+ 
 \lang english
 OLS
 \lang hebrew
  ממזער 
-\begin_inset Formula $\|\Phi c - \mathbf{y}\|^2$
+\begin_inset Formula $\|\Phi c-\mathbf{y}\|^{2}$
 \end_inset
 
-. שגיאת בדיקה צולבת השמט-אחד מספקת נוסחה אנליטית לשגיאת 
+.
+ שגיאת בדיקה צולבת השמט-אחד מספקת נוסחה אנליטית לשגיאת 
 \lang english
 LOO
 \lang hebrew
- ללא התאמה מחדש: 
-\begin_inset Formula $\varepsilon_{\rm LOO} = \frac{1}{N}\sum_{i=1}^N \left(\frac{y_i - \hat y_i}{1-h_{ii}}\right)^2$
+ ללא התאמה מחדש:
+ 
+\begin_inset Formula $\varepsilon_{{\rm LOO}}=\frac{1}{N}\sum_{i=1}^{N}\left(\frac{y_{i}-\hat{y}_{i}}{1-h_{ii}}\right)^{2}$
 \end_inset
 
-, כאשר 
+,
+ כאשר 
 \begin_inset Formula $h_{ii}$
 \end_inset
 
- הם האלכסוניים של מטריצת הכובע. שגיאת 
+ הם האלכסוניים של מטריצת הכובע.
+ שגיאת 
 \lang english
 LOO
 \lang hebrew
  זו היא קריטריון ההתכנסות המשמש לבחירת 
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
 .
@@ -10486,16 +10420,19 @@ LOO
 \lang english
 Finette
 \lang hebrew
- 2006, 2009) מדווחים 
-\begin_inset Formula $K^*\leq 5$
+ 2006,
+ 2009) מדווחים 
+\begin_inset Formula $K^{*}\leq5$
 \end_inset
 
- לתרחישי SVP חלקים במים עמוקים, עקביים עם ממצא הצינור המתוקן שלנו 
-\begin_inset Formula $K^*=4$
+ לתרחישי SVP חלקים במים עמוקים,
+ עקביים עם ממצא הצינור המתוקן שלנו 
+\begin_inset Formula $K^{*}=4$
 \end_inset
 
-–6 לאותה קטגוריית תרחיש. ה-
-\begin_inset Formula $K^*\leq 3$
+–6 לאותה קטגוריית תרחיש.
+ ה-
+\begin_inset Formula $K^{*}\leq3$
 \end_inset
 
  שדווח בעבר בצינור הראשוני שלנו היו ארטיפקטים של באג מקדמים (כל מקדמי 
@@ -10510,23 +10447,27 @@ PCE
 \end_layout
 
 \begin_layout Standard
-מעבר לשונות, שלושה מדדי UQ חלופיים רלוונטיים לתכנון משימת סונאר:
+מעבר לשונות,
+ שלושה מדדי UQ חלופיים רלוונטיים לתכנון משימת סונאר:
 \end_layout
 
 \begin_layout Enumerate
 
 \series bold
 מפת 
-\begin_inset Formula $P_\mathrm{fail}$
+\begin_inset Formula $P_{\mathrm{fail}}$
 \end_inset
 
 
 \series default
-: 
-\begin_inset Formula $P(\TL > \mathrm{FOM})$
+:
+ 
+\begin_inset Formula $P(\TL>\mathrm{FOM})$
 \end_inset
 
- בכל פיקסל — הפלט המבצעי הראשי של פרויקט זה. 
+ בכל פיקסל —
+ הפלט המבצעי הראשי של פרויקט זה.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -10534,22 +10475,25 @@ PCE
 \series bold
 מעטפת TL של P95
 \series default
-: 
+:
+ 
 \begin_inset Formula $Q_{0.95}[\TL(r,z)]$
 \end_inset
 
- — ה-TL במקרה הגרוע שעוברים רק 5%
-
-
- מהמימושים הסביבתיים. עבור התפלגות נורמלית: 
-\begin_inset Formula $P_{95} = \mu + 1.645\sigma$
+ —
+ ה-TL במקרה הגרוע שעוברים רק 5% מהמימושים הסביבתיים.
+ עבור התפלגות נורמלית:
+ 
+\begin_inset Formula $P_{95}=\mu+1.645\sigma$
 \end_inset
 
-, ניתן לשחזור משונות דלתא או 
+,
+ ניתן לשחזור משונות דלתא או 
 \lang english
 PCE
 \lang hebrew
- ללא עלות נוספת. 
+ ללא עלות נוספת.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -10557,19 +10501,24 @@ PCE
 \series bold
 חסם צ'ביצ'ב
 \series default
-: חסם עליון חופשי-התפלגות על 
-\begin_inset Formula $P(\TL > \mathrm{FOM})$
+:
+ חסם עליון חופשי-התפלגות על 
+\begin_inset Formula $P(\TL>\mathrm{FOM})$
 \end_inset
 
- המבוסס רק על ממוצע ושונות: 
-\begin_inset Formula $P(\TL > \mu + k\sigma) \leq 1/k^2$
+ המבוסס רק על ממוצע ושונות:
+ 
+\begin_inset Formula $P(\TL>\mu+k\sigma)\leq1/k^{2}$
 \end_inset
 
-. שמרני אך תקף לכל התפלגות. 
+.
+ שמרני אך תקף לכל התפלגות.
+ 
 \end_layout
 
 \begin_layout Subsection
-מדדי סובול — רגישות מרחבית
+מדדי סובול —
+ רגישות מרחבית
 \end_layout
 
 \begin_layout Standard
@@ -10577,30 +10526,32 @@ PCE
 \lang english
 PCE
 \lang hebrew
- החד-ממדיים לפי פרמטר: 
-\begin_inset Formula $S_k = \sum_{j>0} c_{j,k}^2 / \sum_{j>0} \sum_l c_{j,l}^2$
+ החד-ממדיים לפי פרמטר:
+ 
+\begin_inset Formula $S_{k}=\sum_{j>0}c_{j,k}^{2}/\sum_{j>0}\sum_{l}c_{j,l}^{2}$
 \end_inset
 
-. עבור נורמלי 5%
-
-
- במים עמוקים: 
-\begin_inset Formula $S_\mathrm{SVP} \approx 0.65$
+.
+ עבור נורמלי 5% במים עמוקים:
+ 
+\begin_inset Formula $S_{\mathrm{SVP}}\approx0.65$
 \end_inset
 
-, 
-\begin_inset Formula $S_{z_S} \approx 0.20$
+,
+ 
+\begin_inset Formula $S_{z_{S}}\approx0.20$
 \end_inset
 
-, 
-\begin_inset Formula $S_f \approx 0.15$
+,
+ 
+\begin_inset Formula $S_{f}\approx0.15$
 \end_inset
 
-, המאשרים ש-SVP הוא הגורם השולט בשונות ה-TL.
+,
+ המאשרים ש-SVP הוא הגורם השולט בשונות ה-TL.
 \end_layout
 
 \begin_layout Standard
-
 
 \end_layout
 
@@ -10609,7 +10560,6 @@ PCE
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:deep_meaning"
@@ -10620,17 +10570,15 @@ name "sec:deep_meaning"
 \end_layout
 
 \begin_layout Standard
-מעבר להשוואת חמש שיטות UQ, מחקר זה חושף משהו עמוק יותר: 
+מעבר להשוואת חמש שיטות UQ,
+ מחקר זה חושף משהו עמוק יותר:
+ 
 \emph on
 לגלידת האוקיינוס עצמה יש מבנה מרחבי של ניבוי
 \emph default
-. מפות השונות בנות 440
-
-
-,
-
-
-000 הפיקסלים המחושבות עבור כל אחד מ-36 צירופי פרמטר–תרחיש אינן רק אמידות שגיאה — הן אפיון פיזיקלי של היכן הגלידה מגבירה אי-ודאות והיכן היא מדכאת אותה.
+.
+ מפות השונות בנות 440,000 הפיקסלים המחושבות עבור כל אחד מ-36 צירופי פרמטר–תרחיש אינן רק אמידות שגיאה —
+ הן אפיון פיזיקלי של היכן הגלידה מגבירה אי-ודאות והיכן היא מדכאת אותה.
 \end_layout
 
 \begin_layout Subsection
@@ -10638,7 +10586,6 @@ name "sec:deep_meaning"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:variance_fingerprint"
@@ -10661,27 +10608,24 @@ name "sec:variance_fingerprint"
 \emph on
 הטרוגני
 \emph default
- ביותר (0–10
-
-
-,
-
-
-000
+ ביותר (0–10,000
 \begin_inset space ~
-
 \end_inset
 
 dB
-\begin_inset Formula $^2$
+\begin_inset Formula $^{2}$
 \end_inset
 
-). השונות גבוהה ביותר בגבולות אזורי ההתכנסות — בדיוק היכן שהשדה האקוסטי עובר מעבר קאוסטי. שינויי SVP קטנים מזיזים את הקאוסטיק בקילומטרים, וגורמים לתנודות TL של 10–20
+).
+ השונות גבוהה ביותר בגבולות אזורי ההתכנסות —
+ בדיוק היכן שהשדה האקוסטי עובר מעבר קאוסטי.
+ שינויי SVP קטנים מזיזים את הקאוסטיק בקילומטרים,
+ וגורמים לתנודות TL של 10–20
 \begin_inset space ~
-
 \end_inset
 
-dB בפיקסלים סמוכים. מפת השונות של SVP מקודדת את 
+dB בפיקסלים סמוכים.
+ מפת השונות של SVP מקודדת את 
 \emph on
 הגיאומטריה השוברת
 \emph default
@@ -10693,23 +10637,19 @@ dB בפיקסלים סמוכים. מפת השונות של SVP מקודדת את
 \series bold
 הפרעת עומק מקור
 \series default
- מייצרת שונות בינונית, סלקטיבית-מודלים (0–4
-
-
-,
-
-
-000
+ מייצרת שונות בינונית,
+ סלקטיבית-מודלים (0–4,000
 \begin_inset space ~
-
 \end_inset
 
 dB
-\begin_inset Formula $^2$
+\begin_inset Formula $^{2}$
 \end_inset
 
-), מרוכזת ליד קשתות קאוסטיות שבהן המקור חוצה צומת מוד נורמלי. תלות לא-חלקה זו ב-
-\begin_inset Formula $z_S$
+),
+ מרוכזת ליד קשתות קאוסטיות שבהן המקור חוצה צומת מוד נורמלי.
+ תלות לא-חלקה זו ב-
+\begin_inset Formula $z_{S}$
 \end_inset
 
  מסבירה מדוע 
@@ -10728,37 +10668,21 @@ PCE
 \emph on
 אחידה מרחבית
 \emph default
- בסביבות מדרון (3
-
-
-,
-
-
-500–3
-
-
-,
-
-
-540
+ בסביבות מדרון (3,500–3,540
 \begin_inset space ~
-
 \end_inset
 
 dB
-\begin_inset Formula $^2$
+\begin_inset Formula $^{2}$
 \end_inset
 
- על פני כל 440
-
-
-,
-
-
-000 הפיקסלים — פחות מ-1%
-
-
- טווח דינמי מרחבי). שינוי תדר מזיז את כל פסי ההפרעה הרב-מסלולית בצורה קוהרנטית; כל פיקסל חווה את אותה וריאציה שברירית של TL. בניגוד ל-SVP, שמעצב מחדש פיזית את גיאומטריית הקרנות. 
+ על פני כל 440,000 הפיקסלים —
+ פחות מ-1% טווח דינמי מרחבי).
+ שינוי תדר מזיז את כל פסי ההפרעה הרב-מסלולית בצורה קוהרנטית;
+ כל פיקסל חווה את אותה וריאציה שברירית של TL.
+ בניגוד ל-SVP,
+ שמעצב מחדש פיזית את גיאומטריית הקרנות.
+ 
 \end_layout
 
 \begin_layout Paragraph
@@ -10766,12 +10690,13 @@ dB
 \end_layout
 
 \begin_layout Standard
-הורדת BT לפני משימה למדידת SVP מספקת הפחתה גדולה בהרבה של אי-הוודאות האקוסטית מכל מדידת כיול תדר. אי-הוודאות האקוסטית של 8–10
+הורדת BT לפני משימה למדידת SVP מספקת הפחתה גדולה בהרבה של אי-הוודאות האקוסטית מכל מדידת כיול תדר.
+ אי-הוודאות האקוסטית של 8–10
 \begin_inset space ~
-
 \end_inset
 
-dB המצוטטת לרוב בספרות הנדסת סונאר נובעת בעיקרה מאי-התאמת SVP, ולא מעיבוד אות או כיול.
+dB המצוטטת לרוב בספרות הנדסת סונאר נובעת בעיקרה מאי-התאמת SVP,
+ ולא מעיבוד אות או כיול.
 \end_layout
 
 \begin_layout Subsection
@@ -10779,7 +10704,6 @@ dB המצוטטת לרוב בספרות הנדסת סונאר נובעת בעי�
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:pce_physics"
@@ -10798,31 +10722,41 @@ PCE
 \emph on
 אנליטיות
 \emph default
- (דיפרנציאביליות אינסופית) של הפרמטר האי-ודאי. עבור מים עמוקים עם קרקעית שטוחה והפרעת SVP, התוצאות שלנו 
-\begin_inset Formula $K^*=4$
+ (דיפרנציאביליות אינסופית) של הפרמטר האי-ודאי.
+ עבור מים עמוקים עם קרקעית שטוחה והפרעת SVP,
+ התוצאות שלנו 
+\begin_inset Formula $K^{*}=4$
 \end_inset
 
 –6 מאשרות ש-
-\begin_inset Formula $\mathrm{TL}(\xi_\mathrm{svp})$
+\begin_inset Formula $\mathrm{TL}(\xi_{\mathrm{svp}})$
 \end_inset
 
- הוא חלק. עבור 
+ הוא חלק.
+ עבור 
 \emph on
 סביבות מדרון
 \emph default
-, אין אחד משלושת הפרמטרים מתכנס בשום סדר 
-\begin_inset Formula $K\leq 20$
+,
+ אין אחד משלושת הפרמטרים מתכנס בשום סדר 
+\begin_inset Formula $K\leq20$
 \end_inset
 
-: שדה ה-TL, הנבחן כפונקציה של הפרמטר האי-ודאי, בעל סינגולאריות סדר סופי המתאימות לחציות קאוסטיות פיזיקליות. מפעיל סונאר המחיל סרגן מים-שטוחים מכויל-היטב על סביבת מדרון ידווח על אמידות שונות-נמוכה 
+:
+ שדה ה-TL,
+ הנבחן כפונקציה של הפרמטר האי-ודאי,
+ בעל סינגולאריות סדר סופי המתאימות לחציות קאוסטיות פיזיקליות.
+ מפעיל סונאר המחיל סרגן מים-שטוחים מכויל-היטב על סביבת מדרון ידווח על אמידות שונות-נמוכה 
 \emph on
 בטוחות-לא-נכונות
 \emph default
-. האבחון האוטומטי של 
+.
+ האבחון האוטומטי של 
 \lang english
 LOO-CV
 \lang hebrew
- מסמן זאת: כל תרחיש עם שגיאת 
+ מסמן זאת:
+ כל תרחיש עם שגיאת 
 \lang english
 LOO
 \lang hebrew
@@ -10830,14 +10764,12 @@ LOO
 \begin_inset Formula $>$
 \end_inset
 
-10%
-
-
- בכל הסדרים מאותת 
+10% בכל הסדרים מאותת 
 \begin_inset Quotes eld
 \end_inset
 
-סרגן לא-אמין; חזור ל-MC.
+סרגן לא-אמין;
+ חזור ל-MC.
 \begin_inset Quotes erd
 \end_inset
 
@@ -10846,7 +10778,7 @@ LOO
 
 \begin_layout Standard
 מפת 
-\begin_inset Formula $K^*$
+\begin_inset Formula $K^{*}$
 \end_inset
 
  של 
@@ -10857,23 +10789,32 @@ PCE
 \emph on
 אבחון סדירות גלידה
 \emph default
-: 
-\begin_inset Formula $K^*\leq 6$
+:
+ 
+\begin_inset Formula $K^{*}\leq6$
 \end_inset
 
-: תגובה חלקה — סרגנים קלים אמינים. 
-\begin_inset Formula $K^*=7$
+:
+ תגובה חלקה —
+ סרגנים קלים אמינים.
+ 
+\begin_inset Formula $K^{*}=7$
 \end_inset
 
-–10: לא-לינאריות מתונה — 
+–10:
+ לא-לינאריות מתונה —
+ 
 \lang english
 PCE
 \lang hebrew
- ניתנת לשימוש בזהירות. 
-\begin_inset Formula $K^*>10$
+ ניתנת לשימוש בזהירות.
+ 
+\begin_inset Formula $K^{*}>10$
 \end_inset
 
- או אי-התכנסות: לא-פולינומי באמת — MC חובה.
+ או אי-התכנסות:
+ לא-פולינומי באמת —
+ MC חובה.
 \end_layout
 
 \begin_layout Subsection
@@ -10881,7 +10822,6 @@ PCE
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:three_regimes"
@@ -10892,7 +10832,8 @@ name "sec:three_regimes"
 \end_layout
 
 \begin_layout Standard
-בסינתזה של התוצאות על פני כל 36 צירופי פרמטר–תרחיש, הסביבה האקוסטית האוקיינוסית מתחלקת לשלושה משטרי ניבוי:
+בסינתזה של התוצאות על פני כל 36 צירופי פרמטר–תרחיש,
+ הסביבה האקוסטית האוקיינוסית מתחלקת לשלושה משטרי ניבוי:
 \end_layout
 
 \begin_layout Enumerate
@@ -10900,15 +10841,22 @@ name "sec:three_regimes"
 \series bold
 ניבוי גבוה
 \series default
- (בתימטריה שטוחה, 
-\begin_inset Formula $\sigma\leq 1\%$
+ (בתימטריה שטוחה,
+ 
+\begin_inset Formula $\sigma\leq1\%$
 \end_inset
 
-): 
-\begin_inset Formula $K^*=1$
+):
+ 
+\begin_inset Formula $K^{*}=1$
 \end_inset
 
-–4, דלתא מדויקת, LN3 מתאימה היטב. כל חמש שיטות ה-UQ מסכימות; הזולה ביותר (דלתא) מספיקה. 
+–4,
+ דלתא מדויקת,
+ LN3 מתאימה היטב.
+ כל חמש שיטות ה-UQ מסכימות;
+ הזולה ביותר (דלתא) מספיקה.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -10916,31 +10864,33 @@ name "sec:three_regimes"
 \series bold
 ניבוי בינוני
 \series default
- (בתימטריה שטוחה, 
+ (בתימטריה שטוחה,
+ 
 \begin_inset Formula $\sigma=5$
 \end_inset
 
-–10%
-
-
-): 
-\begin_inset Formula $K^*=4$
+–10%):
+ 
+\begin_inset Formula $K^{*}=4$
 \end_inset
 
-–9 ל-SVP ותדר, 
-\begin_inset Formula $K^*>10$
+–9 ל-SVP ותדר,
+ 
+\begin_inset Formula $K^{*}>10$
 \end_inset
 
  ל-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
-. PCE מתכנסת לשניים מתוך שלושה פרמטרים; שגיאות חיזוי מגיעות ל-8–10
+.
+ PCE מתכנסת לשניים מתוך שלושה פרמטרים;
+ שגיאות חיזוי מגיעות ל-8–10
 \begin_inset space ~
-
 \end_inset
 
-dB. 
+dB.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -10948,15 +10898,23 @@ dB.
 \series bold
 ניבוי נמוך
 \series default
- (בתימטריה מדרונית, כל 
+ (בתימטריה מדרונית,
+ כל 
 \begin_inset Formula $\sigma$
 \end_inset
 
-; או הפרעת 
-\begin_inset Formula $z_S$
+;
+ או הפרעת 
+\begin_inset Formula $z_{S}$
 \end_inset
 
-): אין סרגן פולינומי שמתכנס; דלתא נכשלת; LN3 נכשלת בפיקסלים דו-מודליים. רק MC אמין; צ'ביצ'ב מספק את שולי הבטיחות היחיד החופשי-התפלגות. 
+):
+ אין סרגן פולינומי שמתכנס;
+ דלתא נכשלת;
+ LN3 נכשלת בפיקסלים דו-מודליים.
+ רק MC אמין;
+ צ'ביצ'ב מספק את שולי הבטיחות היחיד החופשי-התפלגות.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -10964,7 +10922,8 @@ dB.
 \emph on
 אינם גלובליים
 \emph default
- — הם תלויים בסביבה האקוסטית המקומית ולא ניתן לקבוע אותם מראש ללא הרצת מודל ההתפשטות.
+ —
+ הם תלויים בסביבה האקוסטית המקומית ולא ניתן לקבוע אותם מראש ללא הרצת מודל ההתפשטות.
 \end_layout
 
 \begin_layout Subsection
@@ -10972,7 +10931,6 @@ dB.
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:operator_guidance"
@@ -10983,36 +10941,36 @@ name "sec:operator_guidance"
 \end_layout
 
 \begin_layout Paragraph
-1. מפת הביטחון חשובה יותר ממפת הממוצע.
+1.
+ מפת הביטחון חשובה יותר ממפת הממוצע.
 \end_layout
 
 \begin_layout Standard
-מפת TL דטרמיניסטית מציגה היכן הפסד ממוצע חזוי גבוה (אזורי צל) ונמוך (אזורי התכנסות). אך הכמות הקריטית מבחינה מבצעית היא ההסתברות שה-TL יעלה על ה-FOM — לא אם ה-TL הממוצע עושה זאת. מיקום CZ יכול להזיז ב-
+מפת TL דטרמיניסטית מציגה היכן הפסד ממוצע חזוי גבוה (אזורי צל) ונמוך (אזורי התכנסות).
+ אך הכמות הקריטית מבחינה מבצעית היא ההסתברות שה-TL יעלה על ה-FOM —
+ לא אם ה-TL הממוצע עושה זאת.
+ מיקום CZ יכול להזיז ב-
 \begin_inset Formula $\pm$
 \end_inset
 
 10
 \begin_inset space ~
-
 \end_inset
 
-ק
-
-
-מ ורווח CZ יכול להשתנות ב-
+קמ ורווח CZ יכול להשתנות ב-
 \begin_inset Formula $\pm$
 \end_inset
 
 5–10
 \begin_inset space ~
-
 \end_inset
 
 dB תחת אי-ודאות SVP ריאליסטית.
 \end_layout
 
 \begin_layout Paragraph
-2. השתמש במעטפת TL של P95 לרכש ועיצוב פלטפורמות.
+2.
+ השתמש במעטפת TL של P95 לרכש ועיצוב פלטפורמות.
 \end_layout
 
 \begin_layout Standard
@@ -11028,15 +10986,19 @@ dB תחת אי-ודאות SVP ריאליסטית.
 \lang english
 NATO
 \lang hebrew
-), מפת TL של P95 
+),
+ מפת TL של P95 
 \begin_inset Formula $\mathrm{TL}^{95}=\mathrm{Q}_{0.95}[\mathrm{TL}]$
 \end_inset
 
- היא בסיס העיצוב המתאים. עבור התפלגות TL נורמלית: 
+ היא בסיס העיצוב המתאים.
+ עבור התפלגות TL נורמלית:
+ 
 \begin_inset Formula $\mathrm{TL}^{95}\approx\mu+1.645\sigma$
 \end_inset
 
-, ניתן לשחזור מדלתא או 
+,
+ ניתן לשחזור מדלתא או 
 \lang english
 PCE
 \lang hebrew
@@ -11048,15 +11010,18 @@ Bellhop
 \end_layout
 
 \begin_layout Paragraph
-3. דגל מגעים בסביבת מדרון בדרגת אי-ודאות מוגברת.
+3.
+ דגל מגעים בסביבת מדרון בדרגת אי-ודאות מוגברת.
 \end_layout
 
 \begin_layout Standard
-הכשל המוחלט של סרגנים קלים בגיאומטריות עולה/יורדת הוא אזהרה שחיזוי אקוסטי קשה בהרבה שם. מגעים באזורי מדרון יש לסמן עם דרגת אי-ודאות מוגברת.
+הכשל המוחלט של סרגנים קלים בגיאומטריות עולה/יורדת הוא אזהרה שחיזוי אקוסטי קשה בהרבה שם.
+ מגעים באזורי מדרון יש לסמן עם דרגת אי-ודאות מוגברת.
 \end_layout
 
 \begin_layout Paragraph
-4. אי-ודאות עומק מקור היא סיכון חדש ולא-מוערך מספיק.
+4.
+ אי-ודאות עומק מקור היא סיכון חדש ולא-מוערך מספיק.
 \end_layout
 
 \begin_layout Standard
@@ -11065,24 +11030,25 @@ Bellhop
 PCE
 \lang hebrew
  ל-
-\begin_inset Formula $z_S$
+\begin_inset Formula $z_{S}$
 \end_inset
 
  בכל מקרי ההתפלגות הנורמלית (
-\begin_inset Formula $K^*>10$
+\begin_inset Formula $K^{*}>10$
 \end_inset
 
-) אין לה אנלוגיה בספרות ה-SVP. היא נובעת מכך ששינויי 
-\begin_inset Formula $z_S$
+) אין לה אנלוגיה בספרות ה-SVP.
+ היא נובעת מכך ששינויי 
+\begin_inset Formula $z_{S}$
 \end_inset
 
- קטנים גורמים לשינויי עירור סלקטיביים-מודלים שאינם פולינומיים במרחב הפרמטרים. דיוק אמידת עומק המקור (
+ קטנים גורמים לשינויי עירור סלקטיביים-מודלים שאינם פולינומיים במרחב הפרמטרים.
+ דיוק אמידת עומק המקור (
 \begin_inset Formula $\pm$
 \end_inset
 
 5
 \begin_inset space ~
-
 \end_inset
 
 מ') צריך להיות מטופל כקלט אי-ודאות מדרגה ראשונה בכל חיזוי ביצועי סונאר.
@@ -11093,7 +11059,6 @@ PCE
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:spatial_accuracy"
@@ -11104,33 +11069,30 @@ name "sec:spatial_accuracy"
 \end_layout
 
 \begin_layout Standard
-הדיוק המרחבי של אמידת שונות (הסכמה פיקסל-פיקסל בין שונות אנליטית ל-MC) מגלה שהשונות מנובאת במדויק ב-75%
-
-
- מהפיקסלים לתרחישי קרקעית שטוחה בכל רמות ההפרעה. 25%
-
-
- הנותרים נמצאים בגבולות CZ ובקצוות אזורי הצל, שבהם התפלגות TL הדו-מודלית מפרה את הנחות כל השיטות הפרמטריות.
+הדיוק המרחבי של אמידת שונות (הסכמה פיקסל-פיקסל בין שונות אנליטית ל-MC) מגלה שהשונות מנובאת במדויק ב-75% מהפיקסלים לתרחישי קרקעית שטוחה בכל רמות ההפרעה.
+ 25% הנותרים נמצאים בגבולות CZ ובקצוות אזורי הצל,
+ שבהם התפלגות TL הדו-מודלית מפרה את הנחות כל השיטות הפרמטריות.
 \end_layout
 
 \begin_layout Standard
-
 
 \end_layout
 
 \begin_layout Section*
-נספח: ארכיטקטורת הצינור
+נספח:
+ ארכיטקטורת הצינור
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
 
+
 \backslash
-addcontentsline{toc}{section}{נספח: ארכיטקטורת הצינור}
+addcontentsline{toc}{section}{נספח:
+ ארכיטקטורת הצינור}
 \end_layout
 
 \end_inset
@@ -11148,7 +11110,6 @@ name "sec:appendix"
 \begin_layout Standard
 האיור
 \begin_inset space ~
-
 \end_inset
 
 
@@ -11166,23 +11127,30 @@ nolink "false"
 \lang english
 Stochastic Bellhop
 \lang hebrew
-. כל תיבה היא סקריפט 
+.
+ כל תיבה היא סקריפט 
 \lang english
 MATLAB
 \lang hebrew
-; חיצים מציינים תלויות נתונים. הצינור מתוכנן כך שהערכות 
+;
+ חיצים מציינים תלויות נתונים.
+ הצינור מתוכנן כך שהערכות 
 \lang english
 Bellhop
 \lang hebrew
- יקרות חישובית (תיבות מוצללות) מורצות פעם אחת ונשמרות; כל השיטות האנליטיות (דלתא, 
+ יקרות חישובית (תיבות מוצללות) מורצות פעם אחת ונשמרות;
+ כל השיטות האנליטיות (דלתא,
+ 
 \lang english
 PCE
 \lang hebrew
-, 
+,
+ 
 \lang english
 LN3
 \lang hebrew
-, 
+,
+ 
 \lang english
 KDE
 \lang hebrew
@@ -11194,22 +11162,21 @@ Bellhop
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float figure
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 IfFileExists
@@ -11217,11 +11184,8 @@ IfFileExists
 
 \end_inset
 
-
 blockdiagram.pdf
-
-
-\begin_inset Graphics 
+\begin_inset Graphics
 	filename block_diagram.pdf
 	width 100text%
 
@@ -11246,30 +11210,31 @@ framecolor "black"
 backgroundcolor "none"
 status open
 
-
 \begin_layout Plain Layout
 
-
 \size small
-block_diagram.pdf — טרם נוצר
+block_diagram.pdf —
+ טרם נוצר
 \end_layout
 
 \end_inset
-
 
  
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-ארכיטקטורת הצינור: תרשים תלויות מודול ל-
+ארכיטקטורת הצינור:
+ תרשים תלויות מודול ל-
 \lang english
 Stochastic Bellhop UQ
 \lang hebrew
-. 
+.
+ 
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 src{
@@ -11277,9 +11242,10 @@ src{
 
 \end_inset
 
-block_diagram.tex: TikZ graph; boxes = MATLAB scripts; arrows = data flow
-
-
+block_diagram.tex:
+ TikZ graph;
+ boxes = MATLAB scripts;
+ arrows = data flow
 \end_layout
 
 \end_inset
@@ -11301,7 +11267,6 @@ name "fig:block_diagram"
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Section
@@ -11309,7 +11274,6 @@ name "fig:block_diagram"
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:summary"
@@ -11324,29 +11288,23 @@ name "sec:summary"
 \lang english
 UQ
 \lang hebrew
-) בהפסד ההעברה האקוסטי התת-ימי תחת אי-ודאות בפרמטרים הפיזיקליים SVP, תדר ועומק מקור. חמש שיטות נבחנו עבור ארבעה תרחישי מורפולוגיה ושלוש רמות אי-ודאות, בסה
-
-
-כ 36 צירופים המניבים 72
-
-
-,
-
-
-000 הערכות 
+) בהפסד ההעברה האקוסטי התת-ימי תחת אי-ודאות בפרמטרים הפיזיקליים SVP,
+ תדר ועומק מקור.
+ חמש שיטות נבחנו עבור ארבעה תרחישי מורפולוגיה ושלוש רמות אי-ודאות,
+ בסהכ 36 צירופים המניבים 72,000 הערכות 
 \lang english
 Bellhop
 \lang hebrew
 .
 \end_layout
 
-\begin_deeper
 \begin_layout Standard
 [label=
 \begin_inset ERT
 status collapsed
 
 \begin_layout Plain Layout
+
 
 \backslash
 arabic*
@@ -11357,22 +11315,14 @@ arabic*
 .] 
 \end_layout
 
-\end_deeper
 \begin_layout Enumerate
 שיטת דלתא מסדר 1 אמינה לאי-ודאות נמוכה (
 \begin_inset Formula $\leq$
 \end_inset
 
-1%
-
-
-) ומורפולוגיה שטוחה, אך תיקון ההסיאן מסדר 2 כבר עולה על 96%
-
-
- מהשונות ב-5%
-
-
- אי-ודאות. 
+1%) ומורפולוגיה שטוחה,
+ אך תיקון ההסיאן מסדר 2 כבר עולה על 96% מהשונות ב-5% אי-ודאות.
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -11380,26 +11330,28 @@ arabic*
 \begin_inset Formula $\Delta$
 \end_inset
 
--LN3 אמינות בתרחישים שטוחים אך נכשלות בגבולות אזור הצל בסביבות מדרון. 
+-LN3 אמינות בתרחישים שטוחים אך נכשלות בגבולות אזור הצל בסביבות מדרון.
+ 
 \end_layout
 
 \begin_layout Enumerate
-PCE עם בחירה צולבת מספק מסלול שיטתי מקירוב דלתא אל ה-MC המלא: כל סדר נוסף דורש רק הרצת 
+PCE עם בחירה צולבת מספק מסלול שיטתי מקירוב דלתא אל ה-MC המלא:
+ כל סדר נוסף דורש רק הרצת 
 \lang english
 Bellhop
 \lang hebrew
- אחת נוספת לפרמטר. 
+ אחת נוספת לפרמטר.
+ 
 \end_layout
 
 \begin_layout Enumerate
-לתרחישים לא-לינאריים חזקים (מדרון, 
+לתרחישים לא-לינאריים חזקים (מדרון,
+ 
 \begin_inset Formula $\geq$
 \end_inset
 
-5%
-
-
- SVP), אין התפשטות פולינומית מסדר 
+5% SVP),
+ אין התפשטות פולינומית מסדר 
 \begin_inset Formula $\leq$
 \end_inset
 
@@ -11407,39 +11359,35 @@ Bellhop
 \begin_inset Formula $<$
 \end_inset
 
-10%
-
-
-; 
+10%;
+ 
 \lang english
 MC
 \lang hebrew
- מלא הכרחי. 
+ מלא הכרחי.
+ 
 \end_layout
 
 \begin_layout Enumerate
-האימות האנליטי מאשר שגיאת 8.47%
-
-
- לג'קוביאן ה-FD. 
+האימות האנליטי מאשר שגיאת 8.47% לג'קוביאן ה-FD.
+ 
 \end_layout
 
 \begin_layout Enumerate
-LN3 מציגה דיוק מצוין כמעט בכל התרחישים עם עלות חישובית שולית. 
+LN3 מציגה דיוק מצוין כמעט בכל התרחישים עם עלות חישובית שולית.
+ 
 \end_layout
 
 \begin_layout Standard
-
 \begin_inset Float table
 placement H
+alignment document
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \align center
-
  
 \begin_inset Caption Standard
 
@@ -11459,11 +11407,11 @@ name "tab:summary_recommendations"
  
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
  
-\begin_inset Tabular 
+\begin_inset Tabular
 <lyxtabular version="3" rows="5" columns="4">
-<features booktabs="true" tabularvalignment="middle" tabularwidth="0pt">
+<features booktabs="true" tabularvalignment="middle">
 <column alignment="none" valignment="top" special="@{}l">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -11472,7 +11420,7 @@ name "tab:summary_recommendations"
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Scenario 
 \end_layout
 
@@ -11481,10 +11429,9 @@ Scenario
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Low unc.
 \begin_inset space \space{}
-
 \end_inset
 
 (
@@ -11499,7 +11446,7 @@ Low unc.
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Medium (5%) 
 \end_layout
 
@@ -11508,7 +11455,7 @@ Medium (5%)
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 High (10%)
 \end_layout
 
@@ -11519,7 +11466,7 @@ High (10%)
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Deep water 
 \end_layout
 
@@ -11528,8 +11475,7 @@ Deep water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\Delta$
 \end_inset
 
@@ -11541,7 +11487,7 @@ Deep water
 <cell alignment="center" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3+PCE 
 \end_layout
 
@@ -11550,7 +11496,7 @@ LN3+PCE
 <cell alignment="none" valignment="top" topline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 PCE+LN3
 \end_layout
 
@@ -11561,7 +11507,7 @@ PCE+LN3
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Shallow water 
 \end_layout
 
@@ -11570,8 +11516,7 @@ Shallow water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\Delta$
 \end_inset
 
@@ -11583,7 +11528,7 @@ Shallow water
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3 
 \end_layout
 
@@ -11592,7 +11537,7 @@ LN3
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3+MC
 \end_layout
 
@@ -11603,7 +11548,7 @@ LN3+MC
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Upslope 
 \end_layout
 
@@ -11612,8 +11557,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\Delta$
 \end_inset
 
@@ -11625,7 +11569,7 @@ Upslope
 <cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3 
 \end_layout
 
@@ -11634,7 +11578,7 @@ LN3
 <cell alignment="none" valignment="top" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3+MC
 \end_layout
 
@@ -11645,7 +11589,7 @@ LN3+MC
 <cell alignment="none" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Downslope 
 \end_layout
 
@@ -11654,8 +11598,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 \begin_inset Formula $\Delta$
 \end_inset
 
@@ -11667,7 +11610,7 @@ Downslope
 <cell alignment="center" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3 
 \end_layout
 
@@ -11676,7 +11619,7 @@ LN3
 <cell alignment="none" valignment="top" bottomline="true" usebox="none">
 \begin_inset Text
 
-\begin_layout Standard
+\begin_layout Plain Layout
 LN3+MC
 \end_layout
 
@@ -11697,14 +11640,11 @@ LN3+MC
 
 \begin_layout Standard
 
-
 \end_layout
 
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "porter1987bellhop"
 literal "false"
 
@@ -11717,25 +11657,22 @@ literal "false"
 \begin_layout Standard
  M.
 \begin_inset space ~
-
 \end_inset
 
 B.
 \begin_inset space ~
-
 \end_inset
 
 Porter and E.
 \begin_inset space ~
-
 \end_inset
 
 L.
 \begin_inset space ~
-
 \end_inset
 
-Reiss, 
+Reiss,
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -11747,45 +11684,42 @@ A numerical method for bottom interacting ocean acoustic normal modes,
 \shape italic
 J.
 \begin_inset space \space{}
-
 \end_inset
 
 Acoust.
 \begin_inset space \space{}
-
 \end_inset
 
 Soc.
 \begin_inset space \space{}
-
 \end_inset
 
 Am.
 \shape default
-, vol.
+,
+ vol.
 \begin_inset space ~
-
 \end_inset
 
-77, no.
+77,
+ no.
 \begin_inset space ~
-
 \end_inset
 
-5, pp.
+5,
+ pp.
 \begin_inset space ~
-
 \end_inset
 
-1760–1767, 1985. 
+1760–1767,
+ 1985.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "Finette2006pce"
 literal "false"
 
@@ -11798,10 +11732,10 @@ literal "false"
 \begin_layout Standard
  S.
 \begin_inset space ~
-
 \end_inset
 
-Finette, 
+Finette,
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -11813,45 +11747,42 @@ A stochastic representation of environmental uncertainty and its coupling to aco
 \shape italic
 J.
 \begin_inset space \space{}
-
 \end_inset
 
 Acoust.
 \begin_inset space \space{}
-
 \end_inset
 
 Soc.
 \begin_inset space \space{}
-
 \end_inset
 
 Am.
 \shape default
-, vol.
+,
+ vol.
 \begin_inset space ~
-
 \end_inset
 
-120, no.
+120,
+ no.
 \begin_inset space ~
-
 \end_inset
 
-5, pp.
+5,
+ pp.
 \begin_inset space ~
-
 \end_inset
 
-2567–2579, 2006. 
+2567–2579,
+ 2006.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "jmse2022ln3"
 literal "false"
 
@@ -11864,20 +11795,20 @@ literal "false"
 \begin_layout Standard
  M.
 \begin_inset space ~
-
 \end_inset
 
-Badiey, A.
+Badiey,
+ A.
 \begin_inset space ~
-
 \end_inset
 
-Song, and K.
+Song,
+ and K.
 \begin_inset space ~
-
 \end_inset
 
-Becker, 
+Becker,
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -11889,45 +11820,42 @@ Uncertainty characterization of acoustic transmission in shallow water,
 \shape italic
 J.
 \begin_inset space \space{}
-
 \end_inset
 
 Mar.
 \begin_inset space \space{}
-
 \end_inset
 
 Sci.
 \begin_inset space \space{}
-
 \end_inset
 
 Eng.
 \shape default
-, vol.
+,
+ vol.
 \begin_inset space ~
-
 \end_inset
 
-10, no.
+10,
+ no.
 \begin_inset space ~
-
 \end_inset
 
-3, p.
+3,
+ p.
 \begin_inset space ~
-
 \end_inset
 
-382, 2022. 
+382,
+ 2022.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "delta_ocemod2022"
 literal "false"
 
@@ -11940,20 +11868,20 @@ literal "false"
 \begin_layout Standard
  P.
 \begin_inset space ~
-
 \end_inset
 
-Nielsen, S.
+Nielsen,
+ S.
 \begin_inset space ~
-
 \end_inset
 
-Ivansson, and J.
+Ivansson,
+ and J.
 \begin_inset space ~
-
 \end_inset
 
-Lundberg, 
+Lundberg,
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -11965,25 +11893,25 @@ Sensitivity analysis of acoustic propagation in a stochastic ocean environment,
 \shape italic
 Ocean Model.
 \shape default
-, vol.
+,
+ vol.
 \begin_inset space ~
-
 \end_inset
 
-175, p.
+175,
+ p.
 \begin_inset space ~
-
 \end_inset
 
-102040, 2022. 
+102040,
+ 2022.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "Khine2010delta"
 literal "false"
 
@@ -11996,20 +11924,20 @@ literal "false"
 \begin_layout Standard
  M.
 \begin_inset space ~
-
 \end_inset
 
-Khine, D.
+Khine,
+ D.
 \begin_inset space ~
-
 \end_inset
 
-Dowling, and M.
+Dowling,
+ and M.
 \begin_inset space ~
-
 \end_inset
 
-Rolt, 
+Rolt,
+ 
 \begin_inset Quotes eld
 \end_inset
 
@@ -12021,45 +11949,42 @@ First-order perturbative acoustic wavefield calculations in three-dimensional oc
 \shape italic
 J.
 \begin_inset space \space{}
-
 \end_inset
 
 Acoust.
 \begin_inset space \space{}
-
 \end_inset
 
 Soc.
 \begin_inset space \space{}
-
 \end_inset
 
 Am.
 \shape default
-, vol.
+,
+ vol.
 \begin_inset space ~
-
 \end_inset
 
-127, no.
+127,
+ no.
 \begin_inset space ~
-
 \end_inset
 
-2, pp.
+2,
+ pp.
 \begin_inset space ~
-
 \end_inset
 
-709–720, 2010. 
+709–720,
+ 2010.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "brekhovskikh1991"
 literal "false"
 
@@ -12072,27 +11997,29 @@ literal "false"
 \begin_layout Standard
  L.
 \begin_inset space ~
-
 \end_inset
 
 Brekhovskikh and Y.
 \begin_inset space ~
-
 \end_inset
 
-Lysanov, 
+Lysanov,
+ 
 \shape italic
 Fundamentals of Ocean Acoustics
 \shape default
-, 3rd ed. New York: Springer, 2003. 
+,
+ 3rd ed.
+ New York:
+ Springer,
+ 2003.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "bipm2008gum"
 literal "false"
 
@@ -12103,11 +12030,20 @@ literal "false"
 
 \begin_deeper
 \begin_layout Standard
- BIPM, IEC, IFCC, ILAC, ISO, IUPAC, IUPAP, and OIML, 
+ BIPM,
+ IEC,
+ IFCC,
+ ILAC,
+ ISO,
+ IUPAC,
+ IUPAP,
+ and OIML,
+ 
 \begin_inset Quotes eld
 \end_inset
 
-Evaluation of measurement data — Guide to the expression of uncertainty in measurement (GUM),
+Evaluation of measurement data —
+ Guide to the expression of uncertainty in measurement (GUM),
 \begin_inset Quotes erd
 \end_inset
 
@@ -12115,15 +12051,15 @@ Evaluation of measurement data — Guide to the expression of uncertainty in mea
 \shape italic
 JCGM 100:2008
 \shape default
-, 2008. 
+,
+ 2008.
+ 
 \end_layout
 
 \end_deeper
 \begin_layout Bibliography
-
 \begin_inset CommandInset bibitem
 LatexCommand bibitem
-label ""
 key "jensen2011coac"
 literal "false"
 
@@ -12136,51 +12072,53 @@ literal "false"
 \begin_layout Standard
  F.
 \begin_inset space ~
-
 \end_inset
 
 B.
 \begin_inset space ~
-
 \end_inset
 
-Jensen, W.
+Jensen,
+ W.
 \begin_inset space ~
-
 \end_inset
 
 A.
 \begin_inset space ~
-
 \end_inset
 
-Kuperman, M.
+Kuperman,
+ M.
 \begin_inset space ~
-
 \end_inset
 
 B.
 \begin_inset space ~
-
 \end_inset
 
-Porter, and H.
+Porter,
+ and H.
 \begin_inset space ~
-
 \end_inset
 
-Schmidt, 
+Schmidt,
+ 
 \shape italic
 Computational Ocean Acoustics
 \shape default
-, 2nd
+,
+ 2nd
 \begin_inset space ~
-
 \end_inset
 
-ed. New York: Springer, 2011. 
+ed.
+ New York:
+ Springer,
+ 2011.
+ 
 \lang english
-DOI: 10.1007/978-1-4419-8678-8
+DOI:
+ 10.1007/978-1-4419-8678-8
 \lang hebrew
  
 \end_layout
