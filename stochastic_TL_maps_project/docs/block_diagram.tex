@@ -1,7 +1,19 @@
 \documentclass[border=14pt]{standalone}
 \usepackage{tikz}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,xcolor}
+\usepackage{graphicx}
+\graphicspath{{./}{../Methods/MC/deep_water/Normal_5pct/figures/}}
 \usetikzlibrary{shapes.geometric,arrows.meta,positioning,fit,backgrounds,calc}
+
+%% ── File-type icon badges ───────────────────────────────────────────────────
+%% MATLAB logo (real image); fallback colorbox if file missing.
+\newcommand{\mico}{\includegraphics[height=8pt,keepaspectratio]{matlab.jpg}}
+\newcommand{\jsico}{{\setlength\fboxsep{1.2pt}%
+  \colorbox{yellow!35!orange!15}{\tiny\ttfamily\textcolor{brown!80}{\strut\{\}}}}}
+\newcommand{\matico}{{\setlength\fboxsep{1.2pt}%
+  \colorbox{blue!15}{\tiny\ttfamily\textcolor{blue!70!black}{\strut\#}}}}
+\newcommand{\pngico}{{\setlength\fboxsep{1.2pt}%
+  \colorbox{green!20}{\tiny\ttfamily\textcolor{green!55!black}{\strut{}img}}}}
 
 %% ── Node styles ────────────────────────────────────────────────────────────────
 \tikzset{
@@ -18,6 +30,8 @@
     minimum height=2.5cm, minimum width=3.4cm, align=center, inner sep=7pt},
   rgroup/.style={draw=green!45!black, fill=green!6, rounded corners=4pt,
     minimum height=1.6cm, align=center, inner sep=6pt},
+  outgroup/.style={draw=gray!50, fill=gray!6, rounded corners=5pt,
+    align=center, inner sep=7pt},
   post/.style={draw=gray!60, fill=gray!9, rounded corners=4pt,
     minimum height=1.0cm, minimum width=3.4cm, align=center, inner sep=6pt},
   arr/.style={->, >=Stealth, thick, draw=gray!60},
@@ -47,80 +61,77 @@
 %% ROW 0 — Config anchor
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[config] (config) at (0,0)
-  {\textbf{config.json}\\[2pt]
+  {\jsico\;\textbf{config.json}\\[2pt]
    {\footnotesize scenarios, FOM}\\
    {\footnotesize N\_MC, thresholds}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 1 — Uncertainty distribution inputs
-%%   Note: \\ must NOT appear inside {braced groups} when align=center is active.
-%%   The phantom spacer reserves space for the bell curve drawn by \drawbell.
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[dist] (d_freq) at (5.5, 0)
   {\phantom{\rule{1.9cm}{0.55cm}}\\[3pt]
    {\footnotesize $\mathrm{freq}\!\sim\!\mathcal{N}(\mu_f,\sigma_f^2)$}\\[-2pt]
-   {\tiny $\sigma_f\!=\!\tfrac{p}{200}\mu_f$}};
+   {\tiny $\sigma\!=\!\{1,10,15\}\%\,\mu_f$}};
 
 \node[dist, right=0.5cm of d_freq] (d_zS)
   {\phantom{\rule{1.9cm}{0.55cm}}\\[3pt]
    {\footnotesize $z_S\!\sim\!\mathcal{N}(\mu_z,\sigma_z^2)$}\\[-2pt]
-   {\tiny $\sigma_z\!=\!\tfrac{p}{200}\mu_z$}};
+   {\tiny $\sigma\!=\!\{1,10,15\}\%\,\mu_z$}};
 
 \node[dist, right=0.5cm of d_zS] (d_svp)
   {\phantom{\rule{1.9cm}{0.55cm}}\\[3pt]
    {\footnotesize $\Delta T\!\sim\!\mathcal{N}(0,\sigma_s^2)$}\\[-2pt]
-   {\tiny coupled $T$--MLD shift}};
+   {\tiny surface temp.\ \&\ mixing layer depth combined}};
 
-%% Bell curves overlaid on spacer area of each dist node
+%% Bell curves
 \drawbell{d_freq}
 \drawbell{d_zS}
 \drawbell{d_svp}
 
 \node[font=\footnotesize\sffamily\bfseries, text=purple!60,
       above=0.22cm of d_zS] (dist_label)
-  {Uncertainty Inputs\quad ($p=1\%,\,5\%,\,10\%$)};
+  {Uncertainty Inputs\quad ($\sigma=1\%,\,10\%,\,15\%$ of nominal)};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 2 — Bellhop engine
-%%   FIX: \\[1pt] moved to TOP LEVEL (not inside {\footnotesize ...})
 %%═══════════════════════════════════════════════════════════════════════════════
-\node[bellhop, minimum width=11.2cm] (bellhop) at (8.7,-3.6)
+\node[bellhop, minimum width=14.5cm] (bellhop) at (8.7,-3.6)
   {\textbf{Bellhop Acoustic Propagation Engine}\\[3pt]
-   {\footnotesize \texttt{bellhopCached}$\!\to\!$\texttt{simpleBellhopHazat}$\!\to\!$\texttt{bellhop.exe\,/\,bellhopcuda.exe}}\\[1pt]
-   {\footnotesize Input:\;\texttt{.env}\;(freq,\,$z_S$,\,SVP,\,bathy) $\;\to\;$Output:\;\texttt{.shd}$\!\to\!$TL field $[N_z\!\times\!N_r]$}};
+   {\footnotesize \mico\;\texttt{bellhopCached.m}$\!\to\!$\mico\;\texttt{simpleBellhopHazat.m}$\!\to\!$\texttt{bellhop.exe\,/\,bellhopcuda.exe}}\\[1pt]
+   {\footnotesize Input:\;\texttt{.env}\;(freq,\,$z_S$,\,SVP,\,bathy)
+    $\;\to\;$Output:\;\texttt{.shd}$\!\to\!$TL field $[N_z\!\times\!N_r]$}};
+
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 3 — TL Cache
 %%═══════════════════════════════════════════════════════════════════════════════
-\node[cache, minimum width=11.2cm, below=0.55cm of bellhop] (cache)
+\node[cache, minimum width=14.5cm, below=0.55cm of bellhop] (cache)
   {\textbf{TL Cache (72\,000 total Bellhop runs)}\\[2pt]
-   {\footnotesize \texttt{Cache/<scen>/<dist>/}\;($N\!=\!1000$ LHS) \quad\textbar\quad
-    \texttt{Cache/<scen>/<dist>\_iid/}\;($N\!=\!1000$ IID)}};
+   {\footnotesize \textbf{saved as:}\;\matico\;\texttt{Cache/<scen>/<dist>/TL\_\{freq,zS,svp\}.mat}\;($N\!=\!1000$ LHS)
+    \quad\textbar\quad \matico\;\texttt{Cache/<scen>/<dist>\_iid/}\;($N\!=\!1000$ IID)}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 4 — UQ Algorithm blocks
-%%   FIX: \footnotesize used WITHOUT braces so \\ stays at top level.
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[algo] (mc) at (3.5,-9.0)
-  {\textbf{run\_mc}\\[1pt]
+  {\mico\;\textbf{run\_mc.m}\\[1pt]
    \textit{Monte Carlo}\\[4pt]
    \footnotesize
    $\hat{\mathbb{E}}[TL]=\tfrac{1}{N}\sum_i TL_i$\\[2pt]
    $\hat{V}[TL]=\tfrac{1}{N\!-\!1}\sum_i(TL_i\!-\!\hat\mu)^2$\\[2pt]
-   $P_\mathrm{det}=P(TL<\mathrm{FOM})$\\[2pt]
+   $P_\mathrm{detection}=P(TL<\mathrm{FOM})$\\[2pt]
    KDE:\;$\hat{P}\!=\!\tfrac{1}{N}\sum_i\Phi\!\bigl(\tfrac{\mathrm{FOM}-TL_i}{h_i}\bigr)$};
 
 \node[algo, right=0.5cm of mc] (delta)
-  {\textbf{run\_delta}\\[1pt]
+  {\mico\;\textbf{run\_delta.m}\\[1pt]
    \textit{Delta / FOSM}\\[4pt]
    \footnotesize
    $J_k=\partial TL/\partial\theta_k\;$(FD)\\[2pt]
    $\mathrm{Var}\approx\sum_k\sigma_k^2 J_k^2$\\[2pt]
-   GH order $K=1\ldots10$\\[2pt]
-   $P_\mathrm{shd}\geq1-\mathrm{Var}/(\mathrm{Var}+d^2)$};
+   $P_\mathrm{no\,det}\geq1-\mathrm{Var}/(\mathrm{Var}+d^2)$};
 
 \node[algo, right=0.5cm of delta] (pce)
-  {\textbf{run\_pce}\\[1pt]
+  {\mico\;\textbf{run\_pce.m}\\[1pt]
    \textit{Polynomial Chaos}\\[4pt]
    \footnotesize
    $TL\approx\sum_{k=0}^K a_k\Psi_k(\xi)$\\[2pt]
@@ -129,7 +140,7 @@
    $K^*=\arg\min_K\ell(K)$};
 
 \node[algo, right=0.5cm of pce] (ln3)
-  {\textbf{run\_ln3}\\[1pt]
+  {\mico\;\textbf{run\_ln3.m}\\[1pt]
    \textit{LN3 — MOM (LHS) \& MLE (IID)}\\[4pt]
    \footnotesize
    $TL\!-\!\gamma\sim\mathrm{LN}(\mu,\sigma^2)$;\;$\gamma\!=\!0.95\min(TL)$\\[2pt]
@@ -141,43 +152,42 @@
 %% ROW 5 — Result groups
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[rgroup, below=0.65cm of mc, minimum width=3.6cm] (r_mc)
-  {\rlbl{EX map}\;\rlbl{Var map}\\[3pt]
-   \rlbl{P\_det}\;\rlbl{P\_kde}\\[3pt]
-   {\tiny\sffamily Output/MC/}};
+  {\matico\;\rlbl{EX map}\;\matico\;\rlbl{Var map}\\[3pt]
+   \pngico\;\rlbl{P\_detection}\;\pngico\;\rlbl{P\_kde}\\[3pt]
+   {\tiny\sffamily Methods/MC/}};
 
 \node[rgroup, below=0.65cm of delta, minimum width=3.6cm] (r_delta)
-  {\rlbl{Var map}\;\rlbl{P\_shd}\\[3pt]
-   \rlbl{GH order}\;\rlbl{bias}\\[3pt]
-   {\tiny\sffamily Output/Delta/}};
+  {\matico\;\rlbl{Var map}\\[3pt]
+   \pngico\;\rlbl{P\_no\_detect}\;\rlbl{bias}\\[3pt]
+   {\tiny\sffamily Methods/Delta/}};
 
 \node[rgroup, below=0.65cm of pce, minimum width=3.6cm] (r_pce)
-  {\rlbl{converge}\;\rlbl{summary}\\[3pt]
-   \rlbl{LOO-EX}\;\rlbl{LOO-Var}\\[3pt]
-   {\tiny\sffamily Output/PCE/}};
+  {\pngico\;\rlbl{converge}\;\pngico\;\rlbl{summary}\\[3pt]
+   \pngico\;\rlbl{LOO-EX}\;\pngico\;\rlbl{LOO-Var}\\[3pt]
+   {\tiny\sffamily Methods/PCE/}};
 
 \node[rgroup, below=0.65cm of ln3, minimum width=3.6cm] (r_ln3)
-  {\rlbl{histo}\;\rlbl{RMSE}\\[3pt]
-   \rlbl{P\_MLE}\;\rlbl{MLE>MOM}\\[3pt]
-   {\tiny\sffamily Output/LN3/}};
+  {\pngico\;\rlbl{histo}\;\pngico\;\rlbl{RMSE}\\[3pt]
+   \pngico\;\rlbl{P\_MLE}\;\rlbl{MLE>MOM}\\[3pt]
+   {\tiny\sffamily Methods/LN3/}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% ROW 6 — Comparison
 %%═══════════════════════════════════════════════════════════════════════════════
 \node[post, below=0.7cm of r_delta, xshift=1.8cm,
       minimum width=8.4cm] (comp)
-  {\textbf{run\_comparison}\quad
+  {\mico\;\textbf{run\_comparison.m}\quad
    {\footnotesize $\Delta_\mathbb{E}\!=\!|EX_\mathrm{MC}\!-\!EX_\Delta|$,\;$\Delta P\!=\!|P_\mathrm{MC}\!-\!P_\Delta|$,\;shadow maps $50\%\!\ldots\!95\%$}};
 
-\node[rgroup, below=0.55cm of comp, minimum width=8.4cm] (r_comp)
-  {\rlbl{dEX}\;\rlbl{dVar}\;\rlbl{shd-70}\;\rlbl{detect}\;\rlbl{MLE-val}\\[3pt]
-   {\tiny\sffamily Output/Comparison/}};
-
-%%═══════════════════════════════════════════════════════════════════════════════
-%% ROW 7 — findings paper
-%%═══════════════════════════════════════════════════════════════════════════════
-\node[post, below=0.55cm of r_comp, minimum width=8.4cm] (findings)
-  {\textbf{docs/findings.tex}\;---\;\textit{automated by pipeline; all results from cached .mat files}\\[2pt]
-   {\footnotesize KS tables $\cdot$ K* table $\cdot$ P(detect) maps $\cdot$ tradeoff summary}};
+%% ── Comparison output icons (replaces old r_comp + findings nodes) ───────────
+\node[outgroup, below=0.65cm of comp, minimum width=8.4cm] (comp_out)
+  {\pngico\;\texttt{Var\_diff\_MC\_\{Delta,LN3\}}\quad
+   \pngico\;\texttt{EX\_diff\_MC\_\{Delta,LN3\}}\\[4pt]
+   \pngico\;\texttt{shadow\_\{80,90,95\}\_MC\_vs\_\{Delta,LN3,DeltaLN3\}}\\[4pt]
+   \pngico\;\texttt{var\_accuracy\_\{freq,zS,svp\}}\quad
+   \pngico\;\texttt{kde\_validation}\\[4pt]
+   \matico\;\texttt{LN3\_moments\_\{freq,zS,svp\}.mat}\\[3pt]
+   {\tiny\sffamily Methods/Comparison/<sc>/<dist>/\{figures,results\}/}};
 
 %%═══════════════════════════════════════════════════════════════════════════════
 %% Background shading regions
@@ -230,8 +240,7 @@
 \draw[arr] (r_pce.south)   |- (comp.east);
 \draw[arr] (r_ln3.south)   |- (comp.east);
 
-\draw[arr] (comp.south)   -- (r_comp.north);
-\draw[arr] (r_comp.south) -- (findings.north);
+\draw[arr] (comp.south) -- (comp_out.north);
 
 \end{tikzpicture}
 \end{document}
